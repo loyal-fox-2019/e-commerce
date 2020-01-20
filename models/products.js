@@ -24,6 +24,11 @@ const productSchema = new Schema({
     stock:{
         type: Number,
         required: [true, "Product's stock is required"]
+    },
+    seller:{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 },{timestamps:true})
 

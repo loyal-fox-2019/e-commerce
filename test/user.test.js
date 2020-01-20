@@ -42,47 +42,47 @@ describe('USER Routes', function(){
                     console.log(err)
                 })
         })
-        // it.only('should get an error status 400', function(done){
-        //     chai
-        //         .request(app)
-        //         .post('/register')
-        //         .send({
-        //             username: '',
-        //             email: '.com',
-        //             password: ''
-        //         })
-        //         .then(function(res){
-        //             expect(res).to.have.status(400)
-        //             done()
-        //         })
-        //         .catch(err=>{
-        //             console.log(err)
-        //         })
-        // })
+        it('should get an error status 400', function(done){
+            chai
+                .request(app)
+                .post('/register')
+                .send({
+                    username: '',
+                    email: '.com',
+                    password: ''
+                })
+                .then(function(res){
+                    expect(res).to.have.status(400)
+                    done()
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+        })
     })
-    // describe('POST /login', function(){
-    //     it.only('should get status 200 and an object {token, username, email}', function(done){
-    //         chai
-    //             .request(app)
-    //             .post('/login')
-    //             .send({
-    //                 email: 'sera@mail.com',
-    //                 password: 'sera'
-    //             })
-    //             .then(function(res){
-    //                 expect(res).to.have.status(200)
-    //                 expect(res.body).to.have.property('token')
-    //                 expect(res.body).to.have.property('username')
-    //                 expect(res.body).to.have.property('email')
-    //                 expect(res.body.token).to.not.be.an('undefined')
-    //                 expect(res.body.username).to.not.be.an('undefined')
-    //                 expect(res.body.email).to.not.be.an('undefined')
-    //                 done()
-    //             })
-    //             .catch(err=>{
-    //                 console.log(err)
-    //             })
+    describe('POST /login', function(){
+        it('should get status 200 and an object {token, username, email}', function(done){
+            chai
+                .request(app)
+                .post('/login')
+                .send({
+                    email: 'sera@mail.com',
+                    password: 'sera'
+                })
+                .then(function(res){
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.have.property('token')
+                    expect(res.body).to.have.property('username')
+                    expect(res.body).to.have.property('email')
+                    expect(res.body.token).to.not.be.an('undefined')
+                    expect(res.body.username).to.not.be.an('undefined')
+                    expect(res.body.email).to.not.be.an('undefined')
+                    done()
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
             
-    //     })
-    // })
+        })
+    })
 })

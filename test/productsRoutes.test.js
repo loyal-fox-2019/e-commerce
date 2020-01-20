@@ -8,7 +8,7 @@ const expect = chai.expect
 
 describe("Product's CRUD", function(){
     describe("GET /products", function(){
-        it('should send an array with status code 200',function(done){
+        it.only('should send an array with status code 200',function(done){
             chai
                 .request(app)
                 .get('/products')
@@ -31,7 +31,7 @@ describe("Product's CRUD", function(){
         })
     })
     describe('POST /products', function(){
-        it('should return an object with status code 201', function(done){
+        it.only('should return an object with status code 201', function(done){
             chai
                 .request(app)
                 .post('/products')
@@ -53,6 +53,7 @@ describe("Product's CRUD", function(){
                     expect(res.body).to.have.property('price')
                     expect(res.body).to.have.property('createdAt')
                     expect(res.body).to.have.property('stock')
+                    expect(res.body).to.have.property('sestockller')
                     expect(res.body.name).to.equal('laptop')
                     expect(res.body.description).to.equal('very good')
                     expect(res.body.picture).to.equal('img.jpg')
@@ -64,7 +65,7 @@ describe("Product's CRUD", function(){
                     console.log(err)
                 })
         })
-        it('should return an error with status code 400', function(done){
+        it.only('should return an error with status code 400', function(done){
             chai
                 .request(app)
                 .post('/products')
@@ -86,7 +87,7 @@ describe("Product's CRUD", function(){
         })
     })
     describe('GET /products/:id', function(){
-        it('should get status code 200 and a product with _id: 5e2569ce5707cf5a461cd646', function(done){
+        it.only('should get status code 200 and a product with _id: 5e2569ce5707cf5a461cd646', function(done){
             chai
                 .request(app)
                 .get('/products/5e2569ce5707cf5a461cd646')
@@ -126,7 +127,7 @@ describe("Product's CRUD", function(){
         })
     })
     describe('PATCH /products/:id', function(){
-        it.only('should get status 200 and updated product', function(done){
+        it('should get status 200 and updated product', function(done){
             chai
                 .request(app)
                 .patch('/products/5e25688657d10f58d3fb4e66')
@@ -139,10 +140,20 @@ describe("Product's CRUD", function(){
                 })
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI1NmFiODUwZjgzMTVhZjU3YmVmMWYiLCJ1c2VybmFtZSI6InNlcmFmaW0iLCJlbWFpbCI6InNlcmFAbWFpbC5jb20iLCJpYXQiOjE1Nzk1MTA0NTZ9.9zw1iEWEPCy48OB-GYnCbgUZ1geIfOm3-5HCvY_sR9U')
                 .then(res=>{
+                    // console.log(res)
                     expect(res).to.have.status(200)
+                    expect(res.body).to.be.an('object')
+                    expect(res.body).to.have.property('_id')
+                    expect(res.body).to.have.property('name')
+                    expect(res.body).to.have.property('description')
+                    expect(res.body).to.have.property('picture')
+                    expect(res.body).to.have.property('price')
+                    expect(res.body).to.have.property('stock')
                     done()
                 })
-                .catch()
+                .catch(err=>{
+                    console.log(err)
+                })
         })
     })
 })

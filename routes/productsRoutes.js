@@ -4,6 +4,7 @@ const port = process.env.PORT || 3000
 const mongoose = require('mongoose')
 const Product = require('../models/products')
 const authentication = require('../middlewares/authentication')
+const User = require('../models/user')
 
 
 mongoose.connect('mongodb://localhost:27017/ecommerce_'+process.env.NODE_ENV, {
@@ -35,10 +36,11 @@ app.post('/products', authentication, function(req,res){
       description: req.body.description,
       price: req.body.price,
       picture: req.body.picture,
-      stock: req.body.stock
+      stock: req.body.stock,
+      seller: req.payload._id
     })
     .then(result=>{
-      const {_id, name, description, price, picture,createdAt,stock} = result
+      const {_id, name, description, price, picture,createdAt,stock, seller} = result
       res.status(201).json({
         _id,
         name,
@@ -46,7 +48,8 @@ app.post('/products', authentication, function(req,res){
         picture,
         price,
         createdAt,
-        stock
+        stock,
+        seller
       })
     })
     .catch(err=>{
@@ -80,6 +83,26 @@ app.delete('/products/:id', authentication, (req,res,next)=>{
     })
 })
 
+app.patch('/products/:id', authentication, (req,res,next)=>{
+  Product
+    .findByIdAndUpdate({
+      _id: req.params.id
+    },
+    {
+      name: req.body.name,
+      description: req.body.description,
+      picture: req.body.picture,
+      price: req.body.price,
+      stock: req.body.stock
+    })
+    .then(result=>{
+      // console.log(result, 'update route')
+      res.status(200).json(result)
+    })
+    .catch(err=>{
+      res.status(400).json(err)
+    })
+})
 
 module.exports = app
 
