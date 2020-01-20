@@ -1,9 +1,9 @@
 'use strict';
-const { User } = require('../models');
+const { Customer } = require('../models');
 const { sign } = require('../helpers/jwt');
 const { compare } = require('../helpers/bcryptjs')
 
-class UserController {
+class CustomerController {
   static async register(req, res, next) {
     try {
       const { fullname, email, password } = req.body;
@@ -12,7 +12,7 @@ class UserController {
         email,
         password,
       };
-      const response = await User.create(docs);
+      const response = await Customer.create(docs);
       const { _id } = response;
       const payload = {
         id: _id,
@@ -29,16 +29,16 @@ class UserController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      const user = await User.findOne({ email })
-      if(!user) {
+      const response = await Customer.findOne({ email })
+      if(!response) {
         next({ auth: true, status: 400, message: 'Email or password is wrong' })
       } else {
-        if(!compare(password, user.password)) {
+        if(!compare(password, response.password)) {
           next({ auth: true, status: 400, message: 'Email or password is wrong' })
         } else {
-          const { fullname } = user;
+          const { fullname } = response;
           const payload = {
-            id: user._id,
+            id: response._id,
             email,
             fullname,
           };
@@ -52,4 +52,4 @@ class UserController {
   }
 }
 
-module.exports = UserController;
+module.exports = CustomerController;

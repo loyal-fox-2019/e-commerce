@@ -1,6 +1,10 @@
 'use strict';
-const User = require('./User');
+const Customer = require('./Customer');
+const Product = require('./Product');
+const Cart = require('./Cart');
 
 module.exports = {
-  User,
+  Customer,
+  Product,
+  Cart,
 };

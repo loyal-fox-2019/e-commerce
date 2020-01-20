@@ -1,6 +1,6 @@
 'use strict';
-if(process.env.NODE_ENV === 'test') require('dotenv').config();
-const { User } = require('../models');
+if (process.env.NODE_ENV === 'test') require('dotenv').config();
+const { Customer } = require('../models');
 
 const Chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -9,9 +9,9 @@ const expect = Chai.expect;
 
 Chai.use(chaiHttp);
 
-describe('# /user', function() {
+describe('## Customer ##', function() {
   after(async function() {
-    await User.deleteMany({ fullname: 'testing' });
+    await Customer.deleteMany({ fullname: 'testing' });
   })
 
 

@@ -1,11 +1,12 @@
 module.exports = function(err, req, res, next) {
+  // console.log(err)
   const stringifiedErr = JSON.stringify(err);
   if (err.code === 404) {
     res.status(err.code).json({
       message: err.resource + ' not found',
     });
   } 
-  else if (stringifiedErr.indexOf('ValidatorError') !== -1) {
+  else if (stringifiedErr.indexOf('ValidatorError') !== -1 || stringifiedErr.indexOf('ValidationError') !== -1) {
     const mongooseErrors = err.errors;
     const errors = [];
 
