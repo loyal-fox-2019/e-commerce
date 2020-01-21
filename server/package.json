@@ -43,7 +43,8 @@
       "ecmaVersion": 2018
     },
     "rules": {
-      "func-names": "off"
+      "func-names": "off",
+      "no-console": "off"
     }
   },
   "dependencies": {

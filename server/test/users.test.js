@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('User Register & Login', function() {
-  describe('POST /users/register', function() {
+  describe('Register Matter', function() {
     it('bikin user untuk pertama kalinya', function(done) {
       chai
         .request(app)
@@ -23,7 +23,6 @@ describe('User Register & Login', function() {
             'User has been successfully created!'
           );
           expect(res.body).to.have.property('token');
-
           done();
         });
     });
@@ -34,7 +33,6 @@ describe('User Register & Login', function() {
         .post('/users/register')
         .send({ email: 'mark@email.com', password: '12345' })
         .end((err, res) => {
-          console.log(err);
           expect(res).to.have.status(406);
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.property('message');
@@ -48,5 +46,22 @@ describe('User Register & Login', function() {
       deleteAllUsers();
       done();
     });
+  });
+
+  describe('Login Matter', function() {
+    it('user masuk', function(done) {
+      chai
+        .request(app)
+        .post('/users/login')
+        .send({ email: 'mark@email.com', password: '12345' })
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.property('message');
+        });
+    });
+    it('user masuk tapi username salah', function(done) {});
+    it('user masuk tapi password salah', function(done) {});
+    it('user masuk tapi username dan password salah', function(done) {});
   });
 });
