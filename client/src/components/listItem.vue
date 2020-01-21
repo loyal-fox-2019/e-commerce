@@ -13,14 +13,14 @@
         name: "listItem",
         data() {
             return {
-                items: []
+                items: null
             }
         },
         methods: {
             listItem() {
                 this.$axios({
                     method: 'get',
-                    url: '/api/item'
+                    url: '/api/items'
                 }).then(response => {
                     console.log(response.data.data);
                     this.items = response.data.data

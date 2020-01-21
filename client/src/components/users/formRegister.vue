@@ -41,9 +41,9 @@
 </template>
 
 <script>
-    import formLogo from "./formLogo";
-    import message from "./message";
-    import router from "../router";
+    import formLogo from "../formLogo";
+    import message from "../message";
+    import router from "../../router";
 
     export default {
         name: "formRegister",
@@ -56,7 +56,7 @@
                 msgHeader: null,
                 msgDescription: null,
                 msgVisibility: false,
-                msgType:"info"
+                msgType: "info"
             }
         },
         methods: {
@@ -70,29 +70,43 @@
                     return;
                 }
 
-                this.$axios({
-                    method: 'post',
-                    url: '/api/user/register',
-                    data: {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password
-                    }
-                }).then(response => {
-                    console.log("User successfully register");
-                    this.msgHeader = "Success Sign Up";
-                    this.msgDescription = "User successfuly register";
-                    this.msgType = "info";
-                    this.msgVisibility = true;
-                    localStorage.setItem('token', response.data.token);
-                    router.push('/');
-                }).catch(err => {
-                    console.log(err);
-                    this.msgHeader = "Error Sign Up";
-                    this.msgDescription = err.response.data;
-                    this.msgType = "negative";
-                    this.msgVisibility = true;
-                })
+
+                this.$dialog
+                    .confirm('Save this data and continue ?')
+                    .then(dialog => {
+                        this.$axios({
+                            method: 'post',
+                            url: '/api/users/register',
+                            data: {
+                                name: this.name,
+                                email: this.email,
+                                password: this.password
+                            }
+                        }).then(response => {
+                            console.log("User successfully register");
+                            this.msgHeader = "Success Sign Up";
+                            this.msgDescription = "User successfuly register";
+                            this.msgType = "info";
+                            this.msgVisibility = true;
+                            localStorage.setItem('token', response.data.token);
+                            router.push('/');
+                            dialog.close()
+                        }).catch(err => {
+                            console.log({err});
+                            this.msgHeader = "Error Sign Up";
+                            this.msgDescription = err.response.data.errMsg;
+                            this.msgType = "negative";
+                            this.msgVisibility = true;
+                            dialog.close()
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.$toast.info({
+                            title: 'Cancel',
+                            message: 'Sign up has been canceled :('
+                        });
+                    })
             }
         },
         components: {

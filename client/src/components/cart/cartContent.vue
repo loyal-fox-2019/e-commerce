@@ -2,11 +2,11 @@
     <sui-card-content>
         <sui-grid :columns="1">
             <sui-grid-column>
-                <h1>Chart Items</h1>
+                <h1>Cart Items</h1>
                 Total Item : <strong>{{ carts.length }}</strong> items<br>
                 Total : Rp. <strong>{{ sumTotalPrice }}</strong>
                 <sui-item-group divided>
-                    <chart-list
+                    <cart-list
                             v-for="(cart,index) in carts"
                             :data="cart"
                             :index="index"
@@ -18,20 +18,20 @@
 </template>
 
 <script>
-    import chartList from "./cartList";
+    import cartList from "./cartList";
 
     export default {
-        name: "chartContent",
+        name: "cartContent",
         data() {
             return {
                 carts: []
             }
         },
         methods: {
-            listOfChart() {
+            listOfCart() {
                 this.$axios({
                     method: 'get',
-                    url: '/api/user',
+                    url: '/api/users',
                     headers: {
                         token: localStorage.getItem('token')
                     }
@@ -41,39 +41,46 @@
                     console.log(err.response)
                 })
             },
-            price(num) {
-                let segment = [];
-                let n = [];
-                let priceReverse = "0" + num.toString().split("").reverse().join("");
-                for (let i = 1; i <= priceReverse.length + 1; i++) {
-                    n.unshift(priceReverse[i])
-                    if (i % 3 === 0) {
-                        segment.unshift(n.join(""));
-                        n = [];
-                    }
-                }
-                return segment.join(".");
-            },
-            removeFromCart(index) {
-                this.carts.splice(index, 1);
-                this.$axios({
-                    method: 'patch',
-                    url: '/api/user/cart',
-                    data: {
-                        cart: this.carts
-                    },
-                    headers: {
-                        token: localStorage.getItem('token')
-                    }
-                }).then(response => {
-                    console.log(response.data)
-                }).catch(err => {
-                    console.log(err.response)
+            removeFromCart(id) {
+                this.$dialog
+                    .confirm("Remove item from cart ?")
+                    .then(dialog => {
+                        this.$axios({
+                            method: 'delete',
+                            url: `/api/users/cart/${id}`,
+                            data: {
+                                cart: this.carts
+                            },
+                            headers: {
+                                token: localStorage.getItem('token')
+                            }
+                        }).then(response => {
+                            console.log(response.data);
+                            this.listOfCart();
+                            this.$toast.success({
+                                title: 'Success',
+                                message: 'Item successfully removed from shopping cart'
+                            });
+                            dialog.close();
+                        }).catch(err => {
+                            console.log(err.response)
+                            this.$toast.error({
+                                title: 'Error',
+                                message: 'Item failed to remove from cart'
+                            });
+                            dialog.close();
+                        })
+                    })
+                .catch(err => {
+                    this.$toast.info({
+                        title: 'Cancel',
+                        message: 'Canceled remove the item from cart'
+                    });
                 })
             }
         },
         mounted() {
-            this.listOfChart();
+            this.listOfCart();
         },
         computed: {
             sumTotalPrice() {
@@ -83,11 +90,12 @@
                     totalPrice += cart.totalPrice
                 });
 
-                return this.price(totalPrice);
+                this.$store.dispatch('currencyFormat', totalPrice);
+                return this.$store.getters.currency
             }
         },
         components: {
-            chartList
+            cartList
         }
     }
 </script>

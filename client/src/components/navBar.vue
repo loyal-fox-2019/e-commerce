@@ -26,10 +26,10 @@
 
 <script>
     import search from "./search";
-    import signinButton from "./signinButton";
+    import signinButton from "./users/signinButton";
     import formLogo from "./formLogo";
     import cartButton from "./cartButton";
-    import userButton from "./userButton";
+    import userButton from "./users/userButton";
 
     export default {
         name: "navBar",
@@ -46,19 +46,23 @@
 
                 this.$axios({
                     method: 'GET',
-                    url: '/api/user/verify',
+                    url: '/api/users/verify',
                     headers: {
                         token: localStorage.getItem('token')
                     }
                 }).then(response => {
                     localStorage.clear();
-                    // console.log(response.data);
+                    console.log(response.data);
                     localStorage.setItem('name', response.data.name);
                     localStorage.setItem('token', response.data.token);
                     this.isLogin = !!localStorage.getItem('token');
                 }).catch(err => {
-                    // console.log(err.response);
+                    console.log({err});
                     localStorage.clear();
+                    this.$toast.error({
+                        title: 'Error',
+                        message: 'Sign in failed :('
+                    });
                 });
             }
         },

@@ -35,7 +35,6 @@
         data() {
             return {
                 cardOneActive: false,
-                cardTwoActive: false,
                 open: false
             };
         },
@@ -49,17 +48,8 @@
         },
         computed: {
             price() {
-                let segment = [];
-                let n = [];
-                let priceReverse = "0" + this.data.price.toString().split("").reverse().join("");
-                for (let i = 1; i <= priceReverse.length + 1; i++) {
-                    n.unshift(priceReverse[i])
-                    if (i % 3 === 0) {
-                        segment.unshift(n.join(""));
-                        n = [];
-                    }
-                }
-                return segment.join(".");
+                this.$store.dispatch('currencyFormat', this.data.price);
+                return this.$store.getters.currency
             }
         },
         components: {

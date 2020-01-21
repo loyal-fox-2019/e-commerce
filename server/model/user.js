@@ -8,18 +8,26 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        required: "Email is required",
-        unique: true,
-        validate: {
+        required: [true, "Email is required"],
+        unique: [true, 'Email must unique'],
+        validate: [{
             validator: function (email) {
                 const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
                 return emailRegex.test(email);
             }, message: "Email is not valid"
-        }
+        },{
+            validator: function (email) {
+                return models.User.findOne({
+                    email: email
+                }).then(result => {
+                    return !result;
+                })
+            }, message: "Email has been registered"
+        }]
     },
     password: {
         type: String,
-        required: "Password is required"
+        required: [true, "Password is required"]
     },
     cart: [
         {

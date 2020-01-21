@@ -64,7 +64,7 @@
                 this.$store.dispatch('setCartClear');
                 this.$axios({
                     method: 'get',
-                    url: '/api/user/',
+                    url: '/api/users/',
                     headers: {
                         token: localStorage.getItem('token')
                     }
@@ -82,23 +82,43 @@
                     return
                 }
 
-                let dataCart = {
-                    item: this.data._id,
-                    stock: this.itemStock,
-                    price: this.data.price
-                };
-                this.$store.dispatch('addItemToTempCart', dataCart);
+                this.$dialog
+                    .confirm('Add item to cart ?')
+                    .then(dialog => {
+                        let dataCart = {
+                            item: this.data._id,
+                            stock: this.itemStock,
+                            price: this.data.price
+                        };
+                        this.$store.dispatch('addItemToTempCart', dataCart);
 
-                this.$axios({
-                    method: 'patch',
-                    url: '/api/user/cart',
-                    data: {cart: this.$store.getters.cartTemp},
-                    headers: {token: localStorage.getItem('token')}
-                }).then(response => {
-                    console.log(response.data);
-                }).catch(err => {
-                    console.log(err.response)
-                })
+                        this.$axios({
+                            method: 'patch',
+                            url: '/api/users/cart',
+                            data: {cart: this.$store.getters.cartTemp},
+                            headers: {token: localStorage.getItem('token')}
+                        }).then(response => {
+                            console.log(response.data);
+                            this.$toast.success({
+                                title: 'Success',
+                                message: 'Item successfully add to cart'
+                            });
+                            dialog.close();
+                        }).catch(err => {
+                            console.log(err.response);
+                            this.$toast.error({
+                                title: 'Error',
+                                message: 'Item failed add to cart'
+                            });
+                            dialog.close();
+                        })
+                    })
+                    .catch(err => {
+                        this.$toast.info({
+                            title: 'Cancel',
+                            message: 'Item cancel add to cart'
+                        });
+                    })
             },
             stockNumber(val) {
                 if (val <= this.data.stock) this.itemStock = val

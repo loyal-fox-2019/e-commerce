@@ -10,7 +10,7 @@
                     <sui-icon name="edit"/>
                     Add Item
                 </sui-dropdown-item>
-                <sui-dropdown-item  @click="logout">
+                <sui-dropdown-item @click="logout">
                     <sui-icon name="logout"/>
                     Logout
                 </sui-dropdown-item>
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+    import router from "../../router";
+
     export default {
         name: "userButton",
         data() {
@@ -29,10 +31,25 @@
         },
         methods: {
             logout() {
-                localStorage.clear();
-                location.reload();
+                this.$dialog
+                    .confirm('Log out from application ?')
+                    .then(dialog => {
+                        localStorage.clear();
+                        location.reload();
+                        this.$toast.success({
+                            title: 'Success',
+                            message: 'Bye, Please comeback soon :)'
+                        });
+                        dialog.close()
+                    })
+                .catch(err => {
+                    this.$toast.info({
+                        title: 'Cancel',
+                        message: 'Thank you for staying :)'
+                    });
+                })
             },
-            setName(){
+            setName() {
                 if (localStorage.getItem('name')) {
                     this.name = localStorage.getItem('name')
                 }

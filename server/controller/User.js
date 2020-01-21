@@ -1,7 +1,6 @@
 const User = require('../model/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const errMsg = "User/ password not found";
 
 class UserController {
     static reqisterUser(req, res, next) {
@@ -18,16 +17,13 @@ class UserController {
                 token: token,
                 message: "User successfully registered"
             })
-        }).catch(err => {
-            next(err);
-        })
+        }).catch(next)
     }
 
     static findUserid(req, res, next) {
         User.findById(
             req._id
         ).then(response => {
-            // console.log(response);
             let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
             let name = response.name.split(" ");
             res.status(200).json({
@@ -35,18 +31,22 @@ class UserController {
                 token: token,
                 message: "User successfully verified"
             })
-        }).catch(err => {
-            next(err)
-        })
+        }).catch(next)
     }
 
     static loginUser(req, res, next) {
         User.findOne({
             email: req.body.email
         }).then(response => {
-            if (!response) throw errMsg;
+            if (!response) throw {
+                code: 404,
+                errMsg: 'User/ password'
+            };
             let isMatch = bcrypt.compareSync(req.body.password, response.password);
-            if (!isMatch) throw errMsg;
+            if (!isMatch) throw {
+                code: 404,
+                errMsg: 'User/ password'
+            };
             let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
             let name = response.name.split(" ");
             res.status(200).json({
@@ -58,6 +58,7 @@ class UserController {
     }
 
     static addToCart(req, res, next) {
+
         User.updateOne({
             _id: req._id
         }, {
@@ -72,6 +73,23 @@ class UserController {
             if (response.ok < 1) throw "cart failed to update";
             res.status(200).json({
                 message: "item successfully add to cart"
+            });
+        }).catch(next)
+    }
+
+    static deleteCartItem(req, res, next) {
+        User.updateOne({
+            _id: req._id
+        }, {
+            $pull: {
+                cart: {
+                    _id: req.params.id
+                }
+            }
+        }).then(response => {
+            if (response.ok < 1) throw "cart item failed to remove";
+            res.status(200).json({
+                message: "item successfully remove from cart"
             });
         }).catch(next)
     }

@@ -9,8 +9,9 @@
             </h5>
             <div class="description">
                 <p>
-                    Total: Rp. {{ totalPrice }}<br>
-                    Amount : {{ data.stock }} item
+                    Price : Rp. {{ itemPrice }}<br>
+                    Amount : {{ data.stock }} item<br>
+                    Total: Rp. {{ totalPrice }}
                 </p>
             </div>
             <div class="extra">
@@ -30,14 +31,18 @@
         },
         methods: {
             removeFromCart() {
-                this.$emit('remove', this.index)
+                this.$emit('remove', this.data._id)
             }
         },
         computed: {
             totalPrice() {
                 this.$store.dispatch('currencyFormat', this.data.totalPrice);
                 return this.$store.getters.currency
-            }
+            },
+            itemPrice() {
+                this.$store.dispatch('currencyFormat', this.data.item.price);
+                return this.$store.getters.currency
+            },
         },
     }
 </script>
