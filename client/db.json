@@ -1,0 +1,62 @@
+{
+    "product":[
+        {
+            "id": 1,
+            "name": "hacktiv8",
+            "description": "fullstack immersive program",
+            "picture": "https://cnet2.cbsistatic.com/img/DXk4Nyw3soYJ7548zXRUdXK5Wq4=/980x551/2017/06/21/39c814c4-4909-43e8-aa0d-89eff3aced37/apple-macbook-12-inch-2017-01.jpg",
+            "price": 15000000,
+            "stock": 40,
+            "seller": "1"
+        },{
+            "id": 2,
+            "name": "asus",
+            "description": "laptop canggih",
+            "picture": "https://cnet2.cbsistatic.com/img/DXk4Nyw3soYJ7548zXRUdXK5Wq4=/980x551/2017/06/21/39c814c4-4909-43e8-aa0d-89eff3aced37/apple-macbook-12-inch-2017-01.jpg",
+            "price": 20000,
+            "stock": 5,
+            "seller": "1"
+        },{
+            "id": 3,
+            "name": "apple",
+            "description": "buat sultan aja",
+            "picture": "https://cdns.klimg.com/merdeka.com/i/w/news/2019/02/18/1052191/670x335/deretan-handphone-2019-hasil-jepretan-kameranya-bening.jpg",
+            "price": 3000000,
+            "stock": 7,
+            "seller": "2"
+        }
+    ],
+    "user":[
+        {
+            "id": 1,
+            "username": "dumdum",
+            "email": "dummy@mail.com",
+            "password": "dummy"
+        },{
+            "id": 2,
+            "username": "sera",
+            "email": "sera@mail.com",
+            "password": "sera"
+        },{
+            "id": 3,
+            "username": "amel",
+            "email": "amel@mail.com",
+            "password": "amel"
+        }
+    ],
+    "cart":[
+        {
+            "id": 1,
+            "products": [
+                {
+                    "productId": 1,
+                    "quantity": 2
+                },{
+                    "productId": 2,
+                    "quantity": 3
+                }
+            ],
+            "owner": 3
+        }
+    ]
+}

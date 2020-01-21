@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const Product = require('../models/products')
 const authentication = require('../middlewares/authentication')
 const User = require('../models/user')
+const upload = require('../middlewares/gcs-upload')
 
 
 mongoose.connect('mongodb://localhost:27017/ecommerce_'+process.env.NODE_ENV, {
@@ -14,8 +15,6 @@ mongoose.connect('mongodb://localhost:27017/ecommerce_'+process.env.NODE_ENV, {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-
 
 app.get('/products', authentication, function(req,res){
   Product
@@ -28,7 +27,7 @@ app.get('/products', authentication, function(req,res){
     })
 })
 
-app.post('/products', authentication, function(req,res){
+app.post('/products', authentication, upload.single('picture'), function(req,res){
   // console.log(req.body)
   Product
     .create({
@@ -83,7 +82,7 @@ app.delete('/products/:id', authentication, (req,res,next)=>{
     })
 })
 
-app.patch('/products/:id', authentication, (req,res,next)=>{
+app.patch('/products/:id', authentication, upload.single('picture'), (req,res,next)=>{
   Product
     .findByIdAndUpdate({
       _id: req.params.id

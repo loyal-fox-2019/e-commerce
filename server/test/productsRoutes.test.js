@@ -37,13 +37,14 @@ describe("Product's CRUD", function(){
                 .post('/products')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI1NmFiODUwZjgzMTVhZjU3YmVmMWYiLCJ1c2VybmFtZSI6InNlcmFmaW0iLCJlbWFpbCI6InNlcmFAbWFpbC5jb20iLCJpYXQiOjE1Nzk1MTA0NTZ9.9zw1iEWEPCy48OB-GYnCbgUZ1geIfOm3-5HCvY_sR9U')
                 .send({
-                    name: 'laptop',
+                    name: 'handphone',
                     description: 'very good',
-                    picture: 'img.jpg',
+                    picture: '/Home/Pictwendy.jpeg',
                     price: 15000,
                     stock: 15
                 })
                 .then(function(res){
+                    console.log(res.body.picture)
                     expect(res).to.have.status(201)
                     expect(res).to.be.an('object')
                     expect(res.body).to.have.property('_id')
@@ -53,10 +54,10 @@ describe("Product's CRUD", function(){
                     expect(res.body).to.have.property('price')
                     expect(res.body).to.have.property('createdAt')
                     expect(res.body).to.have.property('stock')
-                    expect(res.body).to.have.property('sestockller')
-                    expect(res.body.name).to.equal('laptop')
+                    expect(res.body).to.have.property('seller')
+                    expect(res.body.name).to.equal('handphone')
                     expect(res.body.description).to.equal('very good')
-                    expect(res.body.picture).to.equal('img.jpg')
+                    expect(res.body.picture).to.not.equal('wendy.jpeg')
                     expect(res.body.price).to.equal(15000)
                     expect(res.body.stock).to.equal(15)
                     done()
@@ -87,17 +88,17 @@ describe("Product's CRUD", function(){
         })
     })
     describe('GET /products/:id', function(){
-        it.only('should get status code 200 and a product with _id: 5e2569ce5707cf5a461cd646', function(done){
+        it.only('should get status code 200 and a product with _id: 5e25688657d10f58d3fb4e66', function(done){
             chai
                 .request(app)
-                .get('/products/5e2569ce5707cf5a461cd646')
+                .get('/products/5e25688657d10f58d3fb4e66')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI1NmFiODUwZjgzMTVhZjU3YmVmMWYiLCJ1c2VybmFtZSI6InNlcmFmaW0iLCJlbWFpbCI6InNlcmFAbWFpbC5jb20iLCJpYXQiOjE1Nzk1MTA0NTZ9.9zw1iEWEPCy48OB-GYnCbgUZ1geIfOm3-5HCvY_sR9U')
                 .then(res=>{
                     // console.log(res.body, 'ini chai latte')
                     expect(res).to.have.status(200)
                     expect(res.body).to.be.an('object')
                     expect(res.body).to.have.property('_id')
-                    expect(res.body._id).to.equal('5e2569ce5707cf5a461cd646')
+                    expect(res.body._id).to.equal('5e25688657d10f58d3fb4e66')
                     expect(res.body).to.have.property('name')
                     expect(res.body).to.have.property('description')
                     expect(res.body).to.have.property('picture')
