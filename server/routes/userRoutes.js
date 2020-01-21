@@ -1,23 +1,11 @@
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
-const mongoose = require('mongoose')
+const router = require('express').Router()
 const User = require('../models/user')
 const {GenerateToken} = require('../helpers/jwt')
 const {compare} = require('../helpers/encryption')
 const Cart = require('../models/cart')
+const UserController = require('../controllers/userController')
 
-
-mongoose.connect('mongodb://localhost:27017/ecommerce_'+process.env.NODE_ENV, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-
-app.post('/register', function(req,res){
+router.post('/register', function(req,res){
     // console.log(req.body)
     const {username, email, password} = req.body
     let user = null
@@ -41,7 +29,7 @@ app.post('/register', function(req,res){
     })
 })
 
-app.post('/login', function(req,res){
+router.post('/login', function(req,res){
     // console.log('masuk login')
     User
         .findOne({
@@ -81,4 +69,4 @@ app.post('/login', function(req,res){
 })
 
 
-module.exports = app
+module.exports = router

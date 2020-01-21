@@ -1,22 +1,10 @@
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
-const mongoose = require('mongoose')
+const router = require('express').Router()
 const Product = require('../models/products')
 const authentication = require('../middlewares/authentication')
-const User = require('../models/user')
 const upload = require('../middlewares/gcs-upload')
+const ProductController = require('../controllers/productController')
 
-
-mongoose.connect('mongodb://localhost:27017/ecommerce_'+process.env.NODE_ENV, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-app.get('/products', authentication, function(req,res){
+router.get('/products', authentication, function(req,res){
   Product
     .find()
     .then(result=>{
@@ -27,7 +15,7 @@ app.get('/products', authentication, function(req,res){
     })
 })
 
-app.post('/products', authentication, upload.single('picture'), function(req,res){
+router.post('/products', authentication, upload.single('picture'), function(req,res){
   // console.log(req.body)
   Product
     .create({
@@ -57,7 +45,7 @@ app.post('/products', authentication, upload.single('picture'), function(req,res
     })
 })
 
-app.get('/products/:id', authentication, (req,res,next)=>{
+router.get('/products/:id', authentication, (req,res,next)=>{
   Product
     .findOne({_id: req.params.id})
     .then(product=>{
@@ -69,7 +57,7 @@ app.get('/products/:id', authentication, (req,res,next)=>{
     })
 })
 
-app.delete('/products/:id', authentication, (req,res,next)=>{
+router.delete('/products/:id', authentication, (req,res,next)=>{
   Product
     .findOneAndDelete({_id: req.params.id})
     .then(res=>{
@@ -82,7 +70,7 @@ app.delete('/products/:id', authentication, (req,res,next)=>{
     })
 })
 
-app.patch('/products/:id', authentication, upload.single('picture'), (req,res,next)=>{
+router.patch('/products/:id', authentication, upload.single('picture'), (req,res,next)=>{
   Product
     .findByIdAndUpdate({
       _id: req.params.id
@@ -103,5 +91,5 @@ app.patch('/products/:id', authentication, upload.single('picture'), (req,res,ne
     })
 })
 
-module.exports = app
+module.exports = router
 
