@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Loading from 'vue-loading-overlay';
 import Navbar from '@/components/navbar.vue';
@@ -32,7 +33,6 @@ export default {
   },
   created() {
     this.$store.dispatch('checkLogin');
-    this.$store.dispatch('fetchProducts');
   },
 };
 </script>

@@ -1,4 +1,6 @@
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import vueDebounce from 'vue-debounce';
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -8,7 +10,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.config.productionTip = false;
 
-
+Vue.use(vueDebounce, {
+  defaultTime: '700ms',
+});
+Vue.use(VueSweetalert2);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 

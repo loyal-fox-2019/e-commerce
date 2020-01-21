@@ -12,12 +12,6 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0"
-              variant="warning"
-              >Search</b-button>
-          </b-nav-form>
           <section v-if="$store.state.isLogin">
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
@@ -85,16 +79,20 @@
                       variant="outline-primary"
                       v-show="!buttonClicked"
                       @click="signupAttempt">SUBMIT</b-button>
-                    <b-button
-                      disabled
+                    <b-button variant="outline-primary"
                       v-show="buttonClicked"
-                      variant="outline-primary">SUBMIT</b-button>
+                      disabled>
+                      <b-spinner small type="grow"></b-spinner>
+                      Loading...
+                    </b-button>
                   </div>
                   <div class="text-center" v-show="activeForm === 'SIGN IN'">
-                    <b-button
-                    v-show="buttonClicked"
-                    variant="outline-primary"
-                    disabled>SIGN IN</b-button>
+                    <b-button variant="outline-primary"
+                      v-show="buttonClicked"
+                      disabled>
+                      <b-spinner small type="grow"></b-spinner>
+                      Loading...
+                    </b-button>
                     <b-button
                     v-show="!buttonClicked"
                     variant="outline-primary"
@@ -166,12 +164,16 @@ export default {
         localStorage.setItem('token', token);
         localStorage.setItem('email', email);
         localStorage.setItem('fullname', fullname);
-        this.buttonClicked = false;
-        this.$store.dispatch('checkLogin');
+        setTimeout(() => {
+          this.buttonClicked = false;
+          this.$store.dispatch('checkLogin');
+        }, 500);
       } catch (err) {
-        this.showError = true;
-        this.errorList = err.response.data.errors;
-        this.buttonClicked = false;
+        setTimeout(() => {
+          this.showError = true;
+          this.errorList = err.response.data.errors;
+          this.buttonClicked = false;
+        }, 500);
       }
     },
     async signupAttempt() {
@@ -190,12 +192,16 @@ export default {
         localStorage.setItem('token', token);
         localStorage.setItem('email', email);
         localStorage.setItem('fullname', fullname);
-        this.buttonClicked = false;
-        this.$store.dispatch('checkLogin');
+        setTimeout(() => {
+          this.buttonClicked = false;
+          this.$store.dispatch('checkLogin');
+        }, 500);
       } catch (err) {
-        this.buttonClicked = false;
-        this.showError = true;
-        this.errorList = err.response.data.errors;
+        setTimeout(() => {
+          this.showError = true;
+          this.errorList = err.response.data.errors;
+          this.buttonClicked = false;
+        }, 500);
       }
     },
   },

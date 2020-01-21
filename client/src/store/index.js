@@ -46,11 +46,22 @@ export default new Vuex.Store({
         }, 500);
       }
     },
+    findSkins({ commit }, payload) {
+      commit('SET_ISLOADING', true);
+      setTimeout(() => {
+        commit('SET_PRODUCTS', payload);
+        commit('SET_ISLOADING', false);
+      }, 500);
+    },
     async fetchProducts({ commit }) {
       commit('SET_ISLOADING', true);
+      commit('SET_PRODUCTS', []);
       const products = await axios.get('/products');
-      const { data } = products;
-      commit('SET_PRODUCTS', data);
+      setTimeout(() => {
+        const { data } = products;
+        commit('SET_ISLOADING', false);
+        commit('SET_PRODUCTS', data);
+      }, 500);
     },
   },
   modules: {

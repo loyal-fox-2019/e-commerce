@@ -5,6 +5,7 @@ const authentication = require('../middlewares/authentication');
 const isAdmin = require('../middlewares/isAdmin');
 
 router.get('/', controller.getSkins)
+router.get('/search', controller.findSkins);
 router.use(authentication);
 router.use(isAdmin);
 router.post('/', controller.addProduct);

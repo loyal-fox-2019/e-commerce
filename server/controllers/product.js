@@ -45,6 +45,16 @@ class ProductController {
     }
   }
 
+  static async findSkins(req, res, next) {
+    try {
+      const { query } = req.query;
+      const response = await Product.find({ name: { $regex: query, $options: 'i' } });
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async removeStock(req, res, next) {
     try {
       const { id } = req.params;

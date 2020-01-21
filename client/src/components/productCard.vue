@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <b-card
       :title="product.name"
@@ -6,16 +6,12 @@
       img-alt="Image"
       img-top
       tag="article"
-      style="max-width: 20rem;"
-      class="mb-2"
+      style="max-width: 15rem;"
+      class="mb-2 text-center"
     >
-      <b-card-text>
-        Some quick
-        example text to build on the card
-        title and make up the bulk of the card's content.
-      </b-card-text>
-
-      <b-button href="#" variant="primary">Go somewhere</b-button>
+      <div class="text-center">
+        <b-button href="#" variant="primary">Detail</b-button>
+      </div>
     </b-card>
   </div>
 </template>
