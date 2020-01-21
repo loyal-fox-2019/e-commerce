@@ -13,7 +13,7 @@ app.use(express.json());
 app.use('/', require('./routes'))
 
 app.listen(port, ()=>{
-    console.log('listening in port '+ port)
+    console.log('listening to port '+ port)
 })
 
 module.exports = app

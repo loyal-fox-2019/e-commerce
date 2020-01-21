@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const CartController = require('../controllers/cartController')
+const authenticate = require('../middlewares/authentication')
+const authorization = require('../middlewares/authorization')
 
 
 /**
@@ -9,5 +11,11 @@ const CartController = require('../controllers/cartController')
  * jangan lupa req cart user waktu login nanti idnya dipake untuk cari cart
  * cart yang di client pas logout jangan lupa di clear supaya gabisa dliat org lain
  */
+
+ router.get('/', authenticate, CartController.findOne)
+ router.patch('/increment/:cartId', CartController.increment)
+ router.patch('/decrement/:cartId', CartController.decrement)
+ router.patch('/addProduct/:cartId', CartController.addProduct)
+ router.patch('/checkout/:cartId', CartController.checkoutCart)
 
  module.exports = router
