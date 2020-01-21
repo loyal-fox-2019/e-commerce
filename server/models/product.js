@@ -27,6 +27,10 @@ const productSchema = new Schema(
       type: Number,
       required: [true, "Please enter product's price"],
       min: [100, "minimal price 100"]
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     }
   },
   { timestamps: true }

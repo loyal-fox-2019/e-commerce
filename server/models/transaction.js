@@ -8,12 +8,18 @@ const transactionSchema = new Schema(
       ref: 'User'
     },
     status: {
-      type: String
+      type: String,
+      default: 'pending'
     },
-    carts: [{
+    product: {
       type: Schema.Types.ObjectId,
-      ref: 'Cart'
-    }]
+      ref: 'Product'
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+      min: [1, ['Quantity cannot be less than 1']]
+    }
   },
   { timestamps: true }
 );

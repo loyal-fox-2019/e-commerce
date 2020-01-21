@@ -35,7 +35,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, 'password is required'],
-    minlength: [6, 'password not long enough']
+    minlength: [6, 'minimal password length is 6']
   },
   admin: {
     type: Boolean,
