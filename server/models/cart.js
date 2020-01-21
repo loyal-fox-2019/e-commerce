@@ -15,7 +15,23 @@ const cartSchema = new Schema({
     ],
     owner: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        validate: {
+            validator(owner) {
+                return Cart.findOne({
+                    owner
+                })
+                .then(result=>{
+                    if(result){
+                        return false
+                    }
+                    else {
+                        return true
+                    }
+                })
+            },
+            message: 'Email already registered'
+        }
     }
 })
 

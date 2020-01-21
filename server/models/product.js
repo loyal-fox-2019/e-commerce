@@ -20,6 +20,10 @@ const productSchema = new Schema({
     stock: {
         type: Number,
         required: [true, 'stock is required']
+    },
+    userOwner: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
 }, {timestamps: {createdAt: 'created_at'}})
 

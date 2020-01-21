@@ -32,11 +32,6 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Password is required'],
         minlength: [6, 'Minimum password length 6 character']
-    },
-    role: {
-        type: String,
-        required: [true, 'Role is required'],
-        enum: ['admin', 'customer']
     }
 })
 

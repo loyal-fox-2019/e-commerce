@@ -8,7 +8,8 @@ class ProductController {
             description,
             price,
             picture,
-            stock
+            stock,
+            userOwner: req.user.userId
         })
         .then(created=>{
             res.status(201).json(created)
@@ -19,7 +20,7 @@ class ProductController {
     }
 
     static getAll(req,res,next){
-        ProductModel.find()
+        ProductModel.find().populate('userOwner', '-password -__v')
         .then(result=>{
             res.status(200).json(result)
         })
@@ -29,7 +30,19 @@ class ProductController {
     }
 
     static getById(req,res,next){
-        ProductModel.findById(req.params.productId)
+        ProductModel.findById(req.params.productId).populate('userOwner', '-password -__v')
+        .then(result=>{
+            res.status(200).json(result)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
+
+    static getUserProducts(req,res,next){
+        ProductModel.find({
+            userOwner: req.user.userId
+        }).populate('userOwner', '-password -__v')
         .then(result=>{
             res.status(200).json(result)
         })

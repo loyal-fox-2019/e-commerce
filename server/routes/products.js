@@ -1,11 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const ProductController = require('../controllers/productController')
+const authentication = require('../middlewares/authentication')
+const productAuthorization = require('../middlewares/productAuthorization')
+const upload = require('../middlewares/gcsupload')
 
-router.post('/', ProductController.create)
 router.get('/', ProductController.getAll)
-router.get('/:productId', ProductController.getById)
-router.patch('/:productId', ProductController.update)
-router.delete('/:productId', ProductController.delete)
+router.post('/', authentication, upload.single('picture'), ProductController.create)
+router.get('/myProducts', authentication, ProductController.getUserProducts)
+router.patch('/:productId', upload.single('picture'), ProductController.update)
+router.delete('/:productId', authentication, productAuthorization, ProductController.delete)
 
 module.exports = router
