@@ -1,5 +1,4 @@
 module.exports = function(err, req, res, next) {
-  // console.log(err)
   const stringifiedErr = JSON.stringify(err);
   if (err.code === 404) {
     res.status(err.code).json({
@@ -21,7 +20,6 @@ module.exports = function(err, req, res, next) {
     if (stringifiedErr.indexOf('email') !== -1) {
       errors = ['Email is already in use'];
     }
-
     res.status(400).json({ errors });
   } else if (err.auth) {
     let errors = null;

@@ -7,6 +7,8 @@ const Chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = Chai.expect;
 let productId = null
+const access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjVkM2MzZTlmODliMTg3MzI0N2FmMiIsImVtYWlsIjoiYWRtaW5AY3Nza2lucy5jb20iLCJmdWxsbmFtZSI6ImFkbWluIiwiaWF0IjoxNTc5NTM3MzQ3fQ.DVcmwtUYAAnLjE_945uOhQc10uhSc89ceEfiJZfrCn0'
+const fake_admin = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjVkM2FiZTlmODliMTg3MzI0N2FmMSIsImVtYWlsIjoiY3VzdG9tZXJAY3Nza2lucy5jb20iLCJmdWxsbmFtZSI6ImN1c3RvbWVyIiwiaWF0IjoxNTc5NTM3MzMyfQ.V17uc3HXIBCXpC4MBxApzKdNYlUTHn2XoUmAfFRijfc'
 
 Chai.use(chaiHttp);
 
@@ -41,11 +43,31 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .post('/products')
+        .set('token', access_token)
         .send(product)
       expect(response).to.have.status(201);
       expect(response.body).to.have.property('name');
       expect(response.body).to.have.property('id');
       expect(response.body.name).to.equal(product.name);
+    });
+    it('Send error if non-admin try to post product, status: 401', async function() {
+      const product = {
+        name: 'M4A4 | Evil Daimyo',
+        image: 'https://csgostash.com/img/skins/large_1920/s576.png',
+        wear: 'Factory New',
+        price: 107740,
+        stock: 10,
+      };
+
+      const response = await Chai
+        .request(app)
+        .post('/products')
+        .set('token', fake_admin)
+        .send(product)
+      expect(response).to.have.status(401);
+      expect(response.body).to.have.property('errors');
+      expect(response.body.errors).to.be.an('Array');
+      expect(response.body.errors).to.include('Unauthorized')
     });
     it('Send error when fields are empty, status: 400', async function() {
       const product = {
@@ -59,6 +81,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .post('/products')
+        .set('token', access_token)
         .send(product)
 
       expect(response).to.have.status(400);
@@ -82,6 +105,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .post('/products')
+        .set('token', access_token)
         .send(product)
 
       expect(response).to.have.status(400);
@@ -100,6 +124,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .post('/products')
+        .set('token', access_token)
         .send(product)
 
       expect(response).to.have.status(400);
@@ -116,6 +141,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .patch(`/products/${productId}/stock/add`)
+        .set('token', access_token)
         .send({stock});
 
       expect(response).to.have.status(200);
@@ -128,6 +154,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .patch(`/products/5e25652f074761657c144390/stock/add`)
+        .set('token', access_token)
         .send({stock});
 
       expect(response).to.have.status(404);
@@ -144,6 +171,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .patch(`/products/${productId}/stock/subtract`)
+        .set('token', access_token)
         .send({stock})
       expect(response).to.have.status(200);
       expect(response.body).to.be.an('Object');
@@ -156,6 +184,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .patch(`/products/${productId}/stock/subtract`)
+        .set('token', access_token)
         .send({stock})
       expect(response).to.have.status(400);
       expect(response.body).to.be.an('Object');
@@ -167,6 +196,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .patch(`/products/5e25652f074761657c144390/stock/subtract`)
+        .set('token', access_token)
         .send({stock});
 
       expect(response).to.have.status(404);
@@ -182,6 +212,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .delete(`/products/${productId}`)
+        .set('token', access_token)
 
       expect(response).to.have.status(200);
     })
@@ -190,6 +221,7 @@ describe('## Product ##', function () {
       const response = await Chai
         .request(app)
         .delete(`/products/5e25652f074761657c144390`)
+        .set('token', access_token)
 
       expect(response).to.have.status(404);
       expect(response.body).to.be.an('Object');

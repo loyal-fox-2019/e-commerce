@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { hash } = require('../helpers/bcryptjs');
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const CustomerSchema = new Schema({
   fullname: {
     type: String,
     required: [true, 'Fullname cannot be blank'],
@@ -11,7 +11,6 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: [true, 'Email cannot be blank'],
-    unique: true,
     validate: {
       validator: function(value) {
         return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
@@ -20,6 +19,7 @@ const UserSchema = new Schema({
       },
       msg: "Please enter correct email address"
     },
+    unique: true,
   },
   password: {
     type: String,
@@ -29,12 +29,12 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.pre('save', function(next) {
+CustomerSchema.pre('save', function(next) {
   let user = this;
   const hashedPassword = hash(user.password);
   user.password = hashedPassword;
   next();
 })
 
-const Customer = mongoose.model('Customer', UserSchema);
+const Customer = mongoose.model('Customer', CustomerSchema);
 module.exports = Customer;
