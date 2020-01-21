@@ -20,6 +20,15 @@ class ProductController {
     }
   }
 
+  static async getSkins(req, res, next) {
+    try {
+      const skins = await Product.find().sort({ stock: 1 })
+      res.status(200).json(skins);
+    } catch (err) {
+
+    }
+  }
+
   static async addStock(req, res, next) {
     try {
       const { id } = req.params;

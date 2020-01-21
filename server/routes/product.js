@@ -4,6 +4,7 @@ const controller = require('../controllers/product');
 const authentication = require('../middlewares/authentication');
 const isAdmin = require('../middlewares/isAdmin');
 
+router.get('/', controller.getSkins)
 router.use(authentication);
 router.use(isAdmin);
 router.post('/', controller.addProduct);

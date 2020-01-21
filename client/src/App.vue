@@ -1,32 +1,41 @@
 <template>
   <div id="app">
+    <loading
+      :active.sync="$store.state.isLoading"
+      :is-full-page="$store.state.fullPage"
+      :loader="'bars'"
+    ></loading>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <navbar/>
     </div>
     <router-view/>
   </div>
 </template>
 
+<script>
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Loading from 'vue-loading-overlay';
+import Navbar from '@/components/navbar.vue';
+
+export default {
+  components: {
+    Navbar,
+    Loading,
+  },
+  data() {
+    return {
+      message: 'Hello world',
+    };
+  },
+  methods: {
+    //
+  },
+  created() {
+    this.$store.dispatch('checkLogin');
+    this.$store.dispatch('fetchProducts');
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
