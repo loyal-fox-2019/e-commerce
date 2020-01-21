@@ -1,0 +1,54 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "soap",
+            "price": 5000,
+            "category": 1
+        },
+        {
+            "id": 2,
+            "name": "shampoo",
+            "price": 10000,
+            "category": 1
+        },
+        {
+            "id": 3,
+            "name": "potato chips",
+            "price": 10000,
+            "category": 2
+        },
+        {
+            "id": 4,
+            "name": "cereal",
+            "price": 20000,
+            "category": 2
+        },
+        {
+            "id": 5,
+            "name": "chicken",
+            "price": 30000,
+            "category": 2
+        },
+        {
+            "id": 6,
+            "name": "shirt",
+            "price": 30000,
+            "category": 3
+        }
+    ],
+    "categories": [
+        {
+            "id": 1,
+            "name": "toiletry"
+        },
+        {
+            "id": 2,
+            "name": "food"
+        },
+        {
+            "id": 3,
+            "name": "clothing"
+        }
+    ]
+}
