@@ -45,6 +45,16 @@ class ProductController {
     }
   }
 
+  static async skinDetail(req, res, next) {
+    try {
+      const { id } = req.params;
+      const response = await Product.findOne({ _id: id });
+      res.status(200).json(response);
+    } catch (error) {
+      next(err);
+    }
+  }
+
   static async findSkins(req, res, next) {
     try {
       const { query } = req.query;

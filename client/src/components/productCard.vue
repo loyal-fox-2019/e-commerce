@@ -1,6 +1,7 @@
-  <template>
-  <div>
+<template>
+  <div id="main">
     <b-card
+      border-variant="dark"
       :title="product.name"
       :img-src="product.image"
       img-alt="Image"
@@ -10,7 +11,11 @@
       class="mb-2 text-center"
     >
       <div class="text-center">
-        <b-button href="#" variant="primary">Detail</b-button>
+        <b-button :to="`/shopping/${product._id}`"
+          style="background-color: black;"
+          @click="setCurrent(product)"
+          variant="primary"
+      >Detail</b-button>
       </div>
     </b-card>
   </div>
@@ -28,6 +33,12 @@ export default {
     return {
       message: 'Hello world',
     };
+  },
+  methods: {
+    setCurrent(payload) {
+      this.$emit('showmodal');
+      this.$store.dispatch('setCurrentProject', payload);
+    },
   },
 };
 </script>

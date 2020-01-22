@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="primary">
+    <b-navbar toggleable="lg" type="light" variant="light">
       <b-navbar-brand to="/">CS.SKINS</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -26,8 +26,10 @@
             </b-nav-item-dropdown>
           </section>
           <section v-else>
-            <b-button size="sm" class="my-2 ml-2 my-sm-0"
-              variant="warning"
+            <b-button size="sm"
+              class="my-2 ml-2 my-sm-0"
+              style="background-color: black;"
+              variant="dark"
               v-b-modal.modal-login
               >SIGN IN</b-button>
               <!-- MODAL -->
@@ -38,9 +40,9 @@
                 <section id="modal-mail">
                   <div class="text-center">
                     <b-button-group>
-                      <b-button @click="changeForm('SIGN IN')"
+                      <b-button style="color: black;" @click="changeForm('SIGN IN')"
                       variant="outline-primary">SIGN IN</b-button>
-                      <b-button @click="changeForm('SIGN UP')"
+                      <b-button style="color: black;" @click="changeForm('SIGN UP')"
                       variant="outline-primary">SIGN UP</b-button>
                     </b-button-group>
                   </div>
@@ -76,10 +78,12 @@
                   </section>
                   <div class="text-center" v-show="activeForm === 'SIGN UP'">
                     <b-button
+                      style="color: black;"
                       variant="outline-primary"
                       v-show="!buttonClicked"
                       @click="signupAttempt">SUBMIT</b-button>
                     <b-button variant="outline-primary"
+                      style="color: black;"
                       v-show="buttonClicked"
                       disabled>
                       <b-spinner small type="grow"></b-spinner>
@@ -88,12 +92,14 @@
                   </div>
                   <div class="text-center" v-show="activeForm === 'SIGN IN'">
                     <b-button variant="outline-primary"
+                      style="color: black;"
                       v-show="buttonClicked"
                       disabled>
                       <b-spinner small type="grow"></b-spinner>
                       Loading...
                     </b-button>
                     <b-button
+                    style="color: black;"
                     v-show="!buttonClicked"
                     variant="outline-primary"
                     @click="signinAttempt">SIGN IN</b-button>

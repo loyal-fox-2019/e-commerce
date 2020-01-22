@@ -26,7 +26,7 @@ h1 {
   top: 50%;
   left: 25%;
   transform: translate(0%, 100%);
-  color: #ffc107;
+  color: black;
   font-size: 10rem;
   font-family: 'Bangers', cursive;
   text-shadow: 5px 5px 5px  #fff;

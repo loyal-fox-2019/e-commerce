@@ -1,12 +1,21 @@
 <template>
   <section id="main">
+    <loading
+      :active.sync="isLoading"
+      :is-full-page="fullPage"
+      :loader="'bars'"
+    ></loading>
     <div>
       <b-nav-form class="mt-3 mb-3" @submit.prevent="SearchAttempt" id="form-search">
         <b-form-input v-model="query"
+        id="search"
         v-debounce:300ms="SearchAttempt"
         size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-        <b-button size="sm" class="my-2 my-sm-0" type="submit" variant="primary">Search</b-button>
+        <b-button size="sm"
+          style="background-color: black;"
+          class="my-2 my-sm-0" type="submit" variant="primary">Search</b-button>
         <b-button
+          style="background-color: black;"
           v-show="isFind"
           size="sm"
           class="my-2 ml-2 my-sm-0"
@@ -24,27 +33,30 @@
       </div>
     </div>
     <div id="detail" class="justify-content-center">
-      <h3>Skins Detail HELLO</h3>
-      <router-view />
+      <router-view/>
     </div>
   </section>
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
 import card from '../components/productCard.vue';
 import axios from '../config/server';
 
 export default {
-  components: { card },
+  components: { card, Loading },
   data() {
     return {
       message: 'Hello world',
       query: '',
       isFind: false,
+      isLoading: false,
+      fullPage: true,
     };
   },
   methods: {
     showAll() {
+      this.query = '';
       this.isFind = false;
       this.$store.dispatch('fetchProducts');
     },
@@ -55,7 +67,6 @@ export default {
         const { data } = response;
         this.$store.dispatch('findSkins', data);
       } catch (error) {
-        // console.log(error);
         this.$swal('Opps... server down :(');
       }
     },
@@ -72,9 +83,10 @@ card {
 }
 #main {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 #list {
+  border-radius: 1em;
   padding: 1em;
   margin-right: 10%;
   margin-top: 6px;
@@ -84,9 +96,29 @@ card {
   border: 2px solid white;
   overflow-y: scroll;
 }
+
+#list::-webkit-scrollbar-track {
+  border-radius: 2em;
+  border: 1px solid black;
+  background-color: #007bff;
+}
+
+#list::-webkit-scrollbar {
+  border-radius: 1em;
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+#list::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: #000000;
+}
+
 #detail {
-  margin-right: 1em;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 4em;
 }
 #form-search {
   position: relative;

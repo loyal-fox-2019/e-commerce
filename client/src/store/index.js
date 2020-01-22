@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Swal from 'sweetalert2';
 import Vuex from 'vuex';
 import router from '../router';
 import axios from '../config/server';
@@ -13,6 +14,9 @@ export default new Vuex.Store({
     userEmail: null,
     userFullname: null,
     products: [],
+    currentProduct: null,
+    isErr: false,
+    error: null,
   },
   mutations: {
     SET_ISLOADING(state, payload) {
@@ -27,8 +31,36 @@ export default new Vuex.Store({
     SET_PRODUCTS(state, payload) {
       state.products = payload;
     },
+    SET_CURRENTPRODUCT(state, payload) {
+      state.currentProduct = payload;
+    },
   },
   actions: {
+    async add({ commit }, payload) {
+      commit('SET_ISLOADING', true);
+      let messageSwal = null;
+      try {
+        const response = await axios.post('/carts', payload, { headers: { token: localStorage.getItem('token') } });
+        const { message } = response.data;
+        messageSwal = message;
+      } catch (err) {
+        const { errors } = err.response.data;
+        console.log(errors);
+        commit('SET_ERROR', errors);
+      } finally {
+        setTimeout(() => {
+          commit('SET_ISLOADING', false);
+          Swal.fire(messageSwal);
+        }, 500);
+      }
+    },
+    setCurrentProject({ commit }, payload) {
+      commit('SET_ISLOADING', true);
+      setTimeout(() => {
+        commit('SET_ISLOADING', false);
+        commit('SET_CURRENTPRODUCT', payload);
+      }, 500);
+    },
     checkLogin({ commit }) {
       commit('SET_ISLOADING', true);
       if (localStorage.getItem('token')) {
