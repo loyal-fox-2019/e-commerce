@@ -1,20 +1,21 @@
 const express = require('express');
+const { TransactionController } = require('../controllers');
 
 const router = express.Router();
 
 // create
-router.post('/');
+router.post('/', TransactionController.create);
 
 // read all
-router.get('/');
+router.get('/', TransactionController.readAll);
 
 // read one
-router.get('/:cartId');
+router.get('/:cartId', TransactionController.readOne);
 
 // update
-router.put('/:cartId');
+router.put('/:cartId', TransactionController.update);
 
 // delete
-router.delete('/:cartId');
+router.delete('/:cartId', TransactionController.delete);
 
 module.exports = router;

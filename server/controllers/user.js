@@ -45,6 +45,27 @@ class UserController {
       })
       .catch(err => next(err));
   }
+
+  static getUserProfile(req, res, next) {
+    User.findById(req.userData.userId)
+      .then(user => {
+        if (!user) {
+          res.status(404);
+          throw new Error(`User doesn't exist!`);
+        } else {
+          res.status(200);
+          res.json({
+            message: `Fetch user profile SUCCESS!`,
+            data: {
+              username: user.username,
+              email: user.email,
+              avatar: user.avatar
+            }
+          });
+        }
+      })
+      .catch(err => next(err));
+  }
 }
 
 module.exports = UserController;
