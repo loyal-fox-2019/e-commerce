@@ -6,45 +6,29 @@
             <p class="card-text">
                 <i class="fas fa-money-bill-wave"> {{ rupiahPrice }}</i>
             </p>
-            <div class="row mt-4">
-                <div class="col-1" id="box-image">
-                    <i class="fas fa fa-store-alt"></i>
-                </div>
-                <div class="col-10 seller">
-                    Seller: {{ item.userOwner.name }}
-                </div>
-            </div>
             <div class="row mt-2">
                 <div class="col-1" id="box-image">
                     <i class="fas fa-lg fa-box-open"></i>
                 </div>
-                <div class="col-7" id="stock">
+                <div class="col-6" id="stock">
                     Stock: {{ item.stock }}
                 </div>
-                <div class="col-1">
-                    <i class="fas fa-lg fa-info-circle"></i>
+                <div class="col-2">
+                    <i class="far fa-edit fa-lg dashboard-img" v-on:click="goToUpdate(item.title, item.content, item._id)"></i>
                 </div>
-                <!-- <div class="col-1">
-                    <i class="fas fa-lg fa-cart-arrow-down"></i><input type="number" v-model="quantity" min="1" :max="item.stock">
-                </div> -->
+                <div class="col-2">
+                    <i class="fas fa-trash-alt fa-lg dashboard-img" v-on:click="deleteArticle(item.title, item._id)"></i>
+                </div>
             </div>
         </div>
-    </div>                      
+    </div>
 </template>
 
 <script>
 export default {
-    name: "product-list",
+    name: 'my-product-list',
     props: {
         item: Object
-    },
-    data(){
-        return {
-            quantity: null
-        }
-    },
-    methods: {
-
     },
     computed: {
         rupiahPrice: function(){
@@ -55,38 +39,38 @@ export default {
             return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
         }
     }
-
 }
 </script>
 
 <style scoped>
-
-h5 {
-    font-weight: bold;
-}
-
-.seller {
-    text-align: left;
-    font-size: 14px;
-    color: rgb(63, 91, 119);
-}
-
 #stock {
     text-align: left;
     font-size: 14px;
 }
-
-.fa-info-circle {
-    color: rgb(56, 75, 185);
+h5 {
+    font-weight: bold;
 }
-
-.fa-info-circle:hover {
-    filter: brightness(50%);
+.fa-edit {
+    filter: opacity(90%);
+}
+.fa-edit:hover {
     cursor: pointer;
+    filter: opacity(100%)
 }
-
-.fa-info-circle:active {
-    filter: brightness(100%);
+.fa-edit:active {
+    cursor: pointer;
+    filter: opacity(90%);
+}
+.fa-trash-alt {
+    filter: opacity(90%);
+    color: rgb(223, 51, 51);
+}
+.fa-trash-alt:hover {
+    cursor: pointer;
+    filter: opacity(100%)
+}
+.fa-trash-alt:active {
+    filter: opacity(90%);
     cursor: pointer;
 }
 

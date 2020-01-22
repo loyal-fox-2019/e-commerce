@@ -63,6 +63,7 @@ export default {
             })
             .then(({data})=>{
                 localStorage.setItem('token', data.token)
+                localStorage.setItem('username', data.username)
                 Swal.fire(
                     'Login success!',
                     'You are now logged in',

@@ -52,7 +52,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 export default {
     name: 'register',
     data(){
@@ -63,7 +64,34 @@ export default {
         }
     },
     methods: {
-        
+        register: function(){
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/users/register',
+                data: {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password
+                }
+            })
+            .then(({data})=>{
+                localStorage.setItem('token', data.token)
+                localStorage.setItem('username', data.username)
+                Swal.fire(
+                    'Registration success!',
+                    'You are now logged in',
+                    'success'
+                )
+                this.$router.push('/')
+            })
+            .catch(err=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: err.response.data.message,
+                })    
+            })
+        }
     }
 }
 </script>

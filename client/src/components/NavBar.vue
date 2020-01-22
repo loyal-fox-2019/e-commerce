@@ -1,13 +1,16 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="info">
-            <b-navbar-brand href="#">Home</b-navbar-brand>
-
+        <b-navbar toggleable="lg" type="dark" variant="success">
+            <router-link to="/">
+                <b-navbar-brand><i class="fas fa-shopping-bag fa-lg"></i> Home</b-navbar-brand>
+            </router-link>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="#">My Products</b-nav-item>
+                <b-nav-item>
+                    <router-link to="/myproducts">My Products</router-link>
+                </b-nav-item>        
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
@@ -20,10 +23,10 @@
                 <b-nav-item-dropdown right>
                 <!-- Using 'button-content' slot -->
                 <template v-slot:button-content>
-                    <em>User</em>
+                    <em>{{ username }}</em>
                 </template>
                 <b-dropdown-item href="#"><i class="fas fa-cart-arrow-down"></i> My Cart</b-dropdown-item>
-                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
             </b-collapse>
@@ -32,8 +35,28 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
-
+    name: "navbar",
+    data(){
+        return {
+            username: ''
+        }
+    },
+    methods: {
+        logout: function(){
+            localStorage.clear()
+            this.$router.push('/loginregister')
+            Swal.fire(
+                'You are logged out!',
+                '',
+                'success'
+            )
+        }
+    },
+    created(){
+        this.username = localStorage.getItem('username')
+    }
 }
 </script>
 

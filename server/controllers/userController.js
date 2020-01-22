@@ -17,7 +17,7 @@ class UserController {
                 email: result.email
             }
             let token = generateJWT(payload)
-            res.status(201).json({token})
+            res.status(201).json({token, username: payload.name})
         })
         .catch(err=>{
             console.log(err);
@@ -40,7 +40,7 @@ class UserController {
                         email: result.email
                     }
                     let token = generateJWT(payload)
-                    res.status(200).json({token})
+                    res.status(200).json({token, username: payload.name})
                 }
                 else {
                     res.status(400).json({message: "Wrong email/password"})
