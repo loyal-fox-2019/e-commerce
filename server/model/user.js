@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 const userSchema = new Schema({
     name: {
         type: String,
-        required: "Name is required"
+        required: [true, "Name is required"],
+        minlength: [3, "user name min 3 character length"],
+        maxlength: [30, "user name max 30 character length"]
     },
     email: {
         type: String,
@@ -27,7 +29,14 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required"]
+        required: [true, "Password is required"],
+        minlength: [8, "user name min 3 character length"],
+        validate: {
+            validator: function (password) {
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+                return passwordRegex.test(password);
+            }, message: "Password must contain at least 1 number, letters, symbol, Uppercase and lowercase"
+        }
     },
     cart: [
         {

@@ -2,7 +2,10 @@
     <sui-menu attached="top">
         <sui-menu-menu>
             <sui-menu-item>
-                <form-logo/>
+                <router-link to="/">
+                    <sui-icon name="home"/>
+                    Belanja Murah
+                </router-link>
             </sui-menu-item>
         </sui-menu-menu>
         <sui-menu-item>
@@ -52,7 +55,7 @@
                     }
                 }).then(response => {
                     localStorage.clear();
-                    console.log(response.data);
+                    // console.log(response.data);
                     localStorage.setItem('name', response.data.name);
                     localStorage.setItem('token', response.data.token);
                     this.isLogin = !!localStorage.getItem('token');
