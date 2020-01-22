@@ -33,7 +33,9 @@
       </div>
     </div>
     <div id="detail" class="justify-content-center">
-      <router-view/>
+      <router-view
+        class="animated fadeIn"
+      />
     </div>
   </section>
 </template>
@@ -119,6 +121,7 @@ card {
   justify-content: center;
   flex-direction: column;
   margin-top: 4em;
+  height: 78vh;
 }
 #form-search {
   position: relative;

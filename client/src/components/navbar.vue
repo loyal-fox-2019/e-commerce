@@ -19,7 +19,57 @@
               <template v-slot:button-content>
                 {{ $store.state.userFullname }}
               </template>
-              <b-dropdown-item href="#">My Cart</b-dropdown-item>
+              <b-dropdown-item href="#"
+                @click.prevent="$bvModal.show('modal-center')">My Cart</b-dropdown-item>
+                <!-- CART MODAL -->
+                <b-modal id="modal-center" centered title="My Cart">
+                  <div>
+                    <div
+                      v-show="$store.state.myCart.checkout && !$store.state.myCart.delivered"
+                      class="text-center mb-3">
+                      <b-button
+                        @click="delivered"
+                        class="actions-button"
+                        variant="outline-primary"
+                      >I already received my skins</b-button>
+                    </div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Total Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(item, i) in $store.state.myCart.items"
+                          :key="i">
+                          <th scope="row">{{item.productName}}</th>
+                          <td>{{item.qty}}</td>
+                          <td>{{getPrice(item.totalPrice)}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Total</th>
+                          <td>Rp...</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-right"
+                      v-if="!$store.state.myCart.checkout">
+                      <b-button
+                        @click="deleteCart"
+                        class="actions-button"
+                        variant="outline-primary"
+                      >Delete cart</b-button>
+                      <b-button
+                      @click="checkout"
+                        class="actions-button"
+                        variant="outline-primary"
+                      >Checkout</b-button>
+                    </div>
+                  </div>
+                </b-modal>
+                <!-- END OF CART MODAL -->
               <b-dropdown-item
                 href="#"
                 @click.prevent="logoutAttempt">Sign Out</b-dropdown-item>
@@ -133,6 +183,33 @@ export default {
     };
   },
   methods: {
+    delivered() {
+      this.$store.dispatch('delivered', this.$store.state.myCart.customerId);
+    },
+    checkout() {
+      this.$store.dispatch('checkout', this.$store.state.myCart.customerId);
+    },
+    deleteCart() {
+      this.$store.dispatch('removeCart', this.$store.state.myCart.customerId);
+    },
+    // minusQty(payload) {
+    //   if (payload.qty === 1) {
+    //     this.$store.dispatch('removeItem', payload.productId);
+    //   } else {
+    //     const newQty = {
+    //       ...payload,
+    //     };
+    //     // const { price } = payload;
+    //     newQty.qty = -1;
+    //     console.log(payload);
+    //     // newQty.totalPrice = price;
+    //     console.log(newQty);
+    //     // this.$store.dispatch('add', newQty);
+    //   }
+    // },
+    showMyCart() {
+      this.$bvModal.show('modal-cart');
+    },
     submit() {
       if (this.activeForm === 'SIGN IN') {
         this.signinAttempt();
@@ -210,6 +287,21 @@ export default {
         }, 500);
       }
     },
+    getPrice(price) {
+      const priceToString = price.toString();
+      let priceToShow = '';
+      let counter = 0;
+      for (let i = priceToString.length - 1; i >= 0; i -= 1) {
+        if (counter === 2 && i !== 0) {
+          priceToShow = `,${priceToString[i]}${priceToShow}`;
+          counter = 0;
+        } else {
+          priceToShow = `${priceToString[i]}${priceToShow}`;
+          counter += 1;
+        }
+      }
+      return `Rp ${priceToShow}`;
+    },
   },
 };
 </script>
@@ -228,5 +320,9 @@ h2 {
   transform: translate(-50%, 0%);
   position: relative;
 }
-
+.actions-button {
+  margin: 2px;
+  /* background-color: black !important; */
+  color: black;
+}
 </style>

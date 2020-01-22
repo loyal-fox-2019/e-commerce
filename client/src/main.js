@@ -1,4 +1,4 @@
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import vueDebounce from 'vue-debounce';
 import Vue from 'vue';
@@ -16,6 +16,7 @@ Vue.use(vueDebounce, {
 Vue.use(VueSweetalert2);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(BootstrapVueIcons);
 
 new Vue({
   router,

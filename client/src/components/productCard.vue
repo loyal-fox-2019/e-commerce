@@ -8,7 +8,7 @@
       img-top
       tag="article"
       style="max-width: 15rem;"
-      class="mb-2 text-center"
+      class="mb-2 text-center animated fadeIn"
     >
       <div class="text-center">
         <b-button :to="`/shopping/${product._id}`"

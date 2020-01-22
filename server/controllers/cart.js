@@ -1,18 +1,42 @@
 'use strict';
-const { Product, Cart } = require('../models');
+const { Product, Cart, Order } = require('../models');
 
 class CartController {
+  static async removeItem(req, res, next) {
+    try {
+      const { id } = req.token;
+      const response = await Cart.updateOne(
+        { customerId: id },
+        { $pull: { items: { "items.productId": req.params.id } } }
+        )
+        res.status(200).json({ message: 'Item removed from your cart' });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async removeCart(req, res, next) {
+    try {
+      const response = await Cart.deleteOne({ customerId: req.params.id });
+      res.status(200).json({ message: 'Your cart now is empty' });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async addToCart(req, res, next) {
     try {
       const { id } = req.token;
-      const { productId, productName, qty, productPrice, } = req.body;
+      const { productId, productName, qty, productPrice, price } = req.body;
       const totalPrice = qty*productPrice;
       const item = {
         productId,
         productName,
         qty,
         totalPrice,
+        price
       };
+      const newPrice = Number(price);
       // Find if cart with customerId exist or not,
       const isExist = await Cart.findOne({ customerId: id });
       if (!isExist) {
@@ -35,7 +59,7 @@ class CartController {
           // wow... this one is confusing :(
           const addQty = await Cart.updateOne(
             { "items.productId": {$eq: productId} },
-            { $inc: { "items.$.qty": qty, "items.$.totalPrice": totalPrice } });
+            { $inc: { "items.$.qty": qty, "items.$.totalPrice": newPrice } });
           const { n, nModified } = addQty;
           if (n != 0 && nModified != 0) {
             res.status(200).json({ message: 'Product added to card' });
@@ -57,7 +81,9 @@ class CartController {
       const customerProducts = items.length;
       let counter = 0;
       let update = 0
+      let total = 0;
       while (counter < customerProducts) {
+        total += items[counter].totalPrice;
         const product = await Product.findOne({ _id: items[counter].productId })
         if ((product.stock - items[counter].qty) < 0) {
           isStock = false;
@@ -72,7 +98,15 @@ class CartController {
           const responseProduct = await Product.updateOne({ _id: items[update].productId }, { $inc: { stock: -items[update].qty } })
           update++
         }
-        const cartCheckout = await Cart.updateOne({ customerId }, { $set: { checkout: true } })
+        // const cartCheckout = await Cart.updateOne({ customerId }, { $set: { checkout: true } })
+        const orderDoc = {
+          customerId,
+          totalPrice: total,
+          items,
+        };
+        console.log(orderDoc)
+        const orderHistory = await Order.create(orderDoc);
+        console.log(orderHistory);
         res.status(200).json({ message: 'Your purchases is in process...' })
       }
     } catch (err) {
@@ -83,7 +117,8 @@ class CartController {
   static async changeToDelivered(req, res, next) {
     try {
       const { customerId } = req.params;
-      const response = await Cart.updateOne({ customerId }, { $set: { delivered: true } });
+      await Cart.deleteOne({ customerId });
+      await Order.updateOne({ customerId }, { $set: { delivered: true } });
       res.status(200).json({ message: 'Thanks for choosing us, GL HF!' });
     } catch (err) {
       next(err)
@@ -102,7 +137,7 @@ class CartController {
   static async getMyCart(req, res, next) {
     try {
       const { id } = req.token;
-      const carts = await Cart.find({ customerId: id });
+      const carts = await Cart.findOne({ customerId: id });
       res.status(200).json(carts);
     } catch (err) {
       next(err)

@@ -4,6 +4,8 @@ import Vuex from 'vuex';
 import router from '../router';
 import axios from '../config/server';
 
+const wentWrong = 'Opps... Something when wrong';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -14,11 +16,15 @@ export default new Vuex.Store({
     userEmail: null,
     userFullname: null,
     products: [],
+    myCart: {},
     currentProduct: null,
     isErr: false,
     error: null,
   },
   mutations: {
+    SET_MYCART(state, payload) {
+      state.myCart = payload;
+    },
     SET_ISLOADING(state, payload) {
       state.isLoading = payload;
     },
@@ -36,7 +42,68 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async add({ commit }, payload) {
+    async fectcMyCart({ commit }) {
+      commit('SET_MYCART', {});
+      commit('SET_ISLOADING', true);
+      try {
+        const response = await axios.get('/carts', { headers: { token: localStorage.getItem('token') } });
+        const { data } = response;
+        commit('SET_MYCART', data);
+      } catch (err) {
+        Swal.fire(wentWrong);
+      } finally {
+        setTimeout(() => {
+          commit('SET_ISLOADING', false);
+        });
+      }
+    },
+    async delivered({ commit, dispatch }, payload) {
+      try {
+        await axios.patch(`carts/delivered/${payload}`, { headers: { token: localStorage.getItem('token') } });
+        Swal.fire('Thank you, GL HF YOU NOOB!');
+        dispatch('fectcMyCart');
+        commit('SET_MYCART', null);
+      } catch (err) {
+        Swal.fire('Opps...');
+      }
+    },
+    async checkout({ dispatch }, payload) {
+      try {
+        await axios.patch(`carts/checkout/${payload}`, { headers: { token: localStorage.getItem('token') } });
+        Swal.fire('Checkout success, please wait for your skins');
+        dispatch('fectcMyCart');
+      } catch (err) {
+        Swal.fire('Opps...');
+      }
+    },
+    async removeCart({ commit }, payload) {
+      try {
+        await axios.delete(`/carts/${payload}`, { headers: { token: localStorage.getItem('token') } });
+        commit('SET_MYCART', {});
+      } catch (err) {
+        // const text = err.response.data.errors.join(' | ');
+        // Swal(text);
+      } finally {
+        commit('SET_MYCART', {});
+        Swal.fire('Your cart deleted');
+      }
+    },
+    // async removeItem({ commit, dispatch }, payload) {
+    //   commit('SET_ISLOADING', true);
+    //   try {
+    //     const response = await axios
+    //       .delete(`/carts/item/${payload}`,
+    //       { headers: { token: localStorage.getItem('token') } });
+    //     console.log(response);
+    //     setTimeout(() => {
+    //       dispatch('fectcMyCart');
+    //       commit('SET_ISLOADING', true);
+    //     }, 500);
+    //   } catch (err) {
+    //     Swal(wentWrong);
+    //   }
+    // },
+    async add({ commit, dispatch }, payload) {
       commit('SET_ISLOADING', true);
       let messageSwal = null;
       try {
@@ -50,6 +117,7 @@ export default new Vuex.Store({
       } finally {
         setTimeout(() => {
           commit('SET_ISLOADING', false);
+          dispatch('fectcMyCart');
           Swal.fire(messageSwal);
         }, 500);
       }
@@ -61,7 +129,7 @@ export default new Vuex.Store({
         commit('SET_CURRENTPRODUCT', payload);
       }, 500);
     },
-    checkLogin({ commit }) {
+    checkLogin({ commit, dispatch }) {
       commit('SET_ISLOADING', true);
       if (localStorage.getItem('token')) {
         commit('SET_LOGIN', true);
@@ -69,6 +137,7 @@ export default new Vuex.Store({
         setTimeout(() => {
           router.push({ path: '/shopping' });
           commit('SET_ISLOADING', false);
+          dispatch('fectcMyCart');
         }, 500);
       } else {
         commit('SET_LOGIN', false);

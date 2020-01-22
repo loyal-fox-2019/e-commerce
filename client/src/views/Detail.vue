@@ -1,5 +1,5 @@
 <template>
-  <section class="justify-content-center">
+  <section class="justify-content-center" fixed>
     <Loading
       :active.sync="isLoading"
       :is-full-page="fullPage"
@@ -26,23 +26,24 @@
           </b-button>
         </div>
         <div class="text-center mt-1">
-          <b-button v-show="quantity < $store.state.currentProduct.stock"
-            @click="addQuantity" class="mr-1"
-            variant="outline-primary"
-          >+</b-button>
-          <b-button v-show="quantity === $store.state.currentProduct.stock"
-            @click="addQuantity" class="mr-1"
-            disabled
-            variant="outline-primary"
-          >+</b-button>
+          <b-button v-show="quantity === 1"
+            disabled class="mr-1"
+            @click="removeQuantity" variant="outline-primary">-</b-button>
+          <b-button v-show="quantity !== 1"
+            class="mr-1" @click="removeQuantity" variant="outline-primary">
+          -</b-button>
           <b-button disabled variant="outline-primary">
             Quantity <b-badge variant="light">{{ quantity }}</b-badge>
           </b-button>
-          <b-button v-show="quantity === 1"
-            disabled class="ml-1"
-            @click="removeQuantity" variant="outline-primary">-</b-button>
-          <b-button v-show="quantity !== 1"
-            class="ml-1" @click="removeQuantity" variant="outline-primary">-</b-button>
+          <b-button v-show="quantity < $store.state.currentProduct.stock"
+            @click="addQuantity" class="ml-1"
+            variant="outline-primary"
+          >+</b-button>
+          <b-button v-show="quantity === $store.state.currentProduct.stock"
+            @click="addQuantity" class="ml-1"
+            disabled
+            variant="outline-primary"
+          >+</b-button>
         </div>
         <div class="text-center mt-1">
           <b-button @click="addToCart" variant="outline-primary">Add to cart</b-button>
@@ -81,15 +82,17 @@ export default {
       if (!this.$store.state.isLogin) {
         this.$swal('Opps... You have to login!');
       } else {
-        const { _id, name } = this.$store.state.currentProduct;
+        const { _id, name, price } = this.$store.state.currentProduct;
         const totalPrice = this.quantity * this.$store.state.currentProduct.price;
         const payload = {
           productId: _id,
           productName: name,
           qty: this.quantity,
           productPrice: totalPrice,
+          price,
         };
         this.$store.dispatch('add', payload);
+        this.quantity = 1;
       }
     },
   },
