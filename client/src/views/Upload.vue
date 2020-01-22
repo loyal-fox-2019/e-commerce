@@ -11,15 +11,17 @@
                   <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-card-text>
-                  <v-form>
-                    <v-text-field label="Nama" name="title" prepend-icon="local_dining" type="text"></v-text-field>
-                    <v-text-field label="Harga" name="price" prepend-icon="attach_money" type="number"></v-text-field>
+                  <v-form @submit.prevent="upload">
+                    <v-text-field label="Nama" name="title" prepend-icon="local_dining" type="text" v-model="name"></v-text-field>
+                    <v-text-field label="Harga" name="price" prepend-icon="attach_money" type="number" v-model="price"></v-text-field>
                     <v-select
                       prepend-icon="layers"
                       :items="kategoris"
                       :menu-props="{ top: true, offsetY: true }"
                       label="Kategori"
+                      v-model="category"
                     ></v-select>
+                    <v-text-field label="Stock" name="stock" prepend-icon="local_shipping" type="number" v-model="stock"></v-text-field>
                     <v-textarea
                       v-model="description"
                       auto-grow
@@ -29,10 +31,17 @@
                       rounded
                       row-height=3
                     ></v-textarea>
+                    <!-- <v-file-input
+                      label="Foto Makanan"
+                      filled
+                      prepend-icon="mdi-camera"
+                      v-model="image"
+                    ></v-file-input> -->
                     <v-file-input
                       label="Foto Makanan"
                       filled
                       prepend-icon="mdi-camera"
+                      v-model="image"
                     ></v-file-input>
                   </v-form>
                 </v-card-text>
@@ -50,17 +59,59 @@
 </template>
 
 <script>
+import axios from '../config/api'
 export default {
   name: 'UploadPage',
   data () {
     return {
+      name: '',
       description: '',
-      kategoris: ['lauk', 'sayur']
+      price: 100,
+      stock: 1,
+      category: '',
+      image: null,
+      kategoris: ['lauk', 'sayur', 'minum', 'spesial'],
+      errors: []
     }
   },
   methods: {
     upload () {
-      this.$router.push('/')
+      this.errors = []
+      const formData = new FormData()
+      formData.set('name', this.name)
+      formData.set('description', this.description)
+      formData.set('price', this.price)
+      formData.set('stock', this.stock)
+      formData.set('category', this.category)
+      formData.set('image', this.image)
+      axios({
+        method: 'POST',
+        url: `/products`,
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: formData
+      })
+        .then(({ data }) => {
+          this.name = ''
+          this.description = ''
+          this.price = 100
+          this.stock = 1
+          this.category = ''
+          this.image = null
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Upload Sukes',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$store.dispatch('fetchProducts')
+          this.$router.push('/')
+        })
+        .catch(err => {
+          this.errors.push(err.response.data.message)
+        })
     }
   },
   created () {

@@ -4,22 +4,23 @@
       <v-list-item>
         <v-list-item-avatar color="grey">
           <!-- <v-avatar> -->
-            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            <img :src="product.user.profile_pic" alt="John" />
           <!-- </v-avatar> -->
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="headline">Tempe Goreng Kering</v-list-item-title>
-          <v-list-item-subtitle>by Indra Buana</v-list-item-subtitle>
+          <v-list-item-title class="headline">{{product.name}}</v-list-item-title>
+          <v-list-item-subtitle>by {{product.user.username}}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
-      <v-img src="https://selerasa.com/wp-content/uploads/2018/10/tempe-goreng-bumbu-kunyit-500x365-1280x720.jpg" height="194"></v-img>
+      <!-- <v-img src="https://selerasa.com/wp-content/uploads/2018/10/tempe-goreng-bumbu-kunyit-500x365-1280x720.jpg" height="194"></v-img> -->
+      <v-img :src="product.image" height="194"></v-img>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="headline">Rp. 2.500,-</v-list-item-title>
+          <v-list-item-title class="headline">Rp. {{product.price}},-</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-card-text>Digoreng dengan minyak goreng. Gluten free</v-card-text>
+      <v-card-text>{{product.description}}</v-card-text>
 
       <v-card-actions>
         <!-- <v-btn text color="blue accent-4">Detail</v-btn> -->
@@ -27,7 +28,7 @@
         <v-btn icon>
           <v-icon>mdi-heart</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn icon v-if="product.user.username != $store.state.username" @click="addToCart">
           <v-icon>shopping_cart</v-icon>
         </v-btn>
       </v-card-actions>
@@ -36,8 +37,48 @@
 </template>
 
 <script>
+import axios from '../config/api'
 export default {
-  name: 'ProductItem'
+  name: 'ProductItem',
+  props: {
+    product: Object
+  },
+  methods: {
+    addToCart () {
+      axios({
+        method: 'POST',
+        url: `/transactions`,
+        data: {
+          product: this.product._id,
+          quantity: 1
+        },
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Add to Cart Success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$store.dispatch('fetchPending')
+        })
+        .catch(err => {
+          // console.log(err.response.data.message)
+          this.$swal({
+            // position: 'top-end',
+            icon: 'error',
+            title: 'Failed Add to Cart',
+            text: err.response.data.message
+            // showConfirmButton: false,
+            // timer: 1500
+          })
+        })
+    }
+  }
 }
 </script>
 

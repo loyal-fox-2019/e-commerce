@@ -37,9 +37,7 @@ export default {
   },
 
   methods: {
-    confirmItem (payload) {
-      console.log(payload)
-    },
+    confirmItem (payload) {},
     initialize () {
       this.products = [
         {

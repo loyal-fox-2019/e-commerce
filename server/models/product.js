@@ -5,7 +5,7 @@ const productSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Please input product's name."]
+      required: [true, "Silahkan masukkan nama produk"]
     },
     stock: {
       type: Number,
@@ -14,7 +14,7 @@ const productSchema = new Schema(
     },
     description: {
       type: String,
-      minlength: [10, "description product minimal 10 character"]
+      minlength: [10, "deskripsi produk minimal 10 karkter"]
     },
     image: {
       type: String,
@@ -26,7 +26,15 @@ const productSchema = new Schema(
     price: {
       type: Number,
       required: [true, "Please enter product's price"],
-      min: [100, "minimal price 100"]
+      min: [100, "minimal harga Rp. 100,-"],
+      validate: {
+        validator: function(value) {
+          if(value % 100 !== 0) {
+            return false
+          }
+        },
+        message: props => 'Harga harus kelipatan 100'
+      }
     },
     user: {
       type: Schema.Types.ObjectId,
@@ -35,6 +43,13 @@ const productSchema = new Schema(
   },
   { timestamps: true }
 );
+
+productSchema.pre('save', function(next) {
+  if(this.image == 'null') {
+    this.image = "https://image.flaticon.com/icons/svg/743/743131.svg"
+  }
+  next()
+})
 
 const Product = mongoose.model("Product", productSchema);
 

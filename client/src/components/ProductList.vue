@@ -1,11 +1,6 @@
 <template>
   <v-row justify="center" class="d-flex flex-wrap">
-    <product-item/>
-    <product-item/>
-    <product-item/>
-    <product-item/>
-    <product-item/>
-    <product-item/>
+    <product-item v-for="product in $store.state.products" :key="product._id" :product="product"/>
     <v-fab-transition>
       <v-btn
         color="pink"

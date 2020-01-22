@@ -9,20 +9,37 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-card-text>
-      <v-form>
+      <v-alert type="error" v-for="(error, i) in errors" :key="i">
+        {{error}}
+      </v-alert>
+      <v-form @submit.prevent="register">
         <v-text-field
           label="Email"
           name="login"
           prepend-icon="person"
           type="email"
+          v-model="email"
         ></v-text-field>
-
+        <v-text-field
+          label="Username"
+          name="username"
+          prepend-icon="store"
+          type="text"
+          v-model="username"
+        ></v-text-field>
+        <v-file-input
+          label="Foto"
+          filled
+          prepend-icon="mdi-camera"
+          v-model="profile_pic"
+        ></v-file-input>
         <v-text-field
           id="password"
           label="Password"
           name="password"
           prepend-icon="lock"
           type="password"
+          v-model="password"
         ></v-text-field>
       </v-form>
     </v-card-text>
@@ -37,14 +54,42 @@
 </template>
 
 <script>
+import axios from '../config/api'
 export default {
   name: 'RegisterForm',
+  data () {
+    return {
+      username: '',
+      email: '',
+      password: '',
+      profile_pic: null,
+      errors: []
+    }
+  },
   methods: {
     toLogin () {
       this.$emit('to-login')
     },
     register () {
-      this.$router.push('/')
+      this.errors = []
+      const formData = new FormData()
+      formData.set('username', this.username)
+      formData.set('password', this.password)
+      formData.set('email', this.email)
+      formData.set('profile_pic', this.profile_pic)
+      axios({
+        method: 'POST',
+        url: `/register`,
+        data: formData
+      })
+        .then(({ data }) => {
+          console.log(data)
+          this.$emit('to-login')
+          // this.$router.push('/')
+        })
+        .catch(err => {
+          this.errors = err.response.data.message
+        })
     }
   }
 }

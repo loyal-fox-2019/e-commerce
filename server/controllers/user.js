@@ -25,11 +25,12 @@ class UserController {
       .catch(next)
   }
   static register (req, res, next) {
-    const { username, email, password } = req.body
+    const { username, email, password, profile_pic } = req.body
     User.create({
       username,
       email,
-      password
+      password,
+      profile_pic
     })
       .then(user => {
         res.status(201).json(user)

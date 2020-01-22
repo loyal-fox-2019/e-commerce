@@ -4,6 +4,10 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    // this.$store.dispatch('fetchProducts')
+    this.$store.dispatch('checkLogin')
+  }
 }
 </script>

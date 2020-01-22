@@ -18,7 +18,7 @@ const transactionSchema = new Schema(
     quantity: {
       type: Number,
       default: 1,
-      min: [1, ['Quantity cannot be less than 1']]
+      min: [1,'Quantity tidak bisa kurang dari 1']
     }
   },
   { timestamps: true }

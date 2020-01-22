@@ -5,13 +5,14 @@ const mongoose = require('mongoose'),
 const userSchema = new Schema({
   username: {
     type: String,
+    required: [true, 'Harus masukin username untuk nama toko'],
     validate: {
       validator: function(value) {
         return User.findOne({ username: value }).then(user => {
           if (user) return false;
         });
       },
-      message: props => 'Username already used'
+      message: props => 'username sudah ada yang pakai'
     }
   },
   profile_pic: {
@@ -21,21 +22,21 @@ const userSchema = new Schema({
   email: {
     type: String,
     unique: true,
-    required: [true, 'email is required'],
-    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email address'],
+    required: [true, 'harus masukkan email untuk daftar'],
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Email tidak valid'],
     validate: {
       validator: function(value) {
         return User.findOne({ email: value }).then(user => {
           if (user) return false;
         });
       },
-      message: props => 'Email already registered'
+      message: props => 'Email sudah terdaftar'
     }
   },
   password: {
     type: String,
-    required: [true, 'password is required'],
-    minlength: [6, 'minimal password length is 6']
+    required: [true, 'Harus masukkan password'],
+    minlength: [6, 'Panjang password minimal 6']
   },
   admin: {
     type: Boolean,
@@ -47,6 +48,7 @@ userSchema.pre('save', function(next) {
   this.password = hash(this.password)
   next()
 })
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = User

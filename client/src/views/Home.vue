@@ -7,7 +7,7 @@
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Products</v-list-item-title>
+            <v-list-item-title>Makan Apa?</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link @click="toCart">
@@ -15,7 +15,7 @@
             <v-icon>shopping_cart</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Cart (5)</v-list-item-title>
+            <v-list-item-title>Keranjang ({{$store.state.pendings.length}})</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link @click="toConfirm">
@@ -23,7 +23,7 @@
             <v-icon>local_shipping</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Confirmation</v-list-item-title>
+            <v-list-item-title>Sampai</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link @click="toTransactions">
@@ -31,7 +31,7 @@
             <v-icon>trending_up</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Transaction</v-list-item-title>
+            <v-list-item-title>Sejarah</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -40,14 +40,16 @@
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Warteg Hub</v-toolbar-title>
-      <v-btn class="ml-auto" @click="logout" rounded color="accent" dark>Logout</v-btn>
+      <span class="ml-auto" v-if="$store.state.isLogin">Welcome, {{$store.state.username}}</span>
+      <v-btn class="mx-5" @click="logout" rounded color="accent" v-if="$store.state.isLogin" dark>Logout</v-btn>
+      <v-btn class="ml-auto" @click="toLogin" rounded color="primary" v-if="!$store.state.isLogin" dark>Login</v-btn>
     </v-app-bar>
     <v-content>
       <v-container class="fill-height" fluid>
         <router-view/>
       </v-container>
     </v-content>
-      <v-footer
+      <!-- <v-footer
         absolute
         class="font-weight-medium"
       >
@@ -57,7 +59,7 @@
         >
           {{ new Date().getFullYear() }} — <strong>Amil Hasbala</strong>
         </v-col>
-      </v-footer>
+      </v-footer> -->
   </v-app>
 </template>
 
@@ -72,6 +74,11 @@ export default {
   }),
   methods: {
     logout () {
+      this.$store.commit('LOGOUT')
+      // this.$store.dispatch('fetchProducts')
+      this.$router.push('/login')
+    },
+    toLogin () {
       this.$router.push('/login')
     },
     toProducts () {
@@ -89,6 +96,7 @@ export default {
   },
   created () {
     this.$vuetify.theme.dark = true
+    this.$store.dispatch('fetchProducts')
   }
 }
 </script>

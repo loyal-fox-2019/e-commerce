@@ -32,37 +32,15 @@ export default {
   }),
 
   created () {
-    this.initialize()
+    this.products = this.$store.state.pendings
   },
 
   methods: {
-    initialize () {
-      this.products = [
-        {
-          name: 'Tempe Goreng',
-          price: 2500,
-          qty: 1,
-          subTotal: 2500
-        },
-        {
-          name: 'Tempe Goreng (pedas)',
-          price: 2500,
-          qty: 2,
-          subTotal: 5000
-        },
-        {
-          name: 'Tempe Goreng (pedes)',
-          price: 2500,
-          qty: 3,
-          subTotal: 7500
-        },
-        {
-          name: 'Tempe Goreng (hot)',
-          price: 2500,
-          qty: 4,
-          subTotal: 10000
-        }
-      ]
+    deleteItem (payload) {
+      console.log(payload)
+    },
+    editItem (payload) {
+      console.log(payload)
     }
   }
 }
