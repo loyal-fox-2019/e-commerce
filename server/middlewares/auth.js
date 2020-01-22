@@ -25,6 +25,13 @@ function userAuthorization(req, res, next) {
          message: 'This action requires userId in the parameter'
       }
 
+      const user = await User.findOne({_id: req.params.id})
+
+      if(!user) throw {
+         errorCode: 400,
+         message: 'Invalid user id'
+      }
+      
       if(JSON.stringify(req.params.userId) != JSON.stringify(req.userId)) throw {
          errorCode: 401,
          message: 'You are not authorized to perform this action'

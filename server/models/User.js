@@ -59,6 +59,7 @@ userSchema.plugin(timestamp)
 
 userSchema.pre('save', function(next) {
    this.password = hashPassword(this.password)
+   
    next()
 })
 

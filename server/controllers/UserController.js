@@ -50,6 +50,57 @@ class UserController {
          next(error)
       }
    }
+
+   static async addToCart() {
+      try {
+         const {itemId, quantity} = req.body
+
+         const user = await User.findOne()
+
+         let itemIdExist = false
+
+         for(let i in user.cart) {
+            if(user.cart[i].item == itemId) {
+               user.cart[i].quantity = quantity
+               itemIdExist = true
+               break
+            }
+         }
+
+         let results
+
+         if(itemIdExist) {
+            results = await User.updateOne(
+               {_id: req.params.id},
+   
+               {
+                  $set: {
+                     cart: user.cart
+                  }
+               }
+            )
+         }
+         else {
+            result = await User.updateOne(
+               {_id: req.params.id},
+
+               {
+                  $push: {
+                     cart: {
+                        item: itemId,
+                        quantity
+                     }
+                  }
+               }
+            )
+         }
+      }
+      catch (error) {
+         next(error)
+      }
+   }
+
+   static async removeFromCart() {}
 }
 
 module.exports = UserController
