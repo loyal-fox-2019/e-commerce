@@ -74,8 +74,19 @@ class TransactionController {
   static getPaid(req, res, next) {
     Transaction
       .find({ user: req.user.id, status: 'paid' })
+      .populate('product')
       .then(transactions => {
-        res.send(transactions)
+        let results = []
+        transactions.forEach(transaction => {
+          results.push({
+            _id: transaction._id,
+            name: transaction.product.name,
+            price: transaction.product.price,
+            qty: transaction.quantity,
+            subTotal: transaction.product.price * transaction.quantity,
+          })
+        });
+        res.send(results)
       })
       .catch(next)
   }

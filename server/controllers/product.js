@@ -14,10 +14,10 @@ class ProductController {
     let user = req.user.id
     Product
       .find()
-      .populate('user', 'username profile_pic -_id')
+      .populate('user', 'username profile_pic')
       .then(products => {
         res.send(products.filter(function(product) {
-          return product.user != user
+          return product.user.id != user
         }) )
       })
       .catch(next)
@@ -26,6 +26,7 @@ class ProductController {
     let user = req.user.id
     Product
       .find({user})
+      .populate('user', 'username profile_pic -_id')
       .then(products => {
         res.send(products)
       })

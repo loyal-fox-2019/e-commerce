@@ -81,6 +81,8 @@ export default {
           })
           this.$store.commit('LOGIN')
           this.$store.commit('SET_USERNAME', data.username)
+          this.$store.dispatch('fetchPending')
+          this.$store.dispatch('fetchPaid')
           this.$router.push('/')
         })
         .catch(err => {

@@ -1,5 +1,8 @@
 <template>
   <v-container justify="center">
+    <v-alert type="error" v-for="(error, i) in errors" :key="i">
+      {{error}}
+    </v-alert>
     <v-data-table :headers="headers" :items="products" sort-by="name" class="elevation-1">
       <template v-slot:item.action="{ item }">
         <!-- <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
@@ -14,9 +17,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import axios from '../config/api'
 export default {
   name: 'ConfirmList',
   data: () => ({
+    errors: [],
     dialog: false,
     headers: [
       {
@@ -33,11 +39,40 @@ export default {
   }),
 
   created () {
-    this.initialize()
+    this.products = this.$store.state.paids
+    this.$store.watch(
+      (state) => state.paids, (newValue, oldValue) => {
+        this.products = newValue
+      }
+    )
   },
 
+  computed: mapState(['paids']),
+
   methods: {
-    confirmItem (payload) {},
+    confirmItem (payload) {
+      axios({
+        method: 'PATCH',
+        url: `/transactions/${payload._id}/delivered`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Confimation success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$store.dispatch('fetchPending')
+          this.$store.dispatch('fetchPaid')
+        })
+        .catch(err => {
+          this.errors.push(err.response.data.message)
+        })
+    },
     initialize () {
       this.products = [
         {

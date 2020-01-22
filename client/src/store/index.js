@@ -9,7 +9,8 @@ export default new Vuex.Store({
     isLogin: false,
     products: [],
     username: '',
-    pendings: []
+    pendings: [],
+    paids: []
   },
   mutations: {
     LOGIN (state) {
@@ -23,8 +24,10 @@ export default new Vuex.Store({
       state.products = payload
     },
     FETCH_PENDING (state, payload) {
-      // console.log(payload)
       state.pendings = payload
+    },
+    FETCH_PAID (state, payload) {
+      state.paids = payload
     },
     SET_USERNAME (state, payload) {
       state.username = payload
@@ -36,6 +39,7 @@ export default new Vuex.Store({
         context.commit('LOGIN')
         context.commit('SET_USERNAME', localStorage.getItem('username'))
         context.dispatch('fetchPending')
+        context.dispatch('fetchPaid')
       } else {
         context.commit('LOGOUT')
       }
@@ -58,11 +62,65 @@ export default new Vuex.Store({
           })
       })
     },
+    fetchPaid (context) {
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'GET',
+          url: `/transactions/paid`,
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+          .then(({ data }) => {
+            context.commit('FETCH_PAID', data)
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
     fetchProducts (context) {
       return new Promise(function (resolve, reject) {
         axios({
           method: 'GET',
           url: `/products`
+        })
+          .then(({ data }) => {
+            context.commit('FETCH_PRODUCTS', data)
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    fetchMyProducts (context) {
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'GET',
+          url: `/products/own`,
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+          .then(({ data }) => {
+            context.commit('FETCH_PRODUCTS', data)
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    fetchSale (context) {
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'GET',
+          url: `/products/sale`,
+          headers: {
+            token: localStorage.getItem('token')
+          }
         })
           .then(({ data }) => {
             context.commit('FETCH_PRODUCTS', data)

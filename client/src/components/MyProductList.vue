@@ -21,7 +21,7 @@
 <script>
 import ProductItem from '../components/ProductItem'
 export default {
-  name: 'ProductList',
+  name: 'MyProductList',
   components: {
     ProductItem
   },
@@ -31,11 +31,7 @@ export default {
     }
   },
   created () {
-    if (localStorage.getItem('token')) {
-      this.$store.dispatch('fetchSale')
-    } else {
-      this.$store.dispatch('fetchProducts')
-    }
+    this.$store.dispatch('fetchMyProducts')
   }
 }
 </script>
