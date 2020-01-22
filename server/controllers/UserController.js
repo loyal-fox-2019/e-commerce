@@ -1,4 +1,3 @@
-
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const {comparePassword} = require('../helpers/bcrypt')
@@ -21,12 +20,13 @@ class UserController {
       }
    }
 
-   static async create(req, res, next) {
+   static async register(req, res, next) {
       try {
          const {email, password} = req.body
          const user = await User.create({email, password})
          const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET)
-         res.status(201).json({token})
+
+         res.status(201).json({token, userId: user._id})
       }
       catch (error) {
          next(error)
@@ -44,7 +44,7 @@ class UserController {
          }
 
          const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET)
-         res.status(200).json({token})
+         res.status(200).json({token, userId: user._id})
       }
       catch (error) {
          next(error)
