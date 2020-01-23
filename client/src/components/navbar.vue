@@ -127,7 +127,9 @@
                 <!--  -->
               <b-dropdown-item
                 href="#"
-                @click.prevent="logoutAttempt">Sign Out</b-dropdown-item>
+                :params="params" :logoutButton=true
+                @click.prevent="logoutAttempt"
+                >Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </section>
           <section v-else>
