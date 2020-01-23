@@ -1,14 +1,41 @@
 const Transaction = require('../models/transaction')
+const Cart = require('../models/cart')
+const Item = require('../models/item')
 
 class TransactionController {
   static async createTransaction(req, res, next) {
+    let promises = []
+
     try {
-      const transaction = await Transaction.create({
-        buyer: req.body.buyer,
-        items: req.body.items,
+      const cart = await Cart.findOne({ owner: req.payload.id }).populate(
+        'items.item',
+      )
+      const items = cart.items.slice()
+
+      if (items.some(item => item.quantity > item.item.stock)) {
+        throw {
+          name: 'BadRequest',
+          message: 'There is item that stock isnt enough',
+        }
+      }
+
+      // update stock item
+      promises = items.map(item => {
+        let id = item.item._id.toString()
+        return Item.updateOne(
+          { _id: id },
+          { stock: item.item.stock - item.quantity },
+        )
       })
 
-      res.status(201).json({ message: 'Transaction created' })
+      await Promise.all(promises)
+
+      const transaction = await Transaction.create({
+        buyer: req.payload.id,
+        items,
+      })
+
+      res.status(201).json({ transaction })
     } catch (err) {
       next(err)
     }
