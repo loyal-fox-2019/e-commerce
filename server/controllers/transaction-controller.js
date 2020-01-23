@@ -55,6 +55,14 @@ class TransactionController {
       next(err)
     }
   }
+
+  static async deleteTransaction(req, res, next) {
+    try {
+      res.json({ message: 'under construction' })
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = TransactionController
