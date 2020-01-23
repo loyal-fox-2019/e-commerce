@@ -103,9 +103,10 @@ export default new Vuex.Store({
         Swal.fire('Opps...');
       }
     },
-    async removeCart({ commit }, payload) {
+    async removeCart({ commit, dispatch }, payload) {
       try {
         await axios.delete(`/carts/${payload}`, { headers: { token: localStorage.getItem('token') } });
+        dispatch('fectcMyCart');
         commit('SET_MYCART', {});
       } catch (err) {
         //

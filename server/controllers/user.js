@@ -2,6 +2,8 @@
 const { Customer } = require('../models');
 const { sign } = require('../helpers/jwt');
 const { compare } = require('../helpers/bcryptjs')
+const { OAuth2Client } = require('google-auth-library');
+const Client = new OAuth2Client(process.env.GOOGLE_CLIENTID)
 
 class CustomerController {
   static async register(req, res, next) {
@@ -45,6 +47,34 @@ class CustomerController {
           const token = sign(payload);
           res.status(200).json({ fullname, email, token });
         }
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async googleLogin(req, res, next) {
+    try {
+      const googlePayload = await Client.verifyIdToken({ idToken: req.body.idToken, audience: process.env.GOOGLE_CLIENTID })
+      const { name, email } = googlePayload.getPayload();
+      const customer = await Customer.findOne({ email })
+      if (!customer) {
+        const register = await Customer.create({fullname: name, email, password: 'helloword122'})
+        const { _id, fullname } = register
+        const payload = {
+          id: _id,
+          email
+        };
+        const accessToken = sign(payload);
+        res.status(200).json({ accessToken, fullname })
+      } else {
+        const { _id, fullname } = customer
+        const payload = {
+          id: _id,
+          email,
+        };
+        const accessToken = sign(payload);
+        res.status(200).json({ accessToken, fullname, email });
       }
     } catch (err) {
       next(err);

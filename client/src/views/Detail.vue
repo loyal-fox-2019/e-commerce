@@ -26,7 +26,7 @@
             Stock <b-badge variant="light">{{ $store.state.currentProduct.stock }}</b-badge>
           </b-button>
         </div>
-        <div class="text-center mt-1">
+        <div class="text-center mt-1" v-if="!$store.state.isAdmin">
           <b-button v-show="quantity === 1"
             disabled class="mr-1"
             @click="removeQuantity" variant="outline-primary">-</b-button>
@@ -46,7 +46,7 @@
             variant="outline-primary"
           >+</b-button>
         </div>
-        <div class="text-center mt-1">
+        <div class="text-center mt-1" v-if="!$store.state.isAdmin">
           <b-button @click="addToCart" variant="outline-primary">Add to cart</b-button>
         </div>
       </b-card-text>

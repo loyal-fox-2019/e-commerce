@@ -20,9 +20,10 @@
                 {{ $store.state.userFullname }}
               </template>
               <b-dropdown-item href="#"
+                v-if="!$store.state.isAdmin"
                 @click.prevent="$bvModal.show('modal-center')">My Cart</b-dropdown-item>
                 <!-- CART MODAL -->
-                <b-modal id="modal-center" centered title="My Cart">
+                <b-modal id="modal-center" ok-only centered title="My Cart">
                   <div v-if="$store.state.myCart">
                     <div
                       v-show="$store.state.myCart.checkout && !$store.state.myCart.delivered"
@@ -208,6 +209,13 @@
                     variant="outline-primary"
                     @click="signinAttempt">SIGN IN</b-button>
                   </div>
+                  <div class="googleLogin mt-2">
+                    <GoogleLogin
+                      :params="params" :onSuccess="onSuccess"
+                      :renderParams="renderParams"
+                      :onFailure="onFailure"
+                    >Login</GoogleLogin>
+                  </div>
                 </section>
                 </b-modal>
               <!-- END OF MODAL -->
@@ -220,11 +228,12 @@
 
 <script>
 import Password from 'vue-password-strength-meter';
+import GoogleLogin from 'vue-google-login';
 import axios from '../config/server';
 
 export default {
   name: 'navbar',
-  components: { Password },
+  components: { Password, GoogleLogin },
   data() {
     return {
       buttonClicked: false,
@@ -234,6 +243,15 @@ export default {
       password: '',
       showError: false,
       errorList: [],
+      params: {
+        client_id: '175257420107-lodnp8175bne99qbhp5qo0guces8u3vg.apps.googleusercontent.com',
+      },
+      renderParams: {
+        width: 240,
+        height: 50,
+        theme: 'dark',
+        longtitle: true,
+      },
     };
   },
   methods: {
@@ -291,7 +309,20 @@ export default {
     showScore(score) {
       console.log('💯', score);
     },
+    async onSuccess(googleUser) {
+      const idToken = googleUser.getAuthResponse().id_token;
+      const response = await axios.post('user/google-auth', { idToken });
+      const { data } = response;
+      const { accessToken, fullname, email } = data;
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('fullname', fullname);
+      localStorage.setItem('email', email);
+      this.$store.dispatch('checkLogin');
+    },
     logoutAttempt() {
+      this.email = '';
+      this.password = '';
+      this.fullname = '';
       localStorage.clear();
       this.$store.dispatch('checkLogin');
     },
@@ -423,5 +454,11 @@ h2 {
 #total {
   position: relative;
   right: 4%;
+}
+.googleLogin {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: 24%;
 }
 </style>
