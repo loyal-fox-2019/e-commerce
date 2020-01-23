@@ -30,6 +30,10 @@ class TransactionController {
 
       await Promise.all(promises)
 
+      // update cart
+      cart.items = []
+      await cart.save({ validateBeforeSave: false })
+
       const transaction = await Transaction.create({
         buyer: req.payload.id,
         items,
