@@ -14,7 +14,24 @@ class CartController{
         })
     }
     static increment(req,res,next){
+        Cart.find({"products.item": req.body.productId, _id: req.params.cartId})
+        .then(obj=>{
+            console.log(obj,'find product in cart products')
+            if(obj){
 
+            }else{
+                console.log(obj,'di increment')
+                obj.push()
+                res.json({
+                    obj,
+                    message: 'berarti belum ada produknya'
+                })
+            }
+            
+        })
+        .catch(err=>{
+            res.json(err)
+        })
     }
     static decrement(req,res,next){
 

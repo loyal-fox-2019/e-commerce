@@ -12,8 +12,8 @@ const userSchema = new Schema({
         required: [true, 'Email is required'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Email is not valid'],
         validate: {
-            validator: function (v) {
-                User.findOne({ email: v })
+            validator(email) {
+            return User.findOne({ email: email })
                     .then((user) => {
                         if(user){
                             return false
@@ -22,7 +22,8 @@ const userSchema = new Schema({
                         }
                     })
                     .catch(err => console.log(err))
-            }
+            },
+            message: 'user already registered'
         }
     },
     password: {

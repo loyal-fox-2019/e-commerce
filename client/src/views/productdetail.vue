@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar></navbar>
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" :background-image="productData.picture">
         <div class="container">
             <h1 class="display-4">Fluid jumbotron</h1>
             <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
@@ -9,12 +9,12 @@
     </div>
     <div class="row justify-content-around">
         <div class="col-sm-6">
-            <img src="" alt="">
+            <img :src="productData.picture" alt="">
         </div>
         <div class="col-sm-6">
-            <h5>{{ productData.name }}</h5>
-            <h6>{{ productData.price }}</h6>
-            <p>{{ productData.description }}</p>
+            <h5>Product Name: {{ productData.name }}</h5>
+            <h6>Price: {{ productData.price }}</h6>
+            <p>Description: {{ productData.description }}</p>
             <div class="flex align-item-center">
                 <b-form-input type="number" style="width: 200px;"></b-form-input><b-button variant="success">Button</b-button>
             </div>

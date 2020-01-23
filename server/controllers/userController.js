@@ -6,6 +6,7 @@ const Cart = require('../models/cart')
 
 class UserController{
     static register(req,res,next){
+        // console.log('masuk register')
         const {username, email, password} = req.body
         let user = null
         User.create({

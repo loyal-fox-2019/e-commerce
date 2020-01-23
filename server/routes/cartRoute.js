@@ -13,7 +13,7 @@ const authorization = require('../middlewares/authorization')
  */
 
  router.get('/', authenticate, CartController.findOne)
- router.patch('/increment/:cartId', CartController.increment)
+ router.patch('/increment/:cartId', authenticate, CartController.increment)
  router.patch('/decrement/:cartId', CartController.decrement)
  router.patch('/addProduct/:cartId', CartController.addProduct)
  router.patch('/checkout/:cartId', CartController.checkoutCart)

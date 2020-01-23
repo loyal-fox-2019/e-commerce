@@ -34,7 +34,10 @@ export default {
     console.log('get all products')
     axios({
       method: 'get',
-      url: 'http://localhost:3000/product'
+      url: 'http://localhost:3000/product',
+      headers:{
+        token: localStorage.getItem('token')
+      }
     })
     .then(({data})=>{
       this.productlist = data
