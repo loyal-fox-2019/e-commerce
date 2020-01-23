@@ -8,7 +8,7 @@ const transactionSchema = new Schema({
       ref: 'User'
    },
 
-   cart: [{
+   purchasedItems: [{
       item: {
          type: Schema.Types.ObjectId,
          ref: 'Item'

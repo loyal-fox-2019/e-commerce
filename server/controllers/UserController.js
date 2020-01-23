@@ -51,12 +51,12 @@ class UserController {
       }
    }
 
-   static async addToCart() {
+   static async addToCart(req, res, next) {
       try {
          const {itemId, quantity} = req.body
 
-         const user = await User.findOne()
-
+         let user = await User.findOne({_id: req.userId})
+         
          let itemIdExist = false
 
          for(let i in user.cart) {
@@ -71,7 +71,7 @@ class UserController {
 
          if(itemIdExist) {
             results = await User.updateOne(
-               {_id: req.params.id},
+               {_id: req.userId},
    
                {
                   $set: {
@@ -81,8 +81,8 @@ class UserController {
             )
          }
          else {
-            result = await User.updateOne(
-               {_id: req.params.id},
+            results = await User.updateOne(
+               {_id: req.userId},
 
                {
                   $push: {
@@ -94,13 +94,42 @@ class UserController {
                }
             )
          }
+
+         user = await User.findOne({_id: req.userId})
+            .select('cart')
+
+         res.status(200).json({results, user})
       }
       catch (error) {
          next(error)
       }
    }
 
-   static async removeFromCart() {}
+   static async removeFromCart(req, res, next) {
+      try {
+         const {itemId} = req.body
+         let a = await User.findOne({_id: req.userId})
+
+         const results = await User.updateOne(
+            {_id: req.userId},
+            {
+               $pull: {
+                  cart: {
+                     item: itemId
+                  }
+               }
+            }
+         )
+
+         const user = await User.findOne({_id: req.userId})
+            .select('cart')
+
+         res.status(200).json({results, user})
+      }
+      catch (error) {
+         next(error)
+      }
+   }
 }
 
 module.exports = UserController

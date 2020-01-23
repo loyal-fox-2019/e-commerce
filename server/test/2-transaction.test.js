@@ -25,9 +25,10 @@ const newItemData2 = {
 
 describe('/transaction', function() {
    after(async function() {
-      await clearUsers
-      await clearItems
-      await clearTransactions
+      console.log('clearing after transaction test')
+      await clearUsers()
+      await clearItems()
+      await clearTransactions()
    })
 
    describe('Create new transaction: POST /transaction', function() {
@@ -92,7 +93,27 @@ describe('/transaction', function() {
 
          // 4. add one item to cart
 
+         const addItemToCartData = {
+            item: allItems[1]._id,
+            quantity: 3
+         }
          
+         await chai.request(app)
+            .post('/user/add_to_cart')
+            .set({
+               token: userToken
+            })
+            .send(addItemToCartData)
+
+         // checkout, create new transaction
+
+         const createTransactionResp = await chai.request(app)
+            .post('/transaction')
+            .set({
+               token: userToken
+            })
+         
+         expect(createTransactionResp).to.have.status(201)
       })
    })
 })
