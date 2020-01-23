@@ -9,7 +9,7 @@
         <h6>Available Stock: {{ data.stock }}</h6>
         <h6>Seller: {{ data.seller }}</h6>
         <p class="card-text">{{ data.description }}</p>
-        <router-link :to="`/product/${data.id}`">product details</router-link>
+        <router-link :to="`/product/${data._id}`">product details</router-link>
       </div>
     </div>
   </div>
