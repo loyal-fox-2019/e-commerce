@@ -8,6 +8,7 @@ class UserController {
       email: req.body.email,
       password: req.body.password,
       username: req.body.username,
+      roles: req.body.roles,
     })
       .then(user => {
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET)
