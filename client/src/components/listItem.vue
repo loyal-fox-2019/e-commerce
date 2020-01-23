@@ -18,9 +18,11 @@
         },
         computed: {
             listItem() {
-                this.$store.dispatch('getListItems');
                 return this.$store.getters.itemList;
             }
+        },
+        mounted() {
+            this.$store.dispatch('getListItems');
         },
         components: {
             card

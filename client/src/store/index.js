@@ -2,14 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-const prod = 'http://34.66.28.216';
-const dev = 'http://localhost:3000';
+const urlProd = 'http://34.66.28.216';
+const url = 'http://localhost:3000';
 
 const base = axios.create({
-    baseURL: dev
+    baseURL: url
 });
-
-Vue.prototype.$axios = base;
 
 Vue.use(Vuex);
 
@@ -27,10 +25,10 @@ export default new Vuex.Store({
         addItemToTempCart(state, payload) {
             state.tempCart = payload
         },
-        setCartClear(state){
+        setCartClear(state) {
             state.cart.clear
         },
-        currencyFormat(state, payload){
+        currencyFormat(state, payload) {
             let segment = [];
             let n = [];
             let priceReverse = "0" + payload.toString().split("").reverse().join("");
@@ -43,7 +41,7 @@ export default new Vuex.Store({
             }
             state.currency = segment.join(".");
         },
-        getListItems(state, payload){
+        getListItems(state, payload) {
             state.listItem = payload
         }
     },
@@ -54,16 +52,23 @@ export default new Vuex.Store({
         addItemToTempCart(context, payload) {
             context.commit('addItemToTempCart', payload)
         },
-        setCartClear(context){
+        setCartClear(context) {
             context.commit('setCartClear')
         },
-        currencyFormat(context, payload){
+        currencyFormat(context, payload) {
             context.commit('currencyFormat', payload)
         },
-        getListItems(context){
-            axios({
+        getListItems(context, payload) {
+            let searchUrl = "";
+            if (payload) {
+                searchUrl = `/api/items/${payload}`
+            } else {
+                searchUrl = '/api/items'
+            }
+
+            base({
                 method: 'get',
-                url: `${dev}/api/items`
+                url: searchUrl
             }).then(response => {
                 // console.log(response.data.data);
                 context.commit('getListItems', response.data.data);

@@ -33,7 +33,7 @@ class ItemController {
 
     static findItem(req, res, next) {
         Item.find({
-                name: {$regex: req.body.itemName, $options: 'i'}
+                name: {$regex: req.params.itemName, $options: 'i'}
             })
             .populate('owner', 'name ')
             .then(response => {
