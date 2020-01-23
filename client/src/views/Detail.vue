@@ -10,6 +10,7 @@
       v-if="!isLoading"
       :title="$store.state.currentProduct.name"
       :sub-title="getPrice">
+         <b-button variant="outline-dark">{{$store.state.currentProduct.wear}}</b-button>
       <b-card-text>
         <b-img
           id="image"

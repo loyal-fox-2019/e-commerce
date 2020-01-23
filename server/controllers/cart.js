@@ -98,15 +98,14 @@ class CartController {
           const responseProduct = await Product.updateOne({ _id: items[update].productId }, { $inc: { stock: -items[update].qty } })
           update++
         }
-        // const cartCheckout = await Cart.updateOne({ customerId }, { $set: { checkout: true } })
+        const cartCheckout = await Cart.updateOne({ customerId }, { $set: { checkout: true } })
         const orderDoc = {
           customerId,
           totalPrice: total,
-          items,
+          products: items,
+          totalPrice: req.body.payload.total,
         };
-        console.log(orderDoc)
         const orderHistory = await Order.create(orderDoc);
-        console.log(orderHistory);
         res.status(200).json({ message: 'Your purchases is in process...' })
       }
     } catch (err) {

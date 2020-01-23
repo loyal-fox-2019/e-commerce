@@ -23,7 +23,7 @@
                 @click.prevent="$bvModal.show('modal-center')">My Cart</b-dropdown-item>
                 <!-- CART MODAL -->
                 <b-modal id="modal-center" centered title="My Cart">
-                  <div>
+                  <div v-if="$store.state.myCart">
                     <div
                       v-show="$store.state.myCart.checkout && !$store.state.myCart.delivered"
                       class="text-center mb-3">
@@ -38,6 +38,7 @@
                         <tr>
                           <th scope="col">Name</th>
                           <th scope="col">Quantity</th>
+                          <th scope="col">Price</th>
                           <th scope="col">Total Price</th>
                         </tr>
                       </thead>
@@ -46,14 +47,20 @@
                           :key="i">
                           <th scope="row">{{item.productName}}</th>
                           <td>{{item.qty}}</td>
+                          <td>{{getPrice(item.price)}}</td>
                           <td>{{getPrice(item.totalPrice)}}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                           <th scope="row">Total</th>
                           <td>Rp...</td>
-                        </tr>
+                        </tr> -->
                       </tbody>
                     </table>
+                    <div class="text-right" id="total">
+                      <h4>
+                        Total: {{ $store.getters.totalPrice }}
+                      </h4>
+                    </div>
                     <div class="text-right"
                       v-if="!$store.state.myCart.checkout">
                       <b-button
@@ -70,6 +77,53 @@
                   </div>
                 </b-modal>
                 <!-- END OF CART MODAL -->
+                <b-dropdown-item
+                href="#"
+                v-if="$store.state.isAdmin"
+                @click.prevent="$bvModal.show('modal-transaction')"
+                >Show transaction</b-dropdown-item>
+                <!-- Transactions modal -->
+                <b-modal id="modal-transaction" size="lg"
+                  centered
+                  scrollable title="Transactions History">
+                 <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Id</th>
+                          <th scope="col">Customer Id</th>
+                          <th scope="col">Total Price</th>
+                          <th scope="col">Items</th>
+                          <th scope="col">Delivered?</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="order in $store.state.transactions"
+                        :key="order._id">
+                          <th scope="row">{{order._id}}</th>
+                          <td>{{order.customerId}}</td>
+                          <td>{{getPrice(order.totalPrice)}}</td>
+                          <td>
+                            <ul>
+                              <li v-for="skin in order.products" :key="skin.productName">
+                                {{skin.productName}}
+                              </li>
+                            </ul>
+                          </td>
+                          <td>
+                            <b-badge v-if="order.delivered"
+                            variant="success">DELIVERED!</b-badge>
+                             <b-badge v-else
+                             variant="warning">ON PROCESS</b-badge>
+                          </td>
+                        </tr>
+                        <!-- <tr>
+                          <th scope="row">Total</th>
+                          <td>Rp...</td>
+                        </tr> -->
+                      </tbody>
+                    </table>
+                </b-modal>
+                <!--  -->
               <b-dropdown-item
                 href="#"
                 @click.prevent="logoutAttempt">Sign Out</b-dropdown-item>
@@ -187,7 +241,15 @@ export default {
       this.$store.dispatch('delivered', this.$store.state.myCart.customerId);
     },
     checkout() {
-      this.$store.dispatch('checkout', this.$store.state.myCart.customerId);
+      const payload = {
+        ...this.$store.state.myCart,
+        total: this.$store.getters.getTotal,
+      };
+      const docs = {
+        id: this.$store.state.myCart.customerId,
+        payload,
+      };
+      this.$store.dispatch('checkout', docs);
     },
     deleteCart() {
       this.$store.dispatch('removeCart', this.$store.state.myCart.customerId);
@@ -302,6 +364,39 @@ export default {
       }
       return `Rp ${priceToShow}`;
     },
+    getTotal() {
+      // const priceToString = this.$store.totalPrice.toString();
+      // let priceToShow = '';
+      // let counter = 0;
+      // for (let i = priceToString.length - 1; i >= 0; i -= 1) {
+      //   if (counter === 2 && i !== 0) {
+      //     priceToShow = `,${priceToString[i]}${priceToShow}`;
+      //     counter = 0;
+      //   } else {
+      //     priceToShow = `${priceToString[i]}${priceToShow}`;
+      //     counter += 1;
+      //   }
+      // }
+      // return `Rp ${priceToShow}`;
+    },
+  },
+  computed: {
+    // i don't know why this not work
+    // getTotal() {
+    //   const priceToString = this.$store.totalPrice.toString();
+    //   let priceToShow = '';
+    //   let counter = 0;
+    //   for (let i = priceToString.length - 1; i >= 0; i -= 1) {
+    //     if (counter === 2 && i !== 0) {
+    //       priceToShow = `,${priceToString[i]}${priceToShow}`;
+    //       counter = 0;
+    //     } else {
+    //       priceToShow = `${priceToString[i]}${priceToShow}`;
+    //       counter += 1;
+    //     }
+    //   }
+    //   return `Rp ${priceToShow}`;
+    // },
   },
 };
 </script>
@@ -324,5 +419,9 @@ h2 {
   margin: 2px;
   /* background-color: black !important; */
   color: black;
+}
+#total {
+  position: relative;
+  right: 4%;
 }
 </style>

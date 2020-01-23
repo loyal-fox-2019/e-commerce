@@ -6,7 +6,8 @@ const OrderSchema = new Schema({
   customerId: String,
   delivered: Boolean,
   total: Number,
-  Item: String,
+  products: [],
+  totalPrice: Number,
 }, { timestamps: true });
 
 OrderSchema.pre('save', function(next) {

@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import Swal from 'sweetalert2';
 import Vuex from 'vuex';
+import Axios from 'axios';
 import router from '../router';
 import axios from '../config/server';
 
 const wentWrong = 'Opps... Something when wrong';
+const BASE_URL = 'http://localhost:3000';
 
 Vue.use(Vuex);
 
@@ -20,8 +22,13 @@ export default new Vuex.Store({
     currentProduct: null,
     isErr: false,
     error: null,
+    transactions: null,
+    isAdmin: false,
   },
   mutations: {
+    SET_ADMIN(state, payload) {
+      state.isAdmin = payload;
+    },
     SET_MYCART(state, payload) {
       state.myCart = payload;
     },
@@ -40,8 +47,26 @@ export default new Vuex.Store({
     SET_CURRENTPRODUCT(state, payload) {
       state.currentProduct = payload;
     },
+    SET_TRANSACTIONS(state, payload) {
+      state.transactions = payload;
+    },
   },
   actions: {
+    async fetchTransactionsHistory({ commit }) {
+      try {
+        const response = await Axios({
+          method: 'GET',
+          url: `${BASE_URL}/transactions`,
+          headers: {
+            token: localStorage.getItem('token'),
+          },
+        });
+        const { data } = response;
+        commit('SET_TRANSACTIONS', data);
+      } catch (err) {
+        Swal.fire('Opps... You are not admin!');
+      }
+    },
     async fectcMyCart({ commit }) {
       commit('SET_MYCART', {});
       commit('SET_ISLOADING', true);
@@ -57,19 +82,21 @@ export default new Vuex.Store({
         });
       }
     },
-    async delivered({ commit, dispatch }, payload) {
+    async delivered({ dispatch }, payload) {
       try {
         await axios.patch(`carts/delivered/${payload}`, { headers: { token: localStorage.getItem('token') } });
         Swal.fire('Thank you, GL HF YOU NOOB!');
         dispatch('fectcMyCart');
-        commit('SET_MYCART', null);
       } catch (err) {
         Swal.fire('Opps...');
       }
     },
     async checkout({ dispatch }, payload) {
       try {
-        await axios.patch(`carts/checkout/${payload}`, { headers: { token: localStorage.getItem('token') } });
+        await axios.patch(
+          `carts/checkout/${payload.id}`, payload,
+          { headers: { token: localStorage.getItem('token') } },
+        );
         Swal.fire('Checkout success, please wait for your skins');
         dispatch('fectcMyCart');
       } catch (err) {
@@ -81,8 +108,7 @@ export default new Vuex.Store({
         await axios.delete(`/carts/${payload}`, { headers: { token: localStorage.getItem('token') } });
         commit('SET_MYCART', {});
       } catch (err) {
-        // const text = err.response.data.errors.join(' | ');
-        // Swal(text);
+        //
       } finally {
         commit('SET_MYCART', {});
         Swal.fire('Your cart deleted');
@@ -131,6 +157,12 @@ export default new Vuex.Store({
     },
     checkLogin({ commit, dispatch }) {
       commit('SET_ISLOADING', true);
+      if (localStorage.getItem('email') === 'admin@csskins.com') {
+        commit('SET_ADMIN', true);
+        dispatch('fetchTransactionsHistory');
+      } else {
+        commit('SET_ADMIN', false);
+      }
       if (localStorage.getItem('token')) {
         commit('SET_LOGIN', true);
         commit('SET_FULLNAME', localStorage.getItem('fullname'));
@@ -166,5 +198,39 @@ export default new Vuex.Store({
     },
   },
   modules: {
+  },
+  getters: {
+    getTotal(state) {
+      if (!state.myCart) {
+        return 0;
+      }
+      let price = 0;
+      state.myCart.items.forEach((item) => {
+        price += item.price;
+      });
+      return price;
+    },
+    totalPrice(state) {
+      if (!state.myCart) {
+        return 'Rp 0';
+      }
+      let price = 0;
+      let priceToShow = '';
+      let counter = 0;
+      const priceToString = price.toString();
+      state.myCart.items.forEach((item) => {
+        price += item.price;
+      });
+      for (let i = priceToString.length - 1; i >= 0; i -= 1) {
+        if (counter === 2 && i !== 0) {
+          priceToShow = `,${priceToString[i]}${priceToShow}`;
+          counter = 0;
+        } else {
+          priceToShow = `${priceToString[i]}${priceToShow}`;
+          counter += 1;
+        }
+      }
+      return `Rp ${priceToShow}`;
+    },
   },
 });
