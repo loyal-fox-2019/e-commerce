@@ -4,7 +4,6 @@ const User = require('../model/user');
 
 class TransactionController {
     static checkoutCart(req, res, next) {
-
         Item.findOne({
             _id: req.body.data.item._id
         }).then(responseItem => {
@@ -48,7 +47,7 @@ class TransactionController {
                 }
             })
         }).then(responseUpdateUser => {
-            res.status(200).json({
+            res.status(201).json({
                 message: "Transaction created",
             });
         }).catch(next);
@@ -66,6 +65,19 @@ class TransactionController {
                 data: response
             })
         }).catch(next)
+    }
+
+    static getTransactionsPurchase(req, res, next) {
+        Transaction.find({
+            user: req._id
+        })
+            .populate('user', 'name')
+            .then(response => {
+                res.status(200).json({
+                    data: response
+                });
+            })
+            .catch(next)
     }
 }
 

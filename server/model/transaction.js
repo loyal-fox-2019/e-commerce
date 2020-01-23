@@ -25,7 +25,7 @@ const transactionSchema = new Schema({
     createdAt: {
         type: Date,
         required: [true, "transaction date required"]
-    }
+    },
 });
 
 const Transaction = model('Transaction', transactionSchema);

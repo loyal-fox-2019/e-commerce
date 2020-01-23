@@ -10,7 +10,7 @@
                     Add Item
                 </sui-dropdown-item>
                 <sui-dropdown-item>
-                    <sui-icon name="process"/>
+                    <sui-icon name="list"/>
                     <router-link to="/transactions">Transactions</router-link>
                 </sui-dropdown-item>
                 <sui-dropdown-item @click="logout">

@@ -6,5 +6,6 @@ router.use(checkToken);
 
 router.post('/checkout', transactionController.checkoutCart);
 router.patch('/done/:id', transactionController.updateStatus);
+router.get('/purchased', transactionController.getTransactionsPurchase);
 
 module.exports = router;
