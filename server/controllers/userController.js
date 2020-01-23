@@ -20,7 +20,11 @@ class UserController {
             res.status(201).json({token, username: payload.name})
         })
         .catch(err=>{
-            console.log(err);
+            let errors = []
+            for(let key in err.errors){
+                errors.push(err.errors[key].message);          
+            }
+            res.status(400).json({errors})
         })
     }
 

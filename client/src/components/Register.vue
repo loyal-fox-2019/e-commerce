@@ -85,10 +85,14 @@ export default {
                 this.$router.push('/')
             })
             .catch(err=>{
+                let errMessage = ''
+                for(let message of err.response.data.errors){
+                    errMessage += `${message}<br>`
+                }   
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: err.response.data.message,
+                    html: errMessage,
                 })    
             })
         }

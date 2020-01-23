@@ -17,8 +17,7 @@
       <b-carousel-slide>
         <template v-slot:img>
             <img class="d-block img-fluid w-100"
-                width="1024"
-                src="https://picsum.photos/1024/480/?image=52"
+                src="https://image.shutterstock.com/image-vector/tiny-people-customers-bags-shopping-260nw-1331333954.jpg"
                 alt="image"
             >
         </template>
@@ -28,8 +27,7 @@
       <b-carousel-slide>
         <template v-slot:img>
             <img class="d-block img-fluid w-100 carousel-img"
-                width="1024"
-                src="https://picsum.photos/1024/480/?image=54"
+                src="https://image.shutterstock.com/image-vector/long-banner-sale-discount-offer-260nw-1334522027.jpg"
                 alt="image"
             >
         </template>
@@ -39,8 +37,7 @@
       <b-carousel-slide>
         <template v-slot:img>
             <img class="d-block img-fluid w-100 carousel-img"
-                width="1024"
-                src="https://picsum.photos/1024/480/?image=58"
+                src="http://www.ittybittyfashiontruck.com/files/block/bImgURL/size1180x1180/IttyBitty_shop_header.jpg"
                 alt="image"
             >
         </template>
@@ -52,9 +49,7 @@
         <template v-slot:img>
           <img
             class="d-block img-fluid w-100 carousel-img"
-            width="1024"
-            height="200"
-            src="https://picsum.photos/1024/480/?image=55"
+            src="https://images.squarespace-cdn.com/content/v1/539f41eee4b01c7e0bff79af/1510267752384-H8LCEPHW4LRYJ29AJASR/ke17ZwdGBToddI8pDm48kMNvsYmIKFMCqwypomgwzC4UqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKcPqiCb34ugAnC7oXvftqpeEhiUXVe85BYsCz0cw5pb7_TRyiYD8tQNNz7bkao0c5o/skipper-dipper-lbi-shop-header.png"
             alt="image slot"
           >
         </template>
@@ -83,8 +78,8 @@
   }
 </script>
 
-<style>
-    .carousel-img {
-        height: 20vh;
+<style scoped>
+    img{
+        height: 40vh;
     }
 </style>

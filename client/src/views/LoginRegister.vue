@@ -51,7 +51,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   #container {
     height: 100vh;
     background-color: rgb(255, 255, 255);

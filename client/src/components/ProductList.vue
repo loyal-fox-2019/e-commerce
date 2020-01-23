@@ -1,35 +1,37 @@
 <template>
-    <div class="card col-sm-4 col-md-4 col-lg-3 col-xl-2 p-2 my-2">
-        <img class="card-img-top rounded" v-bind:src="item.picture" alt="Card image cap">
-        <div class="card-body pt-2 px-1">
-            <h5 class="card-title">{{ item.name }}</h5>
-            <p class="card-text">
-                <i class="fas fa-money-bill-wave"> {{ rupiahPrice }}</i>
-            </p>
-            <div class="row mt-4">
-                <div class="col-1" id="box-image">
-                    <i class="fas fa fa-store-alt"></i>
+    <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 mt-3">
+        <div class="card p-2">
+            <img class="card-img-top rounded" v-bind:src="item.picture" alt="Card image cap">
+            <div class="card-body pt-2 px-1 mt-2">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">
+                    <i class="fas fa-money-bill-wave"></i> {{ rupiahPrice }}
+                </p>
+                <div class="row mt-4">
+                    <div class="col-1" id="box-image">
+                        <i class="fas fa fa-store-alt"></i>
+                    </div>
+                    <div class="col-10 seller">
+                        Seller: {{ item.userOwner.name }}
+                    </div>
                 </div>
-                <div class="col-10 seller">
-                    Seller: {{ item.userOwner.name }}
+                <div class="row mt-2">
+                    <div class="col-1" id="box-image">
+                        <i class="fas fa-lg fa-box-open"></i>
+                    </div>
+                    <div class="col-7" id="stock">
+                        Stock: {{ item.stock }}
+                    </div>
+                    <div class="col-1">
+                        <i class="fas fa-lg fa-info-circle"></i>
+                    </div>
+                    <!-- <div class="col-1">
+                        <i class="fas fa-lg fa-cart-arrow-down"></i><input type="number" v-model="quantity" min="1" :max="item.stock">
+                    </div> -->
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="col-1" id="box-image">
-                    <i class="fas fa-lg fa-box-open"></i>
-                </div>
-                <div class="col-7" id="stock">
-                    Stock: {{ item.stock }}
-                </div>
-                <div class="col-1">
-                    <i class="fas fa-lg fa-info-circle"></i>
-                </div>
-                <!-- <div class="col-1">
-                    <i class="fas fa-lg fa-cart-arrow-down"></i><input type="number" v-model="quantity" min="1" :max="item.stock">
-                </div> -->
-            </div>
-        </div>
-    </div>                      
+        </div>   
+    </div>                   
 </template>
 
 <script>
@@ -61,6 +63,10 @@ export default {
 
 <style scoped>
 
+.card-text {
+    font-weight: bold;
+}
+
 h5 {
     font-weight: bold;
 }
@@ -76,6 +82,18 @@ h5 {
     font-size: 14px;
 }
 
+.fa-store-alt {
+    color: rgb(75, 158, 54);
+}
+
+.fa-box-open {
+    color: rgb(75, 158, 54);
+}
+
+.fa-money-bill-wave {
+    color: rgb(75, 158, 54);
+}
+
 .fa-info-circle {
     color: rgb(56, 75, 185);
 }
@@ -88,6 +106,12 @@ h5 {
 .fa-info-circle:active {
     filter: brightness(100%);
     cursor: pointer;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 12vw;
+    object-fit: cover;
 }
 
 </style>
