@@ -28,6 +28,11 @@ const userSchema = new Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Min length of password is 6 characters'],
   },
+  roles: {
+    type: String,
+    enum: ['admin', 'user'],
+    default: 'user',
+  },
 })
 
 userSchema.post('validate', function(user) {

@@ -22,4 +22,12 @@ module.exports = {
       next(err)
     }
   },
+  authorizeAdmin: function(req, res, next) {
+    User.findOne({ _id: req.payload.id })
+      .then(user => {
+        if (user.roles === 'admin') next()
+        else throw { name: 'NotAuthorize', message: 'You are not authorize' }
+      })
+      .catch(next)
+  },
 }
