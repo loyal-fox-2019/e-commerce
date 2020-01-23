@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="light" variant="light">
-      <b-navbar-brand to="/">CS.SKINS</b-navbar-brand>
+      <b-navbar-brand to="/">CS-SKINS</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -58,9 +58,9 @@
                       </tbody>
                     </table>
                     <div class="text-right" id="total">
-                      <h4>
+                      <!-- <h4>
                         Total: {{ $store.getters.totalPrice }}
-                      </h4>
+                      </h4> -->
                     </div>
                     <div class="text-right"
                       v-if="!$store.state.myCart.checkout">
@@ -304,12 +304,11 @@ export default {
       this.errorList = null;
       this.activeForm = value;
     },
-    showFeedback({ suggestions, warning }) {
-      console.log('🙏', suggestions);
-      console.log('⚠', warning);
+    showFeedback() {
+      //
     },
-    showScore(score) {
-      console.log('💯', score);
+    showScore() {
+      //
     },
     async onSuccess(googleUser) {
       const idToken = googleUser.getAuthResponse().id_token;
@@ -462,5 +461,8 @@ h2 {
   padding: 0;
   position: relative;
   left: 24%;
+}
+#modal-login {
+  overflow-x: hidden;
 }
 </style>

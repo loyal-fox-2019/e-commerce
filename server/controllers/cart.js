@@ -117,7 +117,7 @@ class CartController {
     try {
       const { customerId } = req.params;
       await Cart.deleteOne({ customerId });
-      await Order.updateOne({ customerId }, { $set: { delivered: true } });
+      const response = await Order.updateOne({ customerId, delivered: false }, { $set: { delivered: true } });
       res.status(200).json({ message: 'Thanks for choosing us, GL HF!' });
     } catch (err) {
       next(err)
