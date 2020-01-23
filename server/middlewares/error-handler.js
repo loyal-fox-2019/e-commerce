@@ -16,6 +16,10 @@ module.exports = function(err, req, res, next) {
       res.status(404).json({ errors: err.message })
       break
 
+    case 'NotAuthorize':
+      res.status(401).json({ errors: err.message })
+      break
+
     default:
       res.status(500).json(err)
       break
