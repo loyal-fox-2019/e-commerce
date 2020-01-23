@@ -1,10 +1,8 @@
 <template>
     <div class="suiCard">
         <sui-card>
-            <sui-dimmer-dimmable
-                    @mouseenter.native="cardOneActive = true"
-                    @mouseleave.native="cardOneActive = false">
-                <sui-image :src="data.image" class="suiCardImage"/>
+            <sui-dimmer-dimmable @mouseenter.native="cardOneActive = true" @mouseleave.native="cardOneActive = false">
+                <sui-image :src="data.image" class="suiCardImage"></sui-image>
                 <sui-dimmer blurring :active="cardOneActive">
                     <sui-button inverted @click.prevent="toggle">
                         Details
@@ -48,8 +46,17 @@
         },
         computed: {
             price() {
-                this.$store.dispatch('currencyFormat', this.data.price);
-                return this.$store.getters.currency
+                let segment = [];
+                let n = [];
+                let priceReverse = "0" + this.data.price.toString().split("").reverse().join("");
+                for (let i = 1; i <= priceReverse.length + 1; i++) {
+                    n.unshift(priceReverse[i])
+                    if (i % 3 === 0) {
+                        segment.unshift(n.join(""));
+                        n = [];
+                    }
+                }
+                return segment.join(".");
             }
         },
         components: {

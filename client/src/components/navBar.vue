@@ -1,5 +1,5 @@
 <template>
-    <sui-menu attached="top">
+    <sui-menu attached="top" id="navbar">
         <sui-menu-menu>
             <sui-menu-item>
                 <router-link to="/">
@@ -8,7 +8,7 @@
                 </router-link>
             </sui-menu-item>
         </sui-menu-menu>
-        <sui-menu-item>
+        <sui-menu-item id="search">
             <search/>
         </sui-menu-item>
         <sui-menu-menu position="right">
@@ -83,5 +83,7 @@
 </script>
 
 <style scoped>
-
+    #search{
+        background-color: white;
+    }
 </style>

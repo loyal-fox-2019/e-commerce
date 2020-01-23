@@ -98,8 +98,6 @@ class UserController {
             req._id
         ).populate(
             'cart.item'
-        ).populate(
-            'cart.item.owner'
         ).then(response => {
             res.status(200).json({
                 data: response

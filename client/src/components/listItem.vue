@@ -1,9 +1,9 @@
 <template>
-    <div id="listItem">
+    <sui-segment id="listItem">
         <sui-card-group>
-            <card v-for="item in items" :key="item._id" :data="item"/>
+            <card id="card-item" v-for="(item, index) in listItem" :key="index" :data="item"/>
         </sui-card-group>
-    </div>
+    </sui-segment>
 </template>
 
 <script>
@@ -13,24 +13,14 @@
         name: "listItem",
         data() {
             return {
-                items: null
+                items: ""
             }
         },
-        methods: {
+        computed: {
             listItem() {
-                this.$axios({
-                    method: 'get',
-                    url: '/api/items'
-                }).then(response => {
-                    console.log(response.data.data);
-                    this.items = response.data.data
-                }).catch(err => {
-                    console.log(err.response);
-                })
+                this.$store.dispatch('getListItems');
+                return this.$store.getters.itemList;
             }
-        },
-        mounted() {
-            this.listItem()
         },
         components: {
             card

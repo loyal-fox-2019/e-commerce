@@ -2,7 +2,11 @@
     <sui-form id="sui-form" @submit.prevent="addItem">
         <sui-form-field>
             <label>Name</label>
-            <input placeholder="Item Name" v-model="itemName" required>
+            <input placeholder="Item Name"
+                   v-model="itemName"
+                   required
+                   minlength="3"
+                   maxlength="100">
         </sui-form-field>
         <sui-form-field>
             <label>Stock</label>
@@ -18,7 +22,11 @@
         </sui-form-field>
         <sui-form-field>
             <label>Description</label>
-            <textarea placeholder="Item description" v-model="itemDescription" required/>
+            <textarea placeholder="Item description"
+                      v-model="itemDescription"
+                      required
+                      minlength="15"
+                      maxlength="500"/>
         </sui-form-field>
         <sui-button type="submit" primary>Submit</sui-button>
     </sui-form>
@@ -27,7 +35,7 @@
 <script>
     export default {
         name: "addItem",
-        data(){
+        data() {
             return {
                 itemName: null,
                 itemStock: null,
@@ -37,7 +45,7 @@
             }
         },
         methods: {
-            addItem(){
+            addItem() {
                 this.$dialog
                     .confirm('Save data ?')
                     .then(dialog => {
@@ -53,27 +61,28 @@
                             },
                             headers: {token: localStorage.getItem('token')}
                         }).then(response => {
-                            console.log(response.data);
+                            // console.log(response.data);
+                            this.$store.dispatch('getListItems');
                             this.$toast.success({
                                 title: 'Success',
                                 message: response.data.message
                             });
                             dialog.close();
                         }).catch(err => {
-                            console.log(err.response);
+                            // console.log(err.response);
                             this.$toast.error({
                                 title: 'Error',
-                                message: 'Item failed add to cart'
+                                message: err.response.data.errMsg
                             });
                             dialog.close();
                         })
                     })
-                .catch(err => {
-                    this.$toast.info({
-                        title: 'Cancel',
-                        message: 'Add item cancel'
-                    });
-                })
+                    .catch(err => {
+                        this.$toast.info({
+                            title: 'Cancel',
+                            message: 'Add item cancel'
+                        });
+                    })
             }
         }
     }

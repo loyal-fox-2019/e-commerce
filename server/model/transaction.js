@@ -10,34 +10,17 @@ const transactionSchema = new Schema({
         type: String,
         required: [true, 'transaction status required']
     },
-    item: {
-        seller: {
-            type: String,
-            required: [true, 'seller name required']
-        },
-        name: {
-            type: String,
-            required: [true, 'item name required']
-        },
-        price: {
-            type: Number,
-            required: [true, 'item price required']
-        },
-        description: {type: String},
-        amount: {
-            type: Number,
-            required: [true, 'item amount required'],
-            default: 0
-        }
+    itemDetails: {
+        type: Object,
+        required: [true, 'Item details required']
+    },
+    itemAmount: {
+        type: Number,
+        required: [true, 'Item amount required']
     },
     totalPrice: {
         type: Number,
-        required: [true, 'totalPaid required'],
-        default: 0
-    },
-    paidType: {
-        type: String,
-        required: [true, "Paid type required"]
+        required: [true, 'Total price required']
     },
     createdAt: {
         type: Date,

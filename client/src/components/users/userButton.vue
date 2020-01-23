@@ -9,6 +9,10 @@
                     <sui-icon name="edit"/>
                     Add Item
                 </sui-dropdown-item>
+                <sui-dropdown-item>
+                    <sui-icon name="process"/>
+                    <router-link to="/transactions">Transactions</router-link>
+                </sui-dropdown-item>
                 <sui-dropdown-item @click="logout">
                     <sui-icon name="logout"/>
                     Logout
@@ -65,7 +69,7 @@
             },
             toggle() {
                 this.open = !this.open;
-            },
+            }
         },
         mounted() {
             this.setName();
@@ -79,6 +83,7 @@
 <style scoped>
     #suiButtonUser {
         background-color: #fff;
+        margin-right: 25px;
     }
 
     /*.userIcon {*/

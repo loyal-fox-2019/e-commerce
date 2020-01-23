@@ -15,7 +15,7 @@
                 </p>
             </div>
             <div class="extra">
-                <sui-button icon="check" basic primary/>
+                <sui-button icon="check" basic primary @click="checkout"/>
                 <sui-button icon="remove" basic negative @click="removeFromCart"/>
             </div>
         </div>
@@ -26,12 +26,14 @@
     export default {
         name: "chartList",
         props: {
-            data: Object,
-            index: Number
+            data: Object
         },
         methods: {
             removeFromCart() {
                 this.$emit('remove', this.data._id)
+            },
+            checkout(){
+                this.$emit('checkout', this.data)
             }
         },
         computed: {

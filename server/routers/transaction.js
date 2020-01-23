@@ -5,6 +5,6 @@ const checkToken = require('../middleware/checkToken');
 router.use(checkToken);
 
 router.post('/checkout', transactionController.checkoutCart);
-router.patch('/done', transactionController.updateStatus);
+router.patch('/done/:id', transactionController.updateStatus);
 
 module.exports = router;

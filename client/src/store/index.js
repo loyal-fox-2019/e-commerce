@@ -1,5 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+
+const prod = 'http://34.66.28.216';
+const dev = 'http://localhost:3000';
+
+const base = axios.create({
+    baseURL: dev
+});
+
+Vue.prototype.$axios = base;
 
 Vue.use(Vuex);
 
@@ -7,7 +17,8 @@ export default new Vuex.Store({
     state: {
         cart: [],
         tempCart: {},
-        currency: ''
+        currency: '',
+        listItem: []
     },
     mutations: {
         addItemToCart(state, payload) {
@@ -31,8 +42,10 @@ export default new Vuex.Store({
                 }
             }
             state.currency = segment.join(".");
+        },
+        getListItems(state, payload){
+            state.listItem = payload
         }
-
     },
     actions: {
         addItemToCart(context, payload) {
@@ -46,6 +59,17 @@ export default new Vuex.Store({
         },
         currencyFormat(context, payload){
             context.commit('currencyFormat', payload)
+        },
+        getListItems(context){
+            axios({
+                method: 'get',
+                url: `${dev}/api/items`
+            }).then(response => {
+                // console.log(response.data.data);
+                context.commit('getListItems', response.data.data);
+            }).catch(err => {
+                console.log(err.response);
+            })
         }
     },
     modules: {},
@@ -58,6 +82,9 @@ export default new Vuex.Store({
         },
         currency: state => {
             return state.currency
+        },
+        itemList: state => {
+            return state.listItem
         }
     }
 })

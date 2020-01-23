@@ -1,27 +1,63 @@
 const Transaction = require('../model/transaction');
+const Item = require('../model/item');
+const User = require('../model/user');
 
 class TransactionController {
     static checkoutCart(req, res, next) {
-        Transaction.create({
-            user: req.userId,
-            status: 'paid',
-            item: req.body.item,
-            totalPrice: req.body.totalPrice,
-            paidType: req.body.paidType,
-            createdAt: new Date()
+
+        Item.findOne({
+            _id: req.body.data.item._id
+        }).then(responseItem => {
+            if (responseItem) {
+                if (responseItem.stock >= req.body.data.stock) {
+                    req.stockItem = responseItem.stock;
+                    return Transaction.create({
+                        user: req._id,
+                        status: 'paid',
+                        itemDetails: responseItem,
+                        itemAmount: req.body.data.stock,
+                        totalPrice: req.body.data.totalPrice,
+                        createdAt: new Date()
+                    });
+                } else {
+                    throw ({
+                        code: 400,
+                        errMsg: `Stock item not enough, max ${responseItem.stock}`
+                    })
+                }
+            } else {
+                throw ({
+                    code: 404,
+                    errMsg: 'Item'
+                })
+            }
         }).then(response => {
-            console.log(response);
+            return Item.updateOne({
+                _id: req.body.data.item._id
+            }, {
+                stock: (req.stockItem - req.body.data.stock)
+            })
+        }).then(responseUpdateStock => {
+            return User.updateOne({
+                _id: req._id
+            }, {
+                $pull: {
+                    cart: {
+                        _id: req.body.data._id
+                    }
+                }
+            })
+        }).then(responseUpdateUser => {
             res.status(200).json({
                 message: "Transaction created",
-                data: response
-            })
-        }).catch(next)
+            });
+        }).catch(next);
     }
 
     static updateStatus(req, res, next) {
         Transaction.updateOne({
             _id: req.params.id
-        },{
+        }, {
             status: 'done',
         }).then(response => {
             console.log(response);

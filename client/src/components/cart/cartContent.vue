@@ -10,6 +10,7 @@
                             v-for="(cart,index) in carts"
                             :data="cart"
                             :index="index"
+                            @checkout="checkout"
                             @remove="removeFromCart"/>
                 </sui-item-group>
             </sui-grid-column>
@@ -36,7 +37,7 @@
                         token: localStorage.getItem('token')
                     }
                 }).then(response => {
-                    this.carts = response.data.data.cart
+                    this.carts = response.data.data.cart;
                 }).catch(err => {
                     console.log(err.response)
                 })
@@ -48,9 +49,6 @@
                         this.$axios({
                             method: 'delete',
                             url: `/api/users/cart/${id}`,
-                            data: {
-                                cart: this.carts
-                            },
                             headers: {
                                 token: localStorage.getItem('token')
                             }
@@ -63,7 +61,7 @@
                             });
                             dialog.close();
                         }).catch(err => {
-                            console.log(err.response)
+                            console.log(err.response);
                             this.$toast.error({
                                 title: 'Error',
                                 message: 'Item failed to remove from cart'
@@ -71,12 +69,47 @@
                             dialog.close();
                         })
                     })
-                .catch(err => {
-                    this.$toast.info({
-                        title: 'Cancel',
-                        message: 'Canceled remove the item from cart'
-                    });
-                })
+                    .catch(err => {
+                        this.$toast.info({
+                            title: 'Cancel',
+                            message: 'Canceled remove the item from cart'
+                        });
+                    })
+            },
+            checkout(data) {
+                this.$dialog
+                    .confirm("Checkout item from cart ?")
+                    .then(dialog => {
+                        this.$axios({
+                            method: 'post',
+                            url: '/api/transactions/checkout',
+                            data: {data: data},
+                            headers: {
+                                token: localStorage.getItem('token')
+                            }
+                        }).then(response => {
+                            console.log({response});
+                            this.listOfCart();
+                            this.$toast.info({
+                                title: 'Cancel',
+                                message: response.data.message
+                            });
+                            dialog.close();
+                        }).catch(err => {
+                            console.log(err.response);
+                            this.$toast.error({
+                                title: 'Error',
+                                message: err.response.data.errMsg
+                            });
+                            dialog.close();
+                        });
+                    })
+                    .catch(err => {
+                        this.$toast.info({
+                            title: 'Cancel',
+                            message: 'Canceled checkout the item from cart'
+                        });
+                    })
             }
         },
         mounted() {
