@@ -46,7 +46,8 @@
         name: "itemDetailModal",
         data() {
             return {
-                itemStock: 1
+                itemStock: 1,
+                userId: ""
             }
         },
         props: {
@@ -71,7 +72,8 @@
                 }).then(response => {
                     response.data.data.cart.forEach(item => {
                         this.$store.dispatch('addItemToCart', item._id);
-                    })
+                    });
+                    this.userId = response.data.data._id
                 }).catch(err => {
                     console.log(err.response)
                 })
@@ -91,7 +93,6 @@
                             price: this.data.price
                         };
                         this.$store.dispatch('addItemToTempCart', dataCart);
-
                         this.$axios({
                             method: 'patch',
                             url: '/api/users/cart',
@@ -108,7 +109,8 @@
                             console.log(err.response);
                             this.$toast.error({
                                 title: 'Error',
-                                message: 'Item failed add to cart'
+                                // message: 'Item failed add to cart'
+                                message: err.response.data.errMsg
                             });
                             dialog.close();
                         })
@@ -139,15 +141,14 @@
                 return segment.join(".");
             },
             isItemCarted() {
-                let n = this.$store.getters.cartList.indexOf(this.data._id);
-                if (n >= 0) {
+                if (this.data.owner._id === this.userId) {
                     return "disabled"
                 } else {
                     return "primary"
                 }
             }
         },
-        created() {
+        mounted() {
             this.viewUser();
         },
         components: {

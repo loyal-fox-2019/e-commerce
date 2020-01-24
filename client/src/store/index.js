@@ -16,7 +16,8 @@ export default new Vuex.Store({
         cart: [],
         tempCart: {},
         currency: '',
-        listItem: []
+        listItem: [],
+        isLoading: 'loading'
     },
     mutations: {
         addItemToCart(state, payload) {
@@ -43,6 +44,9 @@ export default new Vuex.Store({
         },
         getListItems(state, payload) {
             state.listItem = payload
+        },
+        setLoading(state, payload){
+            state.isLoading = payload
         }
     },
     actions: {
@@ -72,6 +76,7 @@ export default new Vuex.Store({
             }).then(response => {
                 // console.log(response.data.data);
                 context.commit('getListItems', response.data.data);
+                context.commit('setLoading', '')
             }).catch(err => {
                 console.log(err.response);
             })
@@ -90,6 +95,9 @@ export default new Vuex.Store({
         },
         itemList: state => {
             return state.listItem
+        },
+        loadingIs: state => {
+            return state.isLoading
         }
     }
 })

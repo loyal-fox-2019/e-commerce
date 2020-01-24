@@ -3,12 +3,19 @@
         <sui-grid :columns="1">
             <sui-grid-column>
                 <h1>Transactions Lists</h1>
-                <sui-item-group divided>
-                    <transaction-list
-                            v-for="(purchased,index) in purchasingData"
-                            :data="purchased"
-                            :index="index"/>
-                </sui-item-group>
+                <sui-tab>
+                    <sui-tab-pane title="Purchasing" :class="isLoading">
+                        <sui-item-group divided>
+                            <transaction-list
+                                    v-for="(purchased,index) in purchasingData"
+                                    :data="purchased"
+                                    :index="index"/>
+                        </sui-item-group>
+                    </sui-tab-pane>
+                    <sui-tab-pane title="Selling">
+                        Selling
+                    </sui-tab-pane>
+                </sui-tab>
             </sui-grid-column>
         </sui-grid>
     </sui-card-content>
@@ -21,7 +28,8 @@
         name: "transactionsContent",
         data() {
             return {
-                purchasingData: []
+                purchasingData: [],
+                isLoading: 'loading'
             }
         },
         methods: {
@@ -33,7 +41,8 @@
                         token: localStorage.getItem('token')
                     }
                 }).then(response => {
-                    this.purchasingData = response.data.data
+                    this.purchasingData = response.data.data;
+                    this.isLoading = false
                 }).catch(err => {
                     console.log({err})
                 })
