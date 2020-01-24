@@ -2,8 +2,10 @@ const Product = require('../models/products')
 
 class ProductController{
     static findAll(req,res,next){
-        Product.find()
+      console.log('masuk server')
+        Product.find().populate('User', '-password')
           .then(result=>{
+            console.log(result,'ini result findall prod')
             res.status(200).json(result)
           })
           .catch(err=>{
@@ -12,9 +14,9 @@ class ProductController{
     }
     static findAllbyUser(req,res,next){
       // console.log(req.payload)
-        Product.find({UserId: req.payload._id})
+        Product.find({UserId: req.payload._id}).populate('User', '-password')
         .then(result=>{
-          // console.log(result)
+          console.log(result, 'find all by user')
           res.status(200).json(result)
         })
         .catch(err=>{
@@ -22,7 +24,7 @@ class ProductController{
         })
     }
     static create(req,res,next){
-        console.log(req.body, 'di create', req.payload)
+        // console.log(req.body, 'di create', req.payload)
         Product.create({
             name: req.body.name,
             description: req.body.description,
@@ -33,7 +35,7 @@ class ProductController{
           })
           .then(result=>{
             // const {_id, name, description, price, picture,createdAt,stock, seller} = result
-            console.log(result, 'ini result')
+            // console.log(result, 'ini result')
             res.status(201).json(result)
           })
           .catch(err=>{
@@ -42,10 +44,10 @@ class ProductController{
           })
     }
     static findOne(req,res,next){
-      // console.log('find one')
+      console.log('find one')
         Product.findOne({_id: req.params.productId})
           .then(product=>{
-            // console.log(product, 'find one')
+            console.log(product, 'find one')
             res.status(200).json(product)
           })
           .catch(err=>{
@@ -53,13 +55,15 @@ class ProductController{
           })
     }
     static delete(req,res,next){
+      console.log('masuk delete')
         Product.findOneAndDelete({_id: req.params.productId})
-          .then(res=>{
+          .then(result=>{
             res.status(200).json({
               message: 'product deleted'
             })
           })
           .catch(err=>{
+            console.log(err)
             res.status(200).json(err)
           })
     }
@@ -76,7 +80,7 @@ class ProductController{
             UserId: req.payload._id
           })
           .then(result=>{
-            // console.log(result, 'update route')
+            console.log(result, 'update route')
             res.status(200).json(result)
           })
           .catch(err=>{

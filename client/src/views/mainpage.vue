@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar></navbar>
+    <navbar :datas="productlist" v-on:searched-prod="computeProductList($event)"></navbar>
     <carousell></carousell>
     <div><h1>All Products </h1></div>
     <div class="container d-block mx-auto">
@@ -27,6 +27,11 @@ export default {
   data(){
     return{
       productlist: null,
+    }
+  },
+  methods:{
+    computeProductList(val){
+      this.productlist = val
     }
   },
   created(){

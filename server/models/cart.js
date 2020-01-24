@@ -22,10 +22,6 @@ const cartSchema = new Schema({
     }
 })
 
-cartSchema.pre('save', function(next){
-    this.products = []
-    next()
-})
 
 const Cart = mongoose.model('Cart', cartSchema)
 

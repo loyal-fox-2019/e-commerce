@@ -9,11 +9,9 @@ export default {
   name: 'app',
   mounted(){
     // console.log('mounted')
-    // if(localStorage.getItem('token')){
-    //   this.$router.replace('/')
-    // }else{
-    //   this.$router.replace('/login')
-    // }
+    if(!localStorage.getItem('token')){
+       this.$router.replace('/login')
+    }
   },
   components:{
   }

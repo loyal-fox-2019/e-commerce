@@ -40,6 +40,8 @@ export default {
             .then(({data})=>{
                 console.log(data)
                 localStorage.setItem('token', data.token)
+                localStorage.setItem('userId', data.payload._id)
+                localStorage.setItem('email', data.payload.email)
                 this.$router.push('/')
             })
             .catch(err=>{

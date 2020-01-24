@@ -5,7 +5,9 @@ module.exports = (req,res,next)=>{
     if(req.params.hasOwnProperty('productId')){
         Product.findOne({_id: req.params.productId})
         .then(product=>{
-            if(res.payload._id === product.UserId){
+            console.log(req.payload._id,'=====', product.UserId)
+            if(req.payload._id == product.UserId){
+                console.log('ga nyangkut')
                 next()
             }else{
                 res.status(401).json({

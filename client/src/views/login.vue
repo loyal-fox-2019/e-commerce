@@ -6,7 +6,8 @@
         <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
         <label for="inputPassword" class="sr-only">Password</label>
         <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+        <button class="btn btn-lg btn-primary btn-block" v-on:click.prevent="loginUser" type="submit">Log in</button>
+        <p><router-link :to="`/register`">Register Here</router-link></p>
         <p class="mt-5 mb-3 text-muted">© 2020-2021</p>
     </form>
 </template>
@@ -19,7 +20,7 @@ export default {
   data(){
     return{
       email: '',
-      passwprd: ''
+      password: ''
     }
   },
   methods:{
@@ -35,7 +36,12 @@ export default {
       })
       .then(({data})=>{
         localStorage.setItem('token', data.token)
+        localStorage.setItem('userId', data.payload._id)
+        localStorage.setItem('email', data.payload.email)
         this.$router.push('/')
+      })
+      .catch(err=>{
+        console.log(err)
       })
     }
   }

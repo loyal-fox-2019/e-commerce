@@ -25,7 +25,7 @@
                 variant="primary"
                 size="sm"
                 class="float-right"
-                v-on:click="newProduct"
+                v-on:click.prevent="newProduct"
                 @click="$bvModal.hide('bv-modal-newproduct')"
             >
                 Add Product

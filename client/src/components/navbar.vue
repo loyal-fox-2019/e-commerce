@@ -13,8 +13,8 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" placeholder="Search Products"></b-form-input>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+          <b-form-input size="sm" v-model="searchWord" class="mr-sm-2" placeholder="Search Products"></b-form-input>
+          <b-button size="sm" class="my-2 my-sm-0" type="submit" v-on:click.prevent="searchProduct">Search</b-button>
         </b-nav-form>
 
         <b-nav-item-dropdown right>
@@ -23,7 +23,7 @@
             <em>User</em>
           </template>
           <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+          <b-dropdown-item href="#" v-on:click.prevent="signOut">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -31,8 +31,46 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-    name: 'navbar'
+    name: 'navbar',
+    props: ['datas'],
+    data(){
+      return{
+        searchWord: '',
+        foundProducts: [],
+      }
+    },
+    methods:{
+      signOut(){
+        localStorage.removeItem('token')
+        localStorage.removeItem('userId')
+        localStorage.removeItem('email')
+        this.$router.replace('/login')
+      },
+      searchProduct(){
+        axios({
+          method: 'get',
+          url: 'http://localhost:3000/product',
+          headers:{
+            token: localStorage.getItem('token')
+          }
+        })
+        .then(({data})=>{
+          console.log(data, 'ini data di search prod')
+          this.foundProducts=[]
+          data.forEach(item=>{
+            if(item.name.includes(this.searchWord)){
+              this.foundProducts.push(item)
+            }
+          })
+          this.$emit('searched-prod', this.foundProducts)
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+      }
+    }
 }
 </script>
 

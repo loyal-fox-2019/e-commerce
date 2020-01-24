@@ -7,8 +7,8 @@
         <h5 class="card-title">{{ data.name }}</h5>
         <h6>Rp {{ data.price }}</h6>
         <h6>Available Stock: {{ data.stock }}</h6>
-        <h6>Seller: {{ data.seller }}</h6>
-        <p class="card-text">{{ data.description }}</p>
+        <!-- <h6>Seller: {{ data.seller }}h</h6> {{data.seller}} -->
+        <p class="card-text">Description: {{ data.description }}</p>
         <router-link :to="`/product/${data._id}`">product details</router-link>
       </div>
     </div>

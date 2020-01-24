@@ -3,7 +3,7 @@
       <navbar></navbar>
       <addnewproduct v-on:created-product="addNewProduct($event)"></addnewproduct>
       <div class="row justify-content-center">
-          <productlist class="col-sm-4" v-for="item in userProducts" :key="item._id" :data="item"></productlist>
+          <productlist class="col-sm-4" v-for="item in userProducts" :key="item._id" :data="item" ></productlist>
       </div>
       
   </div>

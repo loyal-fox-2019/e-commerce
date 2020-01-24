@@ -1,24 +1,6 @@
 <template>
   <div>
     <navbar></navbar>
-    <!-- <div class="jumbotron jumbotron-fluid" :style="`background-image:url(${productData.picture});`">
-        <div class="container" >
-            <h1 class="display-4">Fluid jumbotron</h1>
-            <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-        </div>
-    </div> -->
-    <!-- <div class="row justify-content-around">
-        <div class="col-sm-6" :style="`background-image:url(${productData.picture});`"></div>
-        <div class="col-sm-6">
-            <h5>Product Name: {{ productData.name }}</h5>
-            <h6>Price: {{ productData.price }}</h6>
-            <p>Description: {{ productData.description }}</p>
-            <p>In Stock: {{ productData.stock }}</p>
-            <div class="flex align-item-center">
-                <b-form-input type="number" style="width: 200px;"></b-form-input><b-button variant="success">Add to Cart</b-button>
-            </div>
-        </div>
-    </div> -->
     <div class="container">
         <div class="row" style="background: yellow;border-radius:15px;margin-top: 9vh;">
             <div class="col-sm-4">
@@ -56,10 +38,46 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-                        <input type="number" style="width: 200px;">
+                        <input v-if="productData.UserId!=userId" type="number" v-model="qty" style="width: 200px;">
                     </div>
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-warning" v-on:click="addToCart">Add To Cart</button>
+                        <button type="button" class="btn btn-success" v-on:click.prevent="deleteProduct" v-if="productData.UserId==userId">Delete Product</button>
+                        <b-button 
+                        @click="$bvModal.show(`${productData._id}`)"
+                        v-b-modal.modal-center 
+                        type="button" class="btn btn-success" 
+                        v-if="productData.UserId==userId">Update Product</b-button>
+                        <button type="button" class="btn btn-outline-warning" v-on:click.prevent="addToCart" v-else>Add To Cart</button>
+                        <b-modal :id="`${productData._id}`" centered title="BootstrapVue">
+                            
+                            <form method="post" enctype="multipart/form-data">
+                                <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+                                <h1 class="h3 mb-3 font-weight-normal">Update Product</h1>
+                                <label for="inputUsername" class="sr-only">Product Name</label>
+                                <input v-model="productName" type="text" class="form-control" placeholder="Product's Name" required="" autofocus="">
+                                <label for="inputEmail" class="sr-only">Product Price</label>
+                                <input v-model="productPrice" type="number" class="form-control" placeholder="Product's Price" required="" autofocus="">
+                                <label for="description" class="sr-only">Product Description</label>
+                                <textarea v-model="productDescription"  name="" id="" cols="30" rows="10" placeholder="Product's Description"></textarea>
+                                <label for="tock" class="sr-only">Product In Stock</label>
+                                <input v-model="productStock" type="number" class="form-control" placeholder="Product's Stock" required="" autofocus="">
+                                <input v-on:change="uploadPicture" type="file" name="file" />
+                            </form>
+                            <template v-slot:modal-footer>
+                                <div class="w-100">
+                                <b-button
+                                    variant="primary"
+                                    size="sm"
+                                    class="float-right"
+                                    v-on:click="updateProduct" 
+                                    @click="$bvModal.hide(`${productData._id}`)"
+                                >
+                                    Update Product
+                                </b-button>
+                                </div>
+                            </template>
+
+                        </b-modal>
                     </div>
                 </div>
             </div>
@@ -78,12 +96,79 @@ export default {
     },
     data(){
         return{
-            productData: null
+            productName: '',
+            productPrice: 0,
+            productData: {},
+            productDescription: '',
+            productStock: 0,
+            productPicture: '',
+            qty: 0,
+            userId: localStorage.getItem('userId')
         }
     },
     computed: {
         productId(){
             return this.$route.params.id
+        }
+    },
+    methods:{
+        uploadPicture(){
+           this.productPicture = event.target.files[0]
+        },
+        updateProduct(){
+            const formData = new FormData()
+            formData.append('name', this.productName)
+            formData.append('description', this.productDescription)
+            formData.append('stock', this.productStock)
+            formData.append('picture', this.productPicture)
+            formData.append('price', this.productPrice)
+            axios({
+                method: 'put',
+                url: `http://localhost:3000/product/${this.productId}`,
+                headers:{
+                    token: localStorage.getItem('token')
+                },
+                data:formData
+            })
+            .then(({data})=>{
+                console.log(data)
+                this.$router.push('/user/products')
+            })
+        },
+        addToCart(){
+            axios({
+                method: 'post',
+                url: `http://localhost:3000/cart/${this.productData._id}`,
+                headers:{
+                    token: localStorage.getItem('token')
+                },
+                data:{
+                    Quantity: this.qty
+                }
+            })
+            .then(({data})=>{
+                console.log(data)
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        },
+        deleteProduct(){
+            console.log('masuk delete')
+            axios({
+                method: 'delete',
+                url: `http://localhost:3000/product/${this.productId}`,
+                headers:{
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then(({data})=>{
+                this.$router.push('/user/products')
+                console.log(data.message)
+            })
+            .catch(err=>{
+                console.log(err)
+            })
         }
     },
     created(){
