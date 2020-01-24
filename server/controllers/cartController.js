@@ -1,9 +1,21 @@
 const Cart = require('../models/cart')
 
 class CartController{
+    static create(req,res,next){
+        Cart.create({
+            UserId: req.payload._id,
+            productId: req.params.productId,
+            Quantity: req.body.Quantity,
+            isCheckOut: false
+        })
+        .then(result=>{
+            res.status(200).json(result)
+        })
+        .catch(err=>{
+            res.status(400).json(err)
+        })
+    }
     static findOne(req,res,next){
-        console.log('find one cart')
-        console.log(req.payload)
         Cart.findOne({UserId: req.payload._id}).populate('Cart')
         .then(cart=>{
             console.log(cart)
@@ -34,13 +46,13 @@ class CartController{
         })
     }
     static decrement(req,res,next){
-
+        //perlufind by userid dan product id trus update aja
     }
     static addProduct(req,res,next){
-
+        //perlufind by userid dan product id trus update aja
     }
     static checkoutCart(req,res,next){
-
+        //perlufind by userid dan product id trus update aja
     }
 }
 

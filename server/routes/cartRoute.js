@@ -11,7 +11,7 @@ const authorization = require('../middlewares/authorization')
  * jangan lupa req cart user waktu login nanti idnya dipake untuk cari cart
  * cart yang di client pas logout jangan lupa di clear supaya gabisa dliat org lain
  */
-
+router.post('/:productId', authenticate, CartController.create)
  router.get('/', authenticate, CartController.findOne)
  router.patch('/increment/:cartId', authenticate, CartController.increment)
  router.patch('/decrement/:cartId', CartController.decrement)

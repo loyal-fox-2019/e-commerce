@@ -15,6 +15,10 @@ const cartSchema = new Schema({
     Quantity:{
         type: Number,
         required: true
+    },
+    isCheckOut:{
+        type: Boolean,
+        required: true
     }
 })
 

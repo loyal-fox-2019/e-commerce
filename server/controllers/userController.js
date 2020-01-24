@@ -16,14 +16,9 @@ class UserController{
         })
         .then(result=>{
             user = result
-            return Cart.create({ UserId: user._id })
-        })
-        .then(result=>{
-            // console.log(user)
             let payload={
                 _id: user._id,
-                email: user.email,
-                cartId: result._id
+                email: user.email
             }
             const token = GenerateToken(payload)
             res.status(201).json({
@@ -32,8 +27,6 @@ class UserController{
             })
         })
         .catch(err=>{
-            // console.log(err.message)
-            // if(err.message==)
             res.status(400).json(err.message)
         })
     }
@@ -49,8 +42,15 @@ class UserController{
                     
                     if(compared){
                         user = result
-                        // console.log(user._id, 'UserId')
-                        return Cart.findOne({UserId: user._id})
+                        let payload={
+                            _id: user._id,
+                            email: user.email
+                        }
+                        const token = GenerateToken(payload)
+                        res.status(200).json({
+                            token,
+                            payload
+                        })
                     }else{
                         res.status(400).json({
                             message: 'wrong username/password'
@@ -61,19 +61,6 @@ class UserController{
                         message: "user's not registered"
                     })
                 }
-            })
-            .then(cart=>{
-                // console.log(cart,'login cart')
-                let payload={
-                    _id: user._id,
-                    email: user.email,
-                    cartId: cart._id
-                }
-                const token = GenerateToken(payload)
-                res.status(200).json({
-                    token,
-                    payload
-                })
             })
             .catch(err=>{
                 res.status(400).json(err)
