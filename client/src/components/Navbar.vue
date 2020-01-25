@@ -27,9 +27,20 @@
                 >
                   <font-awesome-icon :icon="['fas', 'shopping-cart']" />
                 </b-col>
-                <b-col cols="9" class="d-flex justify-content-around m-0 p-0">
-                  <login-btn-modal></login-btn-modal>
+                <b-col
+                  cols="9"
+                  class="d-flex justify-content-around m-0 p-0"
+                  v-if="!isLogin"
+                >
+                  <login-btn-modal @loggedIn="forceRerender"></login-btn-modal>
                   <register-btn-page :isBtn="true"></register-btn-page>
+                </b-col>
+                <b-col
+                  cols="9"
+                  class="d-flex justify-content-around m-0 p-0"
+                  v-else
+                >
+                  <user-popover @isLogout="forceRerender"></user-popover>
                 </b-col>
               </b-row>
             </b-col>
@@ -44,12 +55,32 @@
 import LoginBtnModal from "@/components/LoginBtnModal.vue";
 import RegisterBtnPage from "@/components/RegisterBtnPage.vue";
 import SearchBox from "@/components/SearchBox.vue";
+import UserPopover from "@/components/UserPopover.vue";
 
 export default {
   components: {
     LoginBtnModal,
     RegisterBtnPage,
-    SearchBox
+    SearchBox,
+    UserPopover
+  },
+  data() {
+    return {
+      isLogin: false
+    };
+  },
+  methods: {
+    forceRerender() {
+      this.isLogin = !this.isLogin;
+    }
+  },
+  computed: {
+    name() {
+      return localStorage.name;
+    }
+  },
+  created() {
+    this.isLogin = !!localStorage.name;
   }
 };
 </script>

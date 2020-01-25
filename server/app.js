@@ -9,9 +9,8 @@ const cors = require("cors");
 const routes = require('./routes');
 const mongoose = require('mongoose');
 
-// const dbUrl = `mongodb+srv://dbHarfi:${process.env.MONGO_PASSWORD}@hacktiv-ra2tp.mongodb.net/tookoo_${process.env.NODE_ENV}?retryWrites=true&w=majority`;
-const dbUrl = `mongodb://localhost:27017/tookoo_${process.env.NODE_ENV}`
-// const dbName = `tookoo_${process.env.NODE_ENV}`
+// const dbUrl = `mongodb://localhost:27017/tookoo_${process.env.NODE_ENV}`
+const dbUrl = `mongodb+srv://dbHarfi:${process.env.MONGO_PASSWORD}@hacktiv-ra2tp.mongodb.net/tookoo_${process.env.NODE_ENV}?retryWrites=true&w=majority`
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,

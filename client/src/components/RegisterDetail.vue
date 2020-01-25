@@ -1,34 +1,5 @@
 <template>
   <div>
-    <!-- <div id="input-email" v-if="$route.params.action == 'email'">
-      <b-form @submit.stop.prevent="isEmailUnique" class="text-left mt-2">
-        <b-form-group label="Email" label-for="email">
-          <b-form-input
-            id="email"
-            name="email"
-            v-model="$v.form.email.$model"
-            :state="validateState('email')"
-            aria-describedby="email-validator"
-          ></b-form-input>
-
-          <b-form-invalid-feedback id="email-validator">
-            Format email salah.
-          </b-form-invalid-feedback>
-        </b-form-group>
-
-        <b-button
-          type="submit"
-          size="sm"
-          :disabled="!validateState('email')"
-          :variant="validateState('email') ? 'success' : 'secondary'"
-          class="btn-block"
-          @click="isEmailUnique"
-        >
-          Lanjutkan pendaftaran
-        </b-button>
-      </b-form>
-    </div> -->
-    <!-- <div id="input-detail" v-if="$route.params.action == 'detail'"> -->
     <b-form @submit.stop.prevent="registerAccount" class="text-left mt-2">
       <b-form-group label="Nama Lengkap" label-for="fullname">
         <b-form-input
@@ -182,13 +153,15 @@ export default {
     registerAccount() {
       axios({
         method: "POST",
-        url: `${this.$baseUrl}/user`,
-        data: this.form
+        url: `${this.$baseUrl}/users/register`,
+        data: { ...this.form, email: localStorage.email }
       })
         .then(({ data }) => {
-          console.log(data);
-
+          localStorage.removeItem("email");
+          localStorage.setItem("name", data.fullname);
+          localStorage.setItem("token", data.token);
           this.$swal("Success!", "Registration Success", "success");
+          this.$router.push({ name: "home" });
         })
         .catch(err => {
           console.log(err);

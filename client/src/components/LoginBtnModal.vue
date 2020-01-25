@@ -10,66 +10,87 @@
       Masook
     </b-button>
 
-    <b-modal id="modal-center" size="sm" centered hide-footer no-fade>
+    <b-modal
+      id="modal-center"
+      size="sm"
+      centered
+      hide-footer
+      no-fade
+      title="Masook"
+      v-model="show"
+    >
       <b-row>
-        <b-col cols="9">
-          <p class="font-weight-bold" style="font-size:20px;">MASOOK</p>
-        </b-col>
+        <b-col cols="9">&nbsp;</b-col>
         <b-col cols="2">
-          <p class="font-weight-light" style="font-size:13px;">Daftar</p>
+          <b-link
+            class="font-weight-light"
+            style="font-size:13px;"
+            @click.prevent="$router.push({ name: 'register email' })"
+          >
+            Daftar
+          </b-link>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <b-form @submit="onSubmit" @reset="onReset">
+          <b-form @submit="login">
             <b-form-group
-              id="input-group-1"
-              label="Email address:"
-              label-for="input-1"
-              description="We'll never share your email with anyone else."
+              id="input-username"
+              label="Username or Email"
+              label-for="username"
             >
               <b-form-input
-                id="input-1"
-                v-model="form.email"
-                type="email"
+                id="username"
+                v-model="form.username"
                 required
-                placeholder="Enter email"
+                placeholder="Enter username or email"
+                size="sm"
               ></b-form-input>
             </b-form-group>
 
             <b-form-group
-              id="input-group-2"
-              label="Your
-              Name:"
-              label-for="input-2"
+              id="input-password"
+              label="Password"
+              label-for="password"
             >
               <b-form-input
-                id="input-2"
-                v-model="form.name"
+                id="password"
+                v-model="form.password"
+                type="password"
                 required
-                placeholder="Enter name"
+                placeholder="Enter Password"
+                size="sm"
               ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-              <b-form-select
-                id="input-3"
-                v-model="form.food"
-                :options="foods"
-                required
-              ></b-form-select>
-            </b-form-group>
-
-            <b-form-group id="input-group-4">
-              <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-                <b-form-checkbox value="me">Check me out</b-form-checkbox>
-                <b-form-checkbox value="that">Check that out</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-
-            <b-button type="submit" variant="primary">Submit</b-button>
-            <b-button type="reset" variant="danger">Reset</b-button>
+            <b-button
+              type="submit"
+              variant="outline-success"
+              size="sm"
+              block
+              class="my-3"
+            >
+              Login
+            </b-button>
           </b-form>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col
+          class="text-center font-weight-light text-secondary"
+          style="font-size:13px;"
+        >
+          <hr />
+          <p>atau masuk dengan</p>
+          <hr />
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <g-signin-button
+            @loggedIn="forceRerender"
+            :key="show"
+          ></g-signin-button>
         </b-col>
       </b-row>
     </b-modal>
@@ -77,32 +98,45 @@
 </template>
 
 <script>
+import GSigninButton from "@/components/GSigninButton.vue";
+import axios from "axios";
+
 export default {
+  components: {
+    GSigninButton
+  },
   data() {
     return {
       form: {
-        email: "",
-        name: "",
-        food: null,
-        checked: []
+        username: null,
+        password: null
       },
-      foods: [
-        {
-          text: "Select One",
-          value: null
-        },
-        "Carrots",
-        "Beans",
-        "Tomatoes",
-        "Corn"
-      ],
-      show: true
+      show: false
     };
   },
   methods: {
-    onSubmit(evt) {
+    reloadPage() {
+      location.reload();
+    },
+    forceRerender() {
+      this.$emit("loggedIn", this.show);
+      this.show = !this.show;
+    },
+    login(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      axios({
+        method: "POST",
+        url: `${this.$baseUrl}/users/login`,
+        data: this.form
+      })
+        .then(({ data }) => {
+          localStorage.name = data.name;
+          localStorage.token = data.token;
+          this.forceRerender();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     onReset(evt) {
       evt.preventDefault();

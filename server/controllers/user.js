@@ -1,13 +1,69 @@
 const userModel = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class User {
+    static oauthLogin(req, res, next) {
+        let gPayload;
+        let userStatus = 200;
+        client.verifyIdToken({
+            idToken: req.body.token,
+            audience: process.env.GOOGLE_CLIENT_ID
+        })
+        .then(({payload}) => {
+            gPayload = payload
+            return userModel
+                .findOne({
+                    email: payload.email
+                })
+        })
+        .then((user) => {
+            if (user) {
+                return user
+            } else {
+                userStatus = 201;
+                return userModel
+                    .create({
+                        fullname: gPayload.name,
+                        email: gPayload.email,
+                        username: gPayload.email,
+                        password: gPayload.sub,
+                        profilePicture: gPayload.picture
+                    })
+            }
+        }).then((registeredUser) => {
+            return jwt.sign({
+                _id: registeredUser._id,
+                fullname: registeredUser.fullname,
+                email: registeredUser.email,
+                username: registeredUser.username
+            }, process.env.JWT_SECRET)
+        }).then((token) => {
+            res.status(userStatus).json({
+                token,
+                fullname: gPayload.name
+            })
+        }).catch(next);
+    }
+
+    static isEmailUnique(req, res, next) {
+        userModel
+            .findOne({
+                email: req.query.email
+            })
+            .then((user) => {
+                res.status(200).json(user)
+            }).catch(next);
+    }
+
     static register(req, res, next) {
-        const {
-            profilePicture
-        } = req.body
-        delete req.body.profilePicture
+        let profilePicture
+        if (req.body.profilePicture) {
+            profilePicture = req.body.profilePicture
+            delete req.body.profilePicture
+        }
 
         userModel
             .create({
