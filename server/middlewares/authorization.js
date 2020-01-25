@@ -24,7 +24,8 @@ module.exports = (req,res,next)=>{
     }else if(req.params.hasOwnProperty('cartId')){
         Cart.findOne({_id: req.params.cartId})
         .then(cart=>{
-            if(cart.UserId === req.payload._id){
+            console.log(cart.UserId,'---', req.payload._id)
+            if(cart.UserId == req.payload._id){
                 next()
             }else{
                 res.status(401).json({

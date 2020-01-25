@@ -134,8 +134,12 @@ export default {
                 console.log(data)
                 this.$router.push('/user/products')
             })
+            .catch(err=>{
+                console.log(err)
+            })
         },
         addToCart(){
+            console.log('masuk add to cart')
             axios({
                 method: 'post',
                 url: `http://localhost:3000/cart/${this.productData._id}`,
@@ -147,6 +151,7 @@ export default {
                 }
             })
             .then(({data})=>{
+                this.$router.push('/user/cart')
                 console.log(data)
             })
             .catch(err=>{

@@ -7,21 +7,25 @@
                     <tr>
                     <th scope="col">Product</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Qty</th>
                     <th scope="col">Options</th>
+                    <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody v-if="listCart.length>0">
                     <tr v-for="cart in listCart" :key="cart._id">
                     <td>{{ cart.productId.name }}</td>
                     <td>{{ cart.productId.price }}</td>
+                    <td>{{ cart.Quantity }}</td>
                     <td><input type="checkbox" :id="cart._id" :value="cart" v-model="checkedCart"></td>
+                    <td><button type="button" class="btn btn-danger" v-on:click.prevent="deleteCart(cart._id)">delete</button></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <th>Total Price: </th>
                         <th>{{ totalPrice }}</th>
-                        <th><button type="button" class="btn btn-warning" v-on:click.prevent="checkout">Warning</button></th>
+                        <th><button type="button" class="btn btn-warning" v-on:click.prevent="checkout">Check Out</button></th>
                     </tr>
                 </tfoot>
             </table>
@@ -54,12 +58,38 @@ export default {
             for(let item of val){
                 let total = item.productId.price * item.Quantity
                 price+=total
-                this.cartIdList.push(item._id)
+                // console.log(item._id)
+                this.cartIdList.push(item)
             }
             this.totalPrice = price
         },
          $route: function(){
-             console.log('masuk watch $route')
+             console.log('ruuuuteee')
+            this.getCarts()
+        }
+    },
+    created(){
+        this.getCarts()
+    },
+    methods:{
+        deleteCart(cart_id){
+            axios({
+                method: 'delete',
+                url: `http://localhost:3000/cart/${cart_id}`,
+                headers:{
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then(({data})=>{
+                console.log(data)
+                this.getCarts()
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        },
+        getCarts(){
+            console.log('masuk')
             axios({
             method: 'get',
             url: `http://localhost:3000/cart`,
@@ -74,37 +104,22 @@ export default {
             .catch(err=>{
                 console.log(err)
             })
-        }
-    },
-    created(){
-        console.log('masuk created')
-        axios({
-            method: 'get',
-            url: `http://localhost:3000/cart`,
-            headers:{
-                token: localStorage.getItem('token')
-            }
-        })
-        .then(({data})=>{
-            console.log(data)
-            this.listCart = data
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    },
-    methods:{
+        },
         checkout(){
+            console.log(this.cartIdList)
             axios({
-                method: 'delete',
+                method: 'patch',
                 url: `http://localhost:3000/cart`,
                 headers:{
                     token: localStorage.getItem('token'),
+                },
+                data:{
                     cartList: this.cartIdList
                 }
             })
-            .then(result=>{
-                console.log(result)
+            .then(({data})=>{
+                console.log(data, 'updated')
+                this.getCarts()
             })
             .catch(err=>{
                 console.log(err)

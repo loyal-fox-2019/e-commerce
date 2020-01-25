@@ -7,6 +7,8 @@
         <label for="inputEmail" class="sr-only">Email address</label>
         <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
         <label for="inputPassword" class="sr-only">Password</label>
+        <p>or</p>
+        <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
         <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
         <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click.prevent="registerUser">Sign up</button>
         <p class="mt-5 mb-3 text-muted">© 2020-2021</p>
@@ -14,6 +16,7 @@
 </template>
 
 <script>
+import GoogleLogin from 'vue-google-login';
 import axios from 'axios'
 export default {
     name: 'registration',

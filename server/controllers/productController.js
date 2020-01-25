@@ -3,7 +3,7 @@ const Product = require('../models/products')
 class ProductController{
     static findAll(req,res,next){
       console.log('masuk server')
-        Product.find().populate('User', '-password')
+        Product.find().populate('UserId', '-password')
           .then(result=>{
             console.log(result,'ini result findall prod')
             res.status(200).json(result)
@@ -14,7 +14,7 @@ class ProductController{
     }
     static findAllbyUser(req,res,next){
       // console.log(req.payload)
-        Product.find({UserId: req.payload._id}).populate('User', '-password')
+        Product.find({UserId: req.payload._id}).populate('UserId', '-password')
         .then(result=>{
           console.log(result, 'find all by user')
           res.status(200).json(result)
@@ -45,7 +45,7 @@ class ProductController{
     }
     static findOne(req,res,next){
       console.log('find one')
-        Product.findOne({_id: req.params.productId})
+        Product.findOne({_id: req.params.productId}).populate('UserId', '-password')
           .then(product=>{
             console.log(product, 'find one')
             res.status(200).json(product)
