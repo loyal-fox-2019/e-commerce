@@ -18,6 +18,7 @@
             id="email"
             aria-describedby="emailHelp"
             autocomplete="off"
+            v-model="email"
           />
           <small id="emailHelp" class="form-text text-muted"
             >Example : example@mail.com</small
@@ -29,24 +30,25 @@
             type="password"
             class="form-control focus-green"
             id="password"
+            v-model="password"
           />
         </div>
-        <button class="btn btn-success btn-login mb-3">
+        <button class="btn btn-success btn-login mb-3" @click.prevent="login">
           Login
         </button>
       </form>
       <div class="separator">
-        <small class="text-muted"> Or Login With </small>
+        <small class="text-muted">Or Login With</small>
       </div>
       <button class="btn btn-light btn-google my-3">
         Google
       </button>
       <p align="center">
-        <small class="text-muted"
-          >Don't Have an Account ?
-          <router-link to="register"
-            ><b class="text-success">Click Here</b></router-link
-          >
+        <small class="text-muted">
+          Don't Have an Account ?
+          <router-link to="register">
+            <b class="text-success">Click Here</b>
+          </router-link>
         </small>
       </p>
     </div>
@@ -54,7 +56,47 @@
 </template>
 
 <script>
-export default {}
+import Swal from 'sweetalert2'
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    login() {
+      if (this.username === '' || this.password === '') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please Input Username and Password First'
+        })
+      } else {
+        axios
+          .post('http://localhost:3000/users/login', {
+            email: this.email,
+            password: this.password
+          })
+          .then(({ data }) => {
+            console.log(data)
+            localStorage.setItem('token', data.token)
+            this.$store.state.isLogin = true
+            this.$router.push('/')
+          })
+          .catch(({ response }) => {
+            // console.log(err.response)
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: response.data.message
+            })
+          })
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
