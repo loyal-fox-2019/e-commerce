@@ -20,6 +20,10 @@ const productSchema = new Schema({
     stock: {
         type: String,
         required: [true, "Stock is required"]
+    },
+    ownerId: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
 })
 

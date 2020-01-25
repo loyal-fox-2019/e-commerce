@@ -1,0 +1,28 @@
+{
+    "product": [
+        {
+            "id": 1,
+            "name": "laptop",
+            "stock": 2,
+            "description": "masih bagus",
+            "price": 20000000,
+            "file": "https://agudasachimnsc.org/wp-content/uploads/2019/11/laptop.jpg"
+        },
+        {
+            "id": 2,
+            "name": "sandal",
+            "stock": 2,
+            "description": "masih nyaman",
+            "price": 10000,
+            "file": "https://images-na.ssl-images-amazon.com/images/I/61P6WjwtySL._AC_UL160_.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Tempat minum",
+            "stock": 10,
+            "description": "masih bagus banget",
+            "price": 10000,
+            "file": "https://www.brita.com/wp-content/uploads/NI-42628_BRT_Mulligan_Seaglass_frt_0218_i2_21-03-18-1943-1-333x500.png"
+        }
+    ]
+}

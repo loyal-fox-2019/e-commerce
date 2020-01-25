@@ -1,6 +1,7 @@
 const modelUser = require('../models/modelUser')
 const generateToken = require('../helpers/generateToken')
 const matchPass = require('../helpers/matchPass')
+const modelCart = require('../models/modelCart')
 
 class ControlUser {
     static register(req, res) {
@@ -15,7 +16,9 @@ class ControlUser {
             .then(userRegistered => {
                 let token = generateToken({ id: userRegistered._id })
                 res.status(201).json({ userRegistered, token })
+
             })
+
             .catch(err => {
                 console.log('error register:', err)
                 res.status(500).json(err)
@@ -31,11 +34,26 @@ class ControlUser {
                         let token = generateToken({ id: emailFound._id })
                         req.headers.token = token
                         res.status(200).json({ emailFound, token })
+                        // console.log(token)
                     } else {
                         res.status(400).json({ message: "wrong username/password" })
                     }
                 } else {
                     res.status(400).json({ message: "email not found" })
+                }
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    }
+
+    static getUser(req, res) {
+        modelUser.findById(req.params.id)
+            .then(ketemu => {
+                if (ketemu) {
+                    res.status(200).json(ketemu)
+                } else {
+                    res.status(404).json({ message: "user not found" })
                 }
             })
             .catch(err => {

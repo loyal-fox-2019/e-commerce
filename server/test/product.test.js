@@ -13,6 +13,7 @@ describe('product CRUD', function () {
             chai
                 .request(app)
                 .post('/product')
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY1ZDY0M2Y5OTgzMmZjMzgwNTM2MiIsImlhdCI6MTU3OTU3MjU4MH0.tfZQ_QUJA9v41-rw-TncbV33D525kEM-KU9TKyhj0KY")
                 .send({ name: "laptop", price: 20000, description: "mulus", file: "hai.jpg", stock: 1 })
                 .then(function (res) {
                     expect(res).to.have.status(201);
@@ -57,7 +58,7 @@ describe('product CRUD', function () {
 
     describe("get products", function () {
         describe("GET Products", function () {
-            it("should return array of object with status code 200", function (done) {
+            it.only("should return array of object with status code 200", function (done) {
                 chai
                     .request(app)
                     .get('/product/all')
@@ -95,10 +96,11 @@ describe('product CRUD', function () {
     })
 
     describe("update Product", function () {
-        it("it should return an object with status code 200 when updated", function (done) {
+        it.only("it should return an object with status code 200 when updated", function (done) {
             chai
                 .request(app)
-                .put('/product/5e25791c97408d33feb9e0d8')
+                .put('/product/5e25814b3d584f673272986a')
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY1ZDY0M2Y5OTgzMmZjMzgwNTM2MiIsImlhdCI6MTU3OTU3MjU4MH0.tfZQ_QUJA9v41-rw-TncbV33D525kEM-KU9TKyhj0KY")
                 .send({ name: "laptop", price: 20000, description: "mulus banget", file: "hai.jpg", stock: 2 })
                 .then(function (res) {
                     expect(res).to.have.status(200)
