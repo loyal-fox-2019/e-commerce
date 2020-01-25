@@ -8,7 +8,7 @@ const expect = chai.expect
 
 describe("Product's CRUD", function(){
     describe("GET /products", function(){
-        it.only('should send an array with status code 200',function(done){
+        it('should send an array with status code 200',function(done){
             chai
                 .request(app)
                 .get('/products')
@@ -31,7 +31,7 @@ describe("Product's CRUD", function(){
         })
     })
     describe('POST /products', function(){
-        it.only('should return an object with status code 201', function(done){
+        it('should return an object with status code 201', function(done){
             chai
                 .request(app)
                 .post('/products')
@@ -44,7 +44,7 @@ describe("Product's CRUD", function(){
                     stock: 15
                 })
                 .then(function(res){
-                    console.log(res.body.picture)
+                    // console.log(res.body.picture)
                     expect(res).to.have.status(201)
                     expect(res).to.be.an('object')
                     expect(res.body).to.have.property('_id')
@@ -66,7 +66,7 @@ describe("Product's CRUD", function(){
                     console.log(err)
                 })
         })
-        it.only('should return an error with status code 400', function(done){
+        it('should return an error with status code 400', function(done){
             chai
                 .request(app)
                 .post('/products')
@@ -88,7 +88,7 @@ describe("Product's CRUD", function(){
         })
     })
     describe('GET /products/:id', function(){
-        it.only('should get status code 200 and a product with _id: 5e25688657d10f58d3fb4e66', function(done){
+        it('should get status code 200 and a product with _id: 5e25688657d10f58d3fb4e66', function(done){
             chai
                 .request(app)
                 .get('/products/5e25688657d10f58d3fb4e66')

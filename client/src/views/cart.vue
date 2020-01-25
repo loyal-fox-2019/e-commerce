@@ -2,6 +2,8 @@
   <div>
         <navbar></navbar>
         <div class="container">
+            <router-link :to="`/user/cart/history`">History</router-link>
+            <h4>My Cart</h4>
             <table class="table">
                 <thead>
                     <tr>
@@ -30,6 +32,7 @@
                 </tfoot>
             </table>
         </div>
+        <router-view></router-view>
   </div>
 </template>
 
@@ -47,7 +50,8 @@ export default {
             checkedCart: [],
             totalPrice: 0,
             cartIdList: [],
-            user: localStorage.getItem('user')
+            user: localStorage.getItem('user'),
+            history:[]
         }
     },
     watch: {
@@ -118,8 +122,22 @@ export default {
                 }
             })
             .then(({data})=>{
-                console.log(data, 'updated')
+                console.log(data, 'updated==============harusnya 2 kali')
                 this.getCarts()
+                return axios({
+                    method: 'put',
+                    url: `http://localhost:3000/product/qty/${data.productId._id}`,
+                    headers:{
+                        token: localStorage.getItem('token')
+                    },
+                    data:{
+                        qty: data.Quantity
+                    }
+                })
+            })
+            .then(({data})=>{
+                this.totalPrice = 0
+                console.log(data, 'stock sudah berkurang')
             })
             .catch(err=>{
                 console.log(err)

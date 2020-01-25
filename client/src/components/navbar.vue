@@ -23,7 +23,7 @@
             <em>User</em>
           </template>
           <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#" v-on:click.prevent="signOut">Sign Out</b-dropdown-item>
+          <b-dropdown-item href="#" v-on:click.prevent="signOut"><GoogleLogin :params="params" :logoutButton=true>Logout</GoogleLogin></b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -31,14 +31,21 @@
 </template>
 
 <script>
+import GoogleLogin from 'vue-google-login'
 import axios from 'axios'
 export default {
     name: 'navbar',
     props: ['datas'],
+    components:{
+      GoogleLogin
+    },
     data(){
       return{
         searchWord: '',
         foundProducts: [],
+        params: {
+          // client_id: process.env.VUE_APP_GOOGLE_ID
+        }
       }
     },
     methods:{

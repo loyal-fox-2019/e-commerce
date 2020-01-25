@@ -11,6 +11,7 @@ router.get('/:productId', authentication, ProductController.findOne)
 
 router.delete('/:productId', authentication, authorization, ProductController.delete)
 router.put('/:productId', authentication, authorization, upload.single('picture'), ProductController.update)
+router.put('/qty/:productId', authentication, ProductController.updateQty)
 
 module.exports = router
 

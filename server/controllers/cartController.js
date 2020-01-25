@@ -50,14 +50,26 @@ class CartController{
         })
     }
     static checkOutCart(req,res,next){
+        console.log('masuk checkout')
         req.body.cartList.forEach(item=>{
-            Cart.findOneAndUpdate(item, {$set: { isCheckOut: true }})
+            console.log('cuman sekali')
+            Cart.findOneAndUpdate(item, {$set: { isCheckOut: true }}).populate('productId')
             .then(result=>{
+                console.log('harusnya kekirim 2 kali')
                 res.status(200).json(result)
             })
             .catch(err=>{
                 res.status(400).json(err)
             })
+        })
+    }
+    static history(req,res,next){
+        Cart.find({UserId: req.payload._id, isCheckOut: true}).populate('productId')
+        .then(data=>{
+            res.status(200).json(data)
+        })
+        .catch(err=>{
+            res.status(400).json(err)
         })
     }
 }

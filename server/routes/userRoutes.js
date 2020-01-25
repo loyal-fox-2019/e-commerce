@@ -6,7 +6,7 @@ const Cart = require('../models/cart')
 const UserController = require('../controllers/userController')
 
 router.post('/register', UserController.register)
-
+router.post('/gsignin', UserController.gsignin)
 router.post('/login', UserController.login)
 
 

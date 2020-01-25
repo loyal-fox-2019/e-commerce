@@ -87,6 +87,25 @@ class ProductController{
             res.status(400).json(err)
           })
       }
+    static updateQty(req,res,next){
+      console.log('masuk qty')
+      Product.findOne({_id: req.params.productId})
+      .then(data=>{
+        // console.log(data.stock, 'sebelum update', req.body.qty)
+        return Product.updateOne({_id: data._id},
+          {
+            $set:{ stock: data.stock - parseInt(req.body.qty)}
+          })
+      })
+      .then(data=>{
+        // console.log(data, 'hasil update')
+        res.status(200).json(data)
+      })
+      .catch(err=>{
+        // console.log(err)
+        res.status(400).json(err)
+      })
+    }
 }
 
 module.exports = ProductController

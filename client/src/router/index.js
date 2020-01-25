@@ -6,6 +6,7 @@ import MyProducts from '../views/myproducts.vue'
 import Cart from '../views/cart.vue'
 import Login from '../views/login.vue'
 import Register from '../views/register.vue'
+import history from '../components/history.vue'
 
 Vue.use(VueRouter)
 
@@ -25,7 +26,13 @@ const routes = [
   },{
     path: '/user/cart',
     name: 'usercart',
-    component: Cart
+    component: Cart,
+    children:[
+      {
+        path: 'history',
+        component: history
+    }
+    ]
   },{
     path: '/login',
     name: 'login',

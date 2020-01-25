@@ -1,6 +1,5 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const User = require('../models/user')
 const app = require('../routes/userRoutes')
 chai.use(chaiHttp)
 const expect = chai.expect
