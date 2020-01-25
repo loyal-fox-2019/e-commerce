@@ -43,7 +43,7 @@ describe('CRUD Product', function() {
   })
 
   describe('GET /products', function () {
-    it('should send arrays with status code 200', function (done) {
+    it.only('should send arrays with status code 200', function (done) {
       chai
         .request(App)
         .get('/products')
@@ -67,7 +67,7 @@ describe('CRUD Product', function() {
   })
 
   describe('PUT /products/:id', function () {
-    it('should send object with status code 200', function (done) {
+    it.only('should send object with status code 200', function (done) {
       chai
         .request(App)
         .put('/products/'+global.productId)
@@ -91,6 +91,7 @@ describe('CRUD Product', function() {
             description: 'cyatt'
           })
           expect(response.body).to.have.property('seller')
+          done()
         })
         .catch(err => {
           console.log('error test')
@@ -100,19 +101,19 @@ describe('CRUD Product', function() {
   })
 
   describe('GET /products/:id', function () {
-    it('should send object with status code 200', function (done) {
+    it.only('should send object with status code 200', function (done) {
       chai
         .request(App)
         .get('/products/'+global.productId)
         .then(response => {
           expect(response).to.have.status(200)
-          expect(response.body).to.be.an('array')
+          expect(response.body).to.be.an('object')
           expect(response.body).to.include({
-            name: 'Baju kaos',
+            name: 'Baju kaos real',
             image: 'https://storage.googleapis.com/assets-image/1579493849584-Lorem-Ipsum-alternatives-696x445.png',
-            price: 20000,
-            stock: 20,
-            description: 'cyat'
+            price: 21000,
+            stock: 21,
+            description: 'cyatt'
           })
           expect(response.body).to.have.property('seller')
           done()

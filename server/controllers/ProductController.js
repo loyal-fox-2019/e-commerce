@@ -37,12 +37,14 @@ class ProductController{
   }
 
   static update(req, res, next){
+    const form = req.body
     Product
       .updateOne({ _id: req.params.id }, {
         name: form.name,
         image: form.image,
         price: form.price,
         stock: form.stock,
+        description: form.description
       })
       .then(product => {
         return Product.findOne({  _id: req.params.id  })
