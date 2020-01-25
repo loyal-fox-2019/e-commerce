@@ -12,7 +12,7 @@
       <v-alert type="error" v-for="(error, i) in errors" :key="i">
         {{error}}
       </v-alert>
-      <v-form @submit.prevent="login">
+      <v-form @submit.prevent="login" id="login-form">
         <v-text-field
           label="Email"
           name="login"
@@ -36,7 +36,7 @@
         dont have an account? <a @click="toRegister">Register.</a>
       </span>
       <v-spacer></v-spacer>
-      <v-btn color="primary" @click="login">Login</v-btn>
+      <v-btn type="submit" form="login-form" color="primary">Login</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -83,6 +83,7 @@ export default {
           this.$store.commit('SET_USERNAME', data.username)
           this.$store.dispatch('fetchPending')
           this.$store.dispatch('fetchPaid')
+          this.$store.dispatch('fetchDelivered')
           this.$router.push('/')
         })
         .catch(err => {

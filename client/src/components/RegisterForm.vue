@@ -12,8 +12,9 @@
       <v-alert type="error" v-for="(error, i) in errors" :key="i">
         {{error}}
       </v-alert>
-      <v-form @submit.prevent="register">
+      <v-form @submit.prevent="register" id="register-form">
         <v-text-field
+          required
           label="Email"
           name="login"
           prepend-icon="person"
@@ -21,6 +22,7 @@
           v-model="email"
         ></v-text-field>
         <v-text-field
+          required
           label="Username"
           name="username"
           prepend-icon="store"
@@ -28,12 +30,14 @@
           v-model="username"
         ></v-text-field>
         <v-file-input
+          required
           label="Foto"
           filled
           prepend-icon="mdi-camera"
           v-model="profile_pic"
         ></v-file-input>
         <v-text-field
+          required
           id="password"
           label="Password"
           name="password"
@@ -48,7 +52,7 @@
         already have an account? <a @click="toLogin">Login.</a>
       </span>
       <v-spacer></v-spacer>
-      <v-btn color="primary" @click="register">Register</v-btn>
+      <v-btn color="primary" type="submit" form="register-form">Register</v-btn>
     </v-card-actions>
   </v-card>
 </template>

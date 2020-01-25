@@ -30,14 +30,52 @@ class TransactionController {
           res.send(update)
         }
       } else {
-        let currentProduct = await Product.findOne({_id: product})
+        let currentProduct = await Product.findOne({_id: product}).populate('user')
         if(currentProduct.stock < quantity) {
           next({status: 400, message: 'Stok tidak cukup'})
         } else {
-          let newTransaction = await Transaction.create({ product, quantity, user })
+          let newTransaction = await Transaction.create({ product, quantity, user, seller: currentProduct.user._id })
           res.send(newTransaction)
         }
       }
+    } catch (error) {
+      next(error)
+    }
+  }
+  static async update(req, res, next) {
+    let _id = req.params.id
+    // Transaction
+    //   .updateOne({ _id })
+    //   .then(result => {
+    //     res.status(200).json(result)
+    //   })
+    //   .catch(next)
+    let { quantity } = req.body
+    //        cek stok
+    //          kalau abis
+    //            err stok tidak cukup
+    //          kalau masih cukup
+    //            updateOne
+
+    try {
+      let transaction = await Transaction.findById(_id)
+      // if(transaction) {
+        let currentProduct = await Product.findById(transaction.product)
+        if(currentProduct.stock < quantity) {
+          next({status: 400, message: 'Stok tidak cukup'})
+        } else {
+          let update = await Transaction.updateOne({ _id }, { quantity }, { runValidators: true })
+          res.send(update)
+        }
+      // } else {
+      //   let currentProduct = await Product.findOne({_id: product}).populate('user')
+      //   if(currentProduct.stock < quantity) {
+      //     next({status: 400, message: 'Stok tidak cukup'})
+      //   } else {
+      //     let newTransaction = await Transaction.create({ product, quantity, user, seller: currentProduct.user._id })
+      //     res.send(newTransaction)
+      //   }
+      // }
     } catch (error) {
       next(error)
     }
@@ -92,9 +130,22 @@ class TransactionController {
   }
   static getDelivered(req, res, next) {
     Transaction
-      .find({ user: req.user.id, status: 'delivered' })
+      .find({ seller: req.user.id, status: 'delivered' })
+      .populate('user')
+      .populate('product')
       .then(transactions => {
-        res.send(transactions)
+        let result = []
+        transactions.forEach(transaction => {
+          result.push({
+            name: transaction.product.name,
+            price: transaction.product.price,
+            qty: transaction.quantity,
+            subTotal: transaction.product.price * transaction.quantity,
+            user: transaction.user.username,
+            date: transaction.createdAt.toJSON().slice(0, 10)
+          })
+        })
+        res.send(result)
       })
       .catch(next)
   }

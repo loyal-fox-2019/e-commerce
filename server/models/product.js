@@ -10,7 +10,7 @@ const productSchema = new Schema(
     stock: {
       type: Number,
       default: 1,
-      min: [1, "minimal stock 1"]
+      min: [0, "minimal stock 0"]
     },
     description: {
       type: String,

@@ -10,7 +10,8 @@ export default new Vuex.Store({
     products: [],
     username: '',
     pendings: [],
-    paids: []
+    paids: [],
+    delivereds: []
   },
   mutations: {
     LOGIN (state) {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     FETCH_PAID (state, payload) {
       state.paids = payload
+    },
+    FETCH_DELIVERED (state, payload) {
+      state.delivereds = payload
     },
     SET_USERNAME (state, payload) {
       state.username = payload
@@ -73,6 +77,24 @@ export default new Vuex.Store({
         })
           .then(({ data }) => {
             context.commit('FETCH_PAID', data)
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    fetchDelivered (context) {
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'GET',
+          url: `/transactions/delivered`,
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+          .then(({ data }) => {
+            context.commit('FETCH_DELIVERED', data)
             resolve()
           })
           .catch(err => {

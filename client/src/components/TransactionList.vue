@@ -34,7 +34,12 @@ export default {
   }),
 
   created () {
-    this.initialize()
+    this.transactions = this.$store.state.delivereds
+    this.$store.watch(
+      (state) => state.delivereds, (newValue, oldValue) => {
+        this.transactions = newValue
+      }
+    )
   },
 
   methods: {

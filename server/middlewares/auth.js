@@ -1,6 +1,7 @@
 const { decodeToken } = require('../helpers/jwt'),
   User = require('../models/user'),
-  Product = require('../models/product')
+  Product = require('../models/product'),
+  Transaction = require('../models/transaction')
 
 function authenticate(req, res, next) {
   try {
@@ -37,4 +38,21 @@ function authorize(req, res, next) {
   }
 }
 
-module.exports = { authenticate, authorize }
+function authorizeTransaction(req, res, next) {
+  try {
+    Transaction.findById(req.params.id)
+      .then(transaction => {
+        if(!transaction){
+          next({status: 404, message: 'id not found'})
+        } else if (transaction.user == req.user.id){
+          next()
+        } else {
+          next({status: 401, message: 'Authorization failed'})
+        }
+      })
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports = { authenticate, authorize, authorizeTransaction }

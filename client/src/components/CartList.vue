@@ -10,7 +10,7 @@
       </template>
     </v-data-table>
     <div class="text-right my-4">
-      <v-btn rounded color="accent" dark @click="purchase">Purchase</v-btn>
+      <v-btn rounded color="accent" dark @click="purchase">Purchase, Rp. {{totalPurchase}}</v-btn>
     </div>
   </v-container>
 </template>
@@ -45,14 +45,70 @@ export default {
       }
     )
   },
-  computed: mapState(['pendings']),
+  computed: {
+    ...mapState(['pendings']),
+    totalPurchase () {
+      let total = null
+      this.products.forEach(product => {
+        total += product.subTotal
+      })
+      return total
+    }
+  },
 
   methods: {
     deleteItem (payload) {
-      console.log(payload)
+      this.errors = []
+      axios({
+        method: 'delete',
+        url: `/transactions/${payload._id}`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Delete Success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$store.dispatch('fetchPending')
+        })
+        .catch(err => {
+          this.errors = err.response.data.message
+        })
     },
     editItem (payload) {
-      console.log(payload)
+      this.$swal({
+        title: 'Mau pesen berapa banyak?',
+        input: 'number',
+        showCancelButton: true,
+        confirmButtonText: 'Pesan',
+        showLoaderOnConfirm: true,
+        preConfirm: (qty) => {
+          return axios({
+            method: 'patch',
+            url: `/transactions/${payload._id}/quantity`,
+            headers: {
+              token: localStorage.getItem('token')
+            },
+            data: {
+              quantity: qty
+            }
+          })
+            .catch(error => {
+              this.$swal.showValidationMessage(
+                `Gagal cuy: ${error.response.data.message}`
+              )
+            })
+        },
+        allowOutsideClick: () => !this.$swal.isLoading()
+      })
+        .then(({ data }) => {
+          this.$store.dispatch('fetchPending')
+        })
     },
     purchase () {
       this.errors = []

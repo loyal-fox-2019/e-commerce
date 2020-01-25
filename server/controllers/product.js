@@ -17,7 +17,7 @@ class ProductController {
       .populate('user', 'username profile_pic')
       .then(products => {
         res.send(products.filter(function(product) {
-          return product.user.id != user
+          return product.user.id != user && product.stock > 0
         }) )
       })
       .catch(next)
@@ -55,7 +55,7 @@ class ProductController {
     let _id = req.params.id,
       stock = req.body.stock
     Product
-      .updateOne({ _id },{ stock })
+      .updateOne({ _id },{ stock }, { runValidators: true })
       .then(result => {
         res.status(200).json(result)
       })
