@@ -1,24 +1,25 @@
 <template>
     <div id="app">
-        <sui-icon name="user"/>
-        <sui-dropdown :text="name"
-                      id="suiButtonUser"
-                      button>
-            <sui-dropdown-menu>
-                <sui-dropdown-item @click.native="toggle">
-                    <sui-icon name="edit"/>
-                    Add Item
-                </sui-dropdown-item>
-                <sui-dropdown-item>
-                    <sui-icon name="list"/>
-                    <router-link to="/transactions">Transactions</router-link>
-                </sui-dropdown-item>
-                <sui-dropdown-item @click="logout">
-                    <sui-icon name="logout"/>
-                    Logout
-                </sui-dropdown-item>
-            </sui-dropdown-menu>
-        </sui-dropdown>
+        <sui-button icon="user" id="dropdown-menu">
+            <sui-dropdown :text="name"
+                          id="suiButtonUser">
+                <sui-dropdown-menu>
+                    <sui-dropdown-item @click.native="toggle">
+                        <sui-icon name="edit"/>
+                        Add Item
+                    </sui-dropdown-item>
+                    <sui-dropdown-item @click.native="transactions">
+                        <sui-icon name="list"/>
+                        Transactions
+                    </sui-dropdown-item>
+                    <sui-dropdown-item @click="logout">
+                        <sui-icon name="logout"/>
+                        Logout
+                    </sui-dropdown-item>
+                </sui-dropdown-menu>
+            </sui-dropdown>
+        </sui-button>
+
         <sui-modal v-model="open">
             <sui-modal-header>
                 Add Item
@@ -33,6 +34,7 @@
 
 <script>
     import addItem from "./addItem";
+    import router from "../../router";
 
     export default {
         name: "userButton",
@@ -69,6 +71,9 @@
             },
             toggle() {
                 this.open = !this.open;
+            },
+            transactions() {
+                router.push("/transactions")
             }
         },
         mounted() {
@@ -81,15 +86,10 @@
 </script>
 
 <style scoped>
-    #suiButtonUser {
-        background-color: #fff;
-        margin-right: 25px;
+    #dropdown-menu {
+        background-color: white;
+        color: #0d71bb;
     }
-
-    /*.userIcon {*/
-    /*    font-size: 16px;*/
-    /*    color: #3498db;*/
-    /*}*/
 
     #close {
         float: right;

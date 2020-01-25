@@ -1,10 +1,15 @@
 const errHandler = (err, req, res, next) => {
-    // console.log(err);
+    console.log(err);
 
-    if (err.code === 11000 || err.name === 'ValidationError'){
+    if (err.code === 11000 || err.name === 'ValidationError') {
         res.status(400).json({
             code: 400,
             errMsg: "Data has been registered, please check again"
+        })
+    } else if (err.code === 401) {
+        res.status(err.code).json({
+            code: err.code,
+            errMsg: 'You have no authorized to do this action'
         })
     } else if (err.code === 404) {
         res.status(err.code).json({

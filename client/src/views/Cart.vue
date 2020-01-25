@@ -21,7 +21,5 @@
 </script>
 
 <style scoped>
-    #detailItemContainer {
-        padding: 25px;
-    }
+
 </style>

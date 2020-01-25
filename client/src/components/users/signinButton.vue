@@ -1,7 +1,7 @@
 <template>
     <div is="sui-button-group">
-        <sui-button primary class="signIn">
-            <router-link to="/login" class="routerLink">Sign In</router-link>
+        <sui-button primary class="signIn" @click="login">
+            Sign In
         </sui-button>
         <sui-button class="signUp">
             <router-link to="/register" class="routerLink">Sign Up</router-link>
@@ -10,17 +10,18 @@
 </template>
 
 <script>
+    import router from "../../router";
+
     export default {
-        name: "signinButton"
+        name: "signinButton",
+        methods:{
+            login(){
+                router.push("/login")
+            }
+        }
     }
 </script>
 
 <style scoped>
-    .routerLink {
-        color: white;
-    }
 
-    .signUp {
-        background-color: #bdc3c7;
-    }
 </style>

@@ -9,11 +9,18 @@
                             <transaction-list
                                     v-for="(purchased,index) in purchasingData"
                                     :data="purchased"
-                                    :index="index"/>
+                                    :index="index"
+                                    @listTransactions="purchaseTransaction"/>
                         </sui-item-group>
                     </sui-tab-pane>
-                    <sui-tab-pane title="Selling">
-                        Selling
+                    <sui-tab-pane title="Selling" :class="isLoading">
+                        <sui-item-group divided>
+                            <transaction-list-sells
+                                    v-for="(sells,index) in sellsData"
+                                    :data="sells"
+                                    :index="index"
+                                    @sellsTransactions="sellsTransaction"/>
+                        </sui-item-group>
                     </sui-tab-pane>
                 </sui-tab>
             </sui-grid-column>
@@ -23,12 +30,14 @@
 
 <script>
     import transactionList from "./transactionList";
+    import transactionListSells from "./transactionListSells";
 
     export default {
         name: "transactionsContent",
         data() {
             return {
                 purchasingData: [],
+                sellsData: [],
                 isLoading: 'loading'
             }
         },
@@ -46,13 +55,29 @@
                 }).catch(err => {
                     console.log({err})
                 })
+            },
+            sellsTransaction() {
+                this.$axios({
+                    method: 'get',
+                    url: '/api/transactions/sells',
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
+                }).then(response => {
+                    this.sellsData = response.data.data;
+                    this.isLoading = false
+                }).catch(err => {
+                    console.log({err})
+                })
             }
         },
         mounted() {
-            this.purchaseTransaction()
+            this.purchaseTransaction();
+            this.sellsTransaction()
         },
         components: {
-            transactionList
+            transactionList,
+            transactionListSells
         }
     }
 </script>

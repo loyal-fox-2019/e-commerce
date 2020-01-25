@@ -23,7 +23,7 @@
                            color="blue"
                            @click="confirm"
                            v-if="confirmationStatus.visibility">
-                    Confirm Item received
+                    Ship Item
                 </sui-label>
             </div>
         </div>
@@ -32,7 +32,7 @@
 
 <script>
     export default {
-        name: "transactionList",
+        name: "transactionListSells",
         props: {
             data: Object
         },
@@ -52,23 +52,23 @@
             },
             confirm() {
                 this.$dialog
-                    .confirm('Confirm item received ?')
+                    .confirm('Ship item ?')
                     .then(dialog => {
                         this.$axios({
                             method: 'patch',
-                            url: `/api/transactions/done/${this.data._id}`,
+                            url: `/api/transactions/shipped/${this.data._id}`,
                             headers: {token: localStorage.getItem('token')}
                         }).then(response => {
-                            this.$emit('listTransactions');
+                            this.$emit('sellsTransactions');
                             this.$toast.success({
                                 title: 'Success',
-                                message: 'Confirmed'
+                                message: 'Shipped'
                             });
                             dialog.close()
                         }).catch(err => {
                             this.$toast.error({
                                 title: 'Error',
-                                message: 'Confirmation error'
+                                message: 'Shipped error'
                             });
                             dialog.close()
                         })
@@ -76,7 +76,7 @@
                     .catch(err => {
                         this.$toast.info({
                             title: 'Cancel',
-                            message: 'Confirmation has been cancel'
+                            message: 'Shipped has been cancel'
                         });
                     })
             }
@@ -98,13 +98,13 @@
                 } else if (this.data.status === 'paid') {
                     return {
                         color: 'teal',
-                        visibility: false,
+                        visibility: true,
                         descVisibility: true
                     }
                 } else {
                     return {
                         color: 'yellow',
-                        visibility: true,
+                        visibility: false,
                         descVisibility: false
                     }
                 }

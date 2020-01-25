@@ -54,12 +54,12 @@ class TransactionController {
     }
 
     static updateStatus(req, res, next) {
+        console.log(req.params.status);
         Transaction.updateOne({
             _id: req.params.id
         }, {
-            status: 'done',
+            status: req.params.status,
         }).then(response => {
-            console.log(response);
             res.status(200).json({
                 message: "Status updated",
                 data: response
@@ -75,6 +75,21 @@ class TransactionController {
             .then(response => {
                 res.status(200).json({
                     data: response
+                });
+            })
+            .catch(next)
+    }
+
+    static getTransactionsSelling(req, res, next) {
+        Transaction.find()
+            .populate('user', 'name')
+            .then(response => {
+                let dataResponse = response.filter(data => {
+                    return data.itemDetails.owner.toString() === req._id.toString()
+                 });
+
+                res.status(200).json({
+                    data: dataResponse
                 });
             })
             .catch(next)

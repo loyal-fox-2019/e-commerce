@@ -1,11 +1,9 @@
 <template>
     <sui-menu attached="top" id="navbar">
         <sui-menu-menu>
-            <sui-menu-item>
-                <router-link to="/">
-                    <sui-icon name="home"/>
-                    Belanja Murah
-                </router-link>
+            <sui-menu-item id="home" @click="home">
+                <sui-icon name="home"/>
+                Belanja Murah
             </sui-menu-item>
         </sui-menu-menu>
         <sui-menu-item id="search">
@@ -33,6 +31,7 @@
     import formLogo from "./formLogo";
     import cartButton from "./cartButton";
     import userButton from "./users/userButton";
+    import router from "../router";
 
     export default {
         name: "navBar",
@@ -67,6 +66,9 @@
                         message: 'Sign in failed :('
                     });
                 });
+            },
+            home() {
+                router.push("/");
             }
         },
         mounted() {
@@ -83,7 +85,19 @@
 </script>
 
 <style scoped>
+    #navbar {
+        margin-bottom: 20px;
+        background-color: #0d71bb;
+    }
+
+    #home {
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
     #search{
         background-color: white;
+        margin: 5px;
     }
 </style>
