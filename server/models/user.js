@@ -28,6 +28,20 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, 'Username required'],
+    validate: {
+      validator: function (value) {
+        return this.model("Users")
+          .findOne({
+            username: value
+          })
+          .then(username => {
+            if (username) {
+              return false;
+            }
+          });
+      },
+      message: props => `Username ${props.value} already taken`
+    }
   },
   password: {
     type: String,

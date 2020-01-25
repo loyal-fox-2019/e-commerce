@@ -26,4 +26,4 @@ app.use(
 ); // for parsing application/x-www-form-urlencoded
 app.use("/", routes);
 
-app.listen(port, () => console.log(`TOOKOO running on port: ${port}!`));
+app.listen(port, () => console.log(`TOOKOO-API is running on port: ${port}!`));

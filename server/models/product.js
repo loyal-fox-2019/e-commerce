@@ -3,25 +3,31 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: [true, 'Product name required']
   },
-  images: [{
-    type: String
-  }],
+  images: {
+    type: [String],
+    validate: {
+      validator: function (images) {
+        return !!images.length;
+      },
+      message: props => 'Product image required at least 1 image'
+    }
+  },
   price: {
-    type: Number
+    type: Number,
+    required: [true, 'Price required']
   },
   stock: {
-    type: Number
+    type: Number,
+    default: 0
   },
   seller: {
+    required: [true, 'Seller required'],
     type: Schema.Types.ObjectId,
     ref: 'Users'
-  },
-  tags: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Tags'
-  }]
+  }
 });
 
 const product = mongoose.model('Products', productSchema);
