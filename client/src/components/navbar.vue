@@ -1,26 +1,34 @@
 <template>
     <div>
         <nav id="nav" class="navbar navbar-light fixed-top" style="background-color: #bf43b3;">
-        <router-link class="navbar-brand" to="/">
-        <img src="../../public/shopping-bag.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
-        BuyStuff
-        </router-link>
+            <router-link class="navbar-brand mr-auto" to="/">
+                <img src="../../public/shopping-bag.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+            BuyStuff
+            </router-link>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Find stuff...">
             <button class="btn btn-outline-success my-2 my-sm-0"
                     id="search-btn"
-                    type="submit">Search</button>
+                    >Search</button>
         </form>
+        <router-link class="ml-auto" to="/cart">
+            <button class="btn" id="cart-btn">
+                <span class="fas fa-shopping-cart"></span>
+            </button>
+        </router-link>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle"
                 href="#" id="navbarDropdown"
                 role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-            Account
+            {{isLogin ? this.$cookies.get('username') : "Account" }}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Manage</a>
-            <a class="dropdown-item" href="#">Logout</a>
+                <router-link class="dropdown-item" href="#" to="/login" v-if="!isLogin">Login</router-link>
+                <a class="dropdown-item" href="#" v-if="isLogin">Manage</a>
+                <a class="dropdown-item" href="#" v-if="isLogin">Sell</a>
+                <a class="dropdown-item" href="#" v-if="isLogin" @click="logoutUser">Logout</a>
+                
             </div>
         </li>
         </nav>
@@ -29,7 +37,23 @@
 
 <script>
     export default {
-        name: "Navbar"
+        name: "Navbar",
+        computed: {
+            isLogin() {
+                return this.$store.state.isLogin;
+            }
+        },
+        created() {
+            this.$store.commit('SET_LOGIN_STATE',this.$cookies.isKey('username') && this.$cookies.isKey('token'))
+        },
+        methods: {
+            logoutUser() {
+                this.$cookies.remove('username');
+                this.$cookies.remove('token');
+                this.$store.commit('SET_LOGIN_STATE',false);
+                this.$router.push('/')
+            }
+        }
     }
 </script>
 
@@ -58,12 +82,19 @@
   color: white;
 }
 
+#cart-btn {
+  background-color: blue;
+  color: white;
+}
+
+
 li {
   list-style: none;
 }
 
 .form-control {
   width: 50vw;
+  margin: auto;
 }
 
 </style>

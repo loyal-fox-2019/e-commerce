@@ -1,33 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
+
+const hashPassword = require("../helpers/bcrypt.js").hashPassword;
 const userSchema = new Schema({    
     username: {
         type: String,
         required: true,
-        validate: {
-            validator: function(u) {
-                let result;
-                User.findOne({
-                    username: u
-                }).exec()
-                .then((user) => {
-                    if(user)
-                    {
-                        result = false;
-                    }
-                    else
-                    {
-                        result = true;
-                    }
-                })
-                .catch(() => {
-                    result = false;
-                })
-
-                return result;
-            }
-        }
+        unique: true
     },
     password: {
         type: String,
@@ -40,8 +20,31 @@ const userSchema = new Schema({
 }, {timestamps : true},{versionKey : false});   //timestamps add createdAt, updatedAt fields
 
 userSchema.pre('save',function(next) {
-
-    next();
+    this.password = hashPassword(this.password);
+    User.findOne({
+        username: this.username
+    })
+    .exec()
+    .then((user) => {  
+        if(user)
+        {
+            if(user._id.toString() != this._id.toString())
+            {
+                next(new Error("Username already taken."))
+            }
+            else
+            {
+                next();
+            }
+        }
+        else
+        {            
+            next();
+        }
+    })
+    .catch((err) => {
+        console.log(err);                    
+    })
 })
 
 const User = mongoose.model("User",userSchema);

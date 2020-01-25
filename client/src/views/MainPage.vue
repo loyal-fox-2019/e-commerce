@@ -13,7 +13,8 @@
         components: {
             categorySidebar,
             productsView
-        }
+        },
+        
     }
 </script>
 

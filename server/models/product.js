@@ -18,7 +18,7 @@ const productSchema = new Schema({
     }]
 }, {timestamps : true},{versionKey : false});   //timestamps add createdAt, updatedAt fields
 
-articleSchema.pre('save',function(next) {
+productSchema.pre('save',function(next) {
 
     next();
 })

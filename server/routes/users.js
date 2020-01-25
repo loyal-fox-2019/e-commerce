@@ -1,26 +1,11 @@
 const usersRouter = require("express").Router();
-const User = require("../models/user");
-const _ = require("underscore");
+const UserController = require("../controllers/userController.js");
 
-usersRouter.post('/register',(req,res,next) => {
-    const data = _.pick(req.body,'username','password');
-    User.create(data)
-    .then((user) => {
-        res.status(201).json(user);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-});
+usersRouter.post('/register', UserController.registerUser);
 
-usersRouter.post('/login',(req,res,next) => {
-    const data = _.pick(req.body,'username','password');
-    User.findOne({
-        username: data.username
-    })
-});
+usersRouter.post('/login', UserController.loginUser);
 
-usersRouter.post('/cart',(req,res,next) => {
+usersRouter.post('/cart', (req, res, next) => {
     
     
 });
