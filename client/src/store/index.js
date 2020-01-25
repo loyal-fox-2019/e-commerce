@@ -44,6 +44,7 @@ export default new Vuex.Store({
         context.commit('SET_USERNAME', localStorage.getItem('username'))
         context.dispatch('fetchPending')
         context.dispatch('fetchPaid')
+        context.dispatch('fetchDelivered')
       } else {
         context.commit('LOGOUT')
       }

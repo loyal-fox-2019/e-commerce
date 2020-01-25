@@ -131,8 +131,8 @@ class TransactionController {
   static getDelivered(req, res, next) {
     Transaction
       .find({ seller: req.user.id, status: 'delivered' })
-      .populate('user')
       .populate('product')
+      .populate('user')
       .then(transactions => {
         let result = []
         transactions.forEach(transaction => {

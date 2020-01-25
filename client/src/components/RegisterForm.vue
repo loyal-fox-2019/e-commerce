@@ -87,9 +87,7 @@ export default {
         data: formData
       })
         .then(({ data }) => {
-          console.log(data)
           this.$emit('to-login')
-          // this.$router.push('/')
         })
         .catch(err => {
           this.errors = err.response.data.message

@@ -8,9 +8,8 @@ router.get('/paid', TransactionController.getPaid)
 router.get('/delivered', TransactionController.getDelivered)
 router.post('/', TransactionController.create)
 router.patch('/purchase', TransactionController.purchaseVerify)
-// router.delete('/purchase', TransactionController.cancelPurchase) // authorize ???
-router.patch('/delivered', TransactionController.allDelivered) // authorize transaction
-router.patch('/:id/delivered', TransactionController.delivered) // authorize transaction
+router.patch('/delivered', TransactionController.allDelivered)
+router.patch('/:id/delivered', authorizeTransaction, TransactionController.delivered)
 router.patch('/:id/quantity', authorizeTransaction, TransactionController.update)
 router.delete('/:id', authorizeTransaction, TransactionController.remove)
 
