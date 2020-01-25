@@ -2,11 +2,8 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const productModel = require('../models/product');
 
 module.exports = (req, res, next) => {
-    const {
-        userLogin
-    } = req;
-
-    productModel.findOne({
+    productModel
+        .findOne({
             _id: ObjectId(req.params.id)
         }).populate('seller')
         .then((product) => {

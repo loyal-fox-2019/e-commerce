@@ -1,0 +1,30 @@
+notes API:
+
+user: (DONE)
+POST: /users/login
+POST: /users/register
+
+products:
+GET: /products (notes: klo pake body isi filter maka akan return berdasarkan filternya, tidak harus spesifik namanya)
+GET: /products/:id
+POST: /products
+PUT: /products/:id
+DELETE: /products/:id
+
+carts:
+userId dari token dan productId dari body
+GET: /carts
+POST: /carts
+PUT: /carts/:id
+DELETE: /carts/:id
+
+scenario:
+- user register (POST: /users/register)
+- user login (POST: /users/login)
+- user lihat semua list barang (GET: /products)
+- user cari barang atau lihat detail barang (GET: /products/:id)
+- user jual barang (POST: /products)
+- user edit barang dagangan (PATCH: /products/:id)
+- user edit jumlah barang di cart (PUT: /carts/:id)
+- user edit notes atau variant di cart (PATCH: /carts/:id)
+- user beli barang (masukkan ke cart dan langsung tampilkan isi cart) atau masukkan barang ke cart (masukkan ke cart saja) (POST /carts)
