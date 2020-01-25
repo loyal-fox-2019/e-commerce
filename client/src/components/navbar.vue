@@ -25,7 +25,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <router-link class="dropdown-item" href="#" to="/login" v-if="!isLogin">Login</router-link>
-                <a class="dropdown-item" href="#" v-if="isLogin">Manage</a>
+                <router-link class="dropdown-item" href="#" to="/manage" v-if="isLogin">Manage</router-link>
                 <a class="dropdown-item" href="#" v-if="isLogin">Sell</a>
                 <a class="dropdown-item" href="#" v-if="isLogin" @click="logoutUser">Logout</a>
                 

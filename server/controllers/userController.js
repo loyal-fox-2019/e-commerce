@@ -9,6 +9,7 @@ class UserController
     static registerUser(req, res, next)
     {
         const data = _.pick(req.body,'username','password');
+        data.login_type = "standard";
         User.create(data)
         .then((user) => {
             res.status(201).json(user);
@@ -54,6 +55,11 @@ class UserController
                 });
             }
         })
+    }
+
+    static getMyProducts(req,res,next)
+    {
+
     }
 }
 

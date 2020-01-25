@@ -1,41 +1,26 @@
 const productsRouter = require("express").Router();
-const Product = require("../models/product");
-const _ = require("underscore");
+const ProductController = require("../controllers/productController.js");
 
-productsRouter.get('/',(req,res,next) => {
-    Product.find()
-    .exec()
-    .then((products) => {
-        res.status(200).json(products);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-});
+const authentication = require("../middlewares/authentication");
 
-productsRouter.get('/:id',(req,res,next) => {
-    Product.findById(req.params.id)
-    .exec()
-    .then((product) => {
-        res.status(200).json(product);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-});
+const gcsUpload = require("gcs-upload");
+const upload = gcsUpload({
+    limits: {
+      fileSize: 50e6 // in bytes
+    },
+    gcsConfig: {
+      keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+      bucketName: process.env.BUCKETNAME
+    }
+})
 
-productsRouter.post('/',(req,res,next) => {
-    const data = _.pick(req.body,'name','price','image');
-    data.tags = req.body.split(' ').filter((v) => {return !!v});
+productsRouter.get('/',ProductController.getAllProducts);
 
-    Product.create(data)
-    .then((product) => {
-        res.status(201).json(product);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-});
+productsRouter.get('/:id',ProductController.getOneProduct);
+
+productsRouter.use('/',authentication);
+
+productsRouter.post('/',ProductController.addNewProduct);
 
 productsRouter.delete('/:id',(req,res,next) => {
     Product.findByIdAndDelete(req.params.id)

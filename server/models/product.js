@@ -10,8 +10,15 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
+    stock: {
+        type: Number,
+        required: true
+    },
     image: {
         type: String
+    },
+    seller: {
+        type: Schema.Types.ObjectId
     },
     tags: [{
         type: String
@@ -19,7 +26,7 @@ const productSchema = new Schema({
 }, {timestamps : true},{versionKey : false});   //timestamps add createdAt, updatedAt fields
 
 productSchema.pre('save',function(next) {
-
+    this.seller = ObjectId(this.seller);
     next();
 })
 

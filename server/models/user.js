@@ -13,6 +13,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    login_type: {
+        type: String,
+        required: true
+    },
     cart: [{
         product: Schema.Types.ObjectId,
         quantity: Number
