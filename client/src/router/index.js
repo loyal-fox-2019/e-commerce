@@ -6,6 +6,7 @@ import Register from '../views/Register.vue'
 import Cart from '../views/Cart.vue'
 import Admin from '../views/AdminLogin.vue'
 import ProductDetail from '../views/ProductDetail.vue'
+import AdminPanel from '../views/AdminPanel.vue'
 
 Vue.use(VueRouter)
 
@@ -38,7 +39,14 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: Admin,
+    children: [
+      {
+        path: '/admin/cpanel',
+        name: 'admin-panel',
+        component: AdminPanel
+      }
+    ]
   }
   // {
   //   path: '/about',

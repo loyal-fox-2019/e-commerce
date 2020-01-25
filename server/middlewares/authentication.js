@@ -1,5 +1,6 @@
 const { verifyToken } = require("../helpers/jwt");
 module.exports = (req, res, next) => {
+  let err = {};
   if (req.headers.token) {
     try {
       let payload = verifyToken(req.headers.token, process.env.JWT_SECRET);
@@ -13,5 +14,6 @@ module.exports = (req, res, next) => {
   } else {
     err.name = "Unauthorized";
     err.message = "Authentication Required";
+    next(err);
   }
 };

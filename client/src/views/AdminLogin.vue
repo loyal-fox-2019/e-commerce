@@ -1,34 +1,80 @@
 <template>
-  <div class="admin-login p-5">
-    <h3 align="center" class="mb-4">Admin Panel</h3>
-    <div class="card form-admin d-block mx-auto">
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          placeholder="example@mail.com"
-          autocomplete="off"
-        />
+  <div class="admin-login pt-3 pb-5 px-5">
+    <h3 align="center" class="mb-2">Admin Panel</h3>
+    <div v-if="!this.$store.adminLogin">
+      <div class="card form-admin d-block mx-auto">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="example@mail.com"
+            autocomplete="off"
+            v-model="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            autocomplete="off"
+            v-model="password"
+          />
+        </div>
+        <button class="btn btn-success submit-admin" @click.prevent="login">
+          Login
+        </button>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          placeholder="Password"
-          autocomplete="off"
-        />
-      </div>
-      <button class="btn btn-success submit-admin">Login</button>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {}
+import Swal from 'sweetalert2'
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    login() {
+      if (this.email === '' || this.password === '') {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Upps',
+          text: 'Email / Password cannot be Null'
+        })
+      } else {
+        axios
+          .post('http://localhost:3000/users/admin', {
+            email: this.email,
+            password: this.password
+          })
+          .then(({ data }) => {
+            localStorage.setItem('token', data.token)
+            this.$router.push('/admin/cpanel')
+            this.$store.adminLogin = true
+            this.email = ''
+            this.password = ''
+          })
+          .catch(({ response }) => {
+            Swal.fire({
+              icon: 'error',
+              text: response.data.message
+            })
+          })
+      }
+    }
+  }
+}
 </script>
 
 <style>

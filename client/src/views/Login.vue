@@ -80,7 +80,6 @@ export default {
             password: this.password
           })
           .then(({ data }) => {
-            console.log(data)
             localStorage.setItem('token', data.token)
             this.$store.state.isLogin = true
             this.$router.push('/')

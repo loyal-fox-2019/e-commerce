@@ -31,9 +31,41 @@ class User {
           if (passwordMatch) {
             const token = generateToken({
               id: user._id,
-              name: user.full_name
+              name: user.full_name,
+              role: user.role
             });
             res.status(200).json({ token: token });
+          } else {
+            throw err;
+          }
+        } else {
+          throw err;
+        }
+      })
+      .catch(next);
+  }
+  static adminLogin(req, res, next) {
+    const err = {
+      name: "Validataion Login",
+      message: "Email / Password Wrong"
+    };
+    Model.findOne({ email: req.body.email })
+      .then(user => {
+        if (user) {
+          let passwordMatch = comparePassword(req.body.password, user.password);
+          if (passwordMatch) {
+            const token = generateToken({
+              id: user._id,
+              name: user.full_name,
+              role: user.role
+            });
+            if (user.role === "Admin") {
+              res.status(200).json({ token: token });
+            } else {
+              err.name = "Unauthorized";
+              err.message = "Admin Role Required";
+              throw err;
+            }
           } else {
             throw err;
           }

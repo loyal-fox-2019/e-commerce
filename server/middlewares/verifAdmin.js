@@ -5,6 +5,7 @@ module.exports = (req, res, next) => {
   if (req.loginData.role !== "Admin") {
     err.name = "Unauthorized";
     err.message = "Required Admin Role";
+    next(err);
   } else {
     next();
   }
