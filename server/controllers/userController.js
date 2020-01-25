@@ -7,7 +7,8 @@ class UserController {
         const data = {
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            role: req.body.role || 'basic'
         }
 
         User.create(data)
@@ -63,6 +64,28 @@ class UserController {
                 })
             }) 
 
+    }
+
+    static registerAdmin (req, res, next) {
+        const data = {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            role: 'admin'
+        }
+
+        User.create(data)
+            .then(result => {
+                res.status(201).json({
+                    message: 'Admin created',
+                    result
+                })
+            })
+            .catch(err => {
+                res.status(400).json({
+                    message: 'Please check your data'
+                })
+            })
     }
 }
 

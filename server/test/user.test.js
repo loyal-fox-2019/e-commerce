@@ -19,6 +19,7 @@ describe('User Test',  function() {
                 name: 'Admin',
                 email: 'admin@mail.com',
                 password: 'helloadmin',
+                role: 'admin'
             }
             chai.request(app)
                 .post('/user/register')

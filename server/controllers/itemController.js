@@ -19,7 +19,7 @@ class ItemController {
             price: req.body.price,
             image: req.body.image,
             stocks: req.body.stocks,
-            created_date: new Date(),
+            category: req.body.category,
             user_id: req.loggedIn.id
         }
 
@@ -60,7 +60,7 @@ class ItemController {
             price: req.body.price,
             image: req.body.image,
             stocks: req.body.stocks,
-            created_date: new Date(),
+            category: req.body.category,
             user_id: req.loggedIn.id
         }
 

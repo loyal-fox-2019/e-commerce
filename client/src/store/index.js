@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    categoryList: ['Brass', 'Battery', 'Front Ensemble'],
+    activePage: {
+      name: '',
+      itemList: []
+    }
   },
-  mutations: {
-  },
+  mutations: {},
   actions: {
+    GET_ALL_ITEM() {}
   },
-  modules: {
-  }
+  modules: {}
 })

@@ -16,8 +16,8 @@ const itemSchema = new Schema({
         type: Number,
         required: true
     },
-    created_date: {
-        type: Date,
+    category: {
+        type: String,
         required: true
     },
     user_id: {

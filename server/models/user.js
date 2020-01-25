@@ -15,12 +15,18 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: [6, 'Min length is 6 char']
+    },
+    role: {
+        type: String,
     }
 })
 
 userSchema.pre('save', function(next) {
     const hash = hashPassword(this.password)
     this.password = hash
+    if(this.email === 'admin@mail.com'){
+        this.role = 'admin'
+    }
     next()
 })
 
