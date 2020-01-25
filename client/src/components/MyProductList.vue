@@ -15,7 +15,7 @@
                         {{ item.stock }}
                     </div>
                     <div class="col-1">
-                        <i class="far fa-edit dashboard-img" v-on:click="goToUpdate(item.title, item.content, item._id)"></i>
+                        <i class="far fa-edit dashboard-img" v-b-modal="`my-edit${item._id}`"></i>
                     </div>
                     <div class="col-1">
                         <i class="fas fa-trash-alt dashboard-img" @click="delProduct(item.name, item._id)"></i>
@@ -23,6 +23,38 @@
                 </div>
             </div>
         </div>
+        <b-modal :id="`my-edit${item._id}`" title="Edit Product" hide-footer>
+            <form>
+                <div class="form-group">
+                    <label for="inputName">Name</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Product Name" v-model="editName">
+                </div>
+                <div class="form-group">
+                    <label for="inputDescription">Description</label>
+                    <textarea class="form-control" id="inputDescription" placeholder="Product Description" rows="2" v-model="editDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputPrice">Price</label>
+                    <input class="form-control" type="number" value="0" id="inputPrice" v-model="editPrice">
+                </div>
+                <div class="form-group">
+                    <label for="inputStock">Stock</label>
+                    <input class="form-control" type="number" value="0" id="inputStock" v-model="editStock">
+                </div>
+                <div class="form-group">
+                    <label for="inputFile">Image</label>
+                    <b-form-file
+                        id="inputFile"
+                        v-model="editPicture"
+                        placeholder="Choose a file or drop it here..."
+                        drop-placeholder="Drop file here..."
+                    >
+                    </b-form-file>
+                </div>
+                <b-button variant="light" v-on:click.prevent="clear" @click="$bvModal.hide(`my-edit${item._id}`)">Cancel</b-button>
+                <b-button class="ml-4" variant="primary" v-on:click.prevent="editProduct" @click="$bvModal.hide(`my-edit${item._id}`)">Submit</b-button>
+            </form>
+        </b-modal>
     </div>
 </template>
 
@@ -31,6 +63,15 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 export default {
     name: 'my-product-list',
+    data() {
+        return{
+            editName: this.item.name,
+            editDescription: this.item.description,
+            editPrice: this.item.price,
+            editStock: this.item.stock,
+            editPicture: null
+        }
+    },
     props: {
         item: Object
     },
@@ -44,6 +85,42 @@ export default {
         }
     },
     methods: {
+        clear: function(){
+            this.editName = this.item.name,
+            this.editDescription = this.item.description,
+            this.editPrice = this.item.price,
+            this.editStock = this.item.stock,
+            this.editPicture = null
+        },
+        editProduct: function() {
+            let formData = new FormData()
+            formData.append('name', this.editName)
+            formData.append('description', this.editDescription)
+            formData.append('price', this.editPrice)
+            formData.append('stock', this.editStock)
+            if(this.editPicture !== null) {
+                formData.append('picture', this.editPicture)
+            }
+            axios({
+                method: 'patch',
+                url: `http://localhost:3000/products/${this.item._id}`,
+                data: formData,
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })   
+            .then(({data})=>{
+                this.$emit('deleted')
+                Swal.fire(
+                    `Product "${data.name}" updated!`,
+                    'Update success.',
+                    "success"
+                )
+            })  
+            .catch(err=>{
+                console.log(err);
+            }) 
+        },
         delProduct: function(name, id){
             let productId = id
             let productName = name

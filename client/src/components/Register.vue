@@ -77,6 +77,7 @@ export default {
             .then(({data})=>{
                 localStorage.setItem('token', data.token)
                 localStorage.setItem('username', data.username)
+                localStorage.setItem('userId', data.userId)
                 Swal.fire(
                     'Registration success!',
                     'You are now logged in',

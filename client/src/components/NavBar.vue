@@ -21,8 +21,9 @@
                 <template v-slot:button-content>
                     <em id="user">{{ username }}</em>
                 </template>
-                <b-dropdown-item href="#"><i class="fas fa-cart-arrow-down"></i> My Cart</b-dropdown-item>
-                <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
+                <b-dropdown-item><router-link to="/user" id="router-link"><i class="fas fa-user"></i> View profile</router-link></b-dropdown-item>
+                <b-dropdown-item><router-link to="/cart" id="router-link"><i class="fas fa-cart-arrow-down"></i> My Cart</router-link></b-dropdown-item>
+                <b-dropdown-item @click="logout"><i class="fas fa-sign-out-alt"></i> Sign Out</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
             </b-collapse>
@@ -87,13 +88,14 @@ export default {
             this.newStock = null,
             this.newPicture = null
         },
+        rupiahPrice: function(rawPrice){
+            let angka = rawPrice
+            let rupiah = '';		
+            let numReverse = angka.toString().split('').reverse().join('');
+            for(let i = 0; i < numReverse.length; i++) if(i%3 == 0) rupiah += numReverse.substr(i,3)+'.';
+            return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+        },
         addProduct: function(){
-            // Swal.fire({
-            //     text: "Product Being Added Please Wait...",
-            //     onBeforeOpen: () => {
-            //         Swal.showLoading()
-            //     }
-            // })
             this.$emit('nowLoading')
             let formData = new FormData()
             formData.append('name', this.newName)
@@ -110,13 +112,13 @@ export default {
                 }
             })
             .then(({data})=>{
-                let detail = `Price: ${data.price}<br>Stock: ${data.stock}`
+                let detail = `Price: ${this.rupiahPrice(data.price)}<br>Stock: ${data.stock}`
                 this.newName = '',
                 this.newDescription = '',
                 this.newPrice = null,
                 this.newStock = null,
                 this.newPicture = null
-                this.$emit('productAdded', data)
+                this.$emit('productAdded')
                 Swal.fire({
                     icon: 'success',
                     title: `Product "${data.name}" Added!`,
@@ -146,6 +148,11 @@ export default {
 <style scoped>
 .addProduct {
     font-weight: bold;
+}
+
+#router-link {
+    text-decoration: none;
+    color: black;
 }
 
 .link {

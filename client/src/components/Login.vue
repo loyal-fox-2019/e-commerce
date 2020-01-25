@@ -33,7 +33,7 @@
         </b-row>
         <b-row class="w-100 mx-3 py-4" align-h="center">
             <b-col class="text-center">
-                <!-- <g-signin-button class="btn btn-light mx-3" :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError"><i class="fab fa-google"></i> | Sign in with Google</g-signin-button> -->
+                <g-signin-button class="btn btn-light mx-3" :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError"><i class="fab fa-google"></i> | Sign in with Google</g-signin-button>
                 <b-button variant="primary" @click="login">Login</b-button>
             </b-col>
         </b-row>
@@ -48,7 +48,10 @@ export default {
     data(){
         return {
             email: '',
-            password: ''
+            password: '',
+            googleSignInParams: {
+                client_id: '199854943337-895pidlcap8v66cslv8vm2u4net4nnm4.apps.googleusercontent.com'
+            }
         }
     },
     methods: {
@@ -64,6 +67,7 @@ export default {
             .then(({data})=>{
                 localStorage.setItem('token', data.token)
                 localStorage.setItem('username', data.username)
+                localStorage.setItem('userId', data.userId)
                 Swal.fire(
                     'Login success!',
                     'You are now logged in',
@@ -78,6 +82,35 @@ export default {
                     text: err.response.data.message,
                 })
             })
+        },
+        onSignInSuccess: function(googleUser){
+            let id_token = googleUser.getAuthResponse().id_token
+            axios({
+                method: 'post',
+                url: `http://localhost:3000/users/glogin/${id_token}`,
+                data: {}
+            })
+            .then(({data})=>{
+                localStorage.setItem('token', data.token)
+                localStorage.setItem('username', data.username)
+                localStorage.setItem('userId', data.userId)
+                Swal.fire(
+                    'Login success!',
+                    'You are now logged in',
+                    'success'
+                )
+                this.$router.push('/')
+            })
+            .catch(err=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: err.response.data.message,
+                })
+            })
+        },
+        onSignInError: function(error){
+            console.log(error);        
         }
     }
 }

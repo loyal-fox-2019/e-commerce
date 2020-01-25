@@ -7,6 +7,22 @@ const userSchema = new Schema({
         type: String,
         required: [true, "name is required"]
     },
+    profpic: {
+        type: String,
+        default: "https://storage.cloud.google.com/e-commerce-image/user_icon.png?supportedpurview=project"
+    },
+    cart: [
+        {
+            item: {
+                type: Schema.Types.ObjectId,
+                ref: "Product"
+            },
+            quantity: {
+                type: Number,
+                min: 1
+            }
+        }
+    ],
     email: {
         type: String,
         required: [true, 'Email is required'],

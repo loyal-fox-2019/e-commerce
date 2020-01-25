@@ -1,21 +1,21 @@
 <template>
   <div>
-    <NavBar @nowLoading="loading" @productAdded="addProduct"></NavBar>
+    <NavBar @nowLoading="loading" @productAdded="fetchProducts"></NavBar>
       <div class="container-fluid p-0 m-0">
         <div class="loader" v-if="isLoading">
           <div class="text-center mb-3 d-flex justify-content-between">
           <b-spinner
             variant='primary'
           ></b-spinner>
+          </div>
         </div>
-      </div>
       <Carousel></Carousel>
+      <div class="row search-row mt-2 justify-content-center">
+        <input type="text" id="search-bar" placeholder="Search Product" v-model="searchBox" @keyup="filter">
+        <i class="fas fa-search fa-lg mt-2 ml-2" id="search-img"></i>
+      </div>
       <div class="d-flex mx-auto overflow-hidden">
-        <!-- <div class="row mt-2 justify-content-center">
-          <input type="text" id="search-bar" placeholder="Search Product">
-          <i class="fas fa-search fa-lg" id="search-img"></i>
-        </div> -->
-        <div class="row mx-2">
+        <div class="row mx-2 w-100">
           <ProductList v-for="product in products" :item="product" :key="product._id" />
         </div>
       </div>
@@ -34,17 +34,39 @@ export default {
   name: 'home',
   data(){
     return {
+      searchBox: '',
       products: [],
+      products_perma: [],
       isLoading: false
     }
   },
   methods: {
-    addProduct: function(payload){
-      this.products.push(payload)
-      this.isLoading = false
+    fetchProducts: function(){
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/products'
+      })
+      .then(({data})=>{
+        this.products = data
+        this.products_perma = data
+        this.isLoading = false
+        this.searchBox = ''
+      })
+      .catch(err=>{
+        console.log(err)
+      })
     },
     loading: function(){
       this.isLoading = true
+    },
+    filter: function(){
+      let temp = []
+      for(let obj of this.products_perma) {
+        if(obj.name.toLowerCase().includes(this.searchBox.toLowerCase())) {
+          temp.push(obj)
+        }
+      }
+      this.products = temp
     }
   },
   components: {
@@ -59,6 +81,9 @@ export default {
     })
     .then(({data})=>{
       this.products = data
+      this.products_perma = data
+      this.searchBox = ''
+      this.isLoading = false
     })
     .catch(err=>{
       console.log(err)
@@ -68,6 +93,9 @@ export default {
 </script>
 
 <style scoped>
+.search-row {
+  width: 100%;
+}
 .loader {
     position: fixed;
     z-index: 2;

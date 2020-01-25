@@ -1,9 +1,4 @@
 <template>
-  <!-- <b-container fluid id="container">
-    <b-row class="pt-5 pb-4" align-h="center">
-      <Login></Login>
-    </b-row>
-  </b-container> -->
   <b-container fluid id="container">
         <b-row class="pt-5 pb-4" align-h="center">
             <h1><i class="fas fa-shopping-bag fa-lg"></i> E-Commerce</h1>
