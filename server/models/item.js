@@ -19,6 +19,15 @@ const itemSchema = new Schema({
     required: [true, 'Item price is required'],
     min: [0, 'Item price cant be less than 0'],
   },
+  description: {
+    type: String,
+    required: [true, 'Item description is required'],
+  },
+  category: {
+    type: String,
+    required: [true, 'Item category is required'],
+    enum: ['classic', 'electric'],
+  },
 })
 
 const item = model('Item', itemSchema)

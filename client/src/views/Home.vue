@@ -1,18 +1,56 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <div class="custom-body bg-fixed h-screen">
+      <div class="flex items-center h-full">
+        <div class="ml-5">
+          <p class="text-6xl font-hairline tracking-wider text-red-900">
+            Express your emotion through guitar.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-around py-16">
+      <GuitarType
+        :imgSrc="
+          'https://storage.cloud.google.com/images-bucket-arief/guitar-classic.jpg'
+        "
+        :title="'Guitar Classic'"
+        :description="
+          'There’s no hiding behind distortion or effect pedals, it’s just you and your mighty fingers.'
+        "
+        :urlTo="'classic'"
+      />
+      <GuitarType
+        :imgSrc="
+          'https://storage.cloud.google.com/images-bucket-arief/guitar-electric.jpg'
+        "
+        :title="'Guitar Electric'"
+        :description="'Electrify your guitar, distort the world.'"
+        :urlTo="'electric'"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import GuitarType from '@/components/GuitarType.vue'
 
 export default {
-  name: "home",
+  name: 'Home',
   components: {
-    HelloWorld
-  }
-};
+    GuitarType,
+  },
+  data: function() {
+    return {
+      hover: false,
+    }
+  },
+}
 </script>
+
+<style scoped>
+.custom-body {
+  background-image: url(../assets/guitar-wallpaper.jpg);
+  background-size: cover;
+}
+</style>
