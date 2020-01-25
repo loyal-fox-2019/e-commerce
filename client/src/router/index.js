@@ -19,7 +19,36 @@ const routes = [
     path: "/register",
     name: "register",
     component: () =>
-      import(/* webpackChunkName: "register" */ "@/views/Register.vue")
+      import(/* webpackChunkName: "register" */ "@/views/Register.vue"),
+    beforeEnter: (to, from, next) => {
+      if (to.path === "register") {
+        next({ name: "register email" });
+      } else {
+        next();
+      }
+    },
+    children: [
+      {
+        path: "",
+        redirect: { name: "register email" }
+      },
+      {
+        path: "email",
+        name: "register email",
+        component: () =>
+          import(
+            /* webpackChunkName: "register" */ "@/components/RegisterEmail.vue"
+          )
+      },
+      {
+        path: "detail",
+        name: "register detail",
+        component: () =>
+          import(
+            /* webpackChunkName: "register" */ "@/components/RegisterDetail.vue"
+          )
+      }
+    ]
   }
 ];
 

@@ -15,40 +15,21 @@
         <b-navbar-nav class="w-100">
           <b-row class="w-100">
             <b-col cols="10" align-self="center">
-              <b-input-group size="sm">
-                <template v-slot:append>
-                  <b-input-group-text>
-                    <b-icon
-                      icon="search"
-                      scale="1"
-                      variant="secondary"
-                    ></b-icon>
-                  </b-input-group-text>
-                </template>
-                <b-form-input></b-form-input>
-              </b-input-group>
+              <search-box></search-box>
             </b-col>
             <b-col cols="2">
               <b-row>
                 <b-col
-                  cols="2"
+                  cols="1"
                   align-self="center"
                   :style="{ 'border-right': 'solid 1px grey' }"
                   class="pl-0 pr-5"
                 >
                   <font-awesome-icon :icon="['fas', 'shopping-cart']" />
                 </b-col>
-                <login-btn-modal></login-btn-modal>
-                <b-col cols="4">
-                  <b-button
-                    to="/register"
-                    class="font-weight-bold"
-                    style="font-size:11px;width:70px;"
-                    size="sm"
-                    variant="success"
-                  >
-                    Daftar
-                  </b-button>
+                <b-col cols="9" class="d-flex justify-content-around m-0 p-0">
+                  <login-btn-modal></login-btn-modal>
+                  <register-btn-page :isBtn="true"></register-btn-page>
                 </b-col>
               </b-row>
             </b-col>
@@ -61,10 +42,14 @@
 
 <script>
 import LoginBtnModal from "@/components/LoginBtnModal.vue";
+import RegisterBtnPage from "@/components/RegisterBtnPage.vue";
+import SearchBox from "@/components/SearchBox.vue";
 
 export default {
   components: {
-    LoginBtnModal
+    LoginBtnModal,
+    RegisterBtnPage,
+    SearchBox
   }
 };
 </script>

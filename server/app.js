@@ -1,46 +1,29 @@
-const express = require('express');
-const mongoose = require('mongoose');
+if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+  require("dotenv").config();
+}
+
+const express = require("express");
 const app = express();
+const port = 3000;
+const cors = require("cors");
+const routes = require('./routes');
+const mongoose = require('mongoose');
 
-const Product = require('./models/product');
+// const dbUrl = `mongodb+srv://dbHarfi:${process.env.MONGO_PASSWORD}@hacktiv-ra2tp.mongodb.net/tookoo_${process.env.NODE_ENV}?retryWrites=true&w=majority`;
+const dbUrl = `mongodb://localhost:27017/tookoo_${process.env.NODE_ENV}`
+// const dbName = `tookoo_${process.env.NODE_ENV}`
 
-const port = process.env.PORT || 3000;
-
-mongoose.connect('mongodb://localhost:27017/compress_' + process.env.NODE_ENV, {
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+app.use(cors());
+app.use(express.json()); // for parsing application/json
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+); // for parsing application/x-www-form-urlencoded
+app.use("/", routes);
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-app.get('/products', function(req, res, next) {
-  Product
-    .find({})
-    .then(function(product) {
-      res.status(200).json(product);
-    })
-    .catch(next);
-});
-
-app.post('/products', function(req, res, next) {
-  Product
-    .create(req.body)
-    .then(function(product) {
-      const {_id, name, price, seller, stock} = product;
-      res.status(201).json({
-        _id, name, price, seller, stock,
-        message: 'Product registered successfully'
-      });
-    })
-    .catch(next);
-});
-
-app.use(function(err, req, res, next) {
-  console.log(err);
-  res.status(500).json({
-    message: 'Whoa',
-  });
-});
-
-module.exports = app;
+app.listen(port, () => console.log(`TOOKOO running on port: ${port}!`));

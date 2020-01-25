@@ -5,17 +5,25 @@ const productSchema = new Schema({
   name: {
     type: String
   },
+  images: [{
+    type: String
+  }],
   price: {
     type: Number
   },
-  seller: {
-    type: String
-  },
   stock: {
     type: Number
-  }
+  },
+  seller: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users'
+  },
+  tags: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Tags'
+  }]
 });
 
-const Product = mongoose.model('Product', productSchema);
+const product = mongoose.model('Products', productSchema);
 
-module.exports = Product;
+module.exports = product;
