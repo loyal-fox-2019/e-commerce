@@ -7,6 +7,8 @@ class ItemController {
       stock: req.body.stock,
       image: req.body.image,
       price: req.body.price,
+      description: req.body.description,
+      category: req.body.category,
     })
       .then(item => {
         res.status(201).json({ message: 'Item added' })
