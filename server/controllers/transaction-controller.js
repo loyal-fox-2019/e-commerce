@@ -3,6 +3,15 @@ const Cart = require('../models/cart')
 const Item = require('../models/item')
 
 class TransactionController {
+  static async getUserTransactions(req, res, next) {
+    try {
+      const transactions = Transaction.find({ buyer: req.payload.id })
+      res.json({ transactions })
+    } catch (err) {
+      next(err)
+    }
+  }
+
   static async createTransaction(req, res, next) {
     let promises = []
 
