@@ -10,7 +10,15 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
     stock: {
+        type: Number,
+        required: true
+    },
+    sold: {
         type: Number,
         required: true
     },
@@ -18,7 +26,8 @@ const productSchema = new Schema({
         type: String
     },
     seller: {
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     tags: [{
         type: String

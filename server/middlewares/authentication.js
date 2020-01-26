@@ -17,14 +17,18 @@ function authentication(req, res, next) {
             } 
             else 
             {
-                next({ status: 401, message: 'Invalid token' })
+                res.status(404).json({
+                    msg: "User not found."
+                })
             }
         })
         .catch(next)
     }
     catch(err) 
     {
-        next({ status: 401, message: err })
+        res.status(401).json({
+            msg: "Invalid/missing token."
+        })
     }
 }
 

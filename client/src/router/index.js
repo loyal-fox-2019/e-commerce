@@ -20,7 +20,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/RegisterPage.vue'),
   },
   {
-    path: '/manage',
+    path: '/myproducts',
     name: 'MyProductsPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/MyProductsPage.vue'),
   },
@@ -28,6 +28,16 @@ const routes = [
     path: '/add-product',
     name: 'AddProductPage',
     component: () => import(/* webpackChunkName: "about" */ '../views/AddProductPage.vue'),
+  },
+  {
+    path: '/product/:id',
+    name: 'ProductDetailPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ProductDetailPage.vue'),
+  },
+  {
+    path: '/editproduct/:id',
+    name: 'EditProductPage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/EditProductPage.vue'),
   },
 ];
 

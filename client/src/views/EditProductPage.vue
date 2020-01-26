@@ -1,35 +1,34 @@
 <template>
     <div>
         <manageSidebar></manageSidebar>
-        <productsView id="products-view" :productsArr="productsArr" :title="'My products'" :mode="'manage'"></productsView>
+        <editProductForm id="edit-product-form" :product="product" v-if="product"></editProductForm>
+        <div v-else>Loading...</div>
     </div>
 </template>
 
 <script>
     import axiosReq from "../config/axios.js";
     import manageSidebar from "../components/manageSidebar.vue"
-    import productsView from "../components/productsView.vue"
+    import editProductForm from "../components/editProductForm.vue";
+    
     export default {
-        name: "MyProductsPage",
+        name: "EditProductPage",
         components: {
             manageSidebar,
-            productsView
+            editProductForm
         },
         data() {
             return {
-                productsArr: []
+                product: null
             }
         },
         created() {
             axiosReq({
-                url: `/users/myproducts`,
-                method: 'get',
-                headers: {
-                    token: this.$cookies.get('token')
-                },
+                url: `/products/${this.$route.params.id}`,
+                method: 'get'
             })
             .then(({data}) => {
-                this.productsArr = data;
+                this.product = data;
             })
             .catch((err) => {
                 console.log(err);
@@ -40,8 +39,9 @@
 </script>
 
 <style scoped>
-#products-view {
+#edit-product-form {
     left: 250px;
     position: absolute;
+    width: calc(100vw - 250px)
 }
 </style>

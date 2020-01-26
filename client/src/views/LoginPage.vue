@@ -3,7 +3,7 @@
         <form class="form-signin" @submit.prevent="loginUser">
             <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
 
-            <input type="text" v-model="username" class="form-control" placeholder="Username" required autofocus>       
+            <input type="email" v-model="email" class="form-control" placeholder="Email" required autofocus>       
             <input type="password" v-model="password" class="form-control" placeholder="Password" required>
             
             <button class="btn btn-lg btn-primary btn-block" type="submit" id="std-signin">Sign in</button>
@@ -25,7 +25,7 @@
         data() {
             return {
                 error: "",
-                username: "",
+                email: "",
                 password: ""
             }
         },
@@ -35,14 +35,15 @@
                     url: "/users/login",
                     method: "post",
                     data: {
-                        username: this.username,
+                        email: this.email,
                         password: this.password
                     }
                 })
                 .then(({data}) => {
                     this.$cookies.set('token',data.token);
-                    this.$cookies.set('username',this.username);
-                    this.username = "";
+                    this.$cookies.set('email',this.email);
+                    this.$cookies.set('username',data.username);
+                    this.email = "";
                     this.password = "";
                     this.error = "";
                     this.$store.commit('SET_LOGIN_STATE',true);

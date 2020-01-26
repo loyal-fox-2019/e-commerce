@@ -9,13 +9,10 @@ usersRouter.post('/login', UserController.loginUser);
 
 usersRouter.use('/',authentication);
 
-usersRouter.get('/myproducts');
+usersRouter.get('/myproducts',UserController.getMyProducts);
 
 usersRouter.get('/cart');
 
-usersRouter.post('/cart', (req, res, next) => {
-    
-    
-});
+usersRouter.post('/cart');
 
 module.exports = usersRouter;

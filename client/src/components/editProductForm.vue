@@ -1,7 +1,7 @@
 <template>
     <div>        
-        <form id="add-form" @submit.prevent="addProduct" enctype="multipart/form-data" method="post">
-            <h3>Add a product</h3>
+        <form id="edit-form" @submit.prevent="editProduct" enctype="multipart/form-data" method="post" v-if="editProduct">
+            <h3>Edit product</h3>
             <div class="form-group">
                 Name*
                 <input type="text" class="form-control" v-model="name" required>
@@ -16,17 +16,11 @@
                 </div>
             </div>
             <div class="form-group">
-                Stock*
-                <div class="input-group">                    
-                    <input type="number" class="form-control" v-model="stock" min="0" required>
-                    <div class="input-group-append">
-                        <span class="input-group-text">unit(s)</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                Image
-                <input type="file" class="form-control" name="file" ref="file" @change="handleFile">
+                Image<br>
+                <input type="radio" name="changeImage" :value="false" v-model="changeImage"> Keep original<br><img :src="product.image" style="width:100px"><br>
+                <input type="radio" name="changeImage" :value="true" v-model="changeImage">
+                Change image
+                <input type="file" name="file" ref="file" @change="handleFile" style="width:500px;" :disabled="!changeImage"><br>
             </div>
             <div class="form-group">
                 Description*
@@ -36,7 +30,7 @@
                 Tags* (separated with spaces)
                 <textarea class="form-control" v-model="tags" required></textarea>
             </div>
-            <button class="btn btn-primary" id="save-btn" type="submit">Add product</button>
+            <button class="btn btn-primary" id="save-btn" type="submit">Edit product</button>
         </form>
     </div>
 </template>
@@ -44,44 +38,41 @@
 <script>
     import axiosReq from "../config/axios";
     export default {
-        name: "addProductForm",
+        name: "editProductForm",
+        props: {
+            product: Object
+        },
         data() {
             return {
-                name: "",
-                price: null,
-                stock: null,
-                tags: "",
-                description: "",
-                file: ""
+                name: this.product.name,
+                price: this.product.price,
+                tags: this.product.tags.join(' '),
+                description: this.product.description,
+                file: "",
+                changeImage: false
             }
         },
         methods: {
-            addProduct() {
+            editProduct() {
                 let fd = new FormData();
                 fd.append('name',this.name);
                 fd.append('price',this.price);
-                fd.append('stock',this.stock);
                 fd.append('tags',this.tags);
                 fd.append('description',this.description);
                 fd.append('file',this.file);
+                fd.append('changeImage',this.changeImage);
 
                 axiosReq({
-                    url: "/products",
-                    method: "post",
+                    url: `/products/${this.product._id}`,
+                    method: "put",
                     headers: {
                         token: this.$cookies.get('token'),
                         'content-type': 'multipart/form-data'
                     },
                     data: fd
                 })
-                .then(({data}) => {
-                    this.name = "";
-                    this.price = null;
-                    this.stock = null;
-                    this.tags = "";
-                    this.description = "";
-                    console.log(data)
-                    this.$router.push({path: `/product/${data._id}`})
+                .then(() => {
+                    this.$router.push({path: `/product/${this.product._id}`})
                 })
                 .catch((err) => {
                     console.log(err); 
@@ -99,7 +90,7 @@
 </script>
 
 <style scoped>
-#add-form {
+#edit-form {
     padding-left: 15px;
     padding-top: 15px;
     width: 50vw;

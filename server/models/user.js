@@ -9,6 +9,17 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        validate: {
+            validator(v) {
+                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(v);
+            },
+            message: "Invalid email address."
+        }
+    },
     password: {
         type: String,
         required: true
@@ -38,12 +49,33 @@ userSchema.pre('save',function(next) {
             }
             else
             {
-                next();
+                return User.findOne({
+                    email: this.email
+                }).exec();
             }
         }
         else
         {            
-            next();
+            return User.findOne({
+                email: this.email
+            }).exec();
+        }
+    })
+    .then((user) => {  
+        if(user)
+        {
+            if(user._id.toString() != this._id.toString())
+            {
+                next(new Error("Email already registered."))
+            }
+            else
+            {
+                next()
+            }
+        }
+        else
+        {            
+            next()
         }
     })
     .catch((err) => {

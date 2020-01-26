@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Product = require("../models/product")
 const _ = require("underscore");
 
 const comparePassword = require("../helpers/bcrypt").comparePassword;
@@ -8,7 +9,7 @@ class UserController
 {
     static registerUser(req, res, next)
     {
-        const data = _.pick(req.body,'username','password');
+        const data = _.pick(req.body,'username','password','email');
         data.login_type = "standard";
         User.create(data)
         .then((user) => {
@@ -24,9 +25,9 @@ class UserController
 
     static loginUser(req, res, next)
     {
-        const data = _.pick(req.body,'username','password');
+        const data = _.pick(req.body,'email','password');
         User.findOne({
-            username: data.username
+            email: data.email
         })
         .exec()
         .then((user) => {
@@ -37,8 +38,10 @@ class UserController
                     res.status(200).json({
                         token: generateToken({
                             id: user._id,
-                            username: user.username
-                        })
+                            username: user.username,
+                            email: user.email
+                        }),
+                        username: user.username
                     });
                 }
                 else
@@ -59,7 +62,19 @@ class UserController
 
     static getMyProducts(req,res,next)
     {
-
+        Product.find({
+            seller: req.userInfo.id
+        })
+        .then((products) => {
+            res.status(200).json(products);
+        })
+        .catch((err) => {
+            console.log(err);
+            
+            res.status(400).json({
+                msg: "error"
+            });
+        })
     }
 }
 

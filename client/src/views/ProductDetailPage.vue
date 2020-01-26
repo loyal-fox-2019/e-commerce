@@ -1,45 +1,43 @@
 <template>
     <div>
         <categorySidebar></categorySidebar>
-        <productsView id="products-view" :productsArr="productsArr" :title="'Products'" :mode="'list'"></productsView>
+        <productDetail id="product-detail" :product="product"></productDetail>
     </div>
 </template>
 
 <script>
-    import categorySidebar from "../components/categorySidebar.vue"
-    import productsView from "../components/productsView.vue"
+    import productDetail from "../components/productDetail.vue";
+    import categorySidebar from "../components/categorySidebar.vue";
     import axiosReq from "../config/axios";
     export default {
-        name: "MainPage",
+        name: "ProductDetailPage",
         data() {
             return {
-                productsArr: [],
-                searchStr: ""
+                product: null
             }
         },
         components: {
             categorySidebar,
-            productsView
+            productDetail
         },
         created() {
             axiosReq({
-                url: `/products?search=${this.searchStr}`,
+                url: `/products/${this.$route.params.id}`,
                 method: 'get'                
             })
             .then(({data}) => {
-                this.productsArr = data;
+                this.product = data;
             })
             .catch((err) => {
                 console.log(err);
                 
             })
         }
-        
     }
 </script>
 
 <style scoped>
-#products-view {
+#product-detail {
     left: 250px;
     position: absolute;
 }

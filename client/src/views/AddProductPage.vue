@@ -6,7 +6,6 @@
 </template>
 
 <script>
-    import axiosReq from "../config/axios.js";
     import manageSidebar from "../components/manageSidebar.vue"
     import addProductForm from "../components/addProductForm.vue";
     
@@ -15,10 +14,6 @@
         components: {
             manageSidebar,
             addProductForm
-        },
-        
-        created() {
-            axiosReq({})
         }
     }
 </script>

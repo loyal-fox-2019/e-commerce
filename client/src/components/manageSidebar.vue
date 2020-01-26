@@ -4,7 +4,7 @@
         <ul>
             <li class="list-heading"><h3>Manage</h3></li>
             <li><a href="#">Account</a></li>
-            <li><a href="#">My products</a></li>
+            <li><router-link to="/myproducts">My products</router-link></li>
             <li><router-link to="/add-product">Add new product</router-link></li>
             <li><a href="#">Cart</a></li>
         </ul>

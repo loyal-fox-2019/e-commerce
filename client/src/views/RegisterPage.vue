@@ -3,7 +3,8 @@
         <form class="form-signin" @submit.prevent="registerUser">
             <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
 
-            <input type="text" class="form-control" placeholder="Username" pattern="^[a-zA-Z0-9_]*$" v-model="username" required autofocus>       
+            <input type="text" class="form-control" placeholder="Username" pattern="^[a-zA-Z0-9_]*$" v-model="username" required autofocus>
+            <input type="email" class="form-control" v-model="email" placeholder="Email" required>
             <input type="password" v-model="password" class="form-control" placeholder="Password (at least 6 characters)" minlength="6" required>
             <input type="password" v-model="password2" class="form-control" placeholder="Confirm password" minlength="6" required>
             
@@ -26,7 +27,8 @@
                 error: "",
                 username: "",
                 password: "",
-                password2: ""
+                password2: "",
+                email: ""
             }
         },
         methods: {
@@ -44,7 +46,8 @@
                         method: "post",
                         data: {
                             username: this.username,
-                            password: this.password
+                            password: this.password,
+                            email: this.email
                         }
                     })
                     .then(() => {
@@ -52,15 +55,17 @@
                             url: "/users/login",
                             method: "post",
                             data: {
-                                username: this.username,
+                                email: this.email,
                                 password: this.password
                             }
                         })
                     })
                     .then(({data}) => {
                         this.$cookies.set('token',data.token);
+                        this.$cookies.set('email',this.email);
                         this.$cookies.set('username',this.username);
                         this.username = "";
+                        this.email = "";
                         this.password = "";
                         this.password2 = "";
                         this.error = "";

@@ -1,12 +1,14 @@
-const Article = require("../models/article");
+const Product = require("../models/product");
 
-function article_authorisation(req,res,next)
+function product_authorisation(req,res,next)
 {    
-    Article.findById(req.params.id)
-    .then((article) => {
-        if(article.author.toString() != req.userInfo.id)
+    Product.findById(req.params.id)
+    .then((product) => {
+        if(product.seller.toString() != req.userInfo.id)
         {
-            next({status: 403, message: "Not authorised"});
+            res.status(403).json({
+                msg: "Not authorised"
+            })
         }
         else
         {
@@ -14,7 +16,8 @@ function article_authorisation(req,res,next)
         }
     })
     .catch((err) => {
-        next(err);
+        console.log(err);
+        
     });
 }
 
@@ -37,6 +40,6 @@ function user_authorisation(req,res,next)
 }
 
 module.exports = {
-    article_authorisation,
+    product_authorisation,
     user_authorisation
 };
