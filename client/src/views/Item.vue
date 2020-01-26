@@ -1,7 +1,24 @@
 <template>
-  <div class="item">
-    <h1>{{ itemDetail.title }}</h1>
-    <b-table stacked :items="itemDetail"></b-table>
+  <div class="item container">
+    <b-row class="mt-4">
+      <b-col>
+        <b-img
+          thumbnail
+          :src="itemDetail.image"
+          fluid
+          alt="Responsive image"
+        ></b-img>
+      </b-col>
+      <b-col cols="8">
+        <b-card class="text-left">
+          <b-card-title>{{ itemDetail.title }}</b-card-title>
+          <b-card-body>
+            <b-card-sub-title>Description:</b-card-sub-title>
+            <b-card-text v-html="fixedDescription"></b-card-text>
+          </b-card-body>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -14,18 +31,23 @@ export default {
       itemDetail: null
     };
   },
+  computed: {
+    fixedDescription() {
+      return this.itemDetail.description.split('\\n').join('<br />');
+    }
+  },
   created() {
     console.log(localStorage.getItem('token'));
     axios
-      .get(`http://127.0.0.1:52606/items/${this.$route.params.id}`)
+      .get(`http://localhost:3000/products/${this.$route.params.id}`)
       .then(({ data }) => {
-        console.log(data);
-        this.itemDetail = [data];
+        console.log(data.data);
+        this.itemDetail = data.data;
       })
       .catch(() => this.$router.push({ path: '/page-not-found' }));
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>

@@ -5,6 +5,9 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Sign In</h5>
+            <b-alert :show="alertMessage" variant="warning">
+              {{ alertMessage }}</b-alert
+            >
             <form @submit.prevent class="form-signin">
               <div class="form-label-group">
                 <!-- INPUT EMAIL -->
@@ -33,13 +36,6 @@
                 <label for="inputPassword">Password</label>
               </div>
 
-              <div class="custom-control custom-checkbox mb-3">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="customCheck1"
-                />
-              </div>
               <!-- SIGN IN BUTTON -->
               <button
                 class="btn btn-lg btn-primary btn-block text-uppercase"
@@ -65,7 +61,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
   data() {
@@ -73,10 +69,28 @@ export default {
       user: {
         email: null,
         password: null
-      }
+      },
+      alertMessage: null
     };
   },
-  methods: {}
+  methods: {
+    userSignIn() {
+      axios
+        .post('http://localhost:3000/users/signin', this.user)
+        .then(({ data }) => {
+          const { token } = data;
+          if (!token) {
+            this.alertMessage = data.message;
+            // console.log(data.message);
+          } else {
+            console.log(data.message);
+            localStorage.setItem('token', token);
+            this.$router.push({ path: '/' });
+          }
+        })
+        .catch();
+    }
+  }
 };
 </script>
 

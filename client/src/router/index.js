@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
-import Login from '../views/Login.vue';
+import SignIn from '../views/SignIn.vue';
 import Item from '../views/Item.vue';
 import PageNotFound from '../views/PageNotFound.vue';
 
@@ -22,9 +22,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/login',
-    name: 'login',
-    component: Login
+    path: '/signin',
+    name: 'signIn',
+    component: SignIn
   },
   {
     path: '/items/:id',

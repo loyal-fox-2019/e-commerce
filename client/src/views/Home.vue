@@ -1,5 +1,5 @@
 <template>
-  <b-container class="home">
+  <b-container fluid="sm" class="home">
     <!-- <b-list-group>
       <b-list-group-item v-for="item in listOfItem" :key="item.id">
         <router-link :to="`/items/${item.id}`">{{ item.title }}</router-link>
@@ -9,18 +9,14 @@
       <b-col v-for="item in listOfItem" :key="item.id" class="mt-3">
         <b-card
           :title="item.title"
-          img-src="https://picsum.photos/600/300/?image=25"
+          :img-src="item.image"
           img-alt="Image"
           img-top
-          tag="article"
-          style="max-width: 20rem;"
           class="mb-2"
         >
-          <b-card-text>
-            <b-table stacked :items="[item]"></b-table>
-          </b-card-text>
+          <b-card-text> </b-card-text>
 
-          <b-button :to="`/items/${item.id}`" variant="primary"
+          <b-button :to="`/items/${item._id}`" variant="primary"
             >Read More</b-button
           >
         </b-card>
@@ -45,9 +41,9 @@ export default {
   },
   created() {
     axios
-      .get('http://127.0.0.1:52606/items')
+      .get('http://localhost:3000/products')
       .then(({ data }) => {
-        this.listOfItem = data;
+        this.listOfItem = data.data;
       })
       .catch(err => console.error(err));
   }
