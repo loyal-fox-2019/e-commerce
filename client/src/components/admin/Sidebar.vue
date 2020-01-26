@@ -11,9 +11,9 @@
       <router-link to="/admin/transactions" class="list-group-item list-group-item-action bg-light"
         >Transactions</router-link
       >
-      <router-link to="/admin/users" class="list-group-item list-group-item-action bg-light"
+      <!-- <router-link to="/admin/users" class="list-group-item list-group-item-action bg-light"
         >Users</router-link
-      >
+      > -->
     </div>
   </div>
 </template>

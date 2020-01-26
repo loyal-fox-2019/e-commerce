@@ -82,17 +82,19 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions('Cart', ['deleteCart']),
+    ...mapActions('Cart', ['deleteCart', 'updateAmountCart']),
     addAmount(i) {
       if (this.items[i].product.stock > this.items[i].amount) {
         this.items[i].amount += 1;
         this.items[i].totalPrice = this.items[i].product.price * this.items[i].amount;
+        this.updateAmountCart(this.items[i]);
       }
     },
     lessAmount(i) {
       if (this.items[i].amount > 1) {
         this.items[i].amount -= 1;
         this.items[i].totalPrice = this.items[i].product.price * this.items[i].amount;
+        this.updateAmountCart(this.items[i]);
       }
     },
     preDeleteCart(id) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light shadow-sm bg-white">
-      <a class="navbar-brand" href="#">Shop</a>
+      <router-link class="navbar-brand" to="/">Shop </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -17,10 +17,9 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Category</a>
+            <router-link class="nav-link" to="/"
+              >Home <span class="sr-only">(current)</span></router-link
+            >
           </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
@@ -45,9 +44,9 @@
             >
               Go to carts
             </router-link>
-            <router-link type="button" class="btn ml-1 btn-danger" to="/logout">
+            <button type="button" class="btn ml-1 btn-danger" @click="$store.dispatch('logout')">
               Logout
-            </router-link>
+            </button>
           </template>
         </div>
       </div>

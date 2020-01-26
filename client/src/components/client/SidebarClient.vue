@@ -5,7 +5,9 @@
       <router-link to="/clientarea" class="list-group-item list-group-item-action bg-light"
         >Carts</router-link
       >
-      <router-link to="/transactions" class="list-group-item list-group-item-action bg-light"
+      <router-link
+        to="/clientarea/transactions"
+        class="list-group-item list-group-item-action bg-light"
         >Transactions</router-link
       >
     </div>

@@ -50,8 +50,10 @@ export default {
           self.form.email = document.getElementById('email').value;
           self.form.password = document.getElementById('password').value;
         },
-      }).then(() => {
-        self.$store.dispatch('register', self.form);
+      }).then((e) => {
+        if (e.value) {
+          self.$store.dispatch('register', self.form);
+        }
       });
     },
   },
@@ -63,8 +65,10 @@ export default {
           text: msg,
           showCloseButton: true,
         }).then(() => {
-          this.$store.commit('SET_ERRORS', '');
-          this.register();
+          if (msg !== 'email/password incorrect') {
+            this.$store.commit('SET_ERRORS', '');
+            this.register();
+          }
         });
       }
     },

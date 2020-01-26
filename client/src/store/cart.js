@@ -56,6 +56,23 @@ export default {
         console.log(response.data.message);
       }
     },
+    async updateAmountCart({ commit, dispatch, rootState }, payload) {
+      const headers = {
+        token: rootState.token,
+      };
+      try {
+        await Axios.patch(`/carts/amount/${payload._id}`, payload, { headers });
+        commit('SET_SUCCESS', {
+          action: 'Update',
+          msg: 'Update amount cart success',
+        });
+        dispatch('getCarts');
+      } catch ({ response }) {
+        console.log(response.data);
+        commit('SET_ERRORS', response.data.message);
+        console.log(response.data.message);
+      }
+    },
     async deleteCart({ commit, dispatch, rootState }, payload) {
       const headers = {
         token: rootState.token,

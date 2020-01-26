@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import store from '../store';
+import store from '../store';
 // Home
 import Home from '../views/home/Index.vue';
 import HomePage from '../views/home/HomePage.vue';
@@ -31,6 +31,14 @@ const routes = [
           isAdmin: false,
         },
       },
+      {
+        path: 'transactions',
+        component: () => import(/* webpackChunkName: "cartPage" */ '../views/client/TransPage.vue'),
+        meta: {
+          isLoggedIn: true,
+          isAdmin: false,
+        },
+      },
     ],
   },
   {
@@ -43,6 +51,15 @@ const routes = [
     },
     children: [
       {
+        path: '',
+        name: 'admin-dashboard',
+        component: Dashboard,
+        meta: {
+          isLoggedIn: true,
+          isAdmin: true,
+        },
+      },
+      {
         path: 'products',
         name: 'admin-product',
         component: Product,
@@ -52,12 +69,11 @@ const routes = [
         },
       },
       {
-        path: '',
-        name: 'admin-dashboard',
-        component: Dashboard,
+        path: 'transactions',
+        component: () => import(/* webpackChunkName: "TransPageAdmin" */ '../views/admin/TransPageAdmin.vue'),
         meta: {
           isLoggedIn: true,
-          isAdmin: true,
+          isAdmin: false,
         },
       },
     ],
@@ -66,6 +82,9 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
+    meta: {
+      isLoggedIn: false,
+    },
     children: [
       {
         path: '',
@@ -92,22 +111,24 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   to.matched.some((route) => {
-//     const { token, isLogin } = store.state;
-//     if (route.meta.isLoggedIn && route.meta.isAdmin) {
-//       if (isLogin.role === 'Admin') {
-//         next();
-//       }
-//     }
-//     if (route.meta.isLoggedIn) {
-//       if (token) {
-//         next();
-//       } else {
-//         next({ path: '/' });
-//       }
-//     }
-//   });
-//   next();
-// });
+router.beforeEach((to, from, next) => {
+  to.matched.some((route) => {
+    const { token, isLogin } = store.state;
+    if (route.meta.isLoggedIn && route.meta.isAdmin && isLogin.role === 'Admin') {
+      next();
+      return true;
+    }
+    if (route.meta.isLoggedIn && !route.meta.isAdmin && isLogin.role !== 'Admin') {
+      if (token) {
+        next();
+        return true;
+      }
+      next({ path: '/' });
+      return true;
+    }
+    next();
+    return true;
+  });
+  next();
+});
 export default router;

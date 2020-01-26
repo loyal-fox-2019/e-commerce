@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import Axios from 'axios';
 import Product from './product';
 import Cart from './cart';
+import Transaction from './transaction';
 
 Vue.use(Vuex);
 
@@ -62,9 +63,16 @@ export default new Vuex.Store({
         console.log(response.data.message);
       }
     },
+    logout({ commit }) {
+      commit('SET_TOKEN', null);
+      commit('SET_ISLOGIN', false);
+      localStorage.clear();
+      window.location = '/';
+    },
   },
   modules: {
     Product,
     Cart,
+    Transaction,
   },
 });

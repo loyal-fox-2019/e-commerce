@@ -57,6 +57,7 @@ class AuthController{
           throw msg
         }
       })
+      .catch(next)
   }
 }
 module.exports = AuthController

@@ -5,6 +5,7 @@ module.exports = function (req, res, next) {
         try {
             const user = jwt.verify(token, process.env.JWT_SECRET)
             req.userId = user.userId
+            req.role = user.role
             next()
         } catch (error) {
             res.status(422).json({

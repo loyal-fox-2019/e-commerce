@@ -1,8 +1,8 @@
 <template>
   <div>
-    <CarouselHome />
+    <!-- <CarouselHome /> -->
 
-    <div class="container">
+    <div class="container mb-1">
       <div>
         <h2 class="title-item mb-2">
           Product list
@@ -19,13 +19,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import CarouselHome from '@/components/home/CarouselHome.vue';
+// import CarouselHome from '@/components/home/CarouselHome.vue';
 import CardProduct from '@/components/home/CardProduct.vue';
 
 export default {
   name: 'HomePage',
   components: {
-    CarouselHome,
+    // CarouselHome,
     CardProduct,
   },
   data() {

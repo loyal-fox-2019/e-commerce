@@ -48,23 +48,11 @@ export default {
           self.form.email = document.getElementById('email').value;
           self.form.password = document.getElementById('password').value;
         },
-      }).then(() => {
-        self.$store.dispatch('login', self.form);
+      }).then((e) => {
+        if (e.value) {
+          self.$store.dispatch('login', self.form);
+        }
       });
-    },
-  },
-  watch: {
-    errors(msg) {
-      if (msg) {
-        this.$swal({
-          title: 'Errors',
-          text: msg,
-          showCloseButton: true,
-        }).then(() => {
-          this.$store.commit('SET_ERRORS', '');
-          this.login();
-        });
-      }
     },
   },
 };
