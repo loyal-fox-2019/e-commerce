@@ -1,5 +1,6 @@
 const Transaction = require('../models/Transaction')
 const User = require('../models/User')
+const Item = require('../models/Item')
 const {checkItemStock} = require('../helpers/checkItemStock')
 
 class TransactionController {
@@ -24,8 +25,25 @@ class TransactionController {
                     user: req.userId,
                     purchasedItems: user.cart,
                 }
-    
+
+                const reduceItemStockPromises = []
+
+                user.cart.forEach(cartItem => {
+                    let reduceStockBy = -1 * cartItem.quantity
+                    // console.log(reduceStockBy, 'this is reduceStockBy')
+                    reduceItemStockPromises.push(Item.updateOne(
+                        {_id: cartItem.item},
+                        {
+                            $inc: {
+                                stock: reduceStockBy
+                            }
+                        }
+                    ))
+                })
+
+                await Promise.all(reduceItemStockPromises)
                 const transaction = await Transaction.create(inputs)
+
                 const clearCartResults = await User.updateOne(
                     {_id: req.userId},
                     {
@@ -34,7 +52,7 @@ class TransactionController {
                         }
                     }
                 )
-    
+
                 res.status(201).json({transaction, userUpdate: clearCartResults})
             }
         }

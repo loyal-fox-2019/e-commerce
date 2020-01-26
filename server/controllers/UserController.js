@@ -98,9 +98,14 @@ class UserController {
          user = await User.findOne({_id: req.userId})
             .select('cart')
 
+         // console.log('\nthis is after update at user add to cart\n-------------\n', results, '\n---------\n', user)
+
+         // console.log(req.originalUrl, 'this is original url')
+
          res.status(200).json({results, user})
       }
       catch (error) {
+         // console.log(req.body, 'error---------------------------\n')
          next(error)
       }
    }

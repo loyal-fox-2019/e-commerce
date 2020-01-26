@@ -50,7 +50,7 @@ describe('/transaction', function() {
          adminToken = createAdminResponse.body.token
 
          // 2. create two items
-
+         
          let createItemResponse = await chai.request(app)
             .post('/item')
             .set({
@@ -58,11 +58,11 @@ describe('/transaction', function() {
             })
             .send(newItemData1)
          
-         expect(createItemResponse).to.have.status(200)
+         expect(createItemResponse).to.have.status(201)
          expect(createItemResponse.body.item.name).to.equal(newItemData1.name)
-
+         
          allItems.push(createItemResponse.body.item)
-
+         
          createItemResponse = await chai.request(app)
             .post('/item')
             .set({
@@ -70,7 +70,8 @@ describe('/transaction', function() {
             })
             .send(newItemData2)
          
-         expect(createItemResponse).to.have.status(200)
+         
+         expect(createItemResponse).to.have.status(201)
          expect(createItemResponse.body.item.name).to.equal(newItemData2.name)
 
          allItems.push(createItemResponse.body.item)
@@ -81,7 +82,7 @@ describe('/transaction', function() {
             email: "user1@mail.com",
             password: "asd123"
          }
-
+         
          const createUserResponse = await chai.request(app)
             .post('/register')
             .send(newUserData)
@@ -94,18 +95,16 @@ describe('/transaction', function() {
          // 4. add one item to cart
 
          const addItemToCartData = {
-            item: allItems[1]._id,
-            quantity: 3
+            itemId: allItems[1]._id,
+            quantity: 5
          }
          
-         await chai.request(app)
-            .post('/user/add_to_cart')
+         const addToCartResp = await chai.request(app)
+            .patch('/user/add_to_cart')
             .set({
                token: userToken
             })
             .send(addItemToCartData)
-
-         // checkout, create new transaction
 
          const createTransactionResp = await chai.request(app)
             .post('/transaction')

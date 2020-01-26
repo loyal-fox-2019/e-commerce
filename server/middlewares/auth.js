@@ -9,6 +9,7 @@ function userAuthentication(req, res, next) {
       }
 
       const decoded = jwt.verify(req.headers.token, process.env.JWT_SECRET)
+      // if(req.url.path == '/user/add_to_cart') console.log('')
       
       req.userId = decoded.userId
       next()
@@ -36,7 +37,7 @@ function userAuthentication(req, res, next) {
       //    errorCode: 401,
       //    message: 'You are not authorized to perform this action'
       // }
-
+      // if(req.body.name == 'Final Fantasy VII: Remake') console.log('i caught the name')
       next()
    }
    catch (error) {
