@@ -25,6 +25,8 @@ const CartSchema = new Schema({
         type: String,
         default: 'pending' // pending, paid, delivered
     }
+},{
+    timestamps: true
 })
 
 const Cart = model('Cart', CartSchema)

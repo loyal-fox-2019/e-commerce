@@ -6,7 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     products: [],
-    myProducts: []
+    myProducts: [],
+    myCarts: [],
+    myPaids: [],
+    myItems: []
   },
   mutations: {
     fillProducts(state, payload) {
@@ -14,6 +17,15 @@ export default new Vuex.Store({
     },
     fillMyProducts(state, payload){
       state.myProducts = payload
+    },
+    fillMyCart(state, payload){
+      state.myCarts = payload
+    },
+    fillMyPaid(state,payload){
+      state.myPaids = payload
+    },
+    fillMyItem(state,payload){
+      state.myItems = payload
     }
   },
   actions: {
@@ -32,6 +44,30 @@ export default new Vuex.Store({
         }).catch((err) => {
           console.log(err.response)
         });
+    },
+    fetchMyCart(context){
+      axios.get('carts/pending')
+      .then(({data}) => {
+        context.commit('fillMyCart', data)
+      }).catch((err) => {
+        console.log(err.response.data)
+      });
+    },
+    fetchMyPaid(context){
+      axios.get('carts/paid')
+      .then(({data}) => {
+        context.commit('fillMyPaid', data)
+      }).catch((err) => {
+        console.log(err.response.data)
+      });
+    },
+    fetchMyItem(context){
+      axios.get('carts/deliver')
+      .then(({data}) => {
+        context.commit('fillMyItem', data)
+      }).catch((err) => {
+        console.log(err.response.data)
+      });
     }
   },
   modules: {

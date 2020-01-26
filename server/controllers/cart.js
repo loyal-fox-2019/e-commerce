@@ -85,17 +85,16 @@ class Controller {
         // 
         // let cart = await CariSatu(req.decoded.id, req.body.productId)
         // console.log(cart, 'ini di controller cart');
-
-        Cart.findOne({ buyer: req.decoded.id, product: req.body.product._id })
+        Cart.findOne({ buyer: req.decoded.id, product: req.body.product._id, status: 'pending' })
             .populate('buyer', 'name phone email')
             .populate('seller', 'name phone email')
             .populate('product')
             .then((cart) => {
 
                 if (cart) {
-                    // console.log(cart);
+                    // console.log(req.body);
                     let totalQty = cart.qty + req.body.qty
-                    Cart.findOneAndUpdate({ product: req.body.product._id, buyer: req.decoded.id }, {
+                    Cart.findOneAndUpdate({ product: req.body.product._id, buyer: req.decoded.id, status: 'pending' }, {
                         qty: totalQty
                     }, { new: true })
                         .populate('buyer', 'name phone email')
@@ -122,7 +121,7 @@ class Controller {
     }
 
     static deleteCartFromPendingStatus(req, res, next) {
-        Cart.findOneAndRemove({ _id: req.params.id, status: 'pending' })
+        Cart.findOneAndRemove({ _id: req.params.id })
             .populate('buyer', 'name phone email')
             .populate('seller', 'name phone email')
             .populate('product')

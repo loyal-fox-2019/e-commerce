@@ -50,6 +50,13 @@ class Controller {
         }
     }
 
+    static hapus(req,res,next){
+        User.findByIdAndRemove(req.params.id)
+        .then((result) => {
+            res.status(200).json(result)
+        }).catch(next);
+    }
+
 }
 
 module.exports = Controller

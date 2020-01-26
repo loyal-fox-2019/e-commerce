@@ -44,7 +44,7 @@ const userSchema = new Schema({
             }
         }
     },
-    location: String
+    city: String
 }, {
     timestamps: true,
     versionKey: false

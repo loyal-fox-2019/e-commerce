@@ -7,4 +7,6 @@ router.post('/login', controllerUser.login)
 
 router.post('/register', controllerUser.register)
 
+router.delete('/:id', controllerUser.hapus)
+
 module.exports = router

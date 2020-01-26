@@ -15,13 +15,13 @@
           <sui-button>My Delivered</sui-button>
         </b-link>
         <div>
-          <sui-button v-b-modal.modal-xl variant="primary">Add New Product</sui-button>
+          <sui-button v-b-modal.create-modal variant="primary">Add New Product</sui-button>
         </div>
       </sui-button-group>
     </nav>
     <!-- modal start here -->
     <div id="for-modal">
-      <b-modal id="modal-xl" size="xl" hide-footer title="Add Product">
+      <b-modal id="create-modal" size="xl" hide-footer title="Add Product">
         <div id="inside">
           <form @submit.prevent="jualBarang">
             <b>gambar barang:</b>
@@ -131,7 +131,7 @@ export default {
       })
         .then(({ data }) => {
           this.$store.dispatch("fetchMyProducts");
-          this.$bvModal.hide("modal-xl");
+          this.$bvModal.hide("create-modal");
           this.$router.push("/cart/myproduct");
         })
         .catch(err => {
