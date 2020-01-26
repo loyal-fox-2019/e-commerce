@@ -75,7 +75,7 @@ class TransactionController {
   }
 
   static getAllTransactions(req, res, next) {
-    Transactions.find({})
+    Transaction.find({})
       .then(transactions => {
         res.json({ transactions })
       })
