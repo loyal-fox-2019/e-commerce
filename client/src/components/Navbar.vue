@@ -12,7 +12,27 @@
         <p class="text-3xl ml-2">Guitar Store</p>
       </router-link>
     </div>
-    <div class="mr-2">
+    <div class="mr-2 flex" v-if="username">
+      <router-link
+        to="/cart"
+        class="mr-3 p-2 text-orange-700 hover:text-orange-800"
+      >
+        <span class="fas fa-shopping-cart"></span>
+      </router-link>
+      <p
+        to="/login"
+        class="mr-2 px-2 py-2 text-orange-700 hover:text-orange-800"
+      >
+        {{ username }}
+      </p>
+      <button
+        class="mr-3 p-2 text-orange-700 hover:text-orange-800"
+        @click="logout"
+      >
+        logout
+      </button>
+    </div>
+    <div class="mr-2" v-else>
       <router-link
         to="/login"
         class="mr-2 px-2 py-2 text-orange-700 hover:text-orange-800"
@@ -35,10 +55,21 @@ export default {
       scrollPosition: null,
     }
   },
+  methods: {
+    logout() {
+      const vm = this
+      this.$store.dispatch('logout', { vm })
+    },
+  },
   mounted() {
     window.addEventListener('scroll', () => {
       this.scrollPosition = window.scrollY
     })
+  },
+  computed: {
+    username() {
+      return this.$store.state.username
+    },
   },
 }
 </script>

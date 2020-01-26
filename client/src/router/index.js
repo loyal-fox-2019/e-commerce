@@ -23,18 +23,23 @@ const routes = [
       import(/* webpackChunkName: "register" */ '@/views/Register.vue'),
   },
   {
-    path: '/item',
-    name: 'item',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/Item.vue'),
-  },
-  {
-    path: '/guitar/:guitarType',
+    path: '/guitars/:guitarType',
     name: 'guitar',
     component: () =>
       import(/* webpackChunkName: "guitar" */ '@/views/Guitar.vue'),
+  },
+  {
+    path: '/guitar/:guitarId',
+    name: 'guitar-detail',
+    component: () =>
+      import(
+        /* webpackChunkName: "guitar-detail" */ '@/views/GuitarDetail.vue'
+      ),
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import(/* webpackChunkName: "cart" */ '@/views/Cart.vue'),
   },
 ]
 

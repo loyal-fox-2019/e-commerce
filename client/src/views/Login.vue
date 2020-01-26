@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vld-parent">
     <div class="h-screen">
       <div class="flex items-center justify-center h-full">
         <div class="border border-red-900 px-5 py-2 rounded-sm">
@@ -25,6 +25,7 @@
                   type="text"
                   placeholder="Your email"
                   v-model="email"
+                  autocomplete="off"
                 />
               </div>
             </div>
@@ -44,6 +45,7 @@
                   type="password"
                   placeholder="******************"
                   v-model="password"
+                  autocomplete="off"
                 />
               </div>
             </div>
@@ -52,7 +54,7 @@
               <div class="md:w-2/3">
                 <button
                   class="shadow bg-red-900 hover:bg-red-800 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                  type="button"
+                  type="submit"
                 >
                   Login
                 </button>
@@ -73,7 +75,7 @@
                 :params="params"
                 :onSuccess="onSuccess"
                 :onFailure="onFailure"
-                :renderParams="renderParams"
+                class="bg-gray-200 px-4 py-2 w-full hover:bg-gray-300"
                 ><span class="fab fa-google"></span> Continue with
                 google</GoogleLogin
               >
@@ -87,9 +89,18 @@
 
 <script>
 import GoogleLogin from 'vue-google-login'
+import Loading from 'vue-loading-overlay'
+import Vue from 'vue'
+
+Vue.use(Loading)
+
+import 'vue-loading-overlay/dist/vue-loading.css'
 
 export default {
   name: 'Login',
+  components: {
+    Loading: Loading,
+  },
   data: function() {
     return {
       params: {
@@ -121,11 +132,23 @@ export default {
       })
     },
     login() {
-      this.$toast.open({
-        message: 'Nanti nembah ke server ya',
-        type: 'info',
-        position: 'top-right',
+      let loader = this.$loading.show({
+        container: null,
+        canCancel: false,
       })
+      const vm = this
+
+      this.$store.dispatch('login_normal', {
+        email: this.email,
+        password: this.password,
+        vm,
+        loader,
+      })
+    },
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading
     },
   },
 }
