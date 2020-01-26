@@ -37,6 +37,14 @@ class UserController {
       })
       .catch(next)
   }
+
+  static checkSession(req, res, next) {
+    User.findOne({ _id: req.payload.id })
+      .then(user => {
+        res.json({ username: user.username })
+      })
+      .catch(next)
+  }
 }
 
 module.exports = UserController
