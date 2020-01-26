@@ -36,8 +36,8 @@
                 <b-form-file
                   accept="image/jpeg, image/png, image/gif"
                   :state="Boolean(form.images)"
-                  placeholder="Choose a file or drop it here..."
-                  drop-placeholder="Drop file here..."
+                  placeholder="Pilih gambar produk terbaikmu..."
+                  drop-placeholder="Letakkan gambar produkmu disini..."
                   size="lg"
                   multiple
                   @change.prevent="addImagesToModel"
@@ -110,6 +110,14 @@
       </b-row>
       <b-row>
         <b-col>
+          <b-button
+            type="cancel"
+            variant="link"
+            class="text-danger"
+            to="/products"
+          >
+            Tidak jadi jual
+          </b-button>
           <b-button type="submit" variant="primary">Simpan dan jual</b-button>
         </b-col>
       </b-row>

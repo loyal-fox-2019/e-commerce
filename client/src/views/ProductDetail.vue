@@ -14,10 +14,7 @@
         </b-row>
       </b-col>
       <b-col cols="4">
-        <h2
-          class="text-capitalize font-weight-bold"
-          v-if="isOwner && !editMode"
-        >
+        <h2 class="text-capitalize font-weight-bold" v-if="!editMode">
           {{ product.name }}
         </h2>
         <b-input-group-append v-if="isOwner && editMode">
@@ -29,7 +26,7 @@
         </b-input-group-append>
         <table class="table table-borderless">
           <tbody>
-            <tr v-if="isOwner && !editMode">
+            <tr v-if="!editMode">
               <th scope="row">Harga</th>
               <td
                 class="font-weight-bold"
@@ -50,7 +47,7 @@
                 </b-input-group-append>
               </td>
             </tr>
-            <tr v-if="isOwner && !editMode">
+            <tr v-if="!editMode">
               <th scope="row">Stok Tersedia</th>
               <td>{{ product.stock }}</td>
             </tr>
@@ -132,6 +129,13 @@
               <font-awesome-icon :icon="['fas', 'save']" />
               Simpan perubahan
             </b-button>
+            <b-button
+              variant="link"
+              @click.prevent="editMode = false"
+              v-if="isOwner && editMode"
+            >
+              Batalkan perubahan
+            </b-button>
           </span>
         </div>
 
@@ -147,12 +151,14 @@
         </b-button>
       </b-col>
     </b-row>
+    <product-list></product-list>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import ProductList from "@/views/ProductList.vue";
 
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
@@ -182,6 +188,9 @@ export default {
       stockToCart: 1,
       editMode: false
     };
+  },
+  components: {
+    ProductList
   },
   methods: {
     saveData() {
@@ -358,6 +367,11 @@ export default {
   },
   created() {
     this.getDetailData();
+  },
+  watch: {
+    $route() {
+      this.getDetailData();
+    }
   },
   computed: {
     isOwner() {

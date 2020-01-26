@@ -1,6 +1,28 @@
 <template>
   <b-container fluid class="bv-example-row bv-example-row-flex-cols vh-100">
-    <b-row class="justify-content-center" align-v="start">
+    <b-row>
+      <b-col class="mt-5 text-center">
+        <font-awesome-icon
+          :icon="['fas', 'store-alt']"
+          size="4x"
+          :style="{ color: '#54BC83' }"
+        />
+        <h1 class="font-weight-bold">
+          <router-link
+            to="/"
+            class="text-decoration-none"
+            style="color:#47a846;"
+          >
+            Tookoo
+          </router-link>
+        </h1>
+      </b-col>
+    </b-row>
+    <b-row
+      class="justify-content-center"
+      align-v="start"
+      style="background-color:#47a846;"
+    >
       <b-col cols="4">
         <b-card
           title="Masook / Login"
@@ -96,9 +118,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.container-fluid {
-  background-color: #47a846;
-}
-</style>
