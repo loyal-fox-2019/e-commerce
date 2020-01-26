@@ -297,3 +297,70 @@ headers:{
 response:{ message: "Update change to Checkout" }
 ```
 
+
+
+### Error Handling
+
+------
+
+- Validation Login
+
+  ```
+  Status Code : 400
+  
+  response : {
+  	message: "Email / Password Wrong"
+  }
+  ```
+
+- Not Found
+
+  ```
+  Status Code : 404
+  
+  response:{
+  	message:"Item Not Found"
+  }
+  ```
+
+- Token Validation
+
+  ```
+  Status Code : 400
+  
+  response:{
+  	message:"Invalid Token"
+  }
+  ```
+
+- Unauthorized
+
+  ```
+  Status Code : 401
+  
+  response:{
+  	message:"Authentication Required"
+  }
+  ```
+
+- Validation Error
+
+  ```
+  Status Code : 400
+  
+  response:{
+  	message:"Invalid Email Format"
+  }
+  ```
+
+- Internal Server Error
+
+  ```
+  Status Code : 500
+  
+  response:{
+  	message:"Internal Server Error"
+  }
+  ```
+
+  
