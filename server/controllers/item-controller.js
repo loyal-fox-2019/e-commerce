@@ -24,6 +24,14 @@ class ItemController {
       .catch(next)
   }
 
+  static getSingelItem(req, res, next) {
+    Item.findOne({ _id: req.params.itemId })
+      .then(item => {
+        res.json({ item })
+      })
+      .catch(next)
+  }
+
   static updateItem(req, res, next) {
     Item.findOne({ _id: req.params.itemId })
       .then(item => {

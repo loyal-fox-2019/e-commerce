@@ -4,6 +4,7 @@ const gcp = require('../middlewares/gcp')
 const { authenticate, authorizeAdmin } = require('../middlewares/auth')
 
 router.get('/', ItemController.getAllItems)
+router.get('/:itemId', ItemController.getSingelItem)
 router.use(authenticate)
 router.use(authorizeAdmin)
 router.post('/', gcp.single('image'), ItemController.addItem)
