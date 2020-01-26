@@ -17,10 +17,12 @@ app.listen(PORT, ()=>{
     console.log(`Listening on PORT ${PORT}`);
 })
 
-// const mongoUrl = {
-//     test: 'mongodb://localhost:27017/e-commerce_test',
-//     development: 'mongodb://localhost:27017/e-commerce_dev'
-// }
+const mongoUrl = {
+    test: 'mongodb://localhost:27017/e-commerce_test',
+    development: 'mongodb://localhost:27017/e-commerce_dev'
+}
+
+// mongoose.connect(mongoUrl[process.env.NODE_ENV], {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 .then(()=>{
