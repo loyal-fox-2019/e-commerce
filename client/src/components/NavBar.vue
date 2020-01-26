@@ -1,0 +1,27 @@
+<template>
+  <b-navbar type="light" variant="light">
+    <b-navbar-brand to="/home">CulCommerce</b-navbar-brand>
+    <b-nav-form class="ml-auto mr-auto">
+      <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+      <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+    </b-nav-form>
+    <b-navbar-nav>
+      <b-breadcrumb-item to="/cart">My Cart <i class="shopping basket icon"></i></b-breadcrumb-item>
+      <b-breadcrumb-item @click.prevent="deleteLocal" to="/login">Sign Out <i class="sign-out icon"></i></b-breadcrumb-item>
+    </b-navbar-nav>
+  </b-navbar>
+</template>
+
+<script>
+export default {
+  name: "NavBar",
+  methods:{
+      deleteLocal(){
+          localStorage.removeItem('token')
+      }
+  }
+};
+</script>
+
+<style>
+</style>

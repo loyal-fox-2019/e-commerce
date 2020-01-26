@@ -33,33 +33,7 @@ function authorizating(req, res, next) {
     }).catch(next);
 }
 
-function itemStock(req, res, next) {
-    let list = req.body.items
-
-    let promises = []
-    list.forEach(elem => {
-        promises.push(Product.findById(elem.id))
-    })
-
-    Promise.all(promises)
-        .then(results => {
-            let indexYangKurang = 0
-            if (results.some((item, index) => {
-                indexYangKurang = index
-                return item.stock < list[index].qty
-            })) {
-                throw { message: `${list[indexYangKurang]} stock nya kurang` }
-            } else {
-                // bikin transaction
-                next()
-            }
-        })
-        .catch(next)
-}
-
-
 module.exports = {
     authenticating,
-    authorizating,
-    itemStock
+    authorizating
 }

@@ -43,7 +43,8 @@ const userSchema = new Schema({
                     })
             }
         }
-    }
+    },
+    location: String
 }, {
     timestamps: true,
     versionKey: false
