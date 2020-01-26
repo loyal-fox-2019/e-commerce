@@ -38,7 +38,7 @@ class ProductController {
     Product
       .create({ name, stock, price, description, category, image, user })
       .then(product => {
-        res.send(product)
+        res.status(201).json(product)
       })
       .catch(next)
   }

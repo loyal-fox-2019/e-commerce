@@ -25,7 +25,7 @@ const productSchema = new Schema(
     },
     price: {
       type: Number,
-      required: [true, "Please enter product's price"],
+      required: [true, "Silahkan masukkan harga produk"],
       min: [100, "minimal harga Rp. 100,-"],
       validate: {
         validator: function(value) {

@@ -19,23 +19,23 @@ after(function(done) {
 })
 
 describe('User CRUD', function() {
-  describe('GET /users', function() {
-    it('should send an array of users with status code 200', function(done) {
-      // Request
-      chai
-        .request(app)
-        .get('/users')
-        .then(function(res) {
-          // Assert
-          expect(res).to.have.status(200)
-          expect(res.body).to.be.an('array')
-          done()
-        })
-        .catch(function(err) {
-          console.log(err)
-        })
-    })
-  })
+  // describe('GET /users', function() {
+  //   it('should send an array of users with status code 200', function(done) {
+  //     // Request
+  //     chai
+  //       .request(app)
+  //       .get('/users')
+  //       .then(function(res) {
+  //         // Assert
+  //         expect(res).to.have.status(200)
+  //         expect(res.body).to.be.an('array')
+  //         done()
+  //       })
+  //       .catch(function(err) {
+  //         console.log(err)
+  //       })
+  //   })
+  // })
   describe('POST /register', function() {
     it('should send an object of user with status code 201', function(done) {
       // Request
@@ -43,21 +43,17 @@ describe('User CRUD', function() {
         .request(app)
         .post('/register')
         .send({
-          username: 'user name',
-          email: 'test@mail.com',
-          password: '123456'
+            "profile_pic": "https://storage.googleapis.com/bucket.amilhasbala.com/1579934408895-user.png",
+            "username": "John Doe",
+            "email": "JohnDoe@mail.com",
+            "password": "123456"
         })
         .then(function(res) {
           // Assert
-          expect(res).to.have.status(201)
+          expect(res).to.have.status(200)
           expect(res.body).to.be.an('object')
-          expect(res.body).to.have.property('_id')
-          expect(res.body).to.have.property('email')
+          expect(res.body).to.have.property('token')
           expect(res.body).to.have.property('username')
-          expect(res.body).to.have.property('password')
-          expect(res.body.email).to.equal('test@mail.com')
-          expect(res.body.username).to.equal('user name')
-          expect(res.body.password).to.not.equal('123456')
           done();
         })
         .catch(function(err) {
@@ -72,7 +68,7 @@ describe('User CRUD', function() {
         .request(app)
         .post('/login')
         .send({
-          email: 'test@mail.com',
+          email: 'JohnDoe@mail.com',
           password: '123456'
         })
         .then(function(res) {
@@ -80,6 +76,7 @@ describe('User CRUD', function() {
           expect(res).to.have.status(200)
           expect(res.body).to.be.an('object')
           expect(res.body).to.have.property('token')
+          expect(res.body).to.have.property('username')
           done();
         })
         .catch(function(err) {
