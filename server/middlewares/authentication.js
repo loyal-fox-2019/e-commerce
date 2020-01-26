@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const userModel = require('../models/user');
 const ObjectId = require('mongoose').Types.ObjectId;
 
-module.exports = (req, res, next) => {
+module.exports = (req, res, next) => {    
     try {
         const token = req.headers.token;
         const userPayload = jwt.verify(token, process.env.JWT_SECRET);
