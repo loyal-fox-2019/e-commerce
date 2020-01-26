@@ -20,8 +20,8 @@ let product = {
 let user = {
   profile_pic:
     "https://storage.googleapis.com/bucket.amilhasbala.com/1579934408895-user.png",
-  username: "John Doe",
-  email: "JohnDoe@mail.com",
+  username: "John Doe Product Test",
+  email: "johndoeproducttest@mail.com",
   password: "123456"
 };
 

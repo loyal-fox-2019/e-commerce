@@ -21,16 +21,16 @@ let product = {
 let seller = {
   profile_pic:
     "https://storage.googleapis.com/bucket.amilhasbala.com/1579934408895-user.png",
-  username: "John Doe",
-  email: "john@mail.com",
+  username: "John Doe Seller",
+  email: "johndoeseller@mail.com",
   password: "123456"
 };
 
 let customer = {
   profile_pic:
     "https://storage.googleapis.com/bucket.amilhasbala.com/1579934408895-user.png",
-  username: "Jane Doe",
-  email: "jane@mail.com",
+  username: "Jane Doe Customer",
+  email: "janedoecustomer@mail.com",
   password: "123456"
 };
 
