@@ -85,6 +85,7 @@ export default {
     logout () {
       this.$store.commit('LOGOUT')
       this.$store.dispatch('fetchProducts')
+      this.$gAuth.signOut()
       this.$router.currentRoute.name !== 'products' && this.$router.replace({ name: 'products' })
     },
     toLogin () {

@@ -8,6 +8,7 @@ const router = require('express').Router(),
 
 router.post('/register', upload.single('profile_pic'), UserController.register)
 router.post('/login', UserController.login)
+router.post('/google', UserController.googleLogin)
 router.use('/products', productRoutes)
 router.use('/users', userRoutes)
 router.use(authenticate)

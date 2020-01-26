@@ -36,6 +36,9 @@
         dont have an account? <a @click="toRegister">Register.</a>
       </span>
       <v-spacer></v-spacer>
+      <v-btn color="primary" @click="signGoogle">
+        Sign in <v-icon>mdi-google</v-icon>
+      </v-btn>
       <v-btn type="submit" form="login-form" color="primary">Login</v-btn>
     </v-card-actions>
   </v-card>
@@ -53,6 +56,40 @@ export default {
     }
   },
   methods: {
+    signGoogle () {
+      this.$gAuth
+        .signIn()
+        .then(GoogleUser => {
+          return axios({
+            method: 'post',
+            url: '/google',
+            data: { idToken: GoogleUser.getAuthResponse().id_token }
+          })
+          // this.isSignIn = this.$gAuth.isAuthorized
+        })
+        .then(({ data }) => {
+          localStorage.setItem('token', data.token)
+          localStorage.setItem('username', data.username)
+          this.email = ''
+          this.password = ''
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Login success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$store.commit('LOGIN')
+          this.$store.commit('SET_USERNAME', data.username)
+          this.$store.dispatch('fetchPending')
+          this.$store.dispatch('fetchPaid')
+          this.$store.dispatch('fetchDelivered')
+          this.$router.push('/')
+        })
+        .catch(() => {
+          this.errors.push('Google OAuth Failed')
+        })
+    },
     toRegister () {
       this.$emit('to-register')
     },
