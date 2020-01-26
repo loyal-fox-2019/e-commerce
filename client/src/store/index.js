@@ -37,7 +37,6 @@ export default new Vuex.Store({
         dispatch('tokenIsValid', data);
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
     async login({ commit, dispatch }, payload) {
@@ -47,7 +46,6 @@ export default new Vuex.Store({
         dispatch('tokenIsValid', data);
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
     async tokenIsValid({ commit }, payload) {
@@ -56,11 +54,9 @@ export default new Vuex.Store({
         localStorage.setItem('ecommerce.token', payload.token);
         commit('SET_TOKEN', payload.token);
         commit('SET_ISLOGIN', data);
-        console.log('success');
       } catch ({ response }) {
         localStorage.clear();
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
     logout({ commit }) {

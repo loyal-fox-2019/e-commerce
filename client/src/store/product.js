@@ -51,7 +51,7 @@ export default {
         const { data } = await Axios.get('/products');
         commit('SET_PRODUCTS', data);
       } catch ({ response }) {
-        console.log(response);
+        commit('SET_ERRORS', response.data.message);
       }
     },
     async getProduct({ commit }, payload) {
@@ -59,7 +59,7 @@ export default {
         const { data } = await Axios.get(`/products/${payload}`);
         commit('SET_PRODUCT', data);
       } catch ({ response }) {
-        console.log(response);
+        commit('SET_ERRORS', response.data.message);
       }
     },
     async createProduct({ commit, dispatch, rootState }, payload) {
@@ -76,7 +76,6 @@ export default {
         dispatch('getProducts');
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
     async updateProduct({ commit, dispatch, rootState }, payload) {
@@ -93,7 +92,6 @@ export default {
         dispatch('getProducts');
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
     async uploadImage({ commit, rootState }, payload) {
@@ -104,8 +102,7 @@ export default {
         const { data } = await Axios.post('/products/upload-image', payload, { headers });
         commit('SET_PRODUCT_IMAGE', data.image);
       } catch ({ response }) {
-        // statements
-        console.log(response);
+        commit('SET_ERRORS', response.data.message);
       }
     },
     async deleteProduct({ commit, dispatch, rootState }, payload) {
@@ -121,7 +118,6 @@ export default {
         dispatch('getProducts');
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
   },

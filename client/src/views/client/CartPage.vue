@@ -52,8 +52,6 @@ export default {
         .then((result) => {
           if (result.value) {
             this.createTransaction({ products: this.carts });
-            // this.getCarts();
-            console.log('yeee');
           }
         });
     },

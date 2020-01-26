@@ -37,7 +37,7 @@ export default {
         console.log(data);
         commit('SET_CARTS', data);
       } catch ({ response }) {
-        console.log(response.data.message);
+        commit('SET_ERRORS', response.data.message);
       }
     },
     async createCart({ commit, dispatch, rootState }, payload) {
@@ -53,7 +53,6 @@ export default {
         dispatch('getCarts');
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
     async updateAmountCart({ commit, dispatch, rootState }, payload) {
@@ -68,9 +67,7 @@ export default {
         });
         dispatch('getCarts');
       } catch ({ response }) {
-        console.log(response.data);
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
     async deleteCart({ commit, dispatch, rootState }, payload) {
@@ -86,7 +83,6 @@ export default {
         dispatch('getCarts');
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
   },

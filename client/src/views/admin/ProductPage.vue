@@ -41,11 +41,9 @@ export default {
     ...mapActions('Product', ['getProducts']),
     ...mapMutations('Product', ['SET_ERRORS', 'SET_SUCCESS']),
     detailProduct() {
-      console.log('detail');
       this.modalDisabled = true;
     },
     modalDisabledFalse() {
-      console.log('modalDisabledFalse');
       this.modalDisabled = false;
     },
   },
@@ -78,7 +76,6 @@ export default {
   },
   created() {
     this.getProducts();
-    console.log(this.products);
   },
 };
 </script>

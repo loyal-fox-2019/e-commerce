@@ -27,7 +27,7 @@ export default {
         const { data } = await Axios.get('/transactions/costumer', { headers });
         commit('SET_TRANSACTIONS', data);
       } catch ({ response }) {
-        console.log(response.data.message);
+        commit('SET_ERRORS', response.data.message);
       }
     },
 
@@ -39,7 +39,7 @@ export default {
         const { data } = await Axios.get('/transactions', { headers });
         commit('SET_TRANSACTIONS', data);
       } catch ({ response }) {
-        console.log(response.data.message);
+        commit('SET_ERRORS', response.data.message);
       }
     },
 
@@ -55,7 +55,6 @@ export default {
         });
       } catch ({ response }) {
         commit('SET_ERRORS', response.data.message);
-        console.log(response.data.message);
       }
     },
   },

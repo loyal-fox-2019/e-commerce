@@ -30,7 +30,6 @@ export default {
   props: ['product'],
   methods: {
     detail() {
-      console.log('here');
       this.$router.push({ name: 'detail-product', params: { id: this.product._id } });
     },
   },
