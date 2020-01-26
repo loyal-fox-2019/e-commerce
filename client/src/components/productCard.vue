@@ -83,14 +83,18 @@
 <style scoped>
 .productcard {
     margin: 5px;
+    height: 375px;
 }
 .product-info {
     text-align: left;
+    bottom: 30px;
+    position: absolute
 }
 
 img {
     padding: 15px;
-    object-fit: scale-down
+    object-fit: scale-down;
+    max-height: 200px;
 }
 
 .product-price {

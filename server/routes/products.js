@@ -7,11 +7,11 @@ const product_authorisation = require("../middlewares/authorisation").product_au
 const gcsUpload = require("gcs-upload");
 const upload = gcsUpload({
     limits: {
-      fileSize: 50e6 // in bytes
+        fileSize: 50e6 // in bytes
     },
     gcsConfig: {
-      keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-      bucketName: process.env.BUCKETNAME
+        keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+        bucketName: process.env.BUCKETNAME
     }
 })
 
@@ -25,6 +25,6 @@ productsRouter.post('/', upload.single('file'), ProductController.addNewProduct)
 
 productsRouter.put('/:id', product_authorisation, upload.single('file'), ProductController.editProduct);
 
-productsRouter.delete('/:id',ProductController.deleteProduct);
+productsRouter.delete('/:id',product_authorisation, ProductController.deleteProduct);
 
 module.exports = productsRouter;

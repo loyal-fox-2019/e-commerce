@@ -6,7 +6,7 @@
             <li><a href="#">Account</a></li>
             <li><router-link to="/myproducts">My products</router-link></li>
             <li><router-link to="/add-product">Add new product</router-link></li>
-            <li><a href="#">Cart</a></li>
+            <li><router-link to="/cart">Cart</router-link></li>
         </ul>
         </div>
     </div>

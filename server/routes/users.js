@@ -11,8 +11,8 @@ usersRouter.use('/',authentication);
 
 usersRouter.get('/myproducts',UserController.getMyProducts);
 
-usersRouter.get('/cart');
+usersRouter.get('/cart',UserController.getMyCart);
 
-usersRouter.post('/cart');
+usersRouter.post('/cart',UserController.addToCart);
 
 module.exports = usersRouter;

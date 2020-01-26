@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const User = require("../models/user");
 
 function product_authorisation(req,res,next)
 {    
@@ -23,11 +24,13 @@ function product_authorisation(req,res,next)
 
 function user_authorisation(req,res,next)
 {    
-    User.findById(req.params.id)
+    User.findById(req.userInfo.id)
     .then((user) => {
-        if(user._id.toString() != req.userInfo.id)
+        if(!user)
         {
-            next({status: 403, message: "Not authorised"});
+            res.status(404).json({
+                msg: "Account not found"
+            })
         }
         else
         {
@@ -35,7 +38,7 @@ function user_authorisation(req,res,next)
         }
     })
     .catch((err) => {
-        next(err);
+        console.log(err);
     });
 }
 

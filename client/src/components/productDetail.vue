@@ -7,8 +7,10 @@
                 <div id="product-price">Seller: {{product.seller.username}}</div>
                 <br>
                 <form @submit.prevent="">
-                    Quantity: <input class="form-control" id="qty-input" type="number" v-model="quantity" min="1">
-                    <button class="btn btn-danger" type="submit">Add to cart</button>
+                    Quantity: <input class="form-control" id="qty-input" type="number" v-model="quantity" min="1" :disabled="product.seller.username==this.$cookies.get('username')">
+                    <b-button class="btn btn-danger" type="submit" :disabled="product.seller.username==this.$cookies.get('username')" @click="addToCart">Add to cart</b-button>
+                    <div v-if="product.seller.username==this.$cookies.get('username')">You are selling this product.</div>
+                    <div>{{addMessage}}</div>
                 </form>
             </b-card-text>
         </b-card>
@@ -17,6 +19,7 @@
 </template>
 
 <script>
+import axiosReq from "../config/axios";
     export default {
         name: "productDetail",
         props: {
@@ -24,7 +27,29 @@
         },
         data() {
             return {
-                quantity: 1
+                quantity: 1,
+                addMessage: ""
+            }
+        },
+        methods: {
+            addToCart() {
+                axiosReq({
+                    url: "/users/cart",
+                    method: "post",
+                    headers: {
+                        token: this.$cookies.get('token')
+                    },
+                    data: {
+                        product: this.product._id,
+                        quantity: this.quantity
+                    }
+                })
+                .then(() => {
+                    this.addMessage = "Added to cart!"
+                })
+                .catch((err) => {
+                    this.addMessage = err.response.data.msg
+                })
             }
         }
     }

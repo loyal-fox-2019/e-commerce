@@ -29,32 +29,34 @@ const userSchema = new Schema({
         required: true
     },
     cart: [{
-        product: Schema.Types.ObjectId,
+        product: {
+            type: Schema.Types.ObjectId,
+            ref: 'Product'
+        },
         quantity: Number
     }]
 }, {timestamps : true},{versionKey : false});   //timestamps add createdAt, updatedAt fields
 
 userSchema.pre('save',function(next) {
-    this.password = hashPassword(this.password);
     User.findOne({
         username: this.username
     })
     .exec()
     .then((user) => {  
-        if(user)
+        if(user)// found user with this username
         {
             if(user._id.toString() != this._id.toString())
             {
                 next(new Error("Username already taken."))
             }
-            else
+            else // matching id
             {
                 return User.findOne({
                     email: this.email
                 }).exec();
             }
         }
-        else
+        else // username free
         {            
             return User.findOne({
                 email: this.email
@@ -68,19 +70,25 @@ userSchema.pre('save',function(next) {
             {
                 next(new Error("Email already registered."))
             }
-            else
+            else //matching id
             {
                 next()
             }
         }
-        else
-        {            
+        else //email free so new user
+        {
+            this.password = hashPassword(this.password);     
             next()
         }
     })
     .catch((err) => {
         console.log(err);                    
-    })
+    });
+
+    for(let i=0;i<this.cart.length;i++)
+    {
+        this.cart[i].product = ObjectId(this.cart[i].product)
+    }
 })
 
 const User = mongoose.model("User",userSchema);
