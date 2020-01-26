@@ -28,12 +28,14 @@ function userAuthentication(req, res, next) {
 
       const user = await User.findOne({_id: req.userId})
 
-      if(!user) throw {
+      if(!user && user.userType != 'admin') throw {
          errorCode: 400,
          message: 'Invalid user id'
       }
+
+      console.log('\nthis is userType\n==============\n', user.userType, (JSON.stringify(req.params.userId) != JSON.stringify(req.userId)) && user.userType != 'admin', JSON.stringify(req.params.userId) != JSON.stringify(req.userId))
       
-      // if(JSON.stringify(req.params.userId) != JSON.stringify(req.userId)) throw {
+      // if((JSON.stringify(req.params.userId) != JSON.stringify(req.userId)) && user.userType != 'admin') throw {
       //    errorCode: 401,
       //    message: 'You are not authorized to perform this action'
       // }

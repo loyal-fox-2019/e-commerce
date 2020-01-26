@@ -63,7 +63,7 @@ class TransactionController {
 
     static async read(req, res, next) {
         try {
-            const transactions = await Transaction({user: req.userId})
+            const transactions = await Transaction.find()
             res.status(200).json({transactions})
         }
         catch (error) {
@@ -73,8 +73,28 @@ class TransactionController {
 
     static async readOne(req, res, next) {
         try {
-            const transaction = await Transaction({user: req.userId})
+            const transaction = await Transaction.findOne({_id: req.params.id})
+                .populate('purchasedItems.item')
             res.status(200).json({transaction})
+        }
+        catch (error) {
+            next(error)
+        }
+    }
+
+    static async updateDeliverySent(req, res, next) {
+        try {
+            const {status} = req.body
+            const results = await Transaction.updateOne(
+                {user: req.userId},
+                {
+                    $set: {
+                        status
+                    }
+                }
+            )
+
+            res.status(200).json({results})
         }
         catch (error) {
             next(error)

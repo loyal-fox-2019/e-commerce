@@ -8,6 +8,7 @@ const app = require('../app')
 let adminToken
 let userToken
 let allItems = []
+let transactionData
 
 const newItemData1 = {
    name: 'Final Fantasy X',
@@ -113,19 +114,51 @@ describe('/transaction', function() {
             })
          
          expect(createTransactionResp).to.have.status(201)
+         expect(createTransactionResp.body.transaction.purchasedItems[0].item).to.equal(allItems[1]._id)
+
+         transactionData = createTransactionResp.body.transaction
       })
    })
 
    describe('Getting all transactions: GET /transaction', function() {
       it('Should return an array of transactions - status 200', async function() {
          const getAllTransactionsResp = await chai.request(app)
-            .get('transaction')
+            .get('/transaction')
             .set({
                token: adminToken
             })
          
          expect(getAllTransactionsResp).to.have.status(200)
          expect(getAllTransactionsResp.body.transactions[0].purchasedItems[0].item).to.equal(allItems[1]._id)
+      })
+   })
+
+   describe('Get one populated transaction object: GET /transaction/:id', function() {
+      it('Should return an object of transaction with the purchased items getting populated - status 200', async function() {
+         const transactionResp = await chai.request(app)
+            .get(`/transaction/${transactionData._id}`)
+            .set({
+               token: adminToken
+            })
+         
+         expect(transactionResp).to.have.status(200)
+         expect(transactionResp.body.transaction.purchasedItems[0].item._id).to.equal(allItems[1]._id)
+      })
+   })
+
+   describe('Update delivery status to "sent": PATCH /transaction/:id', function() {
+      it('Should return a results object with key nModified equal to 1 - status 200', async function() {
+         const updateTransactionDeliveryStatusResp = await chai.request(app)
+            .patch(`/transaction/${transactionData._id}`)
+            .set({
+               token: userToken
+            })
+            .send({
+               status: 'delivered'
+            })
+         
+         expect(updateTransactionDeliveryStatusResp).to.have.status(200)
+         expect(updateTransactionDeliveryStatusResp.body.results.nModified).to.equal(1)
       })
    })
 })
