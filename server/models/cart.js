@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const cartSchema = new Schema(
   {
-    itemId: {
+    productId: {
       type: Schema.Types.ObjectId,
       required: true
     },
@@ -13,7 +13,8 @@ const cartSchema = new Schema(
       required: true
     },
     totalPrice: {
-      type: Number
+      type: Number,
+      default: 0
     },
     userId: {
       type: Schema.Types.ObjectId,
@@ -21,7 +22,8 @@ const cartSchema = new Schema(
       required: true
     },
     isCheckout: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }

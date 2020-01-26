@@ -1,14 +1,9 @@
-const Token = require('../helpers/token');
-
 module.exports = (req, res, next) => {
-  const { token } = req.headers;
-
-  try {
-    const payload = Token.verify(token);
-    req.userData = payload;
+  if (req.userData.userRole === 'admin') {
     next();
-  } catch (err) {
-    res.status(403);
+  } else {
+    res.status(401);
+    const err = Error(`Need admin access!`);
     next(err);
   }
 };

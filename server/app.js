@@ -1,10 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const errorHandling = require('./helpers/errorHandling');
 const {
   cartRouter,
-  itemRouter,
+  productRouter,
   transactionRouter,
   userRouter
 } = require('./routes');
@@ -20,16 +21,17 @@ mongoose.connect(
   }
 );
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/carts', cartRouter);
-app.use('/items', itemRouter);
+app.use('/products', productRouter);
 app.use('/transactions', transactionRouter);
 app.use('/users', userRouter);
 
 app.use(errorHandling);
 
-// app.listen(PORT, () => console.log(`listening at port ${PORT}`));
+app.listen(PORT, () => console.log(`listening at port ${PORT}`));
 
 module.exports = app;

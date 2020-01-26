@@ -1,7 +1,10 @@
 const express = require('express');
 const { CartController } = require('../controllers');
+const authentication = require('../middlewares/authentication');
 
 const router = express.Router();
+
+router.use(authentication);
 
 // create
 router.post('/', CartController.create);

@@ -1,11 +1,11 @@
 const cartRouter = require('./cart');
-const itemRouter = require('./item');
+const productRouter = require('./product');
 const transactionRouter = require('./transaction');
 const userRouter = require('./user');
 
 module.exports = {
   cartRouter,
-  itemRouter,
+  productRouter,
   transactionRouter,
   userRouter
 };

@@ -5,23 +5,20 @@ const Hash = require('../helpers/hash');
 class UserController {
   // register
   static register(req, res, next) {
-    // res.json(req.body);
-    const { email, password } = req.body;
-
-    User.create({ email, password })
+    User.create(req.body)
       .then(user => {
-        const { _id: userId } = user;
+        const { _id: userId, role: userRole } = user;
 
         res.status(201).json({
           message: `User has been successfully created!`,
-          token: Token.generate({ userId })
+          token: Token.generate({ userId, userRole })
         });
       })
       .catch(err => next(err));
   }
 
-  // login
-  static login(req, res, next) {
+  // sign in
+  static signIn(req, res, next) {
     const { email, password } = req.body;
 
     User.findOne({ email })
@@ -30,7 +27,7 @@ class UserController {
           res.status(403);
           throw new Error(`Email or password is invalid!`);
         } else {
-          const { _id: userId, password: hash } = user;
+          const { _id: userId, password: hash, role: userRole } = user;
 
           if (!Hash.verify(password, hash)) {
             res.status(403);
@@ -38,7 +35,7 @@ class UserController {
           } else {
             res.status(200).json({
               message: `User has found!`,
-              token: Token.generate({ userId })
+              token: Token.generate({ userId, userRole })
             });
           }
         }
@@ -46,15 +43,14 @@ class UserController {
       .catch(err => next(err));
   }
 
-  static getUserProfile(req, res, next) {
+  static getCurrUserProfile(req, res, next) {
     User.findById(req.userData.userId)
       .then(user => {
         if (!user) {
           res.status(404);
           throw new Error(`User doesn't exist!`);
         } else {
-          res.status(200);
-          res.json({
+          res.status(200).json({
             message: `Fetch user profile SUCCESS!`,
             data: {
               username: user.username,
