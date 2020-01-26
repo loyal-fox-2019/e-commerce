@@ -8,9 +8,15 @@
         <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
         <v-icon small @click="deleteItem(item)">delete</v-icon>
       </template>
+      <template v-slot:item.price="{ item }">
+        {{formatPrice(item.price)}}
+      </template>
+      <template v-slot:item.subTotal="{ item }">
+        {{formatPrice(item.subTotal)}}
+      </template>
     </v-data-table>
     <div class="text-right my-4">
-      <v-btn rounded color="accent" dark @click="purchase">Purchase, Rp. {{totalPurchase}}</v-btn>
+      <v-btn rounded color="accent" dark @click="purchase">Purchase: Rp. {{formatPrice(totalPurchase)}}</v-btn>
     </div>
   </v-container>
 </template>
@@ -29,9 +35,9 @@ export default {
         align: 'left',
         value: 'name'
       },
-      { text: 'Price', value: 'price' },
+      { text: 'Price (Rp)', value: 'price' },
       { text: 'Qty', value: 'qty' },
-      { text: 'Sub Total', value: 'subTotal' },
+      { text: 'Sub Total (Rp)', value: 'subTotal' },
       { text: 'Actions', value: 'action', sortable: false }
     ],
     products: []
@@ -57,6 +63,10 @@ export default {
   },
 
   methods: {
+    formatPrice (value) {
+      let val = (value / 1).toFixed(0).replace('.', ',-')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    },
     deleteItem (payload) {
       this.errors = []
       axios({

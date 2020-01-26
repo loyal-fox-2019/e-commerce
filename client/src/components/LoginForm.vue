@@ -67,7 +67,6 @@ export default {
         }
       })
         .then(({ data }) => {
-          // console.log(data)
           localStorage.setItem('token', data.token)
           localStorage.setItem('username', data.username)
           this.email = ''

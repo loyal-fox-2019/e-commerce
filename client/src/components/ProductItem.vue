@@ -17,7 +17,7 @@
       <v-img :src="product.image" height="194"></v-img>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="headline">Rp. {{product.price}},-</v-list-item-title>
+          <v-list-item-title class="headline">Rp. {{ formatPrice(product.price) }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-card-text v-if="product.user.username == $store.state.username">Stok sekerang: {{product.stock}}</v-card-text>
@@ -54,6 +54,10 @@ export default {
     product: Object
   },
   methods: {
+    formatPrice (value) {
+      let val = (value / 1).toFixed(0).replace('.', ',-')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    },
     remove () {
       axios({
         method: 'delete',

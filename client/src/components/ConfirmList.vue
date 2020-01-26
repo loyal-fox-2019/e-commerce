@@ -9,9 +9,15 @@
         <v-icon small @click="deleteItem(item)">delete</v-icon> -->
         <v-btn rounded small color="accent" @click="confirmItem(item)" dark>Delivered</v-btn>
       </template>
+      <template v-slot:item.price="{ item }">
+        {{formatPrice(item.price)}}
+      </template>
+      <template v-slot:item.subTotal="{ item }">
+        {{formatPrice(item.subTotal)}}
+      </template>
     </v-data-table>
     <div class="text-right my-4">
-      <v-btn rounded color="accent" dark>Confirm All</v-btn>
+      <!-- <v-btn rounded color="accent" dark>Confirm All</v-btn> -->
     </div>
   </v-container>
 </template>
@@ -50,6 +56,10 @@ export default {
   computed: mapState(['paids']),
 
   methods: {
+    formatPrice (value) {
+      let val = (value / 1).toFixed(0).replace('.', ',-')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    },
     confirmItem (payload) {
       axios({
         method: 'PATCH',

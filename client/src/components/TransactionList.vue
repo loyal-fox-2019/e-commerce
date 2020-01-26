@@ -1,6 +1,12 @@
 <template>
   <v-row justify="center" class="d-flex flex-wrap">
     <v-data-table :headers="headers" :items="transactions" sort-by="date" class="elevation-1">
+      <template v-slot:item.price="{ item }">
+        {{formatPrice(item.price)}}
+      </template>
+      <template v-slot:item.subTotal="{ item }">
+        {{formatPrice(item.subTotal)}}
+      </template>
     </v-data-table>
   </v-row>
 </template>
@@ -43,6 +49,10 @@ export default {
   },
 
   methods: {
+    formatPrice (value) {
+      let val = (value / 1).toFixed(0).replace('.', ',-')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    },
     initialize () {
       this.transactions = [
         {

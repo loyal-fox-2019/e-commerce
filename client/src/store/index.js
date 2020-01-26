@@ -19,6 +19,7 @@ export default new Vuex.Store({
     },
     LOGOUT (state) {
       state.isLogin = false
+      state.username = ''
       localStorage.clear()
     },
     FETCH_PRODUCTS (state, payload) {

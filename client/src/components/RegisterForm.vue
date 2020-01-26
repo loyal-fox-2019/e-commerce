@@ -87,7 +87,21 @@ export default {
         data: formData
       })
         .then(({ data }) => {
-          this.$emit('to-login')
+          localStorage.setItem('token', data.token)
+          localStorage.setItem('username', data.username)
+          this.$swal({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Register success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$store.commit('LOGIN')
+          this.$store.commit('SET_USERNAME', data.username)
+          this.$store.dispatch('fetchPending')
+          this.$store.dispatch('fetchPaid')
+          this.$store.dispatch('fetchDelivered')
+          this.$router.push('/')
         })
         .catch(err => {
           this.errors = err.response.data.message

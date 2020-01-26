@@ -33,7 +33,7 @@ class UserController {
       profile_pic
     })
       .then(user => {
-        res.status(201).json(user)
+        res.status(200).json({ token: generateToken({ _id: user._id }), username: user.username})
       })
       .catch(next)
   }
