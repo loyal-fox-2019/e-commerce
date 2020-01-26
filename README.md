@@ -144,17 +144,17 @@ Menambahkan transaksi kedalam database
 
 **Success Status Code** : 201
 
-## Edit Product
+## Edit `Transaction`
 
 Mengedit transaksi kedalam database
 
-**URL** : `/products/:transactionId`
+**URL** : `/transactions/:transactionId`
 
 **Method** : `PATCH`
 
 **Auth Required** : YES (Admin Only)
 
-## DELETE Product
+## DELETE Transaction
 
 Menghapus transaksi
 
