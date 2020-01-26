@@ -1,17 +1,13 @@
 <template>
-  <div class="own-card shadow mb-4 mx-2">
+  <div class="own-card shadow mb-4 mx-2" @click="toDetail">
     <div class="card-img">
-      <img
-        src="https://cf.shopee.co.id/file/3627aa52aaa09e3f30fd40ce985c7a2f"
-        class="thumbnail-img"
-        alt
-      />
+      <img :src="detail.thumbnail" class="thumbnail-img" alt />
     </div>
     <div class="product-title">
-      <h6>Speaker Bluetooth Harman/Kardon Aura 2</h6>
+      <h6>{{ detail.productName }}</h6>
     </div>
     <div class="detail-wrapper">
-      <p class="price-product">Rp. 762.000</p>
+      <p class="price-product">{{ changeFormatPrice }}</p>
       <i class="fa fa-star checked"></i>
       <i class="fa fa-star checked"></i>
       <i class="fa fa-star checked"></i>
@@ -22,7 +18,22 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: ['detail'],
+  computed: {
+    changeFormatPrice() {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(this.detail.price)
+    }
+  },
+  methods: {
+    toDetail() {
+      this.$router.push('/products/' + this.detail._id)
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -30,6 +41,10 @@ export default {}
   height: 350px;
   width: 224px;
   border-radius: 8px;
+}
+.own-card:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }
 .card-img {
   width: 100%;

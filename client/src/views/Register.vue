@@ -122,6 +122,7 @@ export default {
 .register {
   padding: 20px;
   background-color: #f8f8f8;
+  min-height: 94vh;
 }
 .bg-only {
   width: 100%;

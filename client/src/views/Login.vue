@@ -102,6 +102,7 @@ export default {
 .login {
   padding: 30px;
   background-color: #f1f1f1;
+  min-height: 94vh;
 }
 .form-login {
   width: 27%;

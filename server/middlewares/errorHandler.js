@@ -5,6 +5,8 @@ module.exports = (err, req, res, next) => {
     res.status(404).json({ message: err.message });
   } else if (err.name === "Token Validation") {
     res.status(400).json({ message: err.message });
+  } else if (err.name === "Token") {
+    res.status(400).json({ message: err.message });
   } else if (err.name === "Unauthorized") {
     res.status(401).json({ message: err.message });
   } else if (err.name === "ValidationError") {

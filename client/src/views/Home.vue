@@ -1,7 +1,11 @@
 <template>
   <div class="home">
     <div class="row justify-content-start">
-      <CardProduct v-for="i in cardRepeat" :key="i"></CardProduct>
+      <CardProduct
+        v-for="(productItem, i) in allProduct"
+        :key="i"
+        :detail="productItem"
+      ></CardProduct>
     </div>
   </div>
 </template>
@@ -14,10 +18,16 @@ export default {
   components: {
     CardProduct
   },
-  data() {
-    return {
-      cardRepeat: 22
+  computed: {
+    allProduct() {
+      return this.$store.state.listProduct
     }
+  },
+  data() {
+    return {}
+  },
+  created() {
+    this.$store.dispatch('fetchDataProduct')
   }
 }
 </script>
@@ -25,5 +35,6 @@ export default {
 <style scoped>
 .home {
   padding: 30px;
+  min-height: 94vh;
 }
 </style>

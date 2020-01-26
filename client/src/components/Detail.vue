@@ -2,16 +2,12 @@
   <div class="row">
     <div class="col-md-5">
       <div class="img-area">
-        <img
-          class="product-img"
-          src="https://cf.shopee.co.id/file/3627aa52aaa09e3f30fd40ce985c7a2f"
-          alt="product"
-        />
+        <img class="product-img" :src="thumbnail" alt="product" />
       </div>
     </div>
     <div class="col-md-7">
       <div class="product-header mb-2">
-        <h4>Speaker Bluetooth Harman/Kardon Aura 2</h4>
+        <h4>{{ productName }}</h4>
         <i class="fa fa-star checked"></i>
         <i class="fa fa-star checked"></i>
         <i class="fa fa-star checked"></i>
@@ -24,7 +20,7 @@
           <h6 class="text-muted muted-text">Price</h6>
         </div>
         <div class="col-md p-3">
-          <h6 class="price-rp">Rp 769.000</h6>
+          <h6 class="price-rp">{{ changeFormatPrice }}</h6>
         </div>
       </div>
       <div class="line-divider"></div>
@@ -34,7 +30,7 @@
         </div>
         <div class="col-md p-3">
           <p class="text-stock">
-            <strong>Stock Available : 60</strong>
+            <strong>Stock Available : {{ stock }}</strong>
           </p>
           <b-button variant="success" pill @click="decrement">
             <i class="fas fa-minus btn-stock"></i>
@@ -46,18 +42,12 @@
         </div>
       </div>
       <div class="line-divider"></div>
-      <div class="product-total row mb-2">
-        <div class="col-md-4 p-3">
-          <h6 class="text-muted muted-text">Description</h6>
-        </div>
-        <div class="col-md p-3">
-          <p
-            class="desc m-0"
-          >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas debitis molestias velit necessitatibus neque consequuntur laudantium, quasi quisquam ut odio. Aliquid incidunt ea laboriosam pariatur quod, dolores eum accusamus quam quos in fugit mollitia officia a quibusdam nulla aperiam sapiente beatae cum alias cumque! Rerum, sed pariatur provident illo adipisci obcaecati officiis autem harum facilis expedita aut unde eum iure sapiente optio, nemo cumque rem tenetur quas? Perferendis natus quibusdam officiis ducimus iusto maxime vel rem molestiae necessitatibus maiores! Tempora!</p>
-        </div>
+      <div class="product-total row mb-2 p-3">
+        <h6 class="text-muted muted-text">Description</h6>
+        <p class="desc m-0">{{ description }}</p>
       </div>
       <div class="line-divider mb-3"></div>
-      <button class="btn btn-success btn-addcart d-block mx-auto">
+      <button class="btn btn-success btn-addcart d-block mx-auto" @click.prevent="addtoCart">
         <i class="fas fa-cart-plus"></i> Add to Cart
       </button>
     </div>
@@ -65,15 +55,35 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
 export default {
+  computed: {
+    changeFormatPrice() {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(this.price)
+    }
+  },
   data() {
     return {
-      amount: 0
+      amount: 0,
+      productName: '',
+      description: '',
+      thumbnail: '',
+      stock: '',
+      price: '',
+      productId: ''
     }
   },
   methods: {
     increment() {
-      this.amount++
+      if (this.amount === this.stock) {
+        this.amount += 0
+      } else {
+        this.amount++
+      }
     },
     decrement() {
       if (this.amount < 1) {
@@ -81,7 +91,70 @@ export default {
       } else {
         this.amount--
       }
+    },
+    getData() {
+      axios
+        .get('http://localhost:3000/products/' + this.$route.params.id)
+        .then(({ data }) => {
+          this.productName = data.productName
+          this.description = data.description
+          this.thumbnail = data.thumbnail
+          this.stock = data.stock
+          this.price = data.price
+          this.id = data._id
+        })
+        .catch(({ response }) => {})
+    },
+    addtoCart() {
+      if (this.amount === 0) {
+        Swal.fire({
+          icon: 'warning',
+          text: 'Amount must be more than 0'
+        })
+      } else if (this.amount > this.stock) {
+        Swal.fire({
+          icon: 'warning',
+          text: 'Amount exceeds stock'
+        })
+      } else {
+        axios
+          .post(
+            'http://localhost:3000/cart/',
+            {
+              amount: this.amount,
+              ProductId: this.id
+            },
+            {
+              headers: {
+                token: localStorage.getItem('token')
+              }
+            }
+          )
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              text: 'Added to Cart'
+            })
+            this.$router.push('/cart')
+          })
+          .catch(({ response }) => {
+            if (response.status === 400) {
+              Swal.fire({
+                icon: 'error',
+                text: 'You Need to Login First'
+              })
+            } else {
+              Swal.fire({
+                icon: 'error',
+                text: response.data.message
+              })
+            }
+          })
+      }
     }
+  },
+  created() {
+    this.getData()
   }
 }
 </script>

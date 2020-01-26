@@ -27,7 +27,7 @@ const routes = [
     component: Register
   },
   {
-    path: '/product',
+    path: '/products/:id',
     name: 'product',
     component: ProductDetail
   },

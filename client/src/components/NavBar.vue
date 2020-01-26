@@ -11,25 +11,21 @@
             <a
               class="btn btn-outline-success btn-navbar mr-3 text-success"
               v-if="!$store.state.isLogin"
-              >Login</a
-            >
+            >Login</a>
           </router-link>
           <router-link to="/register">
             <a
               class="btn btn-success btn-navbar mr-3 text-light"
               v-if="!$store.state.isLogin"
-              >Register</a
-            >
+            >Register</a>
           </router-link>
-          <b-nav-item-dropdown class="mr-4" v-if="$store.state.isLogin">
+          <b-nav-item-dropdown class="mr-3" v-if="$store.state.isLogin">
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
-              User
+              <i class="fas fa-user-circle icon-profile"></i>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#" @click.prevent="logout"
-              >Sign Out</b-dropdown-item
-            >
+            <b-dropdown-item href="#" @click.prevent="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
           <router-link to="/cart" v-if="$store.state.isLogin">
             <i class="fas fa-shopping-cart cart-icon"></i>
@@ -62,6 +58,9 @@ export default {
 </script>
 
 <style scoped>
+.icon-profile {
+  font-size: 28px;
+}
 .navbar-section {
   background-color: #ffffff;
   box-shadow: 0px 1px 8px 0px rgba(200, 200, 200, 0.75);

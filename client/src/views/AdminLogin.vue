@@ -78,6 +78,9 @@ export default {
 </script>
 
 <style>
+.admin-login {
+  min-height: 94vh;
+}
 .form-admin {
   width: 35%;
   padding: 20px;

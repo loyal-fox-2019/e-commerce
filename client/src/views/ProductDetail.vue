@@ -16,4 +16,7 @@ export default {
 </script>
 
 <style>
+.detail-product {
+  min-height: 94vh;
+}
 </style>

@@ -5,6 +5,7 @@ const verifadmin = require("../middlewares/verifAdmin");
 const authentication = require("../middlewares/authentication");
 
 router.get("/", Controller.getAllProduct);
+router.get("/:id", Controller.getById);
 router.use(authentication);
 router.post("/", verifadmin, upload.single("thumbnail"), Controller.addProduct);
 router.delete("/:id", verifadmin, Controller.deleteProduct);

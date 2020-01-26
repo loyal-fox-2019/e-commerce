@@ -22,6 +22,19 @@ class Product {
       })
       .catch(next);
   }
+  static getById(req, res, next) {
+    Model.findById(req.params.id)
+      .then(product => {
+        res.status(200).json(product);
+      })
+      .catch(() => {
+        let err = {
+          name: "Not Found",
+          message: "Cannot Find Product"
+        };
+        next(err);
+      });
+  }
   static deleteProduct(req, res, next) {
     Model.findByIdAndDelete(req.params.id)
       .then(deleted => {
