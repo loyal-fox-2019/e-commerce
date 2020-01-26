@@ -13,7 +13,7 @@ router.use('/', authentication)
 router.post('/', gcsUpload.array('images'), productController.addNewProduct)
 
 router.use('/:id', authorization)
-router.put('/:id', gcsUpload.array('images'), productController.editProductById)
+router.put('/:id', productController.editProductById)
 router.delete('/:id', productController.deleteProductById)
 
 module.exports = router

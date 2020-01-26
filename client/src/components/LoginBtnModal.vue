@@ -130,6 +130,7 @@ export default {
         data: this.form
       })
         .then(({ data }) => {
+          localStorage.userId = data.userId;
           localStorage.name = data.name;
           localStorage.token = data.token;
           this.forceRerender();

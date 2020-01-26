@@ -8,7 +8,42 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import(/* webpackChunkName: "home" */ "@/views/Home.vue")
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Home.vue"),
+    children: [
+      {
+        path: "",
+        redirect: { name: "show products" }
+      },
+      {
+        path: "products",
+        name: "show products",
+        component: () =>
+          import(
+            /* webpackChunkName: "show-products" */ "@/views/ProductList.vue"
+          )
+      },
+      {
+        path: "products/:productId",
+        name: "show product by id",
+        component: () =>
+          import(
+            /* webpackChunkName: "product-by-id" */ "@/views/ProductDetail.vue"
+          )
+      },
+      {
+        path: "carts",
+        name: "my cart",
+        component: () =>
+          import(/* webpackChunkName: "my-cart" */ "@/views/CartList.vue"),
+        beforeEnter: (to, from, next) => {
+          if (to.name === "my cart" && !localStorage.token) {
+            next({ name: "show products" });
+          } else {
+            next();
+          }
+        }
+      }
+    ]
   },
   {
     path: "/login",

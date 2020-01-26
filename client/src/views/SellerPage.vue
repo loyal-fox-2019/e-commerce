@@ -1,6 +1,6 @@
 <template>
   <b-container style="font-size:13px;" class="mb-5">
-    <h1 class="text-center my-5">SELLER PAGE</h1>
+    <h1 class="text-center my-5">Halaman Penjualan</h1>
     <b-alert show variant="success">
       <h4 class="alert-heading">Tata krama berjualan yang baik:</h4>
       <ol>
@@ -176,7 +176,7 @@ export default {
         .then(({ data }) => {
           Toast.fire({
             icon: "success",
-            title: `Product ${data.name} saved successfully`
+            title: `${data.name} siap dijual`
           });
           this.$router.push({ name: "home" });
         })

@@ -4,7 +4,8 @@ const productModel = require('../models/product');
 module.exports = (req, res, next) => {
     productModel
         .findOne({
-            _id: ObjectId(req.params.id)
+            _id: ObjectId(req.params.id),
+            seller: ObjectId(req.userLogin._id)
         }).populate('seller')
         .then((product) => {
             if (!product) {

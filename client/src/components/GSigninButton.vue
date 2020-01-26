@@ -37,6 +37,7 @@ export default {
         }
       })
         .then(({ data }) => {
+          localStorage.userId = data.userId;
           localStorage.token = data.token;
           localStorage.name = data.fullname;
           this.$emit("loggedIn", true);

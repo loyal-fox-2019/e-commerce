@@ -15,17 +15,28 @@
         <b-navbar-nav class="w-100">
           <b-row class="w-100">
             <b-col cols="10" align-self="center">
-              <search-box></search-box>
+              <search-box
+                @search="$emit('search', $event)"
+                v-if="currentPath === '/products'"
+              ></search-box>
             </b-col>
             <b-col cols="2">
               <b-row>
                 <b-col
-                  cols="1"
+                  cols="3"
                   align-self="center"
                   :style="{ 'border-right': 'solid 1px grey' }"
-                  class="pl-0 pr-5"
+                  class="pl-0"
                 >
-                  <font-awesome-icon :icon="['fas', 'shopping-cart']" />
+                  <b-button @click.prevent="showCart" size="sm" variant="light">
+                    <font-awesome-icon :icon="['fas', 'shopping-cart']" />
+                    <span
+                      v-if="cartList"
+                      class="text-light font-weight-bold rounded bg-danger"
+                    >
+                      {{ cartList.length }}
+                    </span>
+                  </b-button>
                 </b-col>
                 <b-col
                   cols="9"
@@ -58,6 +69,7 @@ import SearchBox from "@/components/SearchBox.vue";
 import UserPopover from "@/components/UserPopover.vue";
 
 export default {
+  props: ["cartList"],
   components: {
     LoginBtnModal,
     RegisterBtnPage,
@@ -72,11 +84,22 @@ export default {
   methods: {
     forceRerender() {
       this.isLogin = !this.isLogin;
+      location.reload();
+    },
+    showCart() {
+      if (!localStorage.token) {
+        this.$swal("Error", "Masook dulu untuk lihat keranjang", "error");
+      } else {
+        this.$router.push({ name: "my cart" });
+      }
     }
   },
   computed: {
     name() {
       return localStorage.name;
+    },
+    currentPath() {
+      return this.$route.fullPath;
     }
   },
   created() {
@@ -88,10 +111,6 @@ export default {
 <style scoped>
 .navbar-brand {
   font-weight: bold;
-  color: black;
-}
-
-.navbar-brand.router-link-exact-active {
   color: #42b983;
 }
 </style>

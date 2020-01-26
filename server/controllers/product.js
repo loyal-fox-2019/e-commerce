@@ -5,7 +5,9 @@ class Product {
     static getAllProductsByFilter(req, res, next) {
         let productPromise
         if (!req.query.name) {
-            productPromise = productModel.find()
+            productPromise = productModel.find({
+                stock: { $gte: 1 }
+            })
         } else {
             productPromise = productModel.find({
                 name: new RegExp(req.query.name, 'g')
@@ -20,18 +22,18 @@ class Product {
     }
 
     static getProductById(req, res, next) {
-        productModel.find({
+        productModel.findOne({
                 _id: ObjectId(req.params.id)
             })
             .populate(['seller'])
-            .then((products) => {
-                if (!products.length) {
+            .then((product) => {
+                if (!product) {
                     let err = new Error('Product not found');
                     err.statusCode = 404
                     err.errMessage = 'Product not found'
                     throw err
                 }
-                res.status(200).json(products)
+                res.status(200).json(product)
             }).catch(next);
     }
 

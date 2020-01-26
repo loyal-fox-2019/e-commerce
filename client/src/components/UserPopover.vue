@@ -141,9 +141,11 @@ export default {
   },
   methods: {
     signOut() {
+      localStorage.removeItem("userId");
       localStorage.removeItem("name");
       localStorage.removeItem("token");
       this.$emit("isLogout", true);
+      this.$forceUpdate();
       // location.reload();
     },
     onClose() {

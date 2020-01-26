@@ -8,6 +8,7 @@ class User {
     static oauthLogin(req, res, next) {
         let gPayload;
         let userStatus = 200;
+        let userId
         client.verifyIdToken({
             idToken: req.body.token,
             audience: process.env.GOOGLE_CLIENT_ID
@@ -34,6 +35,7 @@ class User {
                     })
             }
         }).then((registeredUser) => {
+            userId = registeredUser._id
             return jwt.sign({
                 _id: registeredUser._id,
                 fullname: registeredUser.fullname,
@@ -43,7 +45,8 @@ class User {
         }).then((token) => {
             res.status(userStatus).json({
                 token,
-                fullname: gPayload.name
+                fullname: gPayload.name,
+                userId
             })
         }).catch(next);
     }
@@ -92,7 +95,7 @@ class User {
             username,
             password
         } = req.body
-        let name;
+        let name, userId;
 
         userModel
             .findOne({
@@ -115,6 +118,7 @@ class User {
                     throw err
                 } else {
                     name = user.fullname
+                    userId = user._id
                     return jwt.sign({
                         _id: user._id,
                         fullname: user.fullname,
@@ -126,7 +130,8 @@ class User {
             .then((token) => {
                 res.status(200).json({
                     name,
-                    token
+                    token, 
+                    userId
                 });
             })
             .catch(next);

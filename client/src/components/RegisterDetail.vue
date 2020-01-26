@@ -161,13 +161,13 @@ export default {
           localStorage.setItem("name", data.fullname);
           localStorage.setItem("token", data.token);
           this.$swal("Success!", "Registration Success", "success");
-          this.$router.push({ name: "home" });
+          this.$router.push({ name: "show products" });
         })
         .catch(err => {
           console.log(err);
 
           this.$swal("Error!", "Something went wrong", "error");
-          this.$router.push({ name: "home" });
+          this.$router.push({ name: "show products" });
         });
     }
   }
