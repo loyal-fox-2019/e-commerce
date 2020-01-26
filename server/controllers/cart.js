@@ -57,7 +57,7 @@ class cartController {
       })
       .then((item) => {
         let value = {
-          quantity: item.quantity - 1
+          quantity: item.quantity + 1
         }
         return Product.findByIdAndUpdate(item._id, value, { new: true, omitUndefined: true })
       })
@@ -78,11 +78,21 @@ class cartController {
       .catch(next)
   }
 
+  static readSendingCart(req, res, next) {
+    const customer = req.decoded.id
+    Cart
+      .find({ customer, status: 'sending' })
+      .populate('items')
+      .then((cart) => {
+        res.status(200).json(cart)
+      })
+      .catch(next)
+    }
+
   static readReceivedCart(req, res, next) {
     const customer = req.decoded.id
     Cart
-      .find({ status: 'received' })
-      .findOfne({ customer })
+      .find({ customer, status: 'received' })
       .populate('items')
       .then((cart) => {
         res.status(200).json(cart)
@@ -128,6 +138,7 @@ class cartController {
   }
 
   static received(req, res, next) {
+    console.log('masuk')
     const id = req.params.id
     let value = {
       status: 'received'
