@@ -21,6 +21,10 @@ const productSchema = new Schema({
   image: {
     type: String,
     required: [true, "image link must be filled out"]
+  },
+  weight: {
+    type: Number,
+    default: 1
   }
 })
 

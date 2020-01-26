@@ -1,9 +1,12 @@
 const { User, Product } = require("../models")
 const createError = require('http-errors')
+const axios = require('axios')
 
 class CartController {
   static addToCart(req, res, next) {
     let { productId, amount } = req.body
+    console.log(productId,'{{{{{{{{{{{{{{{')
+    console.log(amount, '}}}}}}}}}}}}}}}')
     amount = Number(amount)
     let cartItem = {
       productId,
@@ -27,20 +30,21 @@ class CartController {
         return user
       })
       .then(user => {
-        person = user
-        return Product.findByIdAndUpdate(productId, {
-          $inc: { stock: -amount }
-        }, { new: true })
+        res.status(200).json(user)
+        // person = user
+        // return Product.findByIdAndUpdate(productId, {
+        //   $inc: { stock: -amount }
+        // }, { new: true })
       })
-      .then(product => {
-        res.status(200).json(person)
-      })
+      // .then(product => {
+      //   res.status(200).json(person)
+      // })
       .catch(next)  
   }
 
   static showCart(req, res, next) {
     User.findById(req.decoded._id)
-      .populate('cart')
+      .populate('cart.productId')
       .then(user => {
         res.status(200).json(user)
       })
@@ -69,7 +73,54 @@ class CartController {
         res.status(200).json({ message: 'Successfully deleted' })
       })
       .catch(next)
-    }
+  }
+
+  static fetchCities(req, res, next) {
+    axios({
+      method: 'get',
+        url: 'https://api.rajaongkir.com/starter/city',
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          key: '2525fa2124f69d435be54d3407c7dbdf'
+        }
+      })
+        .then(({ data }) => {
+          res.status(200).json(data.rajaongkir.results)
+        })
+        .catch(next)
+  }
+
+  static getShippingFee(req, res, next) {
+    const { destination, weight } = req.body
+    axios({
+      method: 'post',
+      url: 'https://api.rajaongkir.com/starter/cost',
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        key: '2525fa2124f69d435be54d3407c7dbdf'
+      },
+      data: {
+        origin: 151,
+        destination,
+        weight,
+        courier: 'jne'
+      }
+    })
+      .then(({ data }) => {
+        let shippingFee = 0
+        console.log('--------------------')
+        for (let service of data.rajaongkir.results[0].costs) {
+          if (service.service === 'REG') {
+            shippingFee = service.cost[0].value
+          } else if (service.service === 'OKE'){
+            shippingFee = service.cost[0].value
+          }
+        }
+        res.status(200).json({ shippingFee })
+      })
+      .catch(next)
+
+  }
 }
 
 

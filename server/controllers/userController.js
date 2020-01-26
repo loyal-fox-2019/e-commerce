@@ -10,7 +10,8 @@ class userController {
     User.create({ username, email, password })
     .then(user => {
       payload._id = user._id
-      payload.email = user.email
+      payload.email = user.email,
+      payload.role = user.role
       access_token = generateToken(payload);
       res.status(201).json({ access_token, email })
     })
@@ -26,9 +27,11 @@ class userController {
     User.findOne({ email })
       .then(user => {
         if (user) {
+          console.log(password, user.password, '{{{{{{')
           if (checkPassword(password, user.password)) {
             payload._id = user._id;
             payload.email = user.email;
+            payload.role = user.role
             access_token = generateToken(payload);
             res.status(200).json({ access_token, email })
           } else {
