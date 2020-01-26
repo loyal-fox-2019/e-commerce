@@ -39,7 +39,7 @@ export default {
     console.log('get all products')
     axios({
       method: 'get',
-      url: 'http://localhost:3000/product',
+      url: 'http://35.240.228.104:3000/product',
       headers:{
         token: localStorage.getItem('token')
       }

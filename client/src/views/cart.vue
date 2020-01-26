@@ -79,7 +79,7 @@ export default {
         deleteCart(cart_id){
             axios({
                 method: 'delete',
-                url: `http://localhost:3000/cart/${cart_id}`,
+                url: `http://35.240.228.104:3000/cart/${cart_id}`,
                 headers:{
                     token: localStorage.getItem('token')
                 }
@@ -96,7 +96,7 @@ export default {
             console.log('masuk')
             axios({
             method: 'get',
-            url: `http://localhost:3000/cart`,
+            url: `http://35.240.228.104:3000/cart`,
             headers:{
                 token: localStorage.getItem('token')
             }
@@ -113,7 +113,7 @@ export default {
             console.log(this.cartIdList)
             axios({
                 method: 'patch',
-                url: `http://localhost:3000/cart`,
+                url: `http://35.240.228.104:3000/cart`,
                 headers:{
                     token: localStorage.getItem('token'),
                 },
@@ -124,18 +124,6 @@ export default {
             .then(({data})=>{
                 console.log(data, 'updated==============harusnya 2 kali')
                 this.getCarts()
-                return axios({
-                    method: 'put',
-                    url: `http://localhost:3000/product/qty/${data.productId._id}`,
-                    headers:{
-                        token: localStorage.getItem('token')
-                    },
-                    data:{
-                        qty: data.Quantity
-                    }
-                })
-            })
-            .then(({data})=>{
                 this.totalPrice = 0
                 console.log(data, 'stock sudah berkurang')
             })

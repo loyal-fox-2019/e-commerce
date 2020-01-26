@@ -7,9 +7,9 @@
         <label for="inputPassword" class="sr-only">Password</label>
         <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
         <button class="btn btn-lg btn-primary btn-block" v-on:click.prevent="loginUser" type="submit">Log in</button>
+        <p><router-link :to="`/register`">Register Here</router-link></p>
         <p>or</p>
         <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" ></GoogleLogin>
-        <p><router-link :to="`/register`">Register Here</router-link></p>
         <p class="mt-5 mb-3 text-muted">© 2020-2021</p>
     </form>
 </template>
@@ -42,7 +42,7 @@ export default {
       const profile = googleUser.getBasicProfile();
       const id_token = googleUser.getAuthResponse().id_token;
       // console.log(id_token)
-      axios.post('http://localhost:3000/user/gsignin',{
+      axios.post('http://35.240.228.104:3000/user/gsignin',{
           data: {
             id_token
           }
@@ -61,7 +61,7 @@ export default {
       console.log('masuk login')
       axios({
         method: 'post',
-        url: 'http://localhost:3000/user/login',
+        url: 'http://35.240.228.104:3000/user/login',
         data:{
           email: this.email,
           password: this.password

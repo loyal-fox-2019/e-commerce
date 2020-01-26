@@ -56,6 +56,14 @@ class CartController{
             Cart.findOneAndUpdate(item, {$set: { isCheckOut: true }}).populate('productId')
             .then(result=>{
                 console.log('harusnya kekirim 2 kali')
+                return Product.findOneAndUpdate({
+                    _id: item.productId._id
+                },{
+                    $set:{ stock: item.productId.stock - parseInt(item.Quantity)}
+                  })
+                
+            })
+            .then(result=>{
                 res.status(200).json(result)
             })
             .catch(err=>{

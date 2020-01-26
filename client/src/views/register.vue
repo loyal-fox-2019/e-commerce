@@ -7,10 +7,11 @@
         <label for="inputEmail" class="sr-only">Email address</label>
         <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
         <label for="inputPassword" class="sr-only">Password</label>
-        <p>or</p>
-        <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" ></GoogleLogin>
         <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
         <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click.prevent="registerUser">Sign up</button>
+        <p><router-link :to="`/login`">Login Here</router-link></p>
+        <p>or</p>
+        <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" ></GoogleLogin>
         <p class="mt-5 mb-3 text-muted">© 2020-2021</p>
     </form>
 </template>
@@ -44,7 +45,7 @@ export default {
         const profile = googleUser.getBasicProfile();
         const id_token = googleUser.getAuthResponse().id_token;
         // console.log(id_token)
-        axios.post('http://localhost:3000/user/gsignin',{
+        axios.post('http://35.240.228.104:3000/user/gsignin',{
             data: {
                 id_token
             }
@@ -63,7 +64,7 @@ export default {
             console.log('masuk register')
             axios({
                 method: 'post',
-                url: `http://localhost:3000/user/register`,
+                url: `http://35.240.228.104:3000/user/register`,
                 data:{
                     username: this.username,
                     email: this.email,
