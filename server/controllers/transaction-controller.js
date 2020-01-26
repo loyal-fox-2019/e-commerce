@@ -60,20 +60,26 @@ class TransactionController {
         { status: req.body.status },
       )
 
-      console.log(transaction)
-
       res.json({ message: 'Transaction updated' })
     } catch (err) {
       next(err)
     }
   }
 
-  static async deleteTransaction(req, res, next) {
-    try {
-      res.json({ message: 'under construction' })
-    } catch (err) {
-      next(err)
-    }
+  static deleteTransaction(req, res, next) {
+    Transaction.findOneAndDelete({ _id: req.params.transactionId })
+      .then(transaction => {
+        res.json({ message: 'Transaction deleted' })
+      })
+      .catch(next)
+  }
+
+  static getAllTransactions(req, res, next) {
+    Transactions.find({})
+      .then(transactions => {
+        res.json({ transactions })
+      })
+      .catch(next)
   }
 }
 
