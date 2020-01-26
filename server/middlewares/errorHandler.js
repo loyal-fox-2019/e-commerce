@@ -10,7 +10,7 @@ module.exports = (err, req, res, next) => {
       if (err.keyValue.email) {
         message = ["Email is already in use"]
       } else {
-        message = ["Username is already in use"]
+        message = ["Nationality ID is already in use"]
       }
       break;
     case "ValidationError":
