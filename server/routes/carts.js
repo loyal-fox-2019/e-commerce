@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const CartController = require('../controllers/CartController')
+const {authenticate} = require('../middlewares/auth')
 
-router.get('/', CartController.findALl)
-router.post('/', CartController.login)
+router.use(authenticate)
+router.get('/', CartController.getCart)
+router.post('/', CartController.add)
 router.post('/checkout', CartController.checkout)
-router.delete('/'. CartController.delete)
 
 module.exports = router

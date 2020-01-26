@@ -15,7 +15,11 @@ function errorHandler (err, req, res, next) {
       break;
     case 'JsonWebTokenError':
       status = 401
-      message = err.message
+      if (err.message == 'jwt must be provided') {
+        message = 'You must login to do that!'
+      } else {
+        message = err.message
+      }
       break;  
     default:
       status = err.status || 500

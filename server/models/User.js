@@ -1,5 +1,5 @@
 const {Schema, model} = require('mongoose')
-const { hash } = require('../helpers/bcrypt')
+const { hash } = require('../helpers/encrypt')
 
 const userSchema = new Schema ({
   name: {
@@ -27,6 +27,15 @@ const userSchema = new Schema ({
     required: [true, 'Password cannot be empty'],
     minlength: [6, 'Password at least have 6 character']
   },
+  cart: [
+    {
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
+      },
+      amount: Number
+    }
+  ],
   role:{
     type: String,
     enum: ['admin', 'customer'],

@@ -1,8 +1,11 @@
 const Unggah = require('unggah')
 
 const storage = Unggah.gcs({
-  keyFilename: process.env.GCS_KEYFILE,
-  bucketName: process.env.GCS_BUCKET
+  keyFilename: './gcs-keyfile.json',
+  bucketName: 'mini-wp-images-h8',
+  rename: (req, file) => {
+    return `${Date.now()}-${file.originalname}`  // this is the default
+  }
 })
 
 const upload = new Unggah({

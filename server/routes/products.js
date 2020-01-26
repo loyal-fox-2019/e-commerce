@@ -1,11 +1,14 @@
 const router = require('express').Router()
-const ProductCtrl = require('../controllers/ProductCtrl')
+const ProductController = require('../controllers/ProductController')
 const gcsUpload = require('../middlewares/gcsUpload')
+const {authenticate} = require('../middlewares/auth')
 
-router.get('/', ProductCtrl.getAll)
-router.get('/:id', ProductCtrl.getOne)
-router.post('/', gcsUpload.single('image'), ProductCtrl.create)
-router.put('/:id', ProductCtrl.update)
-router.delete('/:id', ProductCtrl.delete)
+router.get('/', ProductController.getAll)
+router.get('/:id', ProductController.getOne)
+
+router.use(authenticate)
+router.post('/', gcsUpload.single('image'), ProductController.create)
+router.put('/:id', gcsUpload.single('image'), ProductController.update)
+router.delete('/:id', ProductController.delete)
 
 module.exports = router

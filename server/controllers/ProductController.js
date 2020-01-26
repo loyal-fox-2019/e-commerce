@@ -10,7 +10,7 @@ class ProductController {
       let products = await Product
         .find(filter)
         .sort({createdAt:-1})
-      res.status(200).json(product)
+      res.status(200).json(products)
     } catch (error) {
       next(error)
     }   
@@ -40,11 +40,12 @@ class ProductController {
   }
  
   static async update(req, res, next) {
+    console.log(req.body.image, req.body.price)
     try {
       const {name, image, price, stock} = req.body
       let product = await Product.findByIdAndUpdate(req.params.id, {
         name, image, price, stock
-      }, {omitUndefined: true})
+      }, {omitUndefined: true, new: true})
       res.status(201).json(product)
     } catch (error) {
       next(error)
