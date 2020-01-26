@@ -1,7 +1,7 @@
 <template>
     <div>
         <categorySidebar></categorySidebar>
-        <productsView id="products-view" :productsArr="productsArr" :title="'Products'" :mode="'list'"></productsView>
+        <productsView id="products-view" :productsArr="productsArr" :title="'Products'" :mode="'list'" :loading="loading"></productsView>
     </div>
 </template>
 
@@ -14,7 +14,8 @@
         data() {
             return {
                 productsArr: [],
-                searchStr: ""
+                searchStr: "",
+                loading: true
             }
         },
         components: {
@@ -28,6 +29,7 @@
             })
             .then(({data}) => {
                 this.productsArr = data;
+                this.loading = false;
             })
             .catch((err) => {
                 console.log(err);

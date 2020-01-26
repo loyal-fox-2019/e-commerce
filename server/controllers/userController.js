@@ -170,6 +170,45 @@ class UserController
             });
         })
     }
+
+    static deleteFromCart(req,res,next)
+    {
+        User.findById(req.userInfo.id)
+        .exec()
+        .then((user) => {
+            if(user)
+            {
+                for(let i=0;i<user.cart.length;i++)
+                {
+                    if(user.cart[i]._id.toString() == req.body.cartId.toString())
+                    {
+                        user.cart.splice(i,1);
+                        break;
+                    }
+                }
+                
+                user.save();
+            }
+            else
+            {
+                res.status(404).json({
+                    msg: "Account does not exist"
+                });
+            }
+        })
+        .then(() => {
+            res.status(201).json({
+                msg: "Removed from cart successfully"
+            })
+        })
+        .catch((err) => {
+            console.log(err);
+            
+            res.status(400).json({
+                msg: "error"
+            });
+        })
+    }
 }
 
 module.exports = UserController;

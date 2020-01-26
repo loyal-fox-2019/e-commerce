@@ -14,7 +14,7 @@
                 </form>
             </b-card-text>
         </b-card>
-        <div>{{product.description}}</div>
+        <div v-html="product.description"></div>
     </div>
 </template>
 

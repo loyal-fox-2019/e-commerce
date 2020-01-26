@@ -9,7 +9,7 @@
                     <th>Quantity</th>
                     <th>Actions</th>
                 </tr>
-                <tr v-for="item in productsArr" :key="item.product._id">
+                <tr v-for="item in productsArr" :key="item.product._id" :id="item._id">
                     <td><img :src="item.product.image" alt="Product image" class="cart-image"></td>
                     <td>
                         <router-link :to="'/product/'+item.product._id">{{item.product.name}}</router-link><br>
@@ -20,7 +20,7 @@
                         <div v-if="item.quantity > item.product.stock" style="color:red">Quantity in your cart exceeds stock!</div>
                     </td>
                     <td>
-                        <button class="btn btn-danger">Delete item</button><br>
+                        <button class="btn btn-danger" @click="deleteItem(item._id)">Delete item</button><br>
                         <button class="btn btn-primary">Change quantity</button>
                     </td>
                 </tr>
@@ -33,10 +33,34 @@
 </template>
 
 <script>
+    import JQuery from 'jquery';
+    const $ = JQuery;
+    import axiosReq from "../config/axios";
     export default {
         name: "productsList",
         props: {
             productsArr: Array
+        },
+        methods: {
+            deleteItem(cartId) {
+                axiosReq({
+                    url: "/users/cart",
+                    method: "delete",
+                    headers: {
+                        token: this.$cookies.get('token')
+                    },
+                    data: {
+                        cartId: cartId
+                    }
+                })
+                .then(()=> {
+                    $(`#${cartId}`).hide();
+                })
+                .catch((err) => {
+                    console.log(err);
+                    
+                })
+            }
         }
     }
 </script>

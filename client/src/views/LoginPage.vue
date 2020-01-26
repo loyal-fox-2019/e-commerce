@@ -9,7 +9,7 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit" id="std-signin">Sign in</button>
             <div id="error-msg">{{error}}</div><br>
 
-            <gsignin @isLogin="$emit('isLogin')"></gsignin><br>
+            <gsignin></gsignin><br>
 
             <router-link class="btn btn-block switch-signinup" to="/register">
                 Sign up 
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+    import gsignin from "../components/gsignin.vue";
     import axiosReq from "../config/axios.js"
     export default {
         name: "LoginPage",
@@ -28,6 +29,9 @@
                 email: "",
                 password: ""
             }
+        },
+        components: {
+            gsignin
         },
         methods: {
             loginUser() {

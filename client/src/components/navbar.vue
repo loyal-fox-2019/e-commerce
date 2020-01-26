@@ -50,6 +50,7 @@
             logoutUser() {
                 this.$cookies.remove('username');
                 this.$cookies.remove('token');
+                this.$cookies.remove('email');
                 this.$store.commit('SET_LOGIN_STATE',false);
                 this.$router.push('/')
             }

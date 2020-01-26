@@ -4,12 +4,13 @@ const User = require('../models/user');
 function generateTokenGoogle(req,res,next)
 {
     //console.log("user try login")
-    User.findOne({username: req.body.username})
+    User.findOne({email: req.body.email})
     .then((user) => {
         if(!user)
         {
             User.create({
-                username: req.body.username,
+                email: req.body.email,
+                username: req.body.email.split('@')[0] + (new Date()).getTime(),
                 login_type: "google"
             })
             .then((user) => {            
@@ -17,7 +18,8 @@ function generateTokenGoogle(req,res,next)
                     token: jwt.sign({
                         id: user._id,
                         username: user.username
-                    },process.env.JWT_SECRET)
+                    },process.env.JWT_SECRET),
+                    username: user.username
                 })
             })
             .catch((err) => {
@@ -33,7 +35,8 @@ function generateTokenGoogle(req,res,next)
                 token: jwt.sign({
                     id: user._id,
                     username: user.username
-                },process.env.JWT_SECRET)
+                },process.env.JWT_SECRET),
+                username: user.username
             })
         }
     })

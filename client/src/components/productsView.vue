@@ -6,7 +6,8 @@
                 <productCard v-for="product in productsArr" :key="product._id" :product="product" :mode="mode"></productCard>
             </b-card-group>
         </div>
-        <div v-else-if="isLogin">You have not added a product!</div>
+        <div v-else-if="isLogin && loading">Loading...</div>
+        <div v-else-if="isLogin && !loading">You have not added a product!</div>
         <div v-else>Please login first.</div>
     </div>
 </template>
@@ -18,7 +19,8 @@
         props: {
             productsArr: Array,
             title: String,
-            mode: String
+            mode: String,
+            loading: Boolean
         },
         components: {
             productCard

@@ -18,6 +18,8 @@
             <div class="form-group">
                 Image<br>
                 <input type="radio" name="changeImage" :value="false" v-model="changeImage"> Keep original<br><img :src="product.image" style="width:100px"><br>
+                {{product.image.search('googleapis') == -1 ? "Google has marked your image as unsafe. Consider changing the image" : ""}}
+                <br>
                 <input type="radio" name="changeImage" :value="true" v-model="changeImage">
                 Change image
                 <input type="file" name="file" ref="file" @change="handleFile" style="width:500px;" :disabled="!changeImage"><br>

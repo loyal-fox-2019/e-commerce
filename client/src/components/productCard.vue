@@ -15,7 +15,36 @@
                 <div>
                     <router-link class="btn btn-primary card-button" v-if="mode=='list'" :to="'/product/'+product._id">View</router-link>
                     <router-link class="btn btn-primary card-button" v-if="mode=='manage'" :to="'/editproduct/'+product._id">Edit</router-link>
-                    <button class="btn btn-primary card-button" v-if="mode=='manage'">Restock</button>
+
+                    <!-- Restock button and modal -->
+                    <button class="btn btn-primary card-button" v-if="mode=='manage'" data-toggle="modal" data-target="#restockmodal">Restock</button>
+                    <div class="modal fade" id="restockmodal" tabindex="-1" role="dialog" aria-labelledby="restockmodalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="restockmodalTitle">Restock</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Current stock: {{product.stock}}
+                            <form @submit.prevent="restockProduct">
+                                <div class="input-group">
+                                    Add <input type="number" class="form-control" v-model="restockqty" min="1" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">unit(s)</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" @click="restockProduct" id="restock-btn">Restock</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                     
                     <!-- Delete button and popover -->
                     <b-button class="btn btn-danger card-button" v-if="mode=='manage'" type="button" :id="'popoverdeletebtn'+product._id" @click="openDeletePopover">Delete</b-button>
@@ -40,6 +69,8 @@
 </template>
 
 <script>
+    import JQuery from 'jquery';
+    const $ = JQuery;
     import axiosReq from "../config/axios";
     export default {
         name: "productCard",
@@ -50,7 +81,8 @@
         data() {
             return {                
                 showdeletepopover: false,
-                deleted: false
+                deleted: false,
+                restockqty: 1
             }
         },
         methods: {
@@ -74,6 +106,25 @@
                 })
                 .catch(() => {
                     this.showdeletepopover = false;
+                })
+            },
+            restockProduct() {
+                axiosReq({
+                    url: `/products/${this.product._id}`,
+                    method: "patch",
+                    headers: {
+                        token: this.$cookies.get('token')
+                    },
+                    data: {
+                        addstock: this.restockqty
+                    }
+                })
+                .then(() => {
+                    $('#restockmodal').click()
+                    this.$router.push({path: `/product/${this.product._id}`})
+                })
+                .catch((err) => {
+                    console.log(err); 
                 })
             }
         }

@@ -25,6 +25,8 @@ productsRouter.post('/', upload.single('file'), ProductController.addNewProduct)
 
 productsRouter.put('/:id', product_authorisation, upload.single('file'), ProductController.editProduct);
 
+productsRouter.patch('/:id', product_authorisation, ProductController.restockProduct);
+
 productsRouter.delete('/:id',product_authorisation, ProductController.deleteProduct);
 
 module.exports = productsRouter;

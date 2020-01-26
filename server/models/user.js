@@ -22,7 +22,9 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: function() {
+            return this.login_type == "standard"
+        }
     },
     login_type: {
         type: String,
@@ -77,7 +79,11 @@ userSchema.pre('save',function(next) {
         }
         else //email free so new user
         {
-            this.password = hashPassword(this.password);     
+            if(this.login_type == "standard")
+            {
+                this.password = hashPassword(this.password);     
+            }
+            
             next()
         }
     })
