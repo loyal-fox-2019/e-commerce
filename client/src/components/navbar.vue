@@ -337,7 +337,6 @@ export default {
         const response = await axios.post('/user', docs);
         const { data } = response;
         const { fullname, email, token } = data;
-        console.log(data);
         localStorage.setItem('token', token);
         localStorage.setItem('email', email);
         localStorage.setItem('fullname', fullname);

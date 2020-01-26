@@ -6,7 +6,7 @@ import router from '../router';
 import axios from '../config/server';
 
 const wentWrong = 'Opps... Something when wrong';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://34.69.229.146';
 
 Vue.use(Vuex);
 
@@ -139,7 +139,6 @@ export default new Vuex.Store({
         messageSwal = message;
       } catch (err) {
         const { errors } = err.response.data;
-        console.log(errors);
         commit('SET_ERROR', errors);
       } finally {
         setTimeout(() => {

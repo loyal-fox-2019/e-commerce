@@ -33,7 +33,7 @@ const data = [
   {
     "name": "CLASSIC KNIFE",
     "image": "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQh5hlcX0nvUOGsx8DdQBJjIAVHubSaIAlp1fb3ci5Rooy0x9PbwKb3YePSxjlUvsMg0-ySo9_xiw2180BkZm_1d4CQdwE9aVHOug_phDL4LJg/",
-    ""wear"": "VANILLA",
+    "wear": "VANILLA",
     "stock": 5,
     "price": 7446336
   },
