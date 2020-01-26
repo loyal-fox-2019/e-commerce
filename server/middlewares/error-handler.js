@@ -22,6 +22,7 @@ module.exports = function(err, req, res, next) {
 
     case 'JsonWebTokenError':
       res.status(400).json({ errors: err.message })
+      break
 
     default:
       res.status(500).json(err)
