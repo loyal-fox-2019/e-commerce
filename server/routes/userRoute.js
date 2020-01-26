@@ -7,4 +7,6 @@ routes.post('/login', controlUser.login)
 
 routes.get("/:id", controlUser.getUser)
 
+routes.post("/google", controlUser.google)
+
 module.exports = routes

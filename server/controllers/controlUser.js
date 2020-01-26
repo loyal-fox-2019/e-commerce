@@ -2,6 +2,7 @@ const modelUser = require('../models/modelUser')
 const generateToken = require('../helpers/generateToken')
 const matchPass = require('../helpers/matchPass')
 const modelCart = require('../models/modelCart')
+const verifyTokenG = require('../middleware/verifyTokenG.js')
 
 class ControlUser {
     static register(req, res) {
@@ -58,6 +59,47 @@ class ControlUser {
             })
             .catch(err => {
                 res.status(500).json(err)
+            })
+    }
+
+    static google(req, res, next) {
+        const tokenGoogle = req.body.idtoken
+        const payload = verifyTokenG(tokenGoogle)
+        let firstName
+        let lastName
+        let email
+        payload.then(data => {
+            // console.log(data, "<<ini data")
+            // console.log(data.name, "<<ini name")
+            // console.log(data.email, "<<ini email")
+            if (data.given_name) {
+                firstName = data.given_name
+                lastName = data.family_name
+            } else {
+                firstName = data.name
+            }
+            email = data.email
+
+            return modelUser.findOne({ email })
+        })
+            .then(found => {
+                if (found) {
+                    return found
+                } else {
+                    modelUser.create({
+                        email: email,
+                        firstName: firstName,
+                        password: process.env.DEFAULT_PASSWORD
+                    })
+                }
+            })
+            .then(user => {
+                // console.log(user._id)
+                let token = generateToken({ id: user._id })
+                res.status(201).json({ user, token })
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 }

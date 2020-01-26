@@ -24,7 +24,10 @@
 
           <b-button type="submit" variant="primary" v-on:click="login">Sign In</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
-          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <button
+            v-google-signin-button="clientId"
+            class="google-signin-button"
+          >Continue with Google</button>
         </b-form>
       </b-tab>
       <b-tab title="Register">
@@ -79,10 +82,14 @@
 </template>
 
 <script>
+import GoogleSignInButton from "vue-google-signin-button-directive";
 import Swal from "sweetalert2";
 import axios from "axios";
 export default {
   name: "loginPage",
+  directives: {
+    GoogleSignInButton
+  },
   data() {
     return {
       form: {
@@ -92,7 +99,9 @@ export default {
         lastName: ""
       },
       show: true,
-      baseUrl: "http://localhost:3000"
+      baseUrl: "http://localhost:3000",
+      clientId:
+        "275122678516-ttf9madj8sqdv83kokgb62c3iaer1ld5.apps.googleusercontent.com"
     };
   },
   methods: {
@@ -169,26 +178,37 @@ export default {
           });
         });
     },
-
-    onSuccess(googleUser) {
-      // let url = this.baseUrl;
-      console.log("haiiiii");
-      console.log(googleUser, "iniii");
-      // console.log("Logged in as: " + googleUser.getBasicProfile().getName());
-      // let firstName = googleUser.getBasicProfile().getName();
-      // const id_token = googleUser.getAuthResponse().id_token;
-      // axios({
-      //   method: "POST",
-      //   url: `${url}/google`,
-      //   data: {
-      //     idtoken: id_token,
-      //     firstName
-      //   }
-      // }).then(user => {
-      //   localStorage.setItem("token", user.data.token);
-      //   localStorage.setItem("idUser", user.data.user._id);
-      //   this.$emit("login", "login");
-      // });
+    OnGoogleAuthSuccess(idToken) {
+      // Receive the idToken and make your magic with the backend
+      // console.log(idToken);
+      let url = this.baseUrl;
+      axios({
+        method: "POST",
+        url: `${url}/user/google`,
+        data: {
+          idtoken: idToken
+        }
+      })
+        .then(({ data }) => {
+          localStorage.setItem("firstName", data.user.firstName);
+          localStorage.setItem("userId", data.user._id);
+          localStorage.setItem("token", data.token);
+          this.$router.push("/");
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err
+          });
+        });
+    },
+    OnGoogleAuthFail(error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error
+      });
     }
   }
 };
@@ -201,5 +221,14 @@ export default {
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+.google-signin-button {
+  color: white;
+  background-color: red;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 10px 20px 25px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
