@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import CategoryDetail from '@/views/CategoryDetail.vue'
+import ItemDetail from '@/views/ItemDetail.vue'
+import AddForm from '@/components/AddForm.vue'
 
 Vue.use(VueRouter)
 
@@ -30,13 +32,31 @@ const routes = [
     path: '/4dm1n',
     name: 'admin',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/AdminPage.vue')
+      import(/* webpackChunkName: "about" */ '../views/AdminPage.vue'),
+    children: [{
+      path: 'add-item',
+      component: AddForm
+    }]
   },
   {
     path: '/brass',
     name: 'brass',
     component: CategoryDetail
-
+  },
+  {
+    path: '/battery',
+    name: 'battery',
+    component: CategoryDetail
+  },
+  {
+    path: '/front ensemble',
+    name: 'frontensemble',
+    component: CategoryDetail
+  },
+  {
+    path: '/detail',
+    name: 'detailItem',
+    component: ItemDetail
   }
 ]
 

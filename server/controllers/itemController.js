@@ -13,15 +13,45 @@ class ItemController {
             })
     }
 
+    static getItemCategory (req, res, next) {
+        console.log(req.params.category)
+        Item.find({category: req.params.category})
+            .then(results => {
+                res.status(200).json(results)
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(404).json({
+                    message: 'data not found',
+                    err
+                })
+            })
+    }
+
+    static getSingleItem (req, res, next) {
+        Item.findById(req.params.id)
+            .then(result => {
+                res.status(200).json(result)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message: 'internal server error',
+                    err
+                })
+            })
+    }
+
     static addItem (req, res, next) {
         const data = {
             name: req.body.name,
+            description: req.body.description,
             price: req.body.price,
             image: req.body.image,
             stocks: req.body.stocks,
             category: req.body.category,
             user_id: req.loggedIn.id
         }
+        console.log('ini datanya', data)
 
         Item.create(data)
             .then(result => {
@@ -57,6 +87,7 @@ class ItemController {
         const id = req.params.id
         const data = {
             name: req.body.name,
+            description: req.body.description,
             price: req.body.price,
             image: req.body.image,
             stocks: req.body.stocks,

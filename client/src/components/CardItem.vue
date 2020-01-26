@@ -1,27 +1,36 @@
 <template>
-  <div>
-    <b-card
-      title="Card Title"
-      img-src="https://picsum.photos/600/300/?image=25"
-      img-alt="Image"
-      img-top
-      tag="article"
-      style="max-width: 20rem;"
-      class="mb-2"
-    >
-      <b-card-text>
-        <h5>Rp. 100000</h5>
-        <p>Yamaha Music Indonesia</p>
-      </b-card-text>
-
-      <b-button href="#" variant="warning" class="mr-2">View Details</b-button>
-      <b-button href="#" variant="primary">Add to Cart</b-button>
-    </b-card>
+  <div class="row d-flex">
+    <div class="card mb-2 col-md-2 col-lg-2 col-sm-12" style="width: 18rem;" v-for="product in allProducts" :key="product._id">
+      <img :src="product.image" class="card-img-top" alt="img" height="200" width="500" />
+      <div class="card-body">
+        <h4 class="card-title">{{product.name}}</h4>
+        <h5>{{product.price}}</h5>
+        <h6 class="card-text">Stocks: <span>{{product.stocks}}</span></h6>
+        <p class="card-text">
+          Marching Store Indonesia
+        </p>
+        <router-link to="/detail"
+          ><a href="#" class="btn btn-warning mr-2 mb-1 mt-1"
+            >View Details</a
+          ></router-link
+        >
+        <router-link to="/detail"
+          ><a href="#" class="btn btn-primary mr-2">Add to Cart</a></router-link
+        >
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'CardItem',
+  computed: {
+    allProducts() {
+      return this.$store.state.allItem
+    }
+  }
+}
 </script>
 
 <style lang="css" scoped></style>

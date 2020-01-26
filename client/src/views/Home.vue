@@ -6,10 +6,7 @@
         <h2>Category</h2>
       </div>
     </div>
-    <div
-      class="container-fluid d-flex"
-      style="justify-content: center;"
-    >
+    <div class="container-fluid d-flex" style="justify-content: center;">
       <div class="row">
         <div class="col-md-4 mt-2" v-for="item in category" :key="item">
           <Category :list="item"></Category>
@@ -22,26 +19,7 @@
       </div>
     </div>
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-4 col-lg-2 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-2 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-2 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-2 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-2 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-2 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-      </div>
+      <CardItem></CardItem>
     </div>
   </div>
 </template>
@@ -63,6 +41,9 @@ export default {
     Carousel,
     CardItem,
     Category
+  },
+  created() {
+    this.$store.dispatch('FETCH_ALL_ITEM')
   }
 }
 </script>

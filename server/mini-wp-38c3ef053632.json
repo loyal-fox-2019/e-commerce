@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "arctic-ocean-265204",
+  "private_key_id": "2d9d8ecdef1bb4e7cb198778ed8a9f24f5dba169",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQClm8RNt65LSAvg\nGeUSdUWOYhqVwJOmOQTr7dYgF0pN/TnfiLkpoxzsS0/Fvs4xPKBSnbBTyX6xR3ny\nTVWDY/jIpBkqu5z/gxZNMMUYdAUXMsifxdS8f4htxs7qlJXhKF8iu6yLCTx5I3kc\nIrl54wZ9nVzl8TuuxxlRMDrjrYtkNqODVtkqWWrJNKGZx8lzDxsYA/ltKjAIClak\nm2M/7QNnUNItHVS+PI6Uhr+jGRxwIgY8vbbbZzBYzUyBqY0nbuC+cs+Em63SyLWE\nFlXYBfbVKEp27t9o3Zemo2abEfjb+4Dd/poZC7X/oi1HOwNg01bXxMQRtprzz4Ac\ndUKdgIR/AgMBAAECggEACg5U07FJHJoh2nhIECBd2mD7o0c/z/KbaWYWP/maEfVD\n695l+/DDI1gJXoURCS1YwNuBZv0Pu90OuxdWD3XlF+3a91zQEjXYB1TkSvFUk82K\nICWHnvCRjLTrQJRIK5VjfXzu47xqVyK/ymUTZSLTdJI3H2FQEfNWBreKg+O4WJvd\nvM+P07i5HlQG/UvKmD3d5A6GbONyVJe0rfIHXalB4OEI58+FAsH+WnpgsgMortS6\n12mzJPvJ9hDPfZ6I3Zod2EXJizk7pwJs29IwIeVO1YBojiyhB15XvfwBZH0ALDKM\n+1y1cJi73zxpkX/DSGmNIrw68I1zxrF7jJduqgld0QKBgQDQ2zits498NYZjce/5\njU5ZMvzFPP/D8lBjIPjzxA8O4PSE/dCePss0xOs8rLLh03vAkHc7ubVVJaRFMfs2\nSIOqtyQGt/Ksm4EcVkclG5AZYatr3X5w23p8D6QVAugVev1c+x9KRjVzprXS1psZ\nC0Hdq2+HKsoq9su/UQxK1fnd0QKBgQDK/XbOpnQw1UmcWH2IS+D6YYstaCxGEEGK\nbAMaXQuP+AEpAl7E01QS223kAsrLvYcPqLPOO9lbtS9s/ST22ZSgb93+e1yfCIHL\nBMOU9NlmhI083oR1HTRVPYfuRQ55MKJ1dj1HLwrZyAjU7ern2KaSBKZxYHtCqKEv\nNjLRaKNBTwKBgQDFsVwa/0YoGjoU03qFSv4IbLzarfyjKzBwRHuhsclXGhQZ9m6L\n+4A5eNP54LaKD7ap9ZUHEafU6wZtAPx6y3TmGOie+2tXevJhMkGxnD9v5wVt2oCe\nrwFngR6dTN0FyB8e7g0WLxLVX83nvn+c2w0DmAy/cv9eX7FIbJ0oERasoQKBgDKt\nuT26nQOcHHamOSEQIKkiNUcu3O7ZHCPc96FbXYmiF1gPuW1WfYT/t53XfJ4FQXUN\nX2a71nZo8+A4C0R96fdsNnZUgjlKPG1dUR8dSjGoIkLyIwvCMNCfPhKktwpWtBiz\nXnUpL4JTyLCwfZdIpb2K36sqtVtdEnDhDSru/uNNAoGBAKuyjWHWASrICnchBaxK\n5kdc3+BOJvIky9btn7tXTdS7wv1UDYYPx56P7vsK87N9vy6vf2IZxQkOagH/ELWB\nETdoNtuUSpDgsolTcjhY5E9LPZxHq8QM5jw0vDqzfny15EAznm/MwrpKSCMEdky9\ne+RIkw1lDewg5NS3vVLFSjhi\n-----END PRIVATE KEY-----\n",
+  "client_email": "mashumuro@arctic-ocean-265204.iam.gserviceaccount.com",
+  "client_id": "114209452284351025846",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mashumuro%40arctic-ocean-265204.iam.gserviceaccount.com"
+}

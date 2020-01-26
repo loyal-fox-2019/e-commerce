@@ -1,9 +1,12 @@
 <template>
-  <div class="jumbotron jumbotron-fluid">
+  <div
+    class="jumbotron jumbotron-fluid"
+    :style="{ backgroundImage: `url(${bannerName.image})` }"
+  >
     <div class="container">
-      <h1 class="display-4">{{ bannerName.name }}</h1>
+      <h1 class="display-4" style="background: rgba(0,0,0,0.5); padding: 600; font-weight: 600;">{{ bannerName.name }}</h1>
       <p class="lead">
-          {{bannerName.description}}
+        {{ bannerName.description }}
       </p>
     </div>
   </div>
@@ -16,6 +19,7 @@ export default {
     bannerName() {
       return {
         name: this.$store.state.activePage.name,
+        image: this.$store.state.activePage.image,
         description: 'HEHEHEHEHEHEHEHEHE'
       }
     }
@@ -25,7 +29,6 @@ export default {
 
 <style lang="css" scoped>
 .jumbotron {
-  background: url('../assets/brass1.jpg');
   background-size: cover;
   height: 40vh;
   color: white;

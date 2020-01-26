@@ -3,14 +3,14 @@
     <!-- Register Form -->
     <div id="register-form">
       <form>
-        <h1>Register</h1>
+        <h1 class="text-center mb-2">Register</h1>
         <div class="form-group">
           <label for="register-name">Full Name</label>
           <input
             type="text"
             class="form-control text-center"
-            id="register-namel"
-            v-model="registerData.name"
+            id="register-name"
+            v-model="name"
           />
         </div>
         <div class="form-group">
@@ -19,46 +19,83 @@
             type="email"
             class="form-control text-center"
             id="register-email"
+            v-model="email"
             aria-describedby="emailHelp"
-            v-model="registerData.email"
           />
         </div>
         <div class="form-group">
           <label for="register-password">Password</label>
           <input
             type="password"
+            v-model="password"
             class="form-control text-center"
             id="register-password"
-            v-model="registerData.password"
           />
         </div>
         <button
           type="submit"
           class="btn btn-primary mb-3"
-          @click.prevent="$emit('userRegister', registerData)"
+          @click.prevent="register"
         >
           Register</button
         ><br />
         <h5>
           Already have an account?
-          <span @click.prevent="changePage">Login Here</span>
+          <span v-b-modal.modal-1>Login Here</span>
         </h5>
-        <g-signin-button
-          class="btn btn-primary mt-2"
-          id="googleSign"
-          :params="googleSignInParams"
-          @success="onSignInSuccess"
-          @error="onSignInError"
-        >
-          Sign in with Google
-        </g-signin-button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+import Swal from 'sweetalert2'
+
+export default {
+  name: 'Register',
+  data() {
+    return {
+      name: '',
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    register() {
+      const data = {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }
+      axios
+        .post(`${this.$store.state.baseUrl}/user/register`, data)
+        .then(result => {
+          localStorage.setItem('token', result.data.token)
+          this.$store.commit('CHANGE_STATUS')
+          this.$router.push('/')
+          Swal.fire('Registration Success', 'Enjoy!', 'success')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops... ' + err.response.status,
+            text: err.response.data.message
+          })
+        })
+    }
+  }
+}
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+#register-form {
+  border: 2px solid black;
+  padding: 50px;
+}
+span {
+  font-weight: 700;
+  color: blue;
+  cursor: pointer;
+}
+</style>

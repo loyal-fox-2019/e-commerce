@@ -18,6 +18,9 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
+    },
+    cart: {
+        type: [Schema.Types.ObjectId]
     }
 })
 

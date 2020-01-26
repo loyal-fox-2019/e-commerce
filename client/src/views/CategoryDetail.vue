@@ -1,27 +1,8 @@
 <template>
   <div>
     <Banner></Banner>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-lg-4 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-4 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-4 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-4 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-4 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-        <div class="col-md-4 col-lg-4 col-sm-12 mt-2">
-          <CardItem></CardItem>
-        </div>
-      </div>
+    <div class="container-fluid">
+      <CardItem></CardItem>
     </div>
   </div>
 </template>

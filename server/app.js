@@ -14,14 +14,14 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 mongoose.connect(
-        process.env.MONGO_URI, 
+        process.env.LOCAL_MONGO, 
         {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}
     )
     .then(() => {
         console.log('===Database Connected===')
     })
     .catch(err => {
-        console.log('Error')
+        console.log('Error', err)
     })
 
 app.use('/', Routes)

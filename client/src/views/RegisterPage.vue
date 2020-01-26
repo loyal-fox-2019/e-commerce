@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Register></Register>
+    <div class="container" style="padding: 15vh;">
+      <Register></Register>
+    </div>
   </div>
 </template>
 
