@@ -94,6 +94,9 @@ export default {
           localStorage.removeItem('token');
           this.$store.commit('SET_LOGIN', false)
           this.$store.commit('SET_CART', null)
+          this.$store.commit('SET_CHECKOUTCART', [])
+          this.$store.commit('SET_RECEIVEDCART', [])
+          this.$store.commit('SET_STATUSCART', [])
           // this.$store.state.isLogin
           // const auth2 = gapi.auth2.getAuthInstance();
           // auth2.signOut();

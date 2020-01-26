@@ -100,11 +100,31 @@ class cartController {
       .catch(next)
     }
     
-    static readProcessCart(req, res, next) {
-      const customer = req.decoded.id
+    static readProcessAllCart(req, res, next) {
       Cart
       .find({ status: 'process' })
       .populate('items')
+      .populate('customer')
+      .then((cart) => {
+        res.status(200).json(cart)
+      })
+      .catch(next)
+  }
+    static readReceivedAllCart(req, res, next) {
+      Cart
+      .find({ status: 'received' })
+      .populate('items')
+      .populate('customer')
+      .then((cart) => {
+        res.status(200).json(cart)
+      })
+      .catch(next)
+  }
+    static readSendingAllCart(req, res, next) {
+      Cart
+      .find({ status: 'sending' })
+      .populate('items')
+      .populate('customer')
       .then((cart) => {
         res.status(200).json(cart)
       })
@@ -129,8 +149,7 @@ class cartController {
     let value = {
       status: 'sending'
     }
-    Cart
-      .findByIdAndUpdate(id, value, { new: true, omitUndefined: true }).populate('items')
+    Cart.findByIdAndUpdate(id, value, { new: true, omitUndefined: true }).populate('items')
       .then((cart) => {
         res.status(200).json(cart)
       })
@@ -138,7 +157,6 @@ class cartController {
   }
 
   static received(req, res, next) {
-    console.log('masuk')
     const id = req.params.id
     let value = {
       status: 'received'
@@ -148,6 +166,10 @@ class cartController {
         res.status(200).json(cart)
       })
       .catch(next)
+  }
+
+  readAllStatus(req, res, next) {
+
   }
 
 }

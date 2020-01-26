@@ -16,9 +16,30 @@ const routes = [
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
   },
   {
+    path: '/admin',
+    name: 'admin-login',
+    component: () => import(/* webpackChunkName: "admin-login" */ '../views/AdminLogin.vue'),
+  },
+  {
     path: '/register',
     name: 'register',
     component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
+  },
+  {
+    path: '/dashboard',
+    component: () => import(/* webpackChunkName: "dashboard-admin" */ '../views/Dashboard.vue'),
+    children: [
+      {
+        path: '',
+        name: 'image-dashboard',
+        component: () => import(/* webpackChunkName: "image-dashboard" */ '../components/ImageDashboard.vue'),
+      },
+      {
+        path: 'history',
+        name: 'history-dashboard',
+        component: () => import(/* webpackChunkName: "history-dashboard" */ '../components/HistoryDashboard.vue'),
+      },
+    ],
   },
   {
     path: '/my-cart',

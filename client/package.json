@@ -12,6 +12,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.3.0",
     "core-js": "^3.4.4",
+    "moment": "^2.24.0",
     "sweetalert2": "^9.7.0",
     "vue": "^2.6.10",
     "vue-google-login": "^2.0.3",

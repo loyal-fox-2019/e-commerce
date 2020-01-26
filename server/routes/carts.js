@@ -9,7 +9,9 @@ router.put('/delete', Cart.deleteCart) // delete cart
 router.get('/', Cart.readCart)
 router.get('/received', Cart.readReceivedCart) // read received Cart
 router.get('/sending', Cart.readSendingCart) // read received Cart
-router.get('/chekcout', Cart.readProcessCart) // read checkout Cart
+router.get('/receivedAll', Cart.readReceivedAllCart) 
+router.get('/sendingAll', Cart.readSendingAllCart) 
+router.get('/checkcoutAll', Cart.readProcessAllCart) 
 router.put('/checkout/:id', Cart.checkout)
 router.put('/sending/:id', Cart.sending)
 router.put('/received/:id', Cart.received)

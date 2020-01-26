@@ -12,6 +12,7 @@ export default new Vuex.Store({
     cart: null,
     sending: [],
     received: [],
+    checkout: [],
   },
   mutations: {
     SET_LOGIN(state, payload) {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     SET_RECEIVEDCART(state, payload) {
       state.received = payload;
+    },
+    SET_CHECKOUTCART(state, payload) {
+      state.checkout = payload;
     },
   },
   actions: {
@@ -76,7 +80,6 @@ export default new Vuex.Store({
         },
       })
         .then(({ data }) => {
-          console.log(data)
           commit('SET_STATUSCART', data);
         })
         .catch((err) => {
@@ -93,6 +96,51 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           commit('SET_RECEIVEDCART', data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    fetchSendingAllCart({ commit }) {
+      axios({
+        method: 'GET',
+        url: 'carts/sendingAll',
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      })
+        .then(({ data }) => {
+          commit('SET_STATUSCART', data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    fetchReceivedAllCart({ commit }) {
+      axios({
+        method: 'GET',
+        url: 'carts/receivedAll',
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      })
+        .then(({ data }) => {
+          commit('SET_RECEIVEDCART', data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    fetchCheckoutAllCart({ commit }) {
+      axios({
+        method: 'GET',
+        url: 'carts/checkcoutAll',
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      })
+        .then(({ data }) => {
+          commit('SET_CHECKOUTCART', data);
         })
         .catch((err) => {
           console.log(err.response);
@@ -166,7 +214,18 @@ export default new Vuex.Store({
         data: value,
         headers: { token: localStorage.getItem('token') },
       });
-    }
+    },
+    sending(_, payload) {
+      const value = {
+        item: payload,
+      };
+      return axios({
+        method: 'PUT',
+        url: `carts/sending/${payload}`,
+        data: value,
+        headers: { token: localStorage.getItem('token') },
+      });
+    },
   },
   modules: {
   },
