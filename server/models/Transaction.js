@@ -2,8 +2,8 @@ const {Schema, model} = require('mongoose')
 
 const transactionSchema = new Schema ({
   userId: {
-    type: ObjectId.Schema.Types,
-    ref: 'User'
+    type : Schema.Types.ObjectId,
+    ref : 'User'
   },
   cart: [
     {

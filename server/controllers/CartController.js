@@ -47,7 +47,7 @@ class CartController {
     try {
       const userId = req.decodedId
       const {cart, totalPrice, deliverTo, deliverPrice, status} = req.body
-      await Transaction.create({
+      let transaction = await Transaction.create({
         userId, cart, totalPrice, deliverTo, deliverPrice, status
       })
 
@@ -57,7 +57,7 @@ class CartController {
           {cart: []}, 
           {new:true}
         )
-      res.status(200).json(user)      
+      res.status(200).json(transaction)      
     } catch (error) {
       next(error)
     }

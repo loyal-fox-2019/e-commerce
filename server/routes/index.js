@@ -7,5 +7,6 @@ const transactionRouter = require('./transactions')
 router.use('/', usersRouter)
 router.use('/products', productsRouter)
 router.use('/cart', cartRouter)
+router.use('/transaction', transactionRouter)
 
 module.exports  = router
