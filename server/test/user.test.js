@@ -24,7 +24,8 @@ describe.only('Test user register router', function () {
                     username: 'azp',
                     email: 'azp@gmail.com',
                     password: '123456',
-                    phone: '081234567890'
+                    phone: '081234567890',
+                    role: 'customer'
                 })
                 .then(function (res) {
                     expect(res).to.have.status(201)

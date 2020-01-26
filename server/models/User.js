@@ -40,7 +40,22 @@ const userSchema = new Schema({
         maxlength: [13, "Max phone number 13"],
         minlength: [10, "Min phone number 10"],
         required: [true, 'please fill phone']
-    }
+    },
+    role: {
+        type: String,
+        default: 'customer'
+    },
+    cartList: [{
+        itemId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Item'
+        },
+        quantity: {
+            type: Number
+        }
+    }]
+}, {
+    timestamps: true
 })
 
 userSchema.pre('save', function (next) {

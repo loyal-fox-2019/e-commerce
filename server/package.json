@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon bin/www.js",
+    "dev": "NODE_ENV=development nodemon bin/http.js",
     "test": "NODE_ENV=testing npx mocha --exit"
   },
   "keywords": [],

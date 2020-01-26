@@ -1,5 +1,5 @@
 module.exports = (err, req, res, next) => {
-    console.log('=============ini error handler', err)
+    // console.log('=============ini error handler', err)
     if (err.status && err.message) {
         res.status(err.status).json({
             message: err.message

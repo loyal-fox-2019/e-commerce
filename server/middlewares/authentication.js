@@ -14,7 +14,8 @@ function authentication(req, res, next) {
             email: user.email,
             password: user.password,
             username: user.username,
-            phone: user.phone
+            phone: user.phone,
+            role: user.role
           }
           next()
         }).catch((err) => {

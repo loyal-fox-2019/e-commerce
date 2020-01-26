@@ -24,6 +24,8 @@ const itemSchema = new Schema({
     type: Number,
     required: [true, "please fill stock"]
   }
+}, {
+  timestamps: true
 })
 
 const Item = mongoose.model("Item", itemSchema)

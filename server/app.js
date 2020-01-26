@@ -1,6 +1,6 @@
 "use strict"
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/testing'
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/ecommerce'
 
 require('dotenv').config()
 const express = require('express')
@@ -17,7 +17,7 @@ const deprecationWarning = {
 
 mongoose.connect(`${MONGO_URI}-${process.env.NODE_ENV}`, deprecationWarning)
     .then(() => {
-        console.log('connected to database' + MONGO_URI)
+        console.log('connected to database ' + MONGO_URI)
     }).catch((err) => {
         console.log('not connected. err: ' + err.message)
     })
