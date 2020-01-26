@@ -4,25 +4,27 @@ const { hashPassword } = require('../helpers/bcrypt.js')
 const userSchema = new Schema({
   fullname: {
     type: String,
-    required: [true, 'fullname is required']
-  },
-  username: {
-    type: String,
-    unique: true
+    required: [true, 'Full Name is required']
   },
   email: {
     type: String,
-    required: [true, 'fullname is required'],
+    required: [true, 'Email is required'],
     unique: true
   },
   password: {
     type: String,
-    required: [true, 'fullname is required'],
+    required: [true, 'Password is required'],
   },
   role: {
     type: String,
-    enum: ['Costumer', 'Admin'],
+    enum: ['Client','Seller', 'Admin'],
     required: [true, 'role is required'],
+  },
+  address: {
+    type: String,
+  },
+  phone: {
+    type: Number
   }
 })
 

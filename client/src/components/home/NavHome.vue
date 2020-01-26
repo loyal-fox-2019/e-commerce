@@ -1,0 +1,72 @@
+<template>
+  <div>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light shadow-sm bg-white">
+      <a class="navbar-brand" href="#">Shop</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo02"
+        aria-controls="navbarTogglerDemo02"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Category</a>
+          </li>
+        </ul>
+        <div class="form-inline my-2 my-lg-0">
+          <template v-if="!$store.state.isLogin">
+            <Login />
+            <Register />
+          </template>
+          <template v-else>
+            <router-link
+              type="button"
+              class="btn btn-primary"
+              v-if="$store.state.isLogin.role == 'Admin'"
+              to="/dashboard"
+            >
+              Go to dashboard
+            </router-link>
+            <router-link
+              type="button"
+              class="btn btn-primary"
+              v-if="$store.state.isLogin.role !== 'Admin'"
+              to="/carts"
+            >
+              Go to carts
+            </router-link>
+            <router-link type="button" class="btn ml-1 btn-danger" to="/logout">
+              Logout
+            </router-link>
+          </template>
+        </div>
+      </div>
+    </nav>
+  </div>
+</template>
+<script>
+import Login from './Login.vue';
+import Register from './Register.vue';
+
+export default {
+  components: {
+    Login,
+    Register,
+  },
+};
+</script>
+<style scoped>
+.navbar-brand {
+  font-variant: petite-caps;
+}
+</style>

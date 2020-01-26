@@ -1,32 +1,29 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <template v-if="this.$route.name == 'home'">
+      <router-view />
+    </template>
+    <template v-elseif="$store.state.isLogin.role == 'Admin'">
+      <Admin />
+    </template>
   </div>
 </template>
+<script>
+import Admin from './views/admin/Index.vue';
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+export default {
+  components: {
+    Admin,
+  },
+  created() {
+    const token = localStorage.getItem('ecommerce.token');
+    if (token) {
+      this.$store.dispatch('tokenIsValid', {
+        token,
+      });
+    }
+  },
+};
+</script>
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style></style>

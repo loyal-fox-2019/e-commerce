@@ -14,7 +14,6 @@ describe('AUTH', function () {
           .post('/auth/register')
           .send({
             fullname: 'Ahmad muzakki',
-            username: 'dzakki',
             email: 'dzakki@gmail.com',
             password: 'dzakki',
             role: 'admin',

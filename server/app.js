@@ -20,9 +20,26 @@ app.use('/', router)
 
 // error handler
 app.use(function(err, req, res, next) {
-  console.log(err)
-  res.status(500).json({
-    message: 'internal server error'
+  let status = 500
+  message = 'internal server error'
+  switch (err.name) {
+      case 'ValidationError':
+          status = 400
+          message = err.message
+          break;
+      case 'MongoError':
+          status = 409
+          message = ''
+          for (const key in err.keyValue) {
+              message += `${key}: ${err.keyValue[key]} has been used. `
+          }
+          break;
+      default:
+          break;
+  }
+
+  res.status(status).json({
+      message
   })
 });
 

@@ -2,6 +2,7 @@ const Product = require('../models/Product')
 class ProductController{
   static create(req, res, next){
     const form = req.body
+    console.log(form)
     Product
       .create({
         name: form.name,
@@ -16,9 +17,15 @@ class ProductController{
       })
       .catch(next)
   }
+  static uploadImage(req, res, next){
+    res.status(201).json({
+      image: req.body.image
+    })
+  }
   static getAll(req, res, next){
     Product
       .find()
+      .populate({ path: 'seller', select: 'fullname' })
       .then(products => {
         res.status(200).json(products)
       })
@@ -30,6 +37,7 @@ class ProductController{
       .findOne({
         _id: req.params.id
       })
+      .populate({ path: 'seller', select: 'fullname' })
       .then(product => {
         res.status(200).json(product)
       })

@@ -8,12 +8,12 @@ class AuthController{
     User
       .create({
         fullname: form.fullname,
-        username: form.username,
         email: form.email,
         password: form.password,
-        role: 'Costumer'
+        role: 'Client'
       })
       .then(user => {
+        console.log(user)
         const token = jwt.sign({
           userId: user.id,
           emai: user.email,
