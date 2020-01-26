@@ -1,6 +1,16 @@
 # e-commerce
 
-## Product
+### Web: http://ecommerce.kennys.my.id/
+
+### API URL: 
+
+  `http://35.240.193.48:3000/`
+
+### Postman API documentation: https://documenter.getpostman.com/view/9976335/SWT8hf1m
+
+  ---
+
+## Routes
 
 ### Create Product
 

@@ -8,7 +8,7 @@ const upload = require('../middlewares/gcsupload')
 router.get('/', ProductController.getAll)
 router.post('/', authentication, upload.single('picture'), ProductController.create)
 router.get('/myProducts', authentication, ProductController.getUserProducts)
-router.patch('/:productId', upload.single('picture'), ProductController.update)
+router.patch('/:productId', authentication, productAuthorization, upload.single('picture'), ProductController.update)
 router.delete('/:productId', authentication, productAuthorization, ProductController.delete)
 
 module.exports = router

@@ -92,7 +92,7 @@ class UserController {
     static addPic(req,res,next) {
         UserModel.findByIdAndUpdate(req.user.userId, {
             profpic: req.body.profpic
-        })
+        }).select('-password')
         .then(result=>{  
             res.status(200).json(result)
         })
@@ -173,6 +173,12 @@ class UserController {
     static replaceCart(req,res,next) {
         ProductModel.findById(req.body.cartData.item._id)
         .then(product=>{
+            if(!product){
+                throw {
+                    code: 404,
+                    message: "Product not found"
+                }
+            }
             if(req.body.newQuantity < 1) {
                 throw {
                     code: 400,
@@ -218,6 +224,12 @@ class UserController {
                 throw {
                     code: 400,
                     message: "Minimum purchase quantity is 1"
+                }
+            }
+            if(!product){
+                throw {
+                    code: 404,
+                    message: "Product not found"
                 }
             }
             if(product.stock < req.body.quantity) {
