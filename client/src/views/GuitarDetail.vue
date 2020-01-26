@@ -19,7 +19,7 @@
       <div class="w-1/3">
         <img :src="guitar.image" />
       </div>
-      <div class="w-2/3">
+      <div class="w-2/3 ml-5">
         <div class="mr-24 mt-5">
           <h1 class="text-2xl font-bold mb-3">Product Detail</h1>
           <div class="w-2/3">
@@ -93,7 +93,7 @@ export default {
         thousands: '.',
         prefix: '$',
         suffix: '',
-        precisioin: 2,
+        precision: 2,
         masked: false,
       },
       quantity: 1,

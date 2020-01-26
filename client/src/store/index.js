@@ -71,7 +71,7 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    fetch_user_cart(context, payload) {
+    fetch_user_cart(context) {
       context.commit('UPDATE_IS_LOADING', true)
 
       api
@@ -233,7 +233,11 @@ export default new Vuex.Store({
         })
         .then(({ data }) => {
           context.commit('UPDATE_IS_LOADING', false)
-          console.log(data)
+          payload.vm.$toast.open({
+            message: 'Item removed',
+            type: 'success',
+            position: 'top-right',
+          })
           context.dispatch('fetch_user_cart')
         })
         .catch(err => {
@@ -245,12 +249,37 @@ export default new Vuex.Store({
       context.commit('UPDATE_IS_LOADING', true)
 
       api
-        .patch(
-          '/cart/items',
-          {
+        .request({
+          method: 'patch',
+          url: '/carts/items',
+          data: {
             itemId: payload.itemId,
             quantity: payload.quantity,
           },
+          headers: {
+            token: context.state.token,
+          },
+        })
+        .then(({ data }) => {
+          payload.vm.$toast.open({
+            message: 'Item updated',
+            type: 'success',
+            position: 'top-right',
+          })
+          context.dispatch('fetch_user_cart')
+        })
+        .catch(err => {
+          if (err.response) console.log(err)
+          else console.log(err)
+        })
+    },
+    create_transaction(context, payload) {
+      context.commit('UPDATE_IS_LOADING', true)
+
+      api
+        .post(
+          '/transactions',
+          {},
           {
             headers: {
               token: context.state.token,
@@ -258,11 +287,30 @@ export default new Vuex.Store({
           },
         )
         .then(({ data }) => {
+          payload.vm.$toast.open({
+            message: 'Cart checkedout',
+            type: 'success',
+            position: 'top-right',
+          })
+          payload.vm.confirmation = false
           context.dispatch('fetch_user_cart')
         })
         .catch(err => {
-          context.commmit('UPDATE_IS_LOADING', false)
-          console.log(err)
+          if (err.response) console.log(err.response)
+          else console.log(err)
+        })
+    },
+    fetch_user_transactions(context, payload) {
+      context.commit('UPDATE_IS_LOADING', true)
+
+      api
+        .get('/transactions', { headers: { token: context.state.token } })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(err => {
+          if (err.response) console.log(err.response)
+          else console.log(err)
         })
     },
   },

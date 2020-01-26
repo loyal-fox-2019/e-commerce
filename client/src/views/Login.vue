@@ -60,26 +60,26 @@
                 </button>
               </div>
             </div>
-            <div class="flex w-full mt-3 items-center">
-              <div class="w-5/12"><hr /></div>
-              <div class="w-2/12 text-center">Or</div>
-              <div class="w-5/12"><hr /></div>
-            </div>
-            <div class="third-api block my-3">
-              <button
-                class="bg-black w-full text-white hover:bg-gray-900 py-2 mb-2"
-              >
-                <span class="fab fa-github"></span> Continue with Github
-              </button>
-              <GoogleLogin
-                :params="params"
-                :onSuccess="onSuccess"
-                :onFailure="onFailure"
-                class="bg-gray-200 px-4 py-2 w-full hover:bg-gray-300"
-                ><span class="fab fa-google"></span> Continue with
-                google</GoogleLogin
-              >
-            </div>
+            <!-- <div class="flex w-full mt-3 items-center"> -->
+            <!-- <div class="w-5/12"><hr /></div> -->
+            <!-- <div class="w-2/12 text-center">Or</div> -->
+            <!-- <div class="w-5/12"><hr /></div> -->
+            <!-- </div> -->
+            <!-- <div class="third-api block my-3"> -->
+            <!-- <button -->
+            <!-- class="bg-black w-full text-white hover:bg-gray-900 py-2 mb-2" -->
+            <!-- > -->
+            <!-- <span class="fab fa-github"></span> Continue with Github -->
+            <!-- </button> -->
+            <!-- <GoogleLogin -->
+            <!-- :params="params" -->
+            <!-- :onSuccess="onSuccess" -->
+            <!-- :onFailure="onFailure" -->
+            <!-- class="bg-gray-200 px-4 py-2 w-full hover:bg-gray-300" -->
+            <!-- ><span class="fab fa-google"></span> Continue with -->
+            <!-- google</GoogleLogin -->
+            <!-- > -->
+            <!-- </div> -->
           </form>
         </div>
       </div>
@@ -115,9 +115,6 @@ export default {
       email: '',
       password: '',
     }
-  },
-  components: {
-    GoogleLogin,
   },
   methods: {
     onSuccess(googleUser) {
