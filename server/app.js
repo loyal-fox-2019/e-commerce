@@ -13,9 +13,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", router);
 app.use(errorHandler);
+let db = "";
+if ((process.env.NODE_ENV = "test")) {
+  db = process.env.DB_TEST;
+} else {
+  db = process.env.DB_URL;
+}
 
 mongoose
-  .connect("mongodb://localhost:27017/e-comm-" + process.env.NODE_ENV, {
+  .connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
