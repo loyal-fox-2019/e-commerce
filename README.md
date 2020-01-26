@@ -14,41 +14,12 @@ Attribute | Data type | Info
 Attribute | Data type | Info
 --- | --- | ---
 `name` | String | Required
+`description` | String | Required
 `price` | Number | Required
+`stock` | Number | Required
+`sold` | Number | Required
 
 
 ## REST API routes
 
-### Users routes
-* `POST /users/login`<br>
-Body:
-
-* `POST /users/gsignin`<br>
-Body:
-
-* `POST /users/register`<br>
-Body:
-
-* `PUT /users/:id`<br>
-`PATCH /users/:id`
-
-* `GET /users/cart`
-
-* `POST /users/cart`
-
-* `DELETE /users/cart/:id`
-
-* `DELETE /users/:id`
-
-### Products routes
-
-* `GET /products`
-
-* `GET /products/:id`
-
-* `POST /products`
-
-* `PUT /products/:id`<br>
-`PATCH /products/:id`
-
-* `DELETE /products/:id`
+Documentation: https://documenter.getpostman.com/view/10143757/SWT8hza9?version=latest

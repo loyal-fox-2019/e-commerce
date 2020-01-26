@@ -68,7 +68,9 @@ class ProductController
             res.status(200).json(product);
         })
         .catch((err) => {
-            console.log(err);
+            res.status(404).json({
+                msg: "Product not found"
+            });
         })
     }
 
