@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const Cart = require('../models/cart')
 const jwt = require('jsonwebtoken')
 const bcryptjs = require('bcryptjs')
 
@@ -11,6 +12,9 @@ class UserController {
       roles: req.body.roles,
     })
       .then(user => {
+        Cart.create({
+          owner: user.id,
+        })
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET)
         res.status(201).json({ token, username: user.username })
       })
