@@ -12,18 +12,18 @@
                 <input
                   class="input--style-3"
                   type="text"
-                  placeholder="First Name"
-                  v-model="registerData.firstName"
+                  placeholder="Full Name"
+                  v-model="registerData.name"
                 />
               </div>
-              <div class="input-group">
+              <!--<div class="input-group">
                 <input
                   class="input--style-3"
                   type="text"
                   placeholder="Last Name"
                   v-model="registerData.lastName"
                 />
-              </div>
+              </div>-->
               <!-- <div class="input-group">
                             <input class="input--style-3 js-datepicker" type="text" placeholder="Birthdate" name="birthday">
                             <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
@@ -45,14 +45,22 @@
                   v-model="registerData.password"
                 />
               </div>
-              <div class="input-group">
+              <div class="input-group" v-show="adminPasswordInput">
+                <input
+                  class="input--style-3"
+                  type="password"
+                  placeholder="Admin Password"
+                  v-model="registerData.adminPassword"
+                />
+              </div>
+              <!--<div class="input-group">
                 <input
                   class="input--style-3"
                   type="text"
                   placeholder="Phone"
                   v-model="registerData.phone"
                 />
-              </div>
+              </div> -->
               <!-- <div class="input-group">
               <div class="rs-select2 js-select-simple select--no-search">
                 <select name="gender">
@@ -78,6 +86,12 @@
                 >
                   I already have an account
                 </h5>
+                <h6
+                  class="mt-4 text-center text-tambahan"
+                  @click.prevent="showAdminPassword"
+                >
+                  Register an Admin
+                </h6>
               </div>
             </form>
           </div>
@@ -143,26 +157,28 @@
 
 <script>
 import axios from 'axios'
+import { mapMutations } from 'vuex'
 export default {
   name: 'RegisterLogin',
   data() {
     return {
       registerData: {
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
         password: '',
-        phone: ''
+        adminPassword: ''
       },
       loginData: {
         email: '',
         password: ''
       },
       loginForm: false,
-      registerForm: true
+      registerForm: true,
+      adminPasswordInput: false
     }
   },
   methods: {
+    ...mapMutations(['HIDE_LOGIN']),
     showLoginForm() {
       this.loginForm = true
       this.registerForm = false
@@ -171,17 +187,34 @@ export default {
       this.loginForm = false
       this.registerForm = true
     },
+    showAdminPassword() {
+      if (this.adminPasswordInput) {
+        this.adminPasswordInput = false
+        this.registerData.adminPassword = ''
+      } else {
+        this.adminPasswordInput = true
+      }
+    },
     registerMethods() {
-      axios({
-        method: 'post',
-        url: `http://localhost:3000/register`,
-        data: {
-          firstName: this.registerData.firstName,
-          lastName: this.registerData.lastName,
+      let newUser = null
+      if (this.registerData.adminPassword === '') {
+        newUser = {
+          name: this.registerData.name,
+          email: this.registerData.email,
+          password: this.registerData.password
+        }
+      } else {
+        newUser = {
+          name: this.registerData.name,
           email: this.registerData.email,
           password: this.registerData.password,
-          phone: this.registerData.phone
+          admin_password: this.registerData.adminPassword
         }
+      }
+      axios({
+        method: 'post',
+        url: `http://localhost:3000/users/register`,
+        data: newUser
       })
         .then(({ data }) => {
           console.log(data)
@@ -194,16 +227,16 @@ export default {
     loginMethods() {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/login',
+        url: 'http://localhost:3000/users/login',
         data: {
           email: this.loginData.email,
           password: this.loginData.password
         }
       })
         .then(({ data }) => {
-          // console.log(data.token)
+          console.log(data.token)
           localStorage.setItem('token', data.token)
-          this.$emit('login-component', true)
+          this.HIDE_LOGIN()
         })
         .catch(err => {
           console.log(err)

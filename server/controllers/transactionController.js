@@ -57,4 +57,19 @@ module.exports = class {
         next(err)
       })
   }
+
+  static checkout(req, res, next) {
+    let id = req.params.transactionId
+
+    let newTransaction = {
+      isCheckout: true
+    }
+    Transaction.findByIdAndUpdate(id, newTransaction, { new: true })
+      .then(result => {
+        res.status(200).json(result)
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
 }

@@ -6,8 +6,8 @@
       <div class="card-body">
         <h5 class="card-title">Product Title:</h5>
         <b-form-input
-          v-model="product.title"
-          placeholder="Enter your name"
+          v-model="product.name"
+          placeholder="Enter product title"
         ></b-form-input>
         <b-form-select
           v-model="product.category"
@@ -53,7 +53,7 @@
         <b-form-textarea
           id="textarea"
           v-model="product.description"
-          placeholder="Enter something..."
+          placeholder="Product description..."
           rows="3"
           max-rows="6"
         ></b-form-textarea>
@@ -78,16 +78,26 @@
         plain
       ></b-form-file>
     </div>
+    <div class="card col-sm-8 p-0 mb-5">
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg btn-block"
+        @click.prevent="addItemAndRedirect"
+      >
+        Input Item
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'AddItem',
   data() {
     return {
       product: {
-        title: '',
+        name: '',
         file: null,
         category: null,
         price: null,
@@ -108,6 +118,12 @@ export default {
     onFileChange(e) {
       const file = e.target.files[0]
       this.url = URL.createObjectURL(file)
+    },
+    ...mapActions(['addItem', 'getAllItem']),
+    addItemAndRedirect() {
+      this.addItem(this.product)
+      this.$router.push({ path: '/' })
+      this.getAllItem()
     }
   }
 }

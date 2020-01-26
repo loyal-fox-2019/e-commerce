@@ -1,9 +1,10 @@
 <template>
   <div>
-    <ShoppingCart></ShoppingCart>
-    <ShoppingCart></ShoppingCart>
-    <ShoppingCart></ShoppingCart>
-    <ShoppingCart></ShoppingCart>
+    <ShoppingCart
+      v-for="(cart, key) in userCart"
+      :key="key"
+      :cart="cart"
+    ></ShoppingCart>
   </div>
 </template>
 
@@ -11,7 +12,12 @@
 import ShoppingCart from '../components/ShopingCart'
 export default {
   name: 'UserCart',
-  components: { ShoppingCart }
+  components: { ShoppingCart },
+  computed: {
+    userCart() {
+      return this.$store.state.userCart
+    }
+  }
 }
 </script>
 

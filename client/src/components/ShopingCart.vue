@@ -3,28 +3,31 @@
     <div class="row no-gutters">
       <div class="col-md-4">
         <img
-          src="http://simagenda.untag-sby.ac.id/uploads/katproduk/default/default-product.jpg"
-          class="card-img"
+          :src="cart.product.image"
+          class="card-img mt-3"
           alt="ProductImage"
         />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h3 class="card-title borderBottomNya">Product Name</h3>
-          <h2 class="hargaNya">Rp. 1000000</h2>
+          <h3 class="card-title borderBottomNya">{{ cart.product.name }}</h3>
+          <h2 class="hargaNya">Rp. {{ price }}</h2>
           <h5 class="my-5">PRODUCT DESCRIPTION:</h5>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-            accusantium itaque laboriosam ratione, dolores eaque, nulla ducimus
-            voluptatem cum fugit quod accusamus. Soluta quis reprehenderit
-            dolorum, magni ut officia atque.
+            {{ cart.product.description }}
           </p>
           <label for="pesanan">Jumlah pesanan: </label>
-          <input type="number" class="ml-3" id="pesanan" />
+          <h5>{{ cart.count }}</h5>
           <!-- <p class="card-text">
             <small class="text-muted">Last updated 3 mins ago</small>
           </p> -->
-          <button type="button" class=" mx-5 btn btn-info">Add to cart</button>
+          <button
+            @click.prevent="checkout"
+            class=" btn btn-info mb-2"
+            style="float:right"
+          >
+            Checkout
+          </button>
         </div>
       </div>
     </div>
@@ -32,10 +35,23 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'ShoppingCart',
   data() {
     return {}
+  },
+  methods: {
+    ...mapActions(['cartCheckout']),
+    checkout() {
+      this.cartCheckout(this.cart._id)
+    }
+  },
+  props: ['cart'],
+  computed: {
+    price() {
+      return this.cart.product.price * this.cart.count
+    }
   }
 }
 </script>

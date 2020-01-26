@@ -1,17 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import Register from '../views/RegisterLogin.vue'
 import ProductList from '../views/ProductList.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
   {
     path: '/about',
     name: 'about',
@@ -27,7 +21,7 @@ const routes = [
     component: Register
   },
   {
-    path: '/products',
+    path: '/',
     name: 'products',
     component: ProductList,
     children: [

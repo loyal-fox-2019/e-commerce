@@ -15,6 +15,8 @@ module.exports = {
         }
       })
     } catch (error) {
+      console.log('langsung dia masuk sini')
+
       next(error)
     }
   },

@@ -4,13 +4,13 @@
   >
     <div class="card">
       <img
-        class="card-img-top"
-        src="http://simagenda.untag-sby.ac.id/uploads/katproduk/default/default-product.jpg"
+        class="card-img-top tambahan"
+        :src="product.image"
         alt="Card image cap"
       />
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <h3>$ Price</h3>
+        <h5 class="card-title">{{ product.name }}</h5>
+        <h5>Rp. {{ product.price }}</h5>
       </div>
       <div class="card-footer">
         <small class="text-muted">Last updated 3 mins ago</small>
@@ -20,24 +20,32 @@
         type="button"
         class="btn btn-info"
       >
-        Buy
+        Show Details
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'ProductCard',
   data() {
     return {}
   },
   methods: {
+    ...mapMutations(['SET_PRODUCTSHOW']),
     showProductCard() {
-      this.$router.push('/products/productshow')
+      this.SET_PRODUCTSHOW(this.product)
+      this.$router.push('/productshow')
     }
-  }
+  },
+  props: ['product']
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.tambahan {
+  height: 23.5vh;
+}
+</style>

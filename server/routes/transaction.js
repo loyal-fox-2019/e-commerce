@@ -5,6 +5,11 @@ const auth = require('../middlewares/auth')
 
 router.post('/:productId', auth.authentication, Transaction.createTransaction)
 router.get('/user', auth.authentication, Transaction.getUserTransaction)
+router.post(
+  '/checkout/:transactionId',
+  auth.authentication,
+  Transaction.checkout
+)
 
 router.get(
   '/',
