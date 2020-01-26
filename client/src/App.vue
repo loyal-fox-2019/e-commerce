@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <router-view/>
+    <NavBar />
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
-
-<style>
+<script>
+import NavBar from "./components/NavBar";
+export default {
+  name: "Login",
+  components: {
+    NavBar
+  }
+};
+</script>
+<style scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

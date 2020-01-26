@@ -1,15 +1,17 @@
 <template>
   <div class="home">
-    <NavBar />
+    <div id="container">
+      <Products />
+    </div>
   </div>
 </template>
 
 <script>
-import NavBar from "../components/NavBar";
+import Products from "../components/product/Products";
 export default {
   name: "home",
   components: {
-    NavBar
+    Products
   },
   created() {
     if (!localStorage.getItem("token")) this.$router.replace("/login");
@@ -18,4 +20,10 @@ export default {
 </script>
 
 <style scoped>
+#container {
+  width: 100vw;
+  padding: 20px;
+  display: flex;
+  flex-flow: row wrap;
+}
 </style>

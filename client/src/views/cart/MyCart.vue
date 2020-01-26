@@ -1,5 +1,7 @@
 <template>
-  
+  <div>
+      <h1>ini cart</h1>
+  </div>
 </template>
 
 <script>

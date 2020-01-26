@@ -33,17 +33,22 @@ const routes = [
       {
         path: 'mycart',
         name: 'mycart',
-        component: () => import(/* webpackChunkName: "about" */ '../views/MyCart.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/cart/MyCart.vue')
       },
       {
         path: 'mypaid',
         name: 'mypaid',
-        component: () => import(/* webpackChunkName: "about" */ '../views/MyPaid.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/cart/MyPaid.vue')
       },
       {
         path: 'myitem',
         name: 'myitem',
-        component: () => import(/* webpackChunkName: "about" */ '../views/MyItems.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/cart/MyItems.vue')
+      },
+      {
+        path: 'myproduct',
+        name: 'myproduct',
+        component: () => import(/* webpackChunkName: "about" */ '../views/cart/MyProduct.vue')
       },
     ]
   },

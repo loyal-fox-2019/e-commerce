@@ -51,14 +51,11 @@ class Controller {
     }
 
     static updateProductData(req, res, next) {
-        const objectForPatch = {
-            name: req.body.name,
-            image: req.body.image,
-            price: req.body.price,
-            description: req.body.description,
-            stock: req.body.stock,
-            weight: req.body.weight,
-            city: req.body.city
+        const objectForPatch = {}
+
+        for (const request in req.body) {
+            if (req.body[request]) objectForPatch[request] = req.body[request]
+            if(req.body[request] == 'null') delete objectForPatch[request]
         }
 
         Product.findByIdAndUpdate(req.params.id, objectForPatch, { new: true }).populate('seller', 'name phone')
