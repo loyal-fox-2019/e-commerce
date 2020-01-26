@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Transaction = require('../models/Transaction')
 
 class CartController {
   static async getCart(req, res, next) {
@@ -44,6 +45,12 @@ class CartController {
 
   static async checkout(req, res, next) {
     try {
+      const userId = req.decodedId
+      const {cart, totalPrice, deliverTo, deliverPrice, status} = req.body
+      await Transaction.create({
+        userId, cart, totalPrice, deliverTo, deliverPrice, status
+      })
+
       let user = await User
         .findByIdAndUpdate(
           req.decodedId, 
