@@ -115,4 +115,17 @@ describe('/transaction', function() {
          expect(createTransactionResp).to.have.status(201)
       })
    })
+
+   describe('Getting all transactions: GET /transaction', function() {
+      it('Should return an array of transactions - status 200', async function() {
+         const getAllTransactionsResp = await chai.request(app)
+            .get('transaction')
+            .set({
+               token: adminToken
+            })
+         
+         expect(getAllTransactionsResp).to.have.status(200)
+         expect(getAllTransactionsResp.body.transactions[0].purchasedItems[0].item).to.equal(allItems[1]._id)
+      })
+   })
 })
