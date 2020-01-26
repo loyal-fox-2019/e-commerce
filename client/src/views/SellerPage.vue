@@ -188,8 +188,7 @@ export default {
           });
           this.$router.push({ name: "home" });
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
           Toast.fire({
             icon: "error",
             title: "Oops.. Sepertinya ada masalah, coba lagi nanti ya"

@@ -22,7 +22,7 @@ Vue.use(VueSweetalert2);
 
 Vue.config.productionTip = false;
 
-Vue.prototype.$baseUrl = "http://localhost:3000";
+Vue.prototype.$baseUrl = "http://35.240.156.164:3000";
 
 new Vue({
   router,

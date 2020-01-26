@@ -45,6 +45,9 @@ npm run serve
 
 Wait until all loadings finishes and open `http://localhost:8080`
 
+## Deploy Link
+http://tookoo.harfialfaraby.com/
+
 ## Online Documentation Link
 
 https://documenter.getpostman.com/view/3871398/SWT8gzWQ?version=latest
