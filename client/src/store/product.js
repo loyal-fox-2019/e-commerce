@@ -66,7 +66,6 @@ export default {
       const headers = {
         token: rootState.token,
       };
-      console.log(headers);
       try {
         await Axios.post('/products', payload, { headers });
         commit('CLEAR_PRODUCT');

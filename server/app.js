@@ -20,6 +20,7 @@ app.use('/', router)
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log(err)
   let status = 500
   message = 'internal server error'
   switch (err.name) {

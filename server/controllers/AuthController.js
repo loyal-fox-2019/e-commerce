@@ -35,7 +35,7 @@ class AuthController{
       })
       .then(user => {
         const msg = {
-          name: 'ErrorValidation',
+          name: 'ValidationError',
           message: 'email/password incorrect'
         }
         if (user) {

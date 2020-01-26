@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <template v-if="this.$route.name == 'home'">
-      <router-view />
+    <!-- <template v-if="!$route.meta.isLoggedIn">
+      <Home />
     </template>
-    <template v-elseif="$store.state.isLogin.role == 'Admin'">
+    <template v-if="$route.meta.isAdmin">
       <Admin />
-    </template>
+    </template> -->
+    <router-view> </router-view>
   </div>
 </template>
 <script>
-import Admin from './views/admin/Index.vue';
+// import Home from './views/home/Index.vue';
+// import Admin from './views/admin/Index.vue';
 
 export default {
   components: {
-    Admin,
+    // Home,
+    // Admin,
   },
   created() {
     const token = localStorage.getItem('ecommerce.token');

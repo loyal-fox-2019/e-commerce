@@ -1,27 +1,19 @@
 <template>
-  <div class="product">
+  <div class="product" @click="detail">
     <div class="card border-0 shadow-sm">
-      <img
-        src="https://via.placeholder.com/300"
-        class="card-img-top"
-        alt="product image"
-      />
+      <img :src="product.image" class="card-img-top" alt="product image" />
       <div class="card-body">
         <div class="wrap-product-title">
-          <span class="product-title">Example name</span>
+          <span class="product-title">{{ product.name }}</span>
           <div class="wrap-discount">
             <div>61%</div>
             <div>Rp. 30.000</div>
           </div>
           <div class="wrap-price">
-            <span class="price">
-              Rp. 24.000
-            </span>
+            <span class="price"> Rp. {{ product.price }} </span>
           </div>
           <div class="wrap-city">
-            <span class="city">
-              <b-icon icon="award" variant="warning"></b-icon> Denpasar</span
-            >
+            <span class="city"> <b-icon icon="award" variant="warning"></b-icon> Denpasar</span>
           </div>
         </div>
       </div>
@@ -29,8 +21,25 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'CardProduct',
+  data() {
+    return {};
+  },
+  props: ['product'],
+  methods: {
+    detail() {
+      console.log('here');
+      this.$router.push({ name: 'detail-product', params: { id: this.product._id } });
+    },
+  },
+};
+</script>
+
 <style scoped>
 .product {
+  cursor: pointer;
   margin: auto;
 }
 .card {

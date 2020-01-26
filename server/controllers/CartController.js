@@ -4,9 +4,24 @@ class CartController {
   static create(req, res, next){
     let totalPrice;
     const form = req.body
-    Product
+
+    Cart
       .findOne({
-        _id: form.product,
+        product: form.product,
+        costumer: req.userId
+      })
+      .then(cart => {
+        if (cart) {
+          throw {
+            name: 'ValidationError',
+            message: 'This product has beed added'
+          }
+        }else{
+          return Product
+                      .findOne({
+                        _id: form.product,
+                      })
+        }
       })
       .then(product => {
         totalPrice = form.amount * product.price
@@ -28,6 +43,7 @@ class CartController {
       .find({
         costumer: req.userId
       })
+      .populate('product')
       .then(carts => {
         res.status(200).json(carts)
       })

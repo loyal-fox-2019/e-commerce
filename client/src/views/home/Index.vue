@@ -2,47 +2,28 @@
   <div>
     <NavHome />
     <div id="main">
-      <CarouselHome />
-
-      <div class="container">
-        <div>
-          <h2 class="title-item mb-2">
-            Product list
-          </h2>
-        </div>
-        <div class="row">
-          <div class="col-6 col-lg-3 col-md-3 mb-3" v-for="(item, i) in products" :key="i">
-            <CardProduct />
-          </div>
-        </div>
-      </div>
+      <router-view />
     </div>
     <FooterHome />
   </div>
 </template>
 <script>
 import NavHome from '@/components/home/NavHome.vue';
-import CarouselHome from '@/components/home/CarouselHome.vue';
-import CardProduct from '@/components/home/CardProduct.vue';
 import FooterHome from '@/components/home/FooterHome.vue';
 
 export default {
   name: 'Home',
   components: {
     NavHome,
-    CarouselHome,
-    CardProduct,
     FooterHome,
   },
   data() {
-    return {
-      products: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    };
+    return {};
   },
 };
 </script>
 
-<style scoped>
+<style>
 #main {
   margin-top: 70px;
 }

@@ -1,35 +1,88 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import store from '../store';
+// Home
 import Home from '../views/home/Index.vue';
+import HomePage from '../views/home/HomePage.vue';
+import DetailProduct from '../views/home/DetailProduct.vue';
+// Admin
+import Admin from '../views/admin/Index.vue';
 import Dashboard from '../views/admin/Dashboard.vue';
 import Product from '../views/admin/ProductPage.vue';
+// Client
 
 Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/clientarea',
+    name: 'clientarea',
+    component: () => import(/* webpackChunkName: "clientarea" */ '../views/client/Index.vue'),
+    meta: {
+      isLoggedIn: true,
+      isAdmin: false,
+    },
+    children: [
+      {
+        path: '',
+        component: () => import(/* webpackChunkName: "cartPage" */ '../views/client/CartPage.vue'),
+        meta: {
+          isLoggedIn: true,
+          isAdmin: false,
+        },
+      },
+    ],
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin,
+    meta: {
+      isLoggedIn: true,
+      isAdmin: true,
+    },
+    children: [
+      {
+        path: 'products',
+        name: 'admin-product',
+        component: Product,
+        meta: {
+          isLoggedIn: true,
+          isAdmin: true,
+        },
+      },
+      {
+        path: '',
+        name: 'admin-dashboard',
+        component: Dashboard,
+        meta: {
+          isLoggedIn: true,
+          isAdmin: true,
+        },
+      },
+    ],
+  },
+  {
     path: '/',
     name: 'home',
     component: Home,
-  },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: Dashboard,
-    meta: {
-      isLoggedIn: true,
-      isAdmin: true,
-    },
-  },
-  {
-    path: '/products',
-    name: 'product',
-    component: Product,
-    meta: {
-      isLoggedIn: true,
-      isAdmin: true,
-    },
+    children: [
+      {
+        path: '',
+        component: HomePage,
+        meta: {
+          isLoggedIn: false,
+        },
+      },
+      {
+        path: ':id',
+        name: 'detail-product',
+        component: DetailProduct,
+        meta: {
+          isLoggedIn: false,
+        },
+      },
+    ],
   },
 ];
 

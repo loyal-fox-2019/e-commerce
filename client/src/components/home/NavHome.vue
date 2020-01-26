@@ -33,7 +33,7 @@
               type="button"
               class="btn btn-primary"
               v-if="$store.state.isLogin.role == 'Admin'"
-              to="/dashboard"
+              to="/admin"
             >
               Go to dashboard
             </router-link>
@@ -41,7 +41,7 @@
               type="button"
               class="btn btn-primary"
               v-if="$store.state.isLogin.role !== 'Admin'"
-              to="/carts"
+              to="/clientarea"
             >
               Go to carts
             </router-link>
