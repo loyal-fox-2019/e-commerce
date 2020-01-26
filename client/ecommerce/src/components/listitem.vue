@@ -127,6 +127,13 @@ export default {
         .then((data) => {
           this.$emit('del', tmp)
         })
+        .catch((erre) => {
+          this.$bvToast.toast(`you are Not Admin`, {
+            title: 'Update Inventory',
+            autoHideDelay: 4000,
+            variant: 'danger'
+          })
+        })
     },
     uploadimage: function () {
       this.image = event.target.files[0]
@@ -148,6 +155,13 @@ export default {
         .then((data) => {
           this.$refs['my-modal3'].hide()
           this.$emit('upt', data.data)
+        })
+        .catch((erre) => {
+          this.$bvToast.toast(`you are Not Admin`, {
+            title: 'Update Inventory',
+            autoHideDelay: 4000,
+            variant: 'danger'
+          })
         })
     }
   }
