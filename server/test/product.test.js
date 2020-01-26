@@ -118,8 +118,76 @@ describe('product CRUD', function () {
             chai
                 .request(app)
                 .delete('/product/5e25811c91291d660ce47aef')
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY1ZDY0M2Y5OTgzMmZjMzgwNTM2MiIsImlhdCI6MTU3OTU3MjU4MH0.tfZQ_QUJA9v41-rw-TncbV33D525kEM-KU9TKyhj0KY")
                 .then(function (res) {
                     expect(res).to.have.status(200)
+                    done()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+    })
+
+    describe("add to cart", function () {
+        it("should return an object of cart that was created with status code 200", function (done) {
+            chai
+                .request(app)
+                .post("/product/addToCart/5e25814b3d584f673272986a")
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY1ZDY0M2Y5OTgzMmZjMzgwNTM2MiIsImlhdCI6MTU3OTU3MjU4MH0.tfZQ_QUJA9v41-rw-TncbV33D525kEM-KU9TKyhj0KY")
+                .send({ qty: 1, totalPrice: 200000 })
+                .then(function (res) {
+                    expect(res).to.have.status(201)
+                    expect(res.body).to.be.an("object")
+                    done()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+    })
+
+    describe("delete product from cart", function () {
+        it("should return status code 200", function (done) {
+            chai
+                .request(app)
+                .delete("/product/cart/myCart/delete/5e25814b3d584f673272986a")
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY1ZDY0M2Y5OTgzMmZjMzgwNTM2MiIsImlhdCI6MTU3OTU3MjU4MH0.tfZQ_QUJA9v41-rw-TncbV33D525kEM-KU9TKyhj0KY")
+                .then(function (res) {
+                    expect(res).to.have.status(200)
+                    done()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+    })
+
+    describe("checkout cart", function () {
+        it("should return status code 200", function (done) {
+            chai
+                .request(app)
+                .patch("/product/cart/myCart/checkOut")
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY1ZDY0M2Y5OTgzMmZjMzgwNTM2MiIsImlhdCI6MTU3OTU3MjU4MH0.tfZQ_QUJA9v41-rw-TncbV33D525kEM-KU9TKyhj0KY")
+                .then(function (res) {
+                    expect(res).to.have.status(200)
+                    done()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+    })
+
+    describe("get history transaction", function () {
+        it("should return status code 200", function (done) {
+            chai
+                .request(app)
+                .get("/product/history/transaction")
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY1ZDY0M2Y5OTgzMmZjMzgwNTM2MiIsImlhdCI6MTU3OTU3MjU4MH0.tfZQ_QUJA9v41-rw-TncbV33D525kEM-KU9TKyhj0KY")
+                .then(function (res) {
+                    expect(res).to.have.status(200)
+                    done()
                 })
                 .catch(err => {
                     console.log(err)

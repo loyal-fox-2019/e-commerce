@@ -36,10 +36,12 @@ export default {
   data() {
     return {
       allProducts: null,
-      statusSearch: false
+      statusSearch: false,
+      baseUrl: "http://e-commerce-server.amadyanissa.my.id:3000"
     };
   },
   created() {
+    let url = this.baseUrl;
     this.$emit("kosonginSearch");
     this.allProducts = null;
     if (!localStorage.getItem("token")) {
@@ -47,7 +49,8 @@ export default {
     } else {
       axios({
         method: "GET",
-        url: "http://localhost:3000/product/all"
+        // url: "http://localhost:3000/product/all"
+        url: `${url}/product/all`
       })
         .then(({ data }) => {
           this.allProducts = data;
@@ -68,12 +71,14 @@ export default {
     }
   },
   mounted() {
+    let url = this.baseUrl;
     if (!localStorage.getItem("token")) {
       this.$router.push("/login");
     } else {
       axios({
         method: "GET",
-        url: "http://localhost:3000/product/all"
+        // url: "http://localhost:3000/product/all"
+        url: `${url}/product/all`
       })
         .then(({ data }) => {
           this.allProducts = data;

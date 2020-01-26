@@ -41,7 +41,8 @@ export default {
   },
   data() {
     return {
-      baseUrl: "http://localhost:3000",
+      // baseUrl: "http://localhost:3000",
+      baseUrl: "http://e-commerce-server.amadyanissa.my.id:3000",
       productCart: null,
       subTotal: null
     };

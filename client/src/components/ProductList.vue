@@ -113,7 +113,8 @@ export default {
   data() {
     return {
       statusMilikku: false,
-      baseUrl: "http://localhost:3000",
+      // baseUrl: "http://localhost:3000",
+      baseUrl: "http://e-commerce-server.amadyanissa.my.id:3000",
       owner: null
     };
   },

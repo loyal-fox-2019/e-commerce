@@ -99,9 +99,12 @@ export default {
         lastName: ""
       },
       show: true,
-      baseUrl: "http://localhost:3000",
+      // baseUrl: "http://localhost:3000",
+      baseUrl: "http://e-commerce-server.amadyanissa.my.id:3000",
+      // clientId:
+      //   "275122678516-ttf9madj8sqdv83kokgb62c3iaer1ld5.apps.googleusercontent.com",
       clientId:
-        "275122678516-ttf9madj8sqdv83kokgb62c3iaer1ld5.apps.googleusercontent.com"
+        "275122678516-n3103ppn9ns2g6395l9pqp1lnbsvt7sn.apps.googleusercontent.com"
     };
   },
   methods: {
