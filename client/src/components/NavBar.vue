@@ -27,9 +27,17 @@
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item href="#" @click.prevent="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
-          <router-link to="/cart" v-if="$store.state.isLogin">
-            <i class="fas fa-shopping-cart cart-icon"></i>
-          </router-link>
+          <div>
+            <router-link to="/cart" v-if="$store.state.isLogin">
+              <i class="fas fa-shopping-cart cart-icon"></i>
+            </router-link>
+            <!-- v-if="$store.state.CardList > 0" -->
+            <span
+              class="badge badge-warning"
+              id="lblCartCount"
+              v-if="$store.state.CartItems.length > 0"
+            >{{totalCartItems}}</span>
+          </div>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -38,6 +46,16 @@
 
 <script>
 export default {
+  computed: {
+    totalCartItems() {
+      let cart = this.$store.state.CartItems
+      let total = 0
+      for (let i = 0; i < cart.length; i++) {
+        total += cart[i].amount
+      }
+      return total
+    }
+  },
   methods: {
     checkStorage() {
       if (localStorage.getItem('token')) {
@@ -59,7 +77,7 @@ export default {
 
 <style scoped>
 .icon-profile {
-  font-size: 28px;
+  font-size: 26px;
 }
 .navbar-section {
   background-color: #ffffff;
@@ -85,5 +103,25 @@ export default {
 .cart-icon:hover {
   color: #5cb85c;
   background-color: #f1f1f1;
+}
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #c67605;
+}
+#lblCartCount {
+  font-size: 12px;
+  background: #ff0000;
+  color: #fff;
+  padding: 3px 5px;
+  vertical-align: top;
+  margin-left: -10px;
 }
 </style>

@@ -94,7 +94,7 @@ export default {
     },
     getData() {
       axios
-        .get('http://localhost:3000/products/' + this.$route.params.id)
+        .get('http://35.185.188.169:3000/products/' + this.$route.params.id)
         .then(({ data }) => {
           this.productName = data.productName
           this.description = data.description
@@ -119,7 +119,7 @@ export default {
       } else {
         axios
           .post(
-            'http://localhost:3000/cart/',
+            'http://35.185.188.169:3000/cart/',
             {
               amount: this.amount,
               ProductId: this.id

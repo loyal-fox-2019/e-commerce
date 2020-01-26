@@ -92,7 +92,7 @@ export default {
   methods: {
     register() {
       axios
-        .post('http://localhost:3000/users/register', {
+        .post('http://35.185.188.169:3000/users/register', {
           full_name: this.name,
           email: this.email,
           password: this.password

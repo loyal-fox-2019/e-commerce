@@ -4,22 +4,20 @@
 
 Welcome to E-commerce API Documentation, You can use the API to access Ecommerece API endpoints.
 
-All API can be accessed from the `//localhost:3000`
+All API can be accessed from the `//35.185.188.169:3000`
 
 To Use API Endpoints, the format is as follows:
 
-`//localhost:3000/{resource}`
-
-
+`//35.185.188.169:3000/{resource}`
 
 ### USERS
 
-------
+---
 
 ##### POST `/users/register`
 
 ```
-url: '//localhost:3000/users/register',
+url: '//35.185.188.169:3000/users/register',
 method: 'POST',
 body :{
 	'full_name' : 'Angga Budiman',
@@ -35,7 +33,7 @@ response:{
 ##### POST `/users/login`
 
 ```
-url: '//localhost:3000/users/register',
+url: '//35.185.188.169:3000/users/register',
 method: 'POST',
 body :{
 	'email' : 'angga@mail.com',
@@ -50,7 +48,7 @@ response:{
 ##### PATCH `/users/`
 
 ```
-url: '//localhost:3000/users/{id}/address',
+url: '//35.185.188.169:3000/users/{id}/address',
 method: 'PATCH',
 'headers':{
     'token':{token}
@@ -64,16 +62,16 @@ response:{
 }
 ```
 
-##### 
+#####
 
 ### Admin Login
 
-------
+---
 
 ##### POST `/users/admin/`
 
 ```
-url:'//localhost:3000/usres/admin'
+url:'//35.185.188.169:3000/usres/admin'
 method: 'POST',
 body:{
 	'email':'adminemail',
@@ -85,16 +83,14 @@ response:{
 }
 ```
 
-
-
 ### PRODUCT
 
-------
+---
 
 ##### GET `/products/`
 
 ```
-url:'//localhost:3000/products/'
+url:'//35.185.188.169:3000/products/'
 method: 'GET'
 
 response:[
@@ -113,7 +109,7 @@ response:[
 ##### GET `/products/{id}`
 
 ```
-url:'//localhost:3000/products/5e2c577ae8b36a2854ab18f3'
+url:'//35.185.188.169:3000/products/5e2c577ae8b36a2854ab18f3'
 method: 'GET'
 
 response: {
@@ -127,10 +123,10 @@ response: {
 }
 ```
 
-##### POST `/products/` 
+##### POST `/products/`
 
 ```
-url:'//localhost:3000/products/'
+url:'//35.185.188.169:3000/products/'
 method: 'POST',
 headers:{
 	token:'{token}' //Require Admin Role
@@ -158,7 +154,7 @@ response:{
 ##### DELETE `/products/{id}`
 
 ```
-url:'//localhost:3000/products/5e2d69c8c44c1232440a14b1'
+url:'//35.185.188.169:3000/products/5e2d69c8c44c1232440a14b1'
 method: 'DELETE',
 headers:{
 	token:'{token}' //Require Admin Role
@@ -172,7 +168,7 @@ response :{
 ##### PUT `/products/{id}`
 
 ```
-url:'//localhost:3000/products/5e2d69c8c44c1232440a14b1'
+url:'//35.185.188.169:3000/products/5e2d69c8c44c1232440a14b1'
 method:'PUT'
 headers:{
 	token:'{token}' //Require Admin Role
@@ -186,7 +182,7 @@ response:{
 ##### PATCH `/products/{id}/stock`
 
 ```
-url:'//localhost:3000/products/5e2d69c8c44c1232440a14b1/stock'
+url:'//35.185.188.169:3000/products/5e2d69c8c44c1232440a14b1/stock'
 method:'PATCH'
 headers:{
 	token:'{token}' //Require Admin Role
@@ -197,16 +193,14 @@ response:{
 }
 ```
 
-
-
 ### CART
 
-------
+---
 
 ##### GET `/cart/`
 
 ```
-url:'//localhost:3000/cart/'
+url:'//35.185.188.169:3000/cart/'
 method:'GET'
 headers:{
 	token:'{token}'
@@ -235,7 +229,7 @@ response : [
 ##### POST `/cart/`
 
 ```
-url:'//localhost:3000/cart/'
+url:'//35.185.188.169:3000/cart/'
 method:'POST'
 headers:{
 	token:'{token}'
@@ -258,7 +252,7 @@ response:{
 ##### DELETE `/cart/{id}`
 
 ```
-url:'//localhost:3000/cart/5e2d6f07c44c1232440a14b2'
+url:'//35.185.188.169:3000/cart/5e2d6f07c44c1232440a14b2'
 method:'DELETE'
 headers:{
 	token:'{token}'
@@ -269,12 +263,12 @@ response:{
 }
 ```
 
-##### DELETE `/cart/` 
+##### DELETE `/cart/`
 
 This WIll Delete All cart by user
 
 ```
-url:'//localhost:3000/cart'
+url:'//35.185.188.169:3000/cart'
 method:'DELETE'
 headers:{
 	token:'{token}'
@@ -288,7 +282,7 @@ response:{
 ##### PATCH `/cart/`
 
 ```
-url:'//localhost:3000/cart/'
+url:'//35.185.188.169:3000/cart/'
 method:'PATCH'
 headers:{
 	token:'{token}'
@@ -297,17 +291,15 @@ headers:{
 response:{ message: "Update change to Checkout" }
 ```
 
-
-
 ### Error Handling
 
-------
+---
 
 - Validation Login
 
   ```
   Status Code : 400
-  
+
   response : {
   	message: "Email / Password Wrong"
   }
@@ -317,7 +309,7 @@ response:{ message: "Update change to Checkout" }
 
   ```
   Status Code : 404
-  
+
   response:{
   	message:"Item Not Found"
   }
@@ -327,7 +319,7 @@ response:{ message: "Update change to Checkout" }
 
   ```
   Status Code : 400
-  
+
   response:{
   	message:"Invalid Token"
   }
@@ -337,7 +329,7 @@ response:{ message: "Update change to Checkout" }
 
   ```
   Status Code : 401
-  
+
   response:{
   	message:"Authentication Required"
   }
@@ -347,7 +339,7 @@ response:{ message: "Update change to Checkout" }
 
   ```
   Status Code : 400
-  
+
   response:{
   	message:"Invalid Email Format"
   }
@@ -357,10 +349,8 @@ response:{ message: "Update change to Checkout" }
 
   ```
   Status Code : 500
-  
+
   response:{
   	message:"Internal Server Error"
   }
   ```
-
-  

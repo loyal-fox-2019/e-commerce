@@ -72,7 +72,7 @@ export default {
   methods: {
     checkout() {
       Axios.patch(
-        'http://localhost:3000/cart/',
+        'http://35.185.188.169:3000/cart/',
         {},
         {
           headers: {
@@ -103,7 +103,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then(result => {
         if (result.value) {
-          Axios.delete('http://localhost:3000/cart/', {
+          Axios.delete('http://35.185.188.169:3000/cart/', {
             headers: {
               token: localStorage.getItem('token')
             }

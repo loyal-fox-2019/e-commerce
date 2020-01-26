@@ -48,7 +48,7 @@ export default {
       }).then(result => {
         if (result.value) {
           axios
-            .delete('http://localhost:3000/cart/' + this.product._id, {
+            .delete('http://35.185.188.169:3000/cart/' + this.product._id, {
               headers: {
                 token: localStorage.getItem('token')
               }

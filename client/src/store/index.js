@@ -21,7 +21,7 @@ export default new Vuex.Store({
   actions: {
     fetchDataProduct() {
       axios
-        .get('http://localhost:3000/products/')
+        .get('http://35.185.188.169:3000/products/')
         .then(({ data }) => {
           this.commit('getData', data)
         })
@@ -31,7 +31,7 @@ export default new Vuex.Store({
     },
     fetchDataCart() {
       axios
-        .get('http://localhost:3000/cart', {
+        .get('http://35.185.188.169:3000/cart', {
           headers: {
             token: localStorage.getItem('token')
           }

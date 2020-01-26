@@ -75,7 +75,7 @@ export default {
         })
       } else {
         axios
-          .post('http://localhost:3000/users/login', {
+          .post('http://35.185.188.169:3000/users/login', {
             email: this.email,
             password: this.password
           })

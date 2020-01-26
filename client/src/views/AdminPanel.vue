@@ -137,7 +137,7 @@ export default {
       form.append('thumbnail', this.thumbnail)
 
       axios
-        .post('http://localhost:3000/products/', form, {
+        .post('http://35.185.188.169:3000/products/', form, {
           headers: {
             token: localStorage.getItem('token')
           }

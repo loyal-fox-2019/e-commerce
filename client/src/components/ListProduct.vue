@@ -136,7 +136,7 @@ export default {
           console.log(result)
           if (result.value) {
             axios
-              .delete('http://localhost:3000/products/' + this.item._id, {
+              .delete('http://35.185.188.169:3000/products/' + this.item._id, {
                 headers: {
                   token: localStorage.getItem('token')
                 }
@@ -162,7 +162,7 @@ export default {
     updateProduct() {
       axios
         .put(
-          'http://localhost:3000/products/' + this.item._id,
+          'http://35.185.188.169:3000/products/' + this.item._id,
           {
             productName: this.productName,
             description: this.description,

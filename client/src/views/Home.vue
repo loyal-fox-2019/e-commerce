@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Carousel></Carousel>
     <div class="row justify-content-start">
       <CardProduct
         v-for="(productItem, i) in allProduct"
@@ -11,12 +12,14 @@
 </template>
 
 <script>
+import Carousel from '../components/Carousel'
 import CardProduct from '../components/CardProduct'
 // @ is an alias to /src
 export default {
   name: 'home',
   components: {
-    CardProduct
+    CardProduct,
+    Carousel
   },
   computed: {
     allProduct() {
