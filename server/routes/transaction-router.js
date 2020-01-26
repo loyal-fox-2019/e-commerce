@@ -5,7 +5,7 @@ const { authenticate, authorizeAdmin } = require('../middlewares/auth')
 router.use(authenticate)
 router.get('/', TransactionController.getUserTransactions)
 router.post('/', TransactionController.createTransaction)
-router.patch('/', TransactionController.updateTransaction)
+router.patch('/:transactionId', TransactionController.updateTransaction)
 router.use(authorizeAdmin)
 router.delete('/', TransactionController.deleteTransaction)
 
