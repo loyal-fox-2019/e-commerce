@@ -15,7 +15,7 @@
         </div>
         <div class="col-10">
           <div class="row">
-            <card v-for="(product,i) in products" :key="i" :product="product" class='m-3'></card>
+            <card v-for="(product,i) in products" :key="i" :product="product" :where="'home'" class='m-3'></card>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default {
   },
   data(){
     return {
-      products : []
+      products : [],
     }
   },
   created(){
@@ -51,7 +51,7 @@ export default {
       url : '/product',
       method : 'get',
       headers : {
-        token : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvdmlAbWFpbC5jb20iLCJwYXNzd29yZCI6ImFiY2QiLCJpYXQiOjE1Nzk2MzExOTV9.lGIwmaozjCstDjm6HvDcAuEupGY1PPtSTcFAiTajnz0'
+        token : localStorage.token
       }
     })
     .then(({data})=>{

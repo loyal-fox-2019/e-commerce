@@ -1,14 +1,27 @@
 <template>
   <div class="button-group">
-    <button type="button" class="btn btn-dark btn-circle btn-xl"><i class="ml-2 fa fa-shopping-cart"></i>
-        <span class="badge badge-dark">1</span>
+    <button @click="seeCart" type="button" class="btn btn-dark btn-circle btn-xl"><i class="ml-2 fa fa-shopping-cart"></i>
+        <span class="badge badge-dark">{{cartNum}}</span>
     </button>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-
+  data(){
+    return{
+      cartNum : 1
+    }
+  },
+  methods : {
+    seeCart(){
+      console.log('tombol FAB dipencet')
+      this.$router.push('/cart')
+    }
+  },
+  created(){
+  }
 }
 </script>
 

@@ -10,7 +10,9 @@
           <p class="card-text">Kondisi : {{condition}}</p>
           <p class="card-text"><i class="fa fa-store"></i> {{seller}}</p>
           <div class="row d-flex justify-content-center">
-            <button v-if="formDisplay==='imgUrl'" class="btn btn-dark">Sell</button>
+            <button @click="sell" v-if="formDisplay==='imgUrl'" id="btn-sell" class="btn btn-dark">
+            Sell me!
+            </button>
           </div>
         </div>
     </div>
@@ -36,24 +38,35 @@
         <div v-if="formDisplay=='condition'">
           <h2>Is it brand new?</h2>    
           <div>
-            <input v-model="condition" type="text" class="form-control mt-5 mb-5" id="custom-field" placeholder="I wonder...">
+            <div class="form-check pt-5">
+              <input v-model="condition" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="new" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                Yessir!
+              </label>
+            </div>
+            <div class="form-check pb-5">
+              <input v-model="condition" class="form-check-input condition-checkbox" type="radio" name="exampleRadios" id="exampleRadios2" value="used">
+              <label class="form-check-label" for="exampleRadios2">
+                I'm preloved =)
+              </label>
+            </div>
           </div>
         </div>
         <div v-if="formDisplay=='quantity'">
           <h2>How many do you have in stock?</h2>
           <div>
-            <input v-model="quantity" type="text" class="form-control mt-5 mb-5" id="custom-field" placeholder=" hmm i'd like to think i'm unique">
+            <input v-model="quantity" type="number" class="form-control mt-5 mb-5" id="custom-field" placeholder="wait, i have twins!?">
           </div>
         </div>
         <div v-if="formDisplay=='imgUrl'">
           <h2>Let the world see your kewl threads</h2>
           <div>
-            <input @change="imgDrop" type="file" class="form-control form-control-file mt-5 mb-5" id="custom-field">
+            <input @change="imgDrop(this)" type="file" class="form-control form-control-file mt-5 mb-5" id="custom-field">
           </div>
         </div>
         <div class="row d-flex justify-content-center">
-          <button @click="reverseForm" class="mr-2 btn btn-dark btn-circle-2 btn-xl mt-5"><i class="fa fa-chevron-left"></i></button>
-          <button @click="changeForm" class="ml-2 btn btn-dark btn-circle-2 btn-xl mt-5"><i class="fa fa-chevron-right"></i></button>
+          <button v-if="formDisplay!=='name'" @click="reverseForm" class="mr-2 btn btn-dark btn-circle-2 btn-xl mt-5"><i class="fa fa-chevron-left"></i></button>
+          <button v-if="formDisplay!=='imgUrl'" @click="changeForm" class="ml-2 btn btn-dark btn-circle-2 btn-xl mt-5"><i class="fa fa-chevron-right"></i></button>
         </div>
       </div>
     </div>
@@ -61,25 +74,62 @@
 </template>
 
 <script>
+import axios from "axios"
 
 export default {
   data(){
     return{
       formDisplay : 'name',
-      name : null,
-      price : null,
-      condition : null,
-      quantity : null,
-      imgLocation : 'test',
+      name : '',
+      price : '',
+      condition : '',
+      quantity : Number,
+      imgLocation : '',
       imgUrl : 'http://via.placeholder.com/130x100',
       seller : localStorage.user,
     }
   },
   methods : {
-    imgDrop(){
+    sell(){
+      console.log("ini condition : " + this.condition)
+      let formData = new FormData
+      formData.append('name', this.name)
+      formData.append('file', this.imgUrl)
+      formData.append('price', this.price)
+      formData.append('description', this.description)
+      formData.append('quantity', this.quantity)
+      formData.append('seller', this.seller)
+      formData.append('condition', this.condition)
+      axios({
+        url : 'http://localhost:3000/product/',
+        method : 'post',
+        headers : {
+          token : localStorage.token
+        },
+        data : {
+          // formData
+          name : this.name,
+          price : this.price,
+          // imgUrl : this.imgUrl,
+          description : this.description,
+          quantity : this.quantity,
+          seller : this.seller,
+          condition : this.condition
+        }
+      })
+      .then(({data})=>{
+        console.log("berhasil add product")
+        console.log(data)
+        swal.fire('Sold!','success')
+        this.$router.push('/')
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+    },
+    imgDrop(input){
       this.imgUrl = event.target.files[0]
       console.log(this.imgUrl)
-      console.log(this.imgLocation)
     },
     changeForm(){
       switch( this.formDisplay){
@@ -118,7 +168,7 @@ export default {
 </script>
 
 <style>
-  .form-control{
+  #custom-field{
     max-width: 30%;
     margin: auto;
     height: 75px; 
@@ -128,7 +178,7 @@ export default {
     border-radius: 0;
   }
 
-  .form-control:hover{
+  #custom-field:hover{
     border-bottom : 1px solid rgb(0, 0, 0)
   }
 
@@ -158,8 +208,16 @@ export default {
       line-height: 1.42857;
   }
 
+  #btn-sell{
+    width: 120px;
+    height: 70px;
+    border-radius: 50px;
+    font-size: 20px
+  }
+
   #card{
     position: fixed;
     right: 15vh;
   }
+
 </style>

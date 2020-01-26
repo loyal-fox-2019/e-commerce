@@ -11,7 +11,7 @@ var ProductSchema = new Schema({
     },
     imgUrl: {
         type : String,
-        required : true
+        // required : true
     },
     price: {
         type : Number,
@@ -26,8 +26,7 @@ var ProductSchema = new Schema({
         required : true
     },
     seller : {
-        type : Schema.Types.ObjectId,
-        ref : 'User'
+        type : String
     }
 },{
     timestamps : true

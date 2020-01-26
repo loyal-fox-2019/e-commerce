@@ -17,7 +17,7 @@
         <form class="form-inline    my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
-            <button class="btn btn-outline-dark ml-2 my-2 my-sm-0" type="submit">Logout</button>
+            <button @click="logout" class="btn btn-outline-dark ml-2 my-2 my-sm-0" type="submit">Logout</button>
         </form>
 
         <img
@@ -32,7 +32,13 @@
 
 <script>
 export default {
-
+    methods : {
+        logout(){
+            localStorage.clear()
+            this.$emit('logout')
+            window.location.href = "http://localhost:8080/#/login"
+        }
+    }
 }
 </script>
 

@@ -2,16 +2,20 @@ const Product = require('../models/productsModel');
 
 class productController{
     static create(req,res,next){
+        console.log("masuk ke controller create")
+        console.log(req.body)
         Product.create({
             name : req.body.name,
             price : req.body.price,
-            imgUrl : req.body.imgUrl,
+            imgUrl : req.body.file,
             description : req.body.description,
             quantity : req.body.quantity,
             seller : req.body.seller,
             condition : req.body.condition
         })
         .then(response =>{
+            console.log("added a product")
+            console.log(response)
             res.status(200).json(response)
         })
         .catch(err => {
@@ -21,7 +25,7 @@ class productController{
     }
 
     static findAll(req,res,next){
-        Product.find().populate('seller')
+        Product.find()
         .then(response => {
             res.status(200).json(response)
         })
