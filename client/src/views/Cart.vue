@@ -1,6 +1,9 @@
 <template>
   <div class="container p-3 cart">
-    <div class="no-cart p-5 mx-auto" v-if="this.$store.state.CartItems.length <= 0">
+    <div
+      class="no-cart p-5 mx-auto"
+      v-if="this.$store.state.CartItems.length <= 0"
+    >
       <img class="mx-auto" src="../assets/empty-cart.svg" alt="bg" />
       <h5 align="center">You Don't have any Items In Cart</h5>
     </div>
@@ -10,7 +13,11 @@
           <h6 class="title-cart">My Cart</h6>
           <h6 class="delete-all" @click="deleteAll">Delete All</h6>
         </div>
-        <CartItem v-for="(item,i) in getCart" :key="i" :product="item"></CartItem>
+        <CartItem
+          v-for="(item, i) in getCart"
+          :key="i"
+          :product="item"
+        ></CartItem>
       </div>
       <div class="col-md">
         <div class="total-price d-block mx-auto shadow p-3">
@@ -18,12 +25,11 @@
           <div class="divider mb-3"></div>
           <div class="d-flex justify-content-between">
             <p class="total-text mb-3">Total Price</p>
-            <p class="price-total mb-3">{{calculateTotal}}</p>
+            <p class="price-total mb-3">{{ calculateTotal }}</p>
           </div>
-          <button
-            class="btn btn-success btn-checkout"
-            @click="checkout"
-          >Checkout ({{totalItem}} Items)</button>
+          <button class="btn btn-success btn-checkout" @click="checkout">
+            Checkout ({{ totalItem }} Items)
+          </button>
         </div>
       </div>
     </div>
@@ -89,7 +95,7 @@ export default {
           this.$store.dispatch('fetchDataCart')
         })
         .catch(err => {
-          console.log(err)
+          return err
         })
     },
     deleteAll() {

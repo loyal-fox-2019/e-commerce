@@ -2,6 +2,8 @@
 node_modules
 /dist
 .prettierrc
+.firebase
+.firebaserc
 
 # local env files
 .env.local

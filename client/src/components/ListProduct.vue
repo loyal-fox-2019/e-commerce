@@ -133,7 +133,6 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       })
         .then(result => {
-          console.log(result)
           if (result.value) {
             axios
               .delete('http://35.185.188.169:3000/products/' + this.item._id, {

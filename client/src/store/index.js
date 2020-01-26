@@ -26,7 +26,7 @@ export default new Vuex.Store({
           this.commit('getData', data)
         })
         .catch(({ response }) => {
-          console.log(response.data.message)
+          return response.data.message
         })
     },
     fetchDataCart() {
@@ -40,7 +40,7 @@ export default new Vuex.Store({
           this.commit('getCart', data)
         })
         .catch(({ response }) => {
-          console.log(response.data.message)
+          return response.data.message
         })
     }
   },
