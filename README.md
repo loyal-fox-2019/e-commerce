@@ -4,11 +4,11 @@
 
 Welcome to E-commerce API Documentation, You can use the API to access Ecommerece API endpoints.
 
-All API can be accessed from the `//35.185.188.169:3000`
+All API can be accessed from the `http://localhost:3000`
 
 To Use API Endpoints, the format is as follows:
 
-`//35.185.188.169:3000/{resource}`
+`http://localhost:3000/{resource}`
 
 ### USERS
 
@@ -17,7 +17,7 @@ To Use API Endpoints, the format is as follows:
 ##### POST `/users/register`
 
 ```
-url: '//35.185.188.169:3000/users/register',
+url: 'http://localhost:3000/users/register',
 method: 'POST',
 body :{
 	'full_name' : 'Angga Budiman',
@@ -33,7 +33,7 @@ response:{
 ##### POST `/users/login`
 
 ```
-url: '//35.185.188.169:3000/users/register',
+url: 'http://localhost:3000/users/register',
 method: 'POST',
 body :{
 	'email' : 'angga@mail.com',
@@ -48,7 +48,7 @@ response:{
 ##### PATCH `/users/`
 
 ```
-url: '//35.185.188.169:3000/users/{id}/address',
+url: 'http://localhost:3000/users/{id}/address',
 method: 'PATCH',
 'headers':{
     'token':{token}
@@ -71,7 +71,7 @@ response:{
 ##### POST `/users/admin/`
 
 ```
-url:'//35.185.188.169:3000/usres/admin'
+url:'http://localhost:3000/usres/admin'
 method: 'POST',
 body:{
 	'email':'adminemail',
@@ -90,7 +90,7 @@ response:{
 ##### GET `/products/`
 
 ```
-url:'//35.185.188.169:3000/products/'
+url:'http://localhost:3000/products/'
 method: 'GET'
 
 response:[
@@ -109,7 +109,7 @@ response:[
 ##### GET `/products/{id}`
 
 ```
-url:'//35.185.188.169:3000/products/5e2c577ae8b36a2854ab18f3'
+url:'http://localhost:3000/products/5e2c577ae8b36a2854ab18f3'
 method: 'GET'
 
 response: {
@@ -126,7 +126,7 @@ response: {
 ##### POST `/products/`
 
 ```
-url:'//35.185.188.169:3000/products/'
+url:'http://localhost:3000/products/'
 method: 'POST',
 headers:{
 	token:'{token}' //Require Admin Role
@@ -154,7 +154,7 @@ response:{
 ##### DELETE `/products/{id}`
 
 ```
-url:'//35.185.188.169:3000/products/5e2d69c8c44c1232440a14b1'
+url:'http://localhost:3000/products/5e2d69c8c44c1232440a14b1'
 method: 'DELETE',
 headers:{
 	token:'{token}' //Require Admin Role
@@ -168,7 +168,7 @@ response :{
 ##### PUT `/products/{id}`
 
 ```
-url:'//35.185.188.169:3000/products/5e2d69c8c44c1232440a14b1'
+url:'http://localhost:3000/products/5e2d69c8c44c1232440a14b1'
 method:'PUT'
 headers:{
 	token:'{token}' //Require Admin Role
@@ -182,7 +182,7 @@ response:{
 ##### PATCH `/products/{id}/stock`
 
 ```
-url:'//35.185.188.169:3000/products/5e2d69c8c44c1232440a14b1/stock'
+url:'http://localhost:3000/products/5e2d69c8c44c1232440a14b1/stock'
 method:'PATCH'
 headers:{
 	token:'{token}' //Require Admin Role
@@ -200,7 +200,7 @@ response:{
 ##### GET `/cart/`
 
 ```
-url:'//35.185.188.169:3000/cart/'
+url:'http://localhost:3000/cart/'
 method:'GET'
 headers:{
 	token:'{token}'
@@ -229,7 +229,7 @@ response : [
 ##### POST `/cart/`
 
 ```
-url:'//35.185.188.169:3000/cart/'
+url:'http://localhost:3000/cart/'
 method:'POST'
 headers:{
 	token:'{token}'
@@ -252,7 +252,7 @@ response:{
 ##### DELETE `/cart/{id}`
 
 ```
-url:'//35.185.188.169:3000/cart/5e2d6f07c44c1232440a14b2'
+url:'http://localhost:3000/cart/5e2d6f07c44c1232440a14b2'
 method:'DELETE'
 headers:{
 	token:'{token}'
@@ -268,7 +268,7 @@ response:{
 This WIll Delete All cart by user
 
 ```
-url:'//35.185.188.169:3000/cart'
+url:'http://localhost:3000/cart'
 method:'DELETE'
 headers:{
 	token:'{token}'
@@ -282,7 +282,7 @@ response:{
 ##### PATCH `/cart/`
 
 ```
-url:'//35.185.188.169:3000/cart/'
+url:'http://localhost:3000/cart/'
 method:'PATCH'
 headers:{
 	token:'{token}'
