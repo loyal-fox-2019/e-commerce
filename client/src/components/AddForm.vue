@@ -38,7 +38,7 @@
           class="form-control"
           id="stocks"
           placeholder="Stocks"
-          v-model="form.stocks"
+          v-model.number="form.stocks"
         />
       </div>
       <b-form-group id="category" label="Category:" label-for="inputCategory">

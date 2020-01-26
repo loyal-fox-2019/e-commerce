@@ -23,11 +23,11 @@
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#" class="mr-3"
+            <b-nav-item href="#" class="mr-3" v-b-modal.modal-cart
               >Cart
               <span
                 style="background-color: red; color: white; font-size 18px; padding: 2px 5px 2px 5px;"
-                >0</span
+                >{{cart.length}}</span
               ></b-nav-item
             >
 
@@ -95,6 +95,9 @@ export default {
     },
     adminStatus() {
       return this.$store.state.isAdmin
+    },
+    cart() {
+      return this.$store.state.cart
     }
   }
 }

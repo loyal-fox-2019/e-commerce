@@ -80,9 +80,19 @@ export default {
         })
         .then(result => {
           localStorage.setItem('token', result.data.token)
-          this.$store.commit('CHANGE_STATUS')
+          localStorage.setItem('id', result.data.id)
+          this.$store.commit('GET_CART', result.data.cart)
+          this.$store.commit('CHANGE_STATUS', result.data.id)
           Swal.fire('Login Succes', 'Welcome back!', 'success')
           this.$bvModal.hide('modal-1')
+          this.$store.dispatch('FETCH_CART')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops... ' + err.response.status,
+            text: err.response.data.message
+          })
         })
     },
     onSignInError(error) {
@@ -98,12 +108,14 @@ export default {
       axios
         .post(`${url}/user/login`, data)
         .then(response => {
-          console.log(response)
+          console.log(response.data)
           localStorage.setItem('token', response.data.token)
-          this.$store.commit('CHANGE_STATUS')
-          console.log(response.data.role)
+          localStorage.setItem('id', response.data.id)
+          this.$store.commit('CHANGE_STATUS', response.data.id)
+          this.$store.commit('GET_CART', response.data.cart)
           Swal.fire('Login Succes', 'Welcome back!', 'success')
           this.$bvModal.hide('modal-1')
+          this.$store.dispatch('FETCH_CART')
           if (response.data.role === 'admin') {
             console.log('admin was here')
             localStorage.setItem('admin', true)

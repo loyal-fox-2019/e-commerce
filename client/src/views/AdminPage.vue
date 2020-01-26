@@ -14,7 +14,12 @@
           @click.prevent="addItem"
           >Add New Item</a
         >
-        <a class="nav-item nav-link btn btn-warning" href="#">Transactions</a>
+        <a
+          class="nav-item nav-link btn btn-warning"
+          href="#"
+          @click.prevent="transaction"
+          >Transactions</a
+        >
       </nav>
       <div v-show="products">
         <table class="table table-bordered">
@@ -40,7 +45,13 @@
               <td>{{ product.stocks }}</td>
               <td>{{ product.category }}</td>
               <td>
-                <a href="#" class="btn btn-warning mr-2" @click.prevent="editItem(product._id)">Edit</a>
+                <a
+                  href="#"
+                  class="btn btn-warning mr-2"
+                  v-b-modal.modal-edit
+                  @click.prevent="editItem(product)"
+                  >Edit</a
+                >
                 <a
                   href="#"
                   class="btn btn-danger"
@@ -55,6 +66,7 @@
     </div>
     <div class="container mt-5">
       <!-- FORM -->
+      <ModalEdit></ModalEdit>
       <router-view></router-view>
     </div>
   </div>
@@ -63,6 +75,7 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import ModalEdit from '@/components/ModalEdit.vue'
 
 export default {
   name: 'AdminPage',
@@ -71,17 +84,29 @@ export default {
       products: true
     }
   },
+  components: {
+    ModalEdit
+  },
   methods: {
     addItem() {
       this.$router.push('/4dm1n/add-item')
       this.products = false
+    },
+    transaction() {
+      this.products = false
+      this.$store.dispatch('FETCH_TRANSACTION')
+      this.$router.push('/4dm1n/transaction')
     },
     allItem() {
       this.products = true
       this.$router.push('/4dm1n')
       this.fetchProduct()
     },
-    editItem(id) {},
+    editItem(data) {
+      console.log('masuk editItem')
+      this.$bvModal.show('modal-edit')
+      this.$store.commit('CHANGE_EDIT', data)
+    },
     deleteItem(id) {
       Swal.fire({
         title: 'Are you sure?',
@@ -132,6 +157,7 @@ export default {
   created() {
     this.products = true
     this.$store.dispatch('FETCH_ALL_ITEM')
+    this.$store.dispatch('FETCH_TRANSACTION')
   }
 }
 </script>

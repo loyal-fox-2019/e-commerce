@@ -10,6 +10,7 @@ export default new Vuex.Store({
     baseUrl: 'http://localhost:3000',
     isAdmin: false,
     loginStatus: false,
+    loginId: null,
     categoryList: [
       {
         name: 'Brass',
@@ -32,10 +33,13 @@ export default new Vuex.Store({
     activePage: {
       name: '',
       description: '',
-      image: '',
-      itemList: []
+      image: ''
     },
-    allItem: null
+    allItem: null,
+    editItem: null,
+    transactionData: null,
+    detailItem: null,
+    cart: []
   },
   mutations: {
     LOGOUT(state) {
@@ -44,16 +48,30 @@ export default new Vuex.Store({
       localStorage.removeItem('admin')
       state.isAdmin = false
       state.loginStatus = false
+      state.cart = []
     },
     CHANGE_ADMIN(state) {
-      console.log('change here')
       state.isAdmin = true
     },
-    CHANGE_STATUS(state) {
+    CHANGE_STATUS(state, val) {
       state.loginStatus = true
+      state.loginId = val
     },
     SET_ITEM(state, data) {
       state.allItem = data
+    },
+    CHANGE_EDIT(state, data) {
+      console.log(data)
+      state.editItem = data
+    },
+    DETAIL_ITEM(state, data) {
+      state.detailItem = data
+    },
+    GET_CART(state, data) {
+      state.cart = data
+    },
+    ADD_TRANSACTION(state, data) {
+      state.transactionData = data
     }
   },
   actions: {
@@ -78,14 +96,46 @@ export default new Vuex.Store({
       console.log(this.state.activePage.name)
       Swal.showLoading()
       axios
-        .get(`${this.state.baseUrl}/item/category/${this.state.activePage.name}`)
+        .get(
+          `${this.state.baseUrl}/item/category/${this.state.activePage.name}`
+        )
         .then(({ data }) => {
           Swal.close()
           context.commit('SET_ITEM', data)
         })
         .catch(err => {
           Swal.close()
-          console.log('error euy', err.response)
+          console.log('error', err.response)
+        })
+    },
+    FETCH_CART(context) {
+      axios
+        .get(`${this.state.baseUrl}/cart/${localStorage.getItem('id')}`, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(result => {
+          console.log(result.data)
+          context.commit('GET_CART', result.data)
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response
+          })
+        })
+    },
+    FETCH_TRANSACTION(context) {
+      console.log('masuk fetch')
+      axios
+        .get(`${this.state.baseUrl}/cart/transaction`, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(results => {
+          context.commit('ADD_TRANSACTION', results)
+        })
+        .catch(err => {
+          console.log(err.response)
         })
     }
   },

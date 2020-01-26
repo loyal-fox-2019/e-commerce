@@ -5,6 +5,7 @@ import RegisterPage from '@/views/RegisterPage.vue'
 import CategoryDetail from '@/views/CategoryDetail.vue'
 import ItemDetail from '@/views/ItemDetail.vue'
 import AddForm from '@/components/AddForm.vue'
+import Transaction from '@/components/TransactionPage.vue'
 
 Vue.use(VueRouter)
 
@@ -33,10 +34,16 @@ const routes = [
     name: 'admin',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/AdminPage.vue'),
-    children: [{
-      path: 'add-item',
-      component: AddForm
-    }]
+    children: [
+      {
+        path: 'add-item',
+        component: AddForm
+      },
+      {
+        path: 'transaction',
+        component: Transaction
+      }
+    ]
   },
   {
     path: '/brass',

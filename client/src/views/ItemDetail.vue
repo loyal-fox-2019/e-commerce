@@ -1,11 +1,17 @@
 <template>
   <div>
-    <div class="container mt-4 mb-5">
-      <DetailCard></DetailCard>
-    </div>
-    <div class="container-fluid mt-5">
-      <h2 class="text-center mt-4 mb-4">Something you might like</h2>
-      <CardItem></CardItem>
+    <div class="container-fluid mt-4 mb-5">
+      <div class="row">
+        <div class="col-12">
+          <div class="container">
+            <DetailCard></DetailCard>
+          </div>
+        </div>
+        <div class="col-12">
+          <h2 class="text-center mt-4 mb-4">Something you might like</h2>
+          <CardItem></CardItem>
+        </div>
+      </div>
     </div>
   </div>
 </template>

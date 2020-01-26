@@ -26,7 +26,8 @@ const itemSchema = new Schema({
     },
     user_id: {
         type: Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'User'
     }
 })
 

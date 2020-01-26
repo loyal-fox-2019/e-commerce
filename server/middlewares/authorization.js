@@ -1,6 +1,6 @@
 const Item = require('../models/item')
 
-module.exports = (err, req, res, next) => {
+module.exports = (req, res, next) => {
     const id = req.loggedIn.id
     const role = req.loggedIn.role
     console.log(id, role)
@@ -15,7 +15,7 @@ module.exports = (err, req, res, next) => {
                 }
             })
     }
-    catch {
+    catch(err) {
         res.status(403).json({
             message: 'Sorry you are not authorized',
             err

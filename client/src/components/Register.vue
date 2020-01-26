@@ -75,8 +75,10 @@ export default {
           this.$store.commit('CHANGE_STATUS')
           this.$router.push('/')
           Swal.fire('Registration Success', 'Enjoy!', 'success')
+          this.$store.dispatch('FETCH_CART')
         })
         .catch(err => {
+          console.log(err.response)
           Swal.fire({
             icon: 'error',
             title: 'Oops... ' + err.response.status,
