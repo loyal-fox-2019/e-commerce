@@ -92,7 +92,8 @@
         <div class="col buy">
           <div class="col buy">
             <div class="desc-2 p-2">
-              Your Location <i class="fas fa-location-arrow"></i> Butik Emas LM - Pulo Gadung, Jakarta
+              Your Location <i class="fas fa-location-arrow"></i> 
+              Butik Emas LM - Pulo Gadung, Jakarta
             </div>
         </div>
         </div>
@@ -133,7 +134,6 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('fetchSeriesGold');
   },
 };
 </script>

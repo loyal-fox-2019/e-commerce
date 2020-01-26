@@ -23,8 +23,9 @@
                 </div>
               </td>
               <td>Rp. {{item.price.toLocaleString("id")}}</td>
-              <td><b-button variant="success" @click.prevent="addCart(item)">
-                <i class="fas fa-cart-plus"></i></b-button></td>
+              <td>
+                <b-button variant="success" @click.prevent="addItem(item)" class="mr-2"><i class="fas fa-plus-square"></i></b-button>
+                </td>
             </tr>
             <Modal :data="item" />
           </tbody>
@@ -36,6 +37,7 @@
 
 <script>
 import Modal from './ModalDetail.vue';
+import swal from 'sweetalert2'
 
 export default {
   components: {
@@ -52,10 +54,24 @@ export default {
     // addItem(id) {
 
     // }
-    addCart(data) {
+    addItem(data) {
       this.$store.dispatch('addItem', data._id)
-      this.$store.dispatch('fetchCart');
-      this.$store.state.newcart;
+        .then(({ data }) => {
+          // this.$store.commit('SET_CART', data)
+          this.$store.dispatch('fetchCart');
+        })
+        .catch(err => {
+          if(err.response.data.message == 'Invalid Access Token') {
+            swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Please login first...',
+            });
+          } else {
+            console.log(err.response.data.message);
+          }
+        });
+      // this.$store.state.newcart;
     },
     showModal(data) {
       this.item = data;
@@ -65,7 +81,7 @@ export default {
   computed: {
     data() {
       let data;
-      if (this.$route.path == '/purchase') {
+      if (this.$route.path === '/purchase') {
         data = this.$store.state.barsGold;
       } else {
         data = this.$store.state.seriesGold;
@@ -77,7 +93,7 @@ export default {
     },
   },
   created() {
-    if (this.$route.path == '/purchase') {
+    if (this.$route.path === '/purchase') {
       this.$store.dispatch('fetchBarsGold');
     } else {
       this.$store.dispatch('fetchSeriesGold');

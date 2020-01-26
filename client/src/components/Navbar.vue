@@ -15,14 +15,19 @@
 
       </div>
       <div class="nav-side">
+        <b-navbar-nav v-if="(login)" class="mr-2">
+          <b-nav-item to='/status'><i class="fas fa-envelope" right></i>
+          <b-badge v-if="message !== undefined" variant="warning"> {{message.length}} </b-badge>
+          </b-nav-item>
+        </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item @click="isLogin"><i class="fas fa-shopping-bag" right></i>
-          <b-badge v-if="cart !== undefined" variant="warning"> {{cart}} </b-badge>
+          <b-badge v-if="cart !== undefined" variant="warning"> {{cart.length}} </b-badge>
           </b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item v-if="(!this.login)" to="/login">LOGIN/REGISTER</b-nav-item>
-          <b-nav-item v-else @click.prevent="logout">Logout</b-nav-item>
+          <b-nav-item v-else @click.prevent="logout">LOGOUT</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item href="#" right>
@@ -48,8 +53,13 @@ export default {
     }
   },
   computed: {
+    message() {
+      if (this.$store.state.sending) {
+        return this.$store.state.sending;
+      }
+    },
     cart() {
-      if (this.login) {
+      if (this.$store.state.cart) {
         return this.$store.state.cart.items;
       }
     },
@@ -59,7 +69,11 @@ export default {
   },
   methods: {
     isLogin() {
-      this.$router.push('/login');
+      if(this.login){
+        this.$router.push('/my-cart');
+      } else {
+        this.$router.push('/login')
+      }
     },
     logout() {
       swal.fire({
@@ -78,17 +92,29 @@ export default {
             confirmButtonText: 'Ok',
           });
           localStorage.removeItem('token');
+          this.$store.commit('SET_LOGIN', false)
+          this.$store.commit('SET_CART', null)
+          // this.$store.state.isLogin
           // const auth2 = gapi.auth2.getAuthInstance();
           // auth2.signOut();
-          this.$router.push('/');
+          if(this.$route.path !== '/') {
+            this.$router.push('/');
+          }
         }
-      });
+      }).catch(err => {
+        swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
+      })
     },
   },
   created() {
     const valid = localStorage.getItem('token');
     if (valid) {
       this.$store.dispatch('fetchCart');
+      this.$store.dispatch('fetchSendingCart');
     }
   },
 };

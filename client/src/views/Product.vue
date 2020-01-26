@@ -27,7 +27,7 @@
 <script>
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
-import CartItem from '../components/Cart.vue';
+import CartItem from '../components/PriceCart.vue';
 
 
 export default {
@@ -35,8 +35,7 @@ export default {
     Navbar, Footer, CartItem,
   },
   created() {
-    
-  }
+  },
 };
 </script>
 
@@ -78,4 +77,3 @@ h1 {
 }
 
 </style>
-

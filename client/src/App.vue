@@ -7,6 +7,8 @@
 <script>
 export default {
   created() {
+    this.$store.dispatch('fetchSeriesGold');
+    this.$store.dispatch('fetchBarsGold');
     const valid = localStorage.getItem('token');
     if (valid) {
       this.$store.commit('SET_LOGIN', true);

@@ -98,7 +98,6 @@ export default {
           localStorage.setItem('token', data.token);
           this.$store.commit('SET_LOGIN', true);
           this.$store.dispatch('fetchCart');
-          this.$store.dispatch('fetchSeriesGold');
           this.$router.push('/');
         })
         .catch((err) => {
