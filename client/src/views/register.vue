@@ -45,7 +45,7 @@ export default {
         const profile = googleUser.getBasicProfile();
         const id_token = googleUser.getAuthResponse().id_token;
         // console.log(id_token)
-        axios.post('http://localhost:3000/user/gsignin',{
+        axios.post('http://35.240.228.104:3000/user/gsignin',{
             data: {
                 id_token
             }
@@ -64,7 +64,7 @@ export default {
             console.log('masuk register')
             axios({
                 method: 'post',
-                url: `http://localhost:3000/user/register`,
+                url: `http://35.240.228.104:3000/user/register`,
                 data:{
                     username: this.username,
                     email: this.email,
