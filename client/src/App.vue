@@ -5,7 +5,7 @@
       <router-link to="/about">About</router-link>
     </div> -->
     <Header></Header>
-    <router-view @userLogin="userLogin" />
+    <router-view />
   </div>
 </template>
 
@@ -15,18 +15,11 @@ import Header from './components/Header.vue';
 export default {
   name: 'app',
   data() {
-    return {
-      isUserLogin: false
-    };
+    return {};
   },
   components: {
     Header
     // Footer
-  },
-  methods: {
-    userLogin() {
-      console.log('OK');
-    }
   }
 };
 </script>

@@ -10,29 +10,56 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
+            <!-- CART -->
+            <b-nav-item-dropdown v-if="itemsInCart.length !== 0" right>
+              <template v-slot:button-content>
+                <b-icon-bucket></b-icon-bucket>
+                <b-badge pill> {{ totalItem }} </b-badge>
+              </template>
+              <b-dropdown-item
+                v-for="item in itemsInCart"
+                :key="item.product_id"
+              >
+                {{ item.product.title.substring(0, 15) }}...
+                <b-badge pill>{{ item.total }}</b-badge>
+                <!-- ({{ item.total }}x) -->
+              </b-dropdown-item>
+              <b-dropdown-item to="/cart">
+                <b-link to="/cart">Lihat Semua</b-link>
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown v-else right>
               <template v-slot:button-content>
                 <b-icon-bucket></b-icon-bucket>
               </template>
-              <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <b-dropdown-item>Keranjangmu masih kosong 🙈</b-dropdown-item>
             </b-nav-item-dropdown>
-            <b-nav-item-dropdown right>
+
+            <b-nav-item-dropdown v-if="userProfile" right>
               <template v-slot:button-content>
-                User
-                <!-- <img
-                  v-show="userProfile"
+                <b-img
+                  fluid
                   :src="userProfile.avatar"
                   class="d-inline-block align-top"
                   alt="Kitten"
+                  width="25px"
                 />
-                <div v-show="!userProfile">
-                  User
-                </div> -->
               </template>
-              <b-dropdown-item to="/signin">Sign In</b-dropdown-item>
+              <b-dropdown-item>Profile</b-dropdown-item>
+              <b-dropdown-item @click="userSignOut">Sign Out</b-dropdown-item>
+
+              <b-dropdown-item v-if="userProfile.role === 'admin'"
+                >Admin Page</b-dropdown-item
+              >
+            </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown v-else right>
+              <template v-slot:button-content>
+                User
+              </template>
+              <b-dropdown-item to="/user/signin">Sign In</b-dropdown-item>
               <b-dropdown-item href="#">Register</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
@@ -43,25 +70,41 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
   data() {
-    return {
-      userProfile: null
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(['userProfile', 'itemsInCart']),
+    totalItem() {
+      return this.itemsInCart.reduce((prev, curr) => {
+        return prev + curr.total;
+      }, 0);
+    }
+  },
+  props: {},
+  methods: {
+    userSignOut() {
+      localStorage.removeItem('token');
+      this.$store.commit('setUserProfile', null);
+    }
   },
   created() {
-    // axios
-    //   .get(`http://localhost:3000/users/get-curr-user-profile`, {
-    //     token:
-    //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTJjM2JhNTQ5MjM4OTM3OGZiMjMzZGUiLCJ1c2VyUm9sZSI6ImFkbWluIiwiaWF0IjoxNTc5OTU3MTU3fQ.AT8vO6J02-iIXpubSx8IukR1lK89B3THbfqXTuec42M'
-    //   })
-    //   .then(({ data }) => {
-    //     console.log(data.data);
-    //     this.userProfile = data.data;
-    //   })
-    //   .catch(err => console.error(err));
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      axios
+        .get('http://localhost:3000/users/get-curr-user-profile', {
+          headers: { token }
+        })
+        .then(({ data }) => {
+          this.$store.commit('setUserProfile', data.data);
+        })
+        .catch(err => console.error(err));
+    }
   }
 };
 </script>

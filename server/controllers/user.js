@@ -55,7 +55,8 @@ class UserController {
             data: {
               username: user.username,
               email: user.email,
-              avatar: user.avatar
+              avatar: user.avatar,
+              role: user.role
             }
           });
         }

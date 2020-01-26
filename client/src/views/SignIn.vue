@@ -81,14 +81,24 @@ export default {
           const { token } = data;
           if (!token) {
             this.alertMessage = data.message;
-            // console.log(data.message);
+            throw new Error(this.alertMessage);
           } else {
-            console.log(data.message);
             localStorage.setItem('token', token);
-            this.$router.push({ path: '/' });
+            return axios.get(
+              'http://localhost:3000/users/get-curr-user-profile',
+              { headers: { token } }
+            );
           }
         })
-        .catch();
+        .then(({ data }) => {
+          // console.log(data.data);
+          this.$store.commit('setUserProfile', data.data);
+          this.$router.push({ path: '/' });
+        })
+        .catch(err => {
+          console.error(err);
+          this.alertMessage = err.response.data.message.toString();
+        });
     }
   }
 };

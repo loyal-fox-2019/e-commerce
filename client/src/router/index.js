@@ -4,6 +4,8 @@ import Home from '../views/Home.vue';
 import SignIn from '../views/SignIn.vue';
 import Item from '../views/Item.vue';
 import PageNotFound from '../views/PageNotFound.vue';
+import Profile from '../views/Profile.vue';
+import Cart from '../views/Cart.vue';
 
 Vue.use(VueRouter);
 
@@ -22,9 +24,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/signin',
-    name: 'signIn',
-    component: SignIn
+    path: '/user',
+    name: 'user',
+    component: Profile,
+    children: [
+      {
+        path: 'signin',
+        component: SignIn
+      }
+    ]
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: Cart
   },
   {
     path: '/items/:id',

@@ -4,9 +4,8 @@ POST {{baseUrl}}/users/register
 Content-Type: application/json
 
 {
-  "email": "admin@email.com",
-  "password": "super123",
-  "role": "admin"
+  "email": "suwignyo@email.com",
+  "password": "12345"
 }
 
 ###
