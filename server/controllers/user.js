@@ -75,6 +75,17 @@ class User {
       })
       .catch(next);
   }
+  static editAddress(req, res, next) {
+    Model.findByIdAndUpdate(req.loginData.id, {
+      address: req.body.address
+    })
+      .then(data => {
+        if (data) {
+          res.status(200).json({ message: "Address Updated" });
+        }
+      })
+      .catch(next);
+  }
 }
 
 module.exports = User;

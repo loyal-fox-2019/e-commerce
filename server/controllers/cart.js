@@ -64,7 +64,7 @@ class Cart {
       { isCheckout: true }
     )
       .then(() => {
-        res.status(200).json({ message: "Update change to Checkout" });
+        res.status(200).json({ message: "Update change status to Checkout" });
       })
       .catch(next);
   }

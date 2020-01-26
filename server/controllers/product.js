@@ -54,7 +54,7 @@ class Product {
     Model.findByIdAndUpdate(req.params.id, { stock: req.body.stock })
       .then(updated => {
         if (updated) {
-          res.status(200).json({ message: "Stock Porduct Udated" });
+          res.status(200).json({ message: "Stock Porduct Updated" });
         } else {
           let err = {
             name: "Not Found",

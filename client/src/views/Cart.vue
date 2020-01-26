@@ -1,6 +1,10 @@
 <template>
   <div class="container p-3 cart">
-    <div class="row">
+    <div class="no-cart p-5 mx-auto" v-if="this.$store.state.CartItems.length <= 0">
+      <img class="mx-auto" src="../assets/empty-cart.svg" alt="bg" />
+      <h5 align="center">You Don't have any Items In Cart</h5>
+    </div>
+    <div class="row" v-if="this.$store.state.CartItems.length > 0">
       <div class="col-md-7">
         <div class="row justify-content-between shadow p-3 mb-3">
           <h6 class="title-cart">My Cart</h6>
@@ -36,6 +40,10 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchDataCart')
+
+    if (!localStorage.getItem('token')) {
+      this.$router.push('/')
+    }
   },
   computed: {
     getCart() {
@@ -73,6 +81,11 @@ export default {
         }
       )
         .then(success => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Checkout Succesfull',
+            text: 'Thankyou for Shopping with Us'
+          })
           this.$store.dispatch('fetchDataCart')
         })
         .catch(err => {
@@ -106,6 +119,13 @@ export default {
 </script>
 
 <style>
+.no-cart {
+  width: 50%;
+  display: block;
+}
+.no-cart img {
+  display: block;
+}
 .title-cart {
   margin-bottom: 0;
 }
