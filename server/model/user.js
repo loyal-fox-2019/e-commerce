@@ -30,7 +30,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: [true, "Password is required"],
-        minlength: [8, "user name min 3 character length"],
+        minlength: [8, "password min 8 character length"],
         validate: {
             validator: function (password) {
                 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;

@@ -13,24 +13,10 @@ class UserController {
         }).then(response => {
             let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
             let name = response.name.split(" ");
-            res.status(200).json({
+            res.status(201).json({
                 name: name[0],
                 token: token,
                 message: "User successfully registered"
-            })
-        }).catch(next)
-    }
-
-    static findUserid(req, res, next) {
-        User.findById(
-            req._id
-        ).then(response => {
-            let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
-            let name = response.name.split(" ");
-            res.status(200).json({
-                name: name[0],
-                token: token,
-                message: "User successfully verified"
             })
         }).catch(next)
     }
@@ -58,7 +44,23 @@ class UserController {
         }).catch(next)
     }
 
+    static findUserid(req, res, next) {
+        User.findById(
+            req._id
+        ).then(response => {
+            let token = jwt.sign({userId: response._id}, process.env.SECRET_KEY);
+            let name = response.name.split(" ");
+            res.status(200).json({
+                name: name[0],
+                token: token,
+                message: "User successfully verified"
+            })
+        }).catch(next)
+    }
+
     static addToCart(req, res, next) {
+        // console.log(req.body.cart);
+
         Item.findOne({
             _id: req.body.cart.item
         }).then(responseItem => {

@@ -10,7 +10,7 @@ class ItemController {
             owner: req._id,
             description: req.body.description
         }).then(response => {
-            res.status(200).json({
+            res.status(201).json({
                 message: "Item successfully registered"
             })
         }).catch(err => {
