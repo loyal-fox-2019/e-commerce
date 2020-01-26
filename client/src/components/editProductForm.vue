@@ -26,7 +26,10 @@
             </div>
             <div class="form-group">
                 Description*
-                <textarea class="form-control" v-model="description" required></textarea>
+                <!-- <textarea class="form-control" v-model="description" required></textarea> -->
+
+                <quill-editor v-model="description" ref="myQuillEditor" :options="editorOption">
+                </quill-editor>
             </div>
             <div class="form-group">
                 Tags* (separated with spaces)
@@ -51,7 +54,26 @@
                 tags: this.product.tags.join(' '),
                 description: this.product.description,
                 file: "",
-                changeImage: false
+                changeImage: false,
+                editorOption: {
+                    modules: {
+                        toolbar: [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            ['blockquote', 'code-block'],
+                            [{ 'header': 1 }, { 'header': 2 }],
+                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                            [{ 'script': 'sub' }, { 'script': 'super' }],
+                            [{ 'indent': '-1' }, { 'indent': '+1' }],
+                            [{ 'direction': 'rtl' }],
+                            [{ 'size': ['small', false, 'large', 'huge'] }],
+                            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                            [{ 'font': [] }],
+                            [{ 'color': [] }, { 'background': [] }],
+                            [{ 'align': [] }],
+                            ['clean']
+                        ]
+                    }
+                }
             }
         },
         methods: {
