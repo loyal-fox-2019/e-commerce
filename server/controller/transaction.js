@@ -54,7 +54,7 @@ class TransactionController {
     }
 
     static updateStatus(req, res, next) {
-        console.log(req.params.status);
+        // console.log(req.params.status);
         Transaction.updateOne({
             _id: req.params.id
         }, {

@@ -140,7 +140,7 @@ class UserController {
                 }
             }
         }).then(response => {
-            if (response.ok < 1) throw "cart item failed to remove";
+            if (response.ok < 1) throw {code:400, errMsg: "cart item failed to remove"};
             res.status(200).json({
                 message: "item successfully remove from cart"
             });

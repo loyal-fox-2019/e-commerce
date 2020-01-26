@@ -10,11 +10,11 @@ import 'cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css';
 import VuejsDialog from 'vuejs-dialog';
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 
-const prod = 'http://34.66.28.216';
-const dev = 'http://localhost:3000';
+// const server = 'http://34.66.28.216';
+const server = 'http://localhost:3000';
 
 const base = axios.create({
-  baseURL: dev
+  baseURL: server
 });
 
 Vue.prototype.$axios = base;

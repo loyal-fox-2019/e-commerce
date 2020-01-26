@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-const urlProd = 'http://34.66.28.216';
+// const url = 'http://34.66.28.216';
 const url = 'http://localhost:3000';
 
 const base = axios.create({

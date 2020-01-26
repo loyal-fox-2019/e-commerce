@@ -3,300 +3,272 @@
 ### Web Url : http://ecommerce.mputong.com/
 
 ### api-Documentation : 
-``` API-BASE-URL: http://35.184.99.60:3000 ```
-### postman : https://documenter.getpostman.com/view/6308027/SWE58KR8?version=latest
+``` API-BASE-URL: http://34.66.28.216 ```
 
 List of available endpoints:
-## Articles
-- `POST /articles`
-- `GET /articles`
-- `GET /articles/:title`
-- `DELETE /articles/:id`
-- `PUT /articles/:id`
+## Users
+- `POST api/users/register`
+- `POST api/users/login`
+- `GET api/users/verify`
+- `PATCH api/users/cart`
+- `DELETE api/users/cart/:id`
+- `GET api/users/`
 
-## Authors
-- `POST /authors`
-- `POST /authors/login`
-- `POST /authors/login/oauth/:googleToken`
-- `GET /authors`
+## Items
+- `GET api/items/`
+- `GET api/items/:itemName`
+- `POST api/items/register`
+
+## Transactions
+- `POST api/transactions/checkout`
+- `PATCH api/transactions/:status/:id`
+- `GET api/transactions/purchased`
+- `GET api/transactions/sells`
 
 ### Error response format:
 ```json
 {
-  "message": "..."
+  "code": 400,
+  "errMsg": "..."
+}
+```
+```json
+{
+  "code": 401,
+  "errMsg": "You have no authorized to do this action"
+}
+```
+```json
+{
+  "code": 403,
+  "errMsg": "..."
+}
+```
+```json
+{
+  "code": 404,
+  "errMsg": "... not found"
+}
+```
+```json
+{
+  "code": 500,
+  "errMsg": "Internal server error"
 }
 ```
 
-#### POST /articles
-- Request Header(s):
-  - `Content-Type`: `application/x-www-form-urlencoded`
-  - `Authorization`: `token <jwt token>` 
-- Request Body:
-  - `title: {
-                type: String,
-                required: true,
-                unique: true,
-                minlength: 10,
-                maxlength: 100
-            }`
-  - `tags: [{
-                 type: String,
-                 required: true,
-                 minlength: 3,
-                 maxlength: 15
-             }],`
-  - `content: {
-                 type: String/ html,
-                 required: true,
-                 minlength: 100,
-                 maxlength: 50000
-             }`
-  - `featured_image: {
-                 file
-             }`          
-- Response:
-  - `status`: `201`
-  - `details`:
-    ```json
-    {
-        "message": "...",
-        "details": {
-            "tags": [
-                "...",
-                "..."
-            ],
-            "_id": "...",
-            "title": "...",
-            "author": "...",
-            "content": "...",
-            "featured_image": "...",
-            "created_at": "...",
-            "__v": 0
-        }
-    }
-    ```
-
-#### GET /articles
-- Request Header(s):
-  - `Authorization`: `token <jwt token>` 
-- Response:
-  - `status`: `200`
-  - `details`:
-    ```json
-        [{
-            "tags": [
-                "...",
-                "..."
-            ],
-            "_id": "...",
-            "title": "...",
-            "author": {
-                "_id": "...",
-                "name": "..."
-            },
-            "content": "...",
-            "featured_image": "...",
-            "created_at": "...",
-            "__v": 0
-        }]
-    ```
-    
-#### GET /articles/:title
-- Request Header(s):
-  - `Authorization`: `token <jwt token>` 
-- Response:
-  - `status`: `200`
-  - `details`:
-    ```json
-        [{
-            "tags": [
-                "...",
-                "..."
-            ],
-            "_id": "...",
-            "title": "...",
-            "author": {
-                "_id": "...",
-                "name": "..."
-            },
-            "content": "...",
-            "featured_image": "...",
-            "created_at": "...",
-            "__v": 0
-        }]
-    ```
-
-#### DELETE /articles/:id
-- Request Header(s):
-  - `Authorization`: `token <jwt token>`  
-- Response:
-  - `status`: `200`
-  - `details`:
-    ```json
-    {
-        "message": "...",
-        "details": {
-            "tags": [
-                "...",
-                "..."
-            ],
-            "_id": "...",
-            "title": "...n",
-            "author": "...",
-            "content": "...",
-            "featured_image": "...",
-            "created_at": "...",
-            "__v": 0
-        }
-    }
-    ```
-
-#### PUT /articles/:id
-- Request Header(s):
-  - `Content-Type`: `application/x-www-form-urlencoded`
-  - `Authorization`: `token <jwt token>` 
-- Request Body:
-  - `title: {
-                type: String,
-                required: true,
-                unique: true,
-                minlength: 10,
-                maxlength: 100
-            }`
-  - `tags: [{
-                 type: String,
-                 required: true,
-                 minlength: 3,
-                 maxlength: 15
-             }],`
-  - `content: {
-                 type: String/ html,
-                 required: true,
-                 minlength: 100,
-                 maxlength: 50000
-             }`
-  - `featured_image: {
-                 file
-             }`          
-- Response:
-  - `status`: `201`
-  - `details`:
-    ```json
-    {
-        "message": "...",
-        "details": {
-            "n": 1,
-            "nModified": 1,
-            "opTime": {
-                "ts": "...",
-                "t": 5
-            },
-            "electionId": "...",
-            "ok": 1,
-            "$clusterTime": {
-                "clusterTime": "...",
-                "signature": {
-                    "hash": "...",
-                    "keyId": "..."
-                }
-            },
-            "operationTime": "..."
-        }
-    }
-    ```
-#### POST /authors
-- Request Header(s):
-  - `Content-Type`: `application/x-www-form-urlencoded` or `application/json`
+#### POST api/users/register
 - Request Body:
   - `name: {
-                type: String,
-                required: true,
-                minlength: 5,
-                maxlength: 30
-            }`
-  - `email: [{
-                 type: String,
-                 required: true,
-                 unique: true
-             }],`
+             type: String,
+             required: true,
+             minlength: 3,
+             maxlength: 30
+         }`
+  - `email: {
+             type: String,
+             required: true,
+             unique: true
+         },`
   - `password: {
-                 type: String,
-                 required: true,
-                 minlength: 8,
-             }`      
+             type: String,
+             required: true,
+             minlength: 8,
+             validate: "Password must contain at least 1 number, letters, symbol, Uppercase and lowercase"
+         }`
 - Response:
   - `status`: `201`
-  - `details`:
-    ```json
+  - ```json
     {
-        "message": "...",
-        "token": "..."
+        "name": "...",
+        "token": "...",
+        "message": "User successfully registered"
     }
     ```
-    
-#### POST /authors/login
-- Request Header(s):
-  - `Content-Type`: `application/x-www-form-urlencoded` or `application/json`
+
+#### POST api/users/login
 - Request Body:
-  - `email: [{
-                 type: String,
-                 required: true,
-                 unique: true
-             }],`
+  - `email: {
+             type: String,
+             required: true,
+             unique: true
+         },`
   - `password: {
-                 type: String,
-                 required: true,
-                 minlength: 8,
-             }`      
+             type: String,
+             required: true,
+             minlength: 8,
+             validate: "Password must contain at least 1 number, letters, symbol, Uppercase and lowercase"
+         }`
 - Response:
   - `status`: `200`
-  - `details`:
-    ```json
+  - ```json
     {
-        "message": "...",
-        "token": "..."
+        "name": "...",
+        "token": "...",
+        "message": "User successfully verified"
     }
     ```
     
-#### POST /authors/login/oauth/:googleToken
+#### GET api/users/verify
 - Request Header(s):
-  - `Content-Type`: `application/x-www-form-urlencoded` or `application/json`
-- Request Body:
-  - `email: [{
-                 type: String,
-                 required: true,
-                 unique: true
-             }],`
-  - `password: {
-                 type: String,
-                 required: true,
-                 minlength: 8,
-             }`      
-- Response:
-  - `status`: `200` or `201`
-  - `details`:
-    ```json
-    {
-        "message": "...",
-        "token": "..."
-    }
-    ```
-    
-#### GET /authors
-- Request Header(s):
-  - `Authorization`: `token <jwt token>`      
+  - `token`: `<jwt token>`
 - Response:
   - `status`: `200`
-  - `details`:
-    ```json
+  - ```json
     {
-        "message": "...",
-        "details": {
-            "_id": "...",
-            "name": "...",
-            "email": "...",
-            "password": "...",
-            "__v": 0
-        }
+        "name": "...",
+        "token": "...",
+        "message": "User successfully login"
+    }
+    ```
+
+#### PATCH api/users/cart
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Request Body:
+  - `cart: { 
+      item: '<item._id>', 
+      stock: 0, 
+      price: <item.price> 
+  },`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "message": "item successfully add to cart"
+    }
+    ```
+
+#### DELETE api/users/cart/:id
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Request Params:
+  - `id: <cart._id>`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "message": "item successfully remove from cart"
+    }
+    ```
+
+#### GET api/users/
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "data": "<Object>"
+    }
+    ```
+    
+#### GET api/items/
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "data": "<Object>"
+    }
+    ```
+    
+#### GET api/items/:itemName
+- Request Params:
+  - `name: <item.name>`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "data": "<Object>"
+    }
+    ```
+    
+#### POST api/items/register
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Request Body:
+  - `name: {
+             type: String,
+             required: true,
+             unique: true,
+             minlength: 3,
+             maxlength: 100
+         }`
+  - `stock: {
+             type: Number,
+             default: 0
+         }`
+  - `price: {
+             type: Number,
+             required: true
+         }`
+  - `image: {
+             type: String
+         }`
+  - `description: {
+             type: String,
+             required: true,
+             minlength: 15,
+             maxlength: 500,
+         }`
+- Response:
+  - `status`: `201`
+  - ```json
+    {
+        "message": "Item successfully registered"
+    }
+    ```
+    
+#### POST api/transactions/checkout
+- Request Header(s):
+  - `token`: `<jwt token>`1
+- Request Body:
+  - `data: { 
+      item: '<item._id>', 
+      stock: 0, 
+      totalPrice: 0 
+  },`
+- Response:
+  - `status`: `201`
+  - ```json
+    {
+        "message": "Transaction created"
+    }
+    ```
+    
+#### PATCH api/transactions/:status/:id
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Request Params:
+  - `id: <transaction._id>`
+  - `status: 'shipped' or 'done'`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "message": "Status updated",
+        "data": "<Object>"
+    }
+    ```
+    
+#### GET api/transactions/purchased
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "data": "<Object>"
+    }
+    ```
+    
+#### GET api/transactions/sells
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "data": "<Object>"
     }
     ```
