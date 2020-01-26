@@ -32,6 +32,7 @@
 import axios from 'axios'
 import NavBar from '../components/NavBar'
 import MyProductList from '../components/MyProductList'
+import Swal from 'sweetalert2'
 export default {
     name: 'my-products',
     data(){
@@ -54,7 +55,7 @@ export default {
         getData: function(){
             axios({
                 method: 'get',
-                url: "http://localhost:3000/products/myProducts",
+                url: "http://ecommerce-server.kennys.my.id:3000/products/myProducts",
                 headers: {
                     token: localStorage.getItem('token')
                 }
@@ -62,15 +63,18 @@ export default {
             .then(({data})=>{
                 this.myProducts = data
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error'
+                })
             })
         }
     },
     created(){
         axios({
             method: 'get',
-            url: "http://localhost:3000/products/myProducts",
+            url: "http://ecommerce-server.kennys.my.id:3000/products/myProducts",
             headers: {
                 token: localStorage.getItem('token')
             }
@@ -78,8 +82,11 @@ export default {
         .then(({data})=>{
             this.myProducts = data
         })
-        .catch(err=>{
-            console.log(err);
+        .catch(()=>{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error'
+            })
         })
     }
 

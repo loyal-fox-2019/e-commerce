@@ -50,7 +50,7 @@ export default {
         fetchCart: function(){
             axios({
                 method: 'get',
-                url: "http://localhost:3000/users",
+                url: "http://ecommerce-server.kennys.my.id:3000/users",
                 headers: {
                     token: localStorage.getItem('token')
                 }
@@ -58,14 +58,17 @@ export default {
             .then(({data})=>{
                 this.cart = data.cart
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error'
+                })
             })
         },
         checkout: function(){
             axios({
                 method: 'patch',
-                url: "http://localhost:3000/users/checkout",
+                url: "http://ecommerce-server.kennys.my.id:3000/users/checkout",
                 data: {
                     cart: this.cart
                 },
@@ -108,7 +111,7 @@ export default {
     created(){
         axios({
             method: 'get',
-            url: "http://localhost:3000/users",
+            url: "http://ecommerce-server.kennys.my.id:3000/users",
             headers: {
                 token: localStorage.getItem('token')
             }
@@ -116,8 +119,11 @@ export default {
         .then(({data})=>{
             this.cart = data.cart
         })
-        .catch(err=>{
-            console.log(err);
+        .catch(()=>{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error'
+            })
         })
     }
 }

@@ -103,7 +103,7 @@ export default {
             }
             axios({
                 method: 'patch',
-                url: `http://localhost:3000/products/${this.item._id}`,
+                url: `http://ecommerce-server.kennys.my.id:3000/products/${this.item._id}`,
                 data: formData,
                 headers: {
                     token: localStorage.getItem('token')
@@ -117,8 +117,11 @@ export default {
                     "success"
                 )
             })  
-            .catch(err=>{
-                console.log(err);
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error'
+                })
             }) 
         },
         delProduct: function(name, id){
@@ -137,7 +140,7 @@ export default {
                 if(confirmed.value) {
                     return axios({
                         method: 'delete',
-                        url: `http://localhost:3000/products/${productId}`,
+                        url: `http://ecommerce-server.kennys.my.id:3000/products/${productId}`,
                         headers: {
                             token: localStorage.getItem('token')
                         }
@@ -155,8 +158,11 @@ export default {
                 )
                 this.$emit('deleted')
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error'
+                })
             })
         }
     }

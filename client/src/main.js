@@ -8,7 +8,7 @@ import GSignInButton from 'vue-google-signin-button'
 import GAuth from 'vue-google-oauth2'
 
 const gauthOption = {
-  clientId: '199854943337-895pidlcap8v66cslv8vm2u4net4nnm4.apps.googleusercontent.com'
+  clientId: '199854943337-1ns2bvqds711obmbphtjp7n62l9e47ro.apps.googleusercontent.com'
 }
 
 Vue.config.productionTip = false

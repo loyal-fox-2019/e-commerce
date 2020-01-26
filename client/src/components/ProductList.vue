@@ -28,7 +28,6 @@
                 </div>
             </div>
         </div>   
-        <!-- modal detail item -->
         <b-modal :id="`detail${item._id}`" title="Product detail" hide-footer>
             <b-row>
                 <b-col cols="5">
@@ -85,7 +84,7 @@ export default {
         addCart: function(){
             axios({
                 method: 'patch',
-                url: 'http://localhost:3000/users/addCart',
+                url: 'http://ecommerce-server.kennys.my.id:3000/users/addCart',
                 data: {
                     item: this.item._id,
                     quantity: this.cartQty

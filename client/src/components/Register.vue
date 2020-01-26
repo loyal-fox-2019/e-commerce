@@ -67,7 +67,7 @@ export default {
         register: function(){
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/users/register',
+                url: 'http://ecommerce-server.kennys.my.id:3000/users/register',
                 data: {
                     name: this.name,
                     email: this.email,

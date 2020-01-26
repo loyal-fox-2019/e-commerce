@@ -50,7 +50,7 @@ export default {
             email: '',
             password: '',
             googleSignInParams: {
-                client_id: '199854943337-895pidlcap8v66cslv8vm2u4net4nnm4.apps.googleusercontent.com'
+                client_id: '199854943337-1ns2bvqds711obmbphtjp7n62l9e47ro.apps.googleusercontent.com'
             }
         }
     },
@@ -58,7 +58,7 @@ export default {
         login: function(){
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/users/login',
+                url: 'http://ecommerce-server.kennys.my.id:3000/users/login',
                 data: {
                     email: this.email,
                     password: this.password
@@ -87,7 +87,7 @@ export default {
             let id_token = googleUser.getAuthResponse().id_token
             axios({
                 method: 'post',
-                url: `http://localhost:3000/users/glogin/${id_token}`,
+                url: `http://ecommerce-server.kennys.my.id:3000/users/glogin/${id_token}`,
                 data: {}
             })
             .then(({data})=>{
@@ -110,7 +110,11 @@ export default {
             })
         },
         onSignInError: function(error){
-            console.log(error);        
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error,
+            })      
         }
     }
 }

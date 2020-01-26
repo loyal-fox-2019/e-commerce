@@ -61,7 +61,7 @@ export default {
                 if(confirmed.value) {
                     return axios({
                         method: 'patch',
-                        url: "http://localhost:3000/users/remove-item",
+                        url: "http://ecommerce-server.kennys.my.id:3000/users/remove-item",
                         data: {
                             cartData: this.detail
                         },
@@ -85,7 +85,7 @@ export default {
         editQty: function(){
             axios({
                 method: 'patch',
-                url: "http://localhost:3000/users/edit-cart",
+                url: "http://ecommerce-server.kennys.my.id:3000/users/edit-cart",
                 data: {
                     newQuantity: this.cartQty,
                     cartData: this.detail

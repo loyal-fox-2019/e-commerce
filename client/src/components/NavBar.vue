@@ -12,12 +12,9 @@
                     <router-link class="link" to="/myproducts">My Products</router-link>
                 </b-nav-item>        
             </b-navbar-nav>
-
-            <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
                 <b-button pill class="mr-3 addProduct" variant="outline-light" size="sm" v-b-modal.modal-add-product><i class="fas fa-plus-circle"></i> Add Product</b-button>
                 <b-nav-item-dropdown right>
-                <!-- Using 'button-content' slot -->
                 <template v-slot:button-content>
                     <em id="user">{{ username }}</em>
                 </template>
@@ -28,8 +25,6 @@
             </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-
-        <!-- Modal add new product -->
          <b-modal id="modal-add-product" title="Add New Product" hide-footer>
             <form>
                 <div class="form-group">
@@ -105,7 +100,7 @@ export default {
             formData.append('picture', this.newPicture)
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/products',
+                url: 'http://ecommerce-server.kennys.my.id:3000/products',
                 data: formData,
                 headers: {
                     token: localStorage.getItem('token')
@@ -125,8 +120,11 @@ export default {
                     html: detail,
                 })
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error'
+                })
             })
         },
         logout: function(){

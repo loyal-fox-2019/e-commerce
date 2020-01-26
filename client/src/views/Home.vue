@@ -24,11 +24,11 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Carousel from '../components/Carousel'
 import ProductList from '../components/ProductList'
 import NavBar from '../components/NavBar'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'home',
@@ -44,7 +44,7 @@ export default {
     fetchProducts: function(){
       axios({
         method: 'get',
-        url: 'http://localhost:3000/products'
+        url: 'http://ecommerce-server.kennys.my.id:3000/products'
       })
       .then(({data})=>{
         this.products = data
@@ -52,8 +52,11 @@ export default {
         this.isLoading = false
         this.searchBox = ''
       })
-      .catch(err=>{
-        console.log(err)
+      .catch(()=>{
+        Swal.fire({
+            icon: 'error',
+            title: 'Error'
+        })
       })
     },
     loading: function(){
@@ -77,7 +80,7 @@ export default {
   created(){
     axios({
       method: 'get',
-      url: 'http://localhost:3000/products'
+      url: 'http://ecommerce-server.kennys.my.id:3000/products'
     })
     .then(({data})=>{
       this.products = data
@@ -85,8 +88,11 @@ export default {
       this.searchBox = ''
       this.isLoading = false
     })
-    .catch(err=>{
-      console.log(err)
+    .catch(()=>{
+      Swal.fire({
+          icon: 'error',
+          title: 'Error'
+      })
     })
   }
 }

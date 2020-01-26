@@ -22,7 +22,6 @@
                 <h5>Email: {{userData.email}}</h5>
             </b-row>
         </b-container>
-        <!-- modal add picture -->
         <b-modal id="modal-add-picture" title="Change picture" hide-footer>
             <b-form-file
                 id="inputFile"
@@ -62,7 +61,7 @@ export default {
         getUserData: function(){
             axios({
                 method: 'get',
-                url: "http://localhost:3000/users",
+                url: "http://ecommerce-server.kennys.my.id:3000/users",
                 headers: {
                     token: localStorage.getItem('token')
                 }
@@ -70,8 +69,11 @@ export default {
             .then(({data})=>{
                 this.userData = data
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error'
+                })
             })
         },
         updatePic: function(){
@@ -79,7 +81,7 @@ export default {
             formData.append('profpic', this.newPicture)
             axios({
                 method: "patch",
-                url: "http://localhost:3000/users/profpic",
+                url: "http://ecommerce-server.kennys.my.id:3000/users/profpic",
                 data: formData,
                 headers: {
                     token: localStorage.getItem('token')
@@ -92,8 +94,11 @@ export default {
                     title: 'Profile picture changed!'
                 })
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error'
+                })
             })
         }
     },
@@ -103,7 +108,7 @@ export default {
     created(){
         axios({
             method: 'get',
-            url: "http://localhost:3000/users",
+            url: "http://ecommerce-server.kennys.my.id:3000/users",
             headers: {
                 token: localStorage.getItem('token')
             }
@@ -111,8 +116,11 @@ export default {
         .then(({data})=>{
             this.userData = data
         })
-        .catch(err=>{
-            console.log(err);
+        .catch(()=>{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error'
+            })
         })
     }
 }
