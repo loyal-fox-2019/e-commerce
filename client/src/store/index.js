@@ -27,6 +27,7 @@ export default new Vuex.Store({
     logout(state){
       state.isLogin = false
       state.username = ''
+      state.isAdmin = false
     },
     setAllUserProducts(state, products){
       state.allUserProducts = products
@@ -177,6 +178,7 @@ export default new Vuex.Store({
           commit('setTransaction', data)
         })
         .catch((err) => {
+          commit('setTransaction', [])
           swal.fire({
             icon: 'error',
             html: err.response.data.message

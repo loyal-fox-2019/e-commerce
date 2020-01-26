@@ -30,7 +30,7 @@ export default {
       localStorage.removeItem('access_token')
       localStorage.removeItem('username')
       this.$store.commit('logout')
-      this.$router.go('/')
+      this.$router.push('/')
     }
   },
   computed: {

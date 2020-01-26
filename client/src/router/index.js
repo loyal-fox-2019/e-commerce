@@ -16,15 +16,7 @@ const routes = [
   {
     path: '/',
     name: 'landing',
-    component: LandingPage,
-    beforeEnter(to, from, next){
-      if (localStorage.getItem('access_token')){
-        next('/home')
-      }
-      else {
-        next()
-      }
-    }
+    component: LandingPage
   },
   {
     path: '/home',
@@ -34,15 +26,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: LoginPage,
-    beforeEnter(to, from, next){
-      if (localStorage.getItem('access_token')){
-        next('/home')
-      }
-      else {
-        next()
-      }
-    }
+    component: LoginPage
   },
   {
     path: '/items',
