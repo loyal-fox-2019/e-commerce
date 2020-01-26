@@ -130,7 +130,7 @@ export default {
             formData.append('price', this.productPrice)
             axios({
                 method: 'put',
-                url: `http://35.240.228.104:3000/product/${this.productId}`,
+                url: `http://localhost:3000/product/${this.productId}`,
                 headers:{
                     token: localStorage.getItem('token')
                 },
@@ -149,7 +149,7 @@ export default {
             if(this.productData.stock>=this.qty){
                  axios({
                 method: 'post',
-                url: `http://35.240.228.104:3000/cart/${this.productData._id}`,
+                url: `http://localhost:3000/cart/${this.productData._id}`,
                 headers:{
                     token: localStorage.getItem('token')
                 },
@@ -170,7 +170,7 @@ export default {
             console.log('masuk delete')
             axios({
                 method: 'delete',
-                url: `http://35.240.228.104:3000/product/${this.productId}`,
+                url: `http://localhost:3000/product/${this.productId}`,
                 headers:{
                     token: localStorage.getItem('token')
                 }
@@ -188,7 +188,7 @@ export default {
         console.log(this.productId, 'product id')
             axios({
                 method: 'get',
-                url: `http://35.240.228.104:3000/product/${this.productId}`,
+                url: `http://localhost:3000/product/${this.productId}`,
                 headers:{
                     token: localStorage.getItem('token')
                 }
@@ -206,7 +206,7 @@ export default {
             console.log('hoy')
             axios({
                 method: 'get',
-                url: `http://35.240.228.104:3000/product/${this.productId}`,
+                url: `http://localhost:3000/product/${this.productId}`,
                 headers:{
                     token: localStorage.getItem('token')
                 }

@@ -31,7 +31,7 @@ export default {
     created(){
         axios({
             method: 'get',
-            url: 'http://35.240.228.104:3000/cart/history',
+            url: 'http://localhost:3000/cart/history',
             headers:{
                 token: localStorage.getItem('token')
             }

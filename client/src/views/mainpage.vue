@@ -34,12 +34,29 @@ export default {
       this.productlist = val
     }
   },
+  watch:{
+    $route: function(){
+      axios({
+      method: 'get',
+      url: 'http://localhost:3000/product',
+      headers:{
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data})=>{
+      this.productlist = data
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+    }
+  },
   created(){
     //ambil semua product lwt axios
     console.log('get all products')
     axios({
       method: 'get',
-      url: 'http://35.240.228.104:3000/product',
+      url: 'http://localhost:3000/product',
       headers:{
         token: localStorage.getItem('token')
       }

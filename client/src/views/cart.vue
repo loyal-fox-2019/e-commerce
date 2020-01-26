@@ -79,7 +79,7 @@ export default {
         deleteCart(cart_id){
             axios({
                 method: 'delete',
-                url: `http://35.240.228.104:3000/cart/${cart_id}`,
+                url: `http://localhost:3000/cart/${cart_id}`,
                 headers:{
                     token: localStorage.getItem('token')
                 }
@@ -96,7 +96,7 @@ export default {
             console.log('masuk')
             axios({
             method: 'get',
-            url: `http://35.240.228.104:3000/cart`,
+            url: `http://localhost:3000/cart`,
             headers:{
                 token: localStorage.getItem('token')
             }
@@ -113,7 +113,7 @@ export default {
             console.log(this.cartIdList)
             axios({
                 method: 'patch',
-                url: `http://35.240.228.104:3000/cart`,
+                url: `http://localhost:3000/cart`,
                 headers:{
                     token: localStorage.getItem('token'),
                 },
