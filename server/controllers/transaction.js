@@ -35,7 +35,7 @@ class TransactionController {
           next({status: 400, message: 'Stok tidak cukup'})
         } else {
           let newTransaction = await Transaction.create({ product, quantity, user, seller: currentProduct.user._id })
-          res.send(newTransaction)
+          res.status(201).json(newTransaction)
         }
       }
     } catch (error) {
