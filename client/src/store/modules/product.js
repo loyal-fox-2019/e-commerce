@@ -5,7 +5,14 @@ export default {
     namespaced: true,
     state: {
         products: [],
-        userProducts: [],
+        userProducts: [{
+            _id:'asdfasdf',
+            image:'https://image.shutterstock.com/image-photo/colorful-flower-on-dark-tropical-260nw-721703848.jpg',
+            description:'asdfasdf asdfasdf',
+            price:0,
+            stock:0,
+            seller:{name:'dummy'}
+        }],
         cart: [],
         success: false,
         fail: false,
@@ -277,7 +284,7 @@ export default {
                     rootState.failMessage = err.response.data.errors
                 })
         },
-        GET_USER ({ state,rootState }) {
+        GET_USER ({ state }) {
             axios({
                 method: 'get',
                 url: '/user',
@@ -286,9 +293,7 @@ export default {
                 .then( ({data}) => {
                     state.role = data.role
                 })
-                .catch( err => {
-                    rootState.fail = true
-                    rootState.failMessage = err.response.data.errors
+                .catch( () => {
                 })
         },
         GET_ALL_TRANSACTIONS ({ state,rootState }) {

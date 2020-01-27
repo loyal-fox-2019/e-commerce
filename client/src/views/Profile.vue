@@ -4,7 +4,7 @@
           <loadingPage></loadingPage>
       </div>
       <div v-else>
-        <div v-if="productss.length > 0" class="text-xl">{{productss[0].seller.name}}'s Products</div>
+        <!-- <div v-if="productss.length > 0" class="text-xl">{{productss[0].seller.name}}'s Products</div> -->
         <product :products="productss" :profile="true"></product>
       </div>
   </div>

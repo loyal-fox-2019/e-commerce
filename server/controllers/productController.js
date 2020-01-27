@@ -1,4 +1,10 @@
 const Product = require('../models/product')
+const { Storage } = require('@google-cloud/storage')
+
+const storage = new Storage({
+    // projectId: 'pujangga-senja-1579167545282',
+    keyFilename: '/home/richard/Dev/Hacktiv8/Phase-2 ngulang/Week 3/e-commerce-1/server/keyfile2.json'
+})
 
 class productController {
     static create ( req,res,next ) {
@@ -29,8 +35,21 @@ class productController {
     }
     
     static delete ( req,res,next ) {
-        Product.deleteOne({_id: req.params.id})
-            .then( result => res.status(201).json(result))
+        let image = null
+        Product.findOne({_id: req.params.id})
+            .then( product => {
+                var lastslashindex = product.image.lastIndexOf('/');
+                image = product.image.substring(lastslashindex + 1)
+                return Product.deleteOne({_id: req.params.id})
+            })
+            .then( result => {
+                console.log(image)
+                storage
+                    .bucket('pujangga-senja-image')
+                    .file(image)
+                    .delete()
+                res.status(201).json(result)
+            })
             .catch( next )
     }
 

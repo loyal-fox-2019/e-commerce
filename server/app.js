@@ -10,7 +10,7 @@ let mongoUri = {
   dev:'mongodb://localhost/e-commerce-dev'
 }
 
-mongoose.connect(process.env.MONGO,{
+mongoose.connect(mongoUri[process.env.NODE_ENV],{
   useCreateIndex:true,
   useUnifiedTopology:true,
   useNewUrlParser:true,
