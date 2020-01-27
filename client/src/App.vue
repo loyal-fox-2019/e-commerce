@@ -7,13 +7,14 @@
       <li><a href="#about">TentangTokowijaya</a></li>
     </ul>
     <div id="mainBar">  
-      <router-link to="/">
+      <router-link to="/" style="text-decoration:none;">
       <h1 style="
+      font-weight:600;
       margin-left: 20px;
       margin-right: 150px;
       width: 50px;
       font-family: Offside, cursive;
-      color: rgb(66, 185, 131);
+      color: #42AD14;
       padding: 0px;">tokowijaya</h1>
       </router-link>
       <b-input-group class="mb-5 col-6">
@@ -25,17 +26,74 @@
           <b-button><i class="fa fa-search"></i></b-button>
         </b-input-group-append>
       </b-input-group>
+      <router-link to="/cart">
           <a style="cursor: pointer;"><i class="fa fa-shopping-cart" style="font-size:24px;margin-top:5px;"></i></a>
+      </router-link>
           <a style="cursor: pointer;"><i class="fa fa-bell" style="font-size:20px;margin-top:9px;margin-left:30px;"></i></a>
           <a style="margin-top:8px;margin-left:30px;"> | </a>
-          <b-img src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" rounded="circle" alt="Circle image" style="width:30px;height:30px;margin-top:5px;margin-left:20px;"></b-img>
-          <a style="margin-top:10px;margin-left:30px;color:black;"><h4>Daniel</h4></a>
+          <div v-if="getUser">
+            <b-img src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" rounded="circle" alt="Circle image" style="width:30px;height:30px;margin-top:5px;margin-left:20px;"></b-img>
+            <a style="margin-top:10px;margin-left:30px;color:black;">{{getUser}}</a>       
+            <a @click.prevent="logOut" style="margin-top:10px;margin-left:30px;color:black;cursor: pointer;"><span>LogOut</span></a>    
+          </div>
+          <div class="loginRegister ml-4" v-if="!getUser">
+            <router-link class="btn btn-login" to="/login">Masuk</router-link>
+            <router-link class="btn btn-register" to="/register">Daftar</router-link>
+          </div>
     </div>
     <router-view/>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'app',
+  data:function(){
+    return {
+
+    }
+  },
+  computed:{
+    getUser(){
+      return this.$store.state.user
+    }
+  },
+  created(){
+    if(localStorage.getItem('user')){
+      this.$store.commit('setUser', localStorage.getItem('user'))
+    }else{
+      this.$store.commit('setUser', false)
+    }
+  },
+  methods:{
+    logOut(){
+      localStorage.clear()
+      this.$store.commit('setUser', false)
+    }
+  }
+}
+</script>
+
 <style scoped>
+.btn{
+  border-radius: 0.25rem;
+  padding: .375rem .75rem;
+  font-size: .85rem;
+  font-weight: 600;
+}
+.btn:hover{
+  color: rgb(230, 223, 223);
+}
+.btn-login{
+  border-color: #42AD14;
+  color: #42AD14;
+}
+.btn-register{
+  background-color: #42AD14;
+  color: white;
+  
+  margin-left: 20px;
+}
 ul {
   list-style-type: none;
   margin: 0;
@@ -64,13 +122,14 @@ h4{
 }
 
 li a:hover {
-  color: #42b983;
+  color: #42AD14;
   
 }
 
 #mainBar {
   display: flex;
   margin-top: 20px;
+  justify-content: center;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -90,6 +149,6 @@ li a:hover {
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #42AD14;
 }
 </style>

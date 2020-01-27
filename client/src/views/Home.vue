@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-        <div class="row">
-        <div class="css-1hwy0bb col-4 mb-4 ml-3 mr-2" v-for="(item,i) in allItem" :key="i">
+    <div class="container">
+        <div class="row justify-content-center">
+        <div class="css-1hwy0bb col-3 m-3" v-for="(item,i) in allItem" :key="i">
           <a class="css-89jnbj">
             <div class="css-ds2sdp">
               <div class="wishlistButton">
@@ -21,25 +22,26 @@
                 <div class="css-79elbk">
                   <div class="css-1c0vu8l">
                     <div class="css-1h1ufj e18n9kgb0" height="auto">
-                      <img  :src="item.image" alt="Huruf Font Dan Tipografi Edisi Terbaru">
+                      <img  :src="item.image" alt="Huruf Font Dan Tipografi Edisi Terbaru" width="100%">
                     </div>
                   </div>
                 </div>
-                <div class="css-11s9vse">
-                  <span class="css-1tu1s3r">{{item.name}}</span>
+                <div class="text-left p-2">
+                  <router-link :to="`/about/${item._id}`" style="text-decoration:none;">
+                  <span style="color:black;">{{item.name}}</span>
+                  
                   <div>
                     <div class="css-1beg0o7">
-                      <span class="css-o5uqvq">Rp {{item.price}}</span>
+                      <span style="color:red;">Rp {{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</span>
                     </div>
                   </div>
                   <div class="css-tpww51">
                     <div class="css-1hy7m5k">
-                      <img alt="EDC Online" src="https://ecs7.tokopedia.net/img/power_merchant_badge.png">
+                      <img alt="EDC Online" src="https://ecs7.tokopedia.net/img/power_merchant_badge.png" width="60%">
                     </div>
-                    <div class="css-vbihp9">
-                      <span class="css-17rzmg2">Sukoharjo</span>
-                      <span class="css-17rzmg2">Tina</span>
-                    </div>
+                      <div class="css-vbihp9 heartBeat">
+                        <span class="css-17rzmg2">{{item.seller.name}}</span>
+                      </div>
                   </div>
                   <div class="css-f70okh"><div>
                     <img class="css-177n1u3" src="https://ecs7.tokopedia.net/assets-tokopedia-lite/v2/zeus/production/4fede911.svg" alt="star">
@@ -50,16 +52,18 @@
                     <span>(90)</span>
                   </div>
                 </div>
+                </router-link>
               </div>
           </div>
           </a>
         </div>
         </div>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import {mapGetters,mapActions} from 'vuex'
 
 export default {
   name: 'home',
@@ -68,38 +72,32 @@ export default {
   },
   data(){
     return{
-      allItem:[
-        {
-          image: 'https://images.k24klik.com/product/0104e0019.jpg',
-          name:'lirika',
-          price:5,
-          stock: 10
-        },
-        {
-          image: 'https://images.k24klik.com/product/0104e0019.jpg',
-          name:'lirika',
-          price:5,
-          stock: 10
-        },
-        {
-          image: 'https://images.k24klik.com/product/0104e0019.jpg',
-          name:'lirika',
-          price:5,
-          stock: 10
-        },
-        {
-          image: 'https://images.k24klik.com/product/0104e0019.jpg',
-          name:'lirika',
-          price:5,
-          stock: 10
-        }        
-      ]
+
     }
+  },
+    computed:{
+    ...mapGetters({
+      allItem: 'item/getProducts'
+    })
+  },
+  methods:{
+    ...mapActions({
+      fetchAction: 'item/fetchAction'
+    }),
+    stok(num){
+      return num
+    },
+  },
+  created(){
+    this.fetchAction()
   }
 }
 </script>
 
 <style scoped>
+.css-1hwy0bb:hover{
+  transform: scale(1.05)
+}
 .css-1hwy0bb {
     background: #fff;
     padding: 0 0.8% 3%;
@@ -144,5 +142,44 @@ export default {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
+}
+.css-tpww51 {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 0.857143rem;
+    line-height: 1.5;
+    margin: 4px 0px;
+}
+.css-17rzmg2 {
+    display: block;
+    width: 100%;
+    font-size: 0.857143rem;
+    height: 20px;
+    color: rgba(0, 0, 0, 0.54);
+    margin-top: 0px;
+    text-overflow: ellipsis;
+    transform: unset;
+    max-width: 100px;
+    overflow: hidden;
+    transition: transform 0.3s ease 0s;
+}
+.css-vbihp9{
+color: rgba(0,0,0,.7);
+font-family: 'open sans','tahoma',sans-serif;
+font-size: 0.857143rem;
+line-height: 1.5;
+box-sizing: inherit;
+display: inline-block;
+text-overflow: ellipsis;
+height: 20px;
+vertical-align: top;
+overflow: hidden;
+}
+
+.css-vbihp9:hover{
+  animation-duration: 2s;
+  animation-delay: 5s;
+  animation-iteration-count: infinite;
 }
 </style>
