@@ -157,11 +157,12 @@ class cartController {
   }
 
   static received(req, res, next) {
+    console.log(req.params.id)
     const id = req.params.id
     let value = {
       status: 'received'
     }
-    Cart.findOneAndUpdate(id, value, { new: true, omitUndefined: true }).populate('items')
+    Cart.findByIdAndUpdate(id, value, { new: true, omitUndefined: true }).populate('items')
       .then((cart) => {
         res.status(200).json(cart)
       })

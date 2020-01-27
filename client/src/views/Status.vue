@@ -68,6 +68,7 @@ export default {
     received(item) {
       this.$store.dispatch('received', item._id)
         .then(({data}) => {
+          console.log(data.status)
           swal.fire({
             icon: 'success',
             title: 'Your order is received, We are waiting for your return order',
