@@ -22,6 +22,7 @@
             Edit
           </button>
           <button
+            @click.prevent="deleteProduct"
             type="button"
             class="border block border-gray-700 py-2 px-4 rounded hover:bg-blue-600 hover:text-white hover:border-blue-600">
             Delete
@@ -35,6 +36,7 @@
 
 <script>
 import ProductForm from './ProductForm'
+import Swal from 'sweetalert2'
 export default {
   name: 'AdminProductDisplay',
   components: {
@@ -44,6 +46,22 @@ export default {
   methods: {
     toUpdateForm () {
       this.$router.push(`/admin/update-product/${this.product._id}`)
+    },
+    deleteProduct() {
+      const productId = this.product._id
+      Swal.fire({
+        text: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      })
+        .then((result) => {
+          if (result.value) {
+            this.$store.dispatch('deleteProduct', productId)
+          }
+        })
     }
   }
 }

@@ -10,6 +10,11 @@ import TheNavbar from '@/components/TheNavbar'
 export default {
   components: {
     TheNavbar
+  },
+  created () {
+    if (localStorage.getItem('access_token')) {
+      this.$store.commit('SET_IS_LOGGED_IN', true)
+    }
   }
 }
 </script>

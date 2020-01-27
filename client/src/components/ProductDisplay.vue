@@ -13,6 +13,7 @@
 
 <script>
 import ActionBox from './ActionBox'
+import { mapState } from 'vuex'
 export default {
   name: 'ProductDisplay',
   components: {

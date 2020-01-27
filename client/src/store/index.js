@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import axios from '../../config/axios'
 import router from '../router'
 import Swal from 'sweetalert2'
-import errorHandler from '../../config/errorHandler'
 
 Vue.use(Vuex)
 
@@ -16,7 +15,8 @@ export default new Vuex.Store({
     shippingFee: 0,
     transactions: [],
     isLoggedIn: false,
-    allTransactions: []
+    allTransactions: [],
+    isAdmin: false
   },
   mutations: {
     PUSH_PRODUCTS(state, products) {
@@ -39,10 +39,14 @@ export default new Vuex.Store({
     },
     PUSH_ALL_TRANSACTIONS(state, transactions) {
       state.allTransactions = transactions
+    },
+    SET_IS_ADMIN(state, value) {
+      state.isAdmin = true
     }
   },
   actions: {
     login({ commit }, payload) {
+      console.log(payload, '@@@@@@@@@')
       const { email, password } = payload
       axios({
         method: 'post',
@@ -56,12 +60,25 @@ export default new Vuex.Store({
           localStorage.setItem('access_token', data.access_token)
           localStorage.setItem('email', data.email)
           commit('SET_IS_LOGGED_IN', true)
+          return axios({
+            method: 'get',
+            url: '/user/profile',
+            headers: {
+              access_token: localStorage.getItem('access_token')
+            }
+          })
         })
-        .catch(({ response }) => {
-          let errorMsg = errorHandler(response)
+        .then(({ data }) => {
+          if (data.role === 'admin') {
+            console.log(data, '<<')
+            commit('SET_IS_ADMIN', true)
+          }
+          router.push('/store')
+        })
+        .catch(err => {
           Swal.fire({
             icon: 'error',
-            text: errorMsg
+            text: err
           })
         })
     }, 
@@ -78,15 +95,32 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            text: 'Successfully registered'
+          })
           localStorage.setItem('access_token', data.access_token)
           localStorage.setItem('email', data.email)
           commit('SET_IS_LOGGED_IN', true)
+          return axios({
+            method: 'get',
+            url: '/user/profile',
+            headers: {
+              access_token: localStorage.getItem('access_token')
+            }
+          })
         })
-        .catch(({ response }) => {
-          let errorMsg = errorHandler(response)
+        .then(({ data }) => {
+          if (data.role === 'admin') {
+            console.log(data, '<<')
+            commit('SET_IS_ADMIN', true)
+          }
+          router.push('/store')
+        })
+        .catch(err => {
           Swal.fire({
             icon: 'error',
-            text: errorMsg
+            text: err
           })
         })
     },
@@ -96,7 +130,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/products',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJpYXQiOjE1Nzk1ODEwODV9.ungTmmV4Qz1CwCeXDiOy3Eym3tJ-ufpLvP0_EZd7h-8'
+          access_token: localStorage.getItem('access_token')
         }
       })
         .then(({ data }) => {
@@ -111,7 +145,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/user/cart',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJpYXQiOjE1Nzk1ODEwODV9.ungTmmV4Qz1CwCeXDiOy3Eym3tJ-ufpLvP0_EZd7h-8'
+          access_token: localStorage.getItem('access_token')
         }
       })
         .then(({ data }) => {
@@ -128,7 +162,7 @@ export default new Vuex.Store({
         method: 'post',
         url: '/user/cart',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJpYXQiOjE1Nzk1ODEwODV9.ungTmmV4Qz1CwCeXDiOy3Eym3tJ-ufpLvP0_EZd7h-8'
+          access_token: localStorage.getItem('access_token')
         },
         data: {
           productId,
@@ -151,7 +185,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/user/cart/cities',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJpYXQiOjE1Nzk1ODEwODV9.ungTmmV4Qz1CwCeXDiOy3Eym3tJ-ufpLvP0_EZd7h-8'
+          access_token: localStorage.getItem('access_token')
         }
       })
         .then(({ data }) => {
@@ -166,7 +200,7 @@ export default new Vuex.Store({
         method: 'post',
         url: '/user/cart/shippingFee',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJpYXQiOjE1Nzk1ODEwODV9.ungTmmV4Qz1CwCeXDiOy3Eym3tJ-ufpLvP0_EZd7h-8'
+          access_token: localStorage.getItem('access_token')
         },
         data: {
           destination: payload.destinationId,
@@ -187,7 +221,7 @@ export default new Vuex.Store({
           method: 'post',
           url: '/transactions',
           headers: {
-            access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTU3OTk1NjcxN30.jcQL52GAL8KVr4tvwcXABLrxmegpoe1_520Q1TwFlLU'
+            access_token: localStorage.getItem('access_token')
           },
           data: {
             name,
@@ -213,7 +247,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/transactions',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTU3OTk1NjcxN30.jcQL52GAL8KVr4tvwcXABLrxmegpoe1_520Q1TwFlLU'
+          access_token: localStorage.getItem('access_token')
         }
       })
         .then(({ data }) => {
@@ -233,7 +267,7 @@ export default new Vuex.Store({
         method: 'patch',
         url: `/transactions/${transactionId}`,
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTU3OTk1NjcxN30.jcQL52GAL8KVr4tvwcXABLrxmegpoe1_520Q1TwFlLU'
+          access_token: localStorage.getItem('access_token')
         },
         data: {
           status
@@ -266,7 +300,7 @@ export default new Vuex.Store({
           method: 'get',
           url: `/products/${productId}`,
           headers: {
-            access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjMzY2YjUwYWJhMzJlZmNhOTM1NGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgwMDcyMzczfQ.yDhmajtS5NVlp3l0FaKEDwLWllm_FY_qwNl3LvyPOm8'
+            access_token: localStorage.getItem('access_token')
           }
         })
           .then(({ data }) => {
@@ -284,7 +318,7 @@ export default new Vuex.Store({
         method: 'patch',
         url: `/products/${id}`,
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjMzY2YjUwYWJhMzJlZmNhOTM1NGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgwMDcyMzczfQ.yDhmajtS5NVlp3l0FaKEDwLWllm_FY_qwNl3LvyPOm8'
+          access_token: localStorage.getItem('access_token')
         },
         data: {
           name,
@@ -322,7 +356,7 @@ export default new Vuex.Store({
             method: 'delete',
             url: `/user/cart/${productId}`,
             headers: {
-              access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTU4MDA3Nzg0NX0.oqTPF-l0zT1nUUXrin8lxdiTbXTXDvRfWTU6AP-JDlY'
+              access_token: localStorage.getItem('access_token')
             },
             data: {
               amount
@@ -346,7 +380,7 @@ export default new Vuex.Store({
         method: 'patch',
         url: `/user/cart/${productId}`,
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2N2U0MmM0ODc4YTU2YTJjOTliYzciLCJlbWFpbCI6ImV4YW1wbGVAbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTU4MDA3Nzg0NX0.oqTPF-l0zT1nUUXrin8lxdiTbXTXDvRfWTU6AP-JDlY'
+          access_token: localStorage.getItem('access_token')
         },
         data: {
           amount
@@ -368,11 +402,57 @@ export default new Vuex.Store({
         method: 'get',
         url: '/transactions/admin',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjMzY2YjUwYWJhMzJlZmNhOTM1NGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTgwMDg2ODI5fQ.so-tR9Q1434HdGKx-i30wzIIGhztyomxNnrRRaqtPa0'
+          access_token: localStorage.getItem('access_token')
         }
       })
         .then(({ data }) => {
           commit('PUSH_ALL_TRANSACTIONS', data)
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            text: err
+          })
+        })
+    },
+
+    addProduct({ }, payload) {
+      const { name, description, image, stock, price } = payload
+      axios({
+        method: 'post',
+        url: '/products',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: {
+          name,
+          description,
+          image,
+          stock,
+          price
+        }
+      })
+        .then(({ data }) => {
+          router.push('/admin/products')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            text: err
+          })
+        })
+    },
+
+    deleteProduct({ dispatch }, productId) {
+      axios({
+        method: 'delete',
+        url: `/products/${productId}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          dispatch('fetchProducts')
         })
         .catch(err => {
           Swal.fire({

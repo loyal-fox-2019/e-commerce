@@ -12,5 +12,6 @@ router.delete('/cart/:productId', cartController.removeCartItem)
 router.patch('/cart/:productId', cartController.updateAmount)
 router.get('/cart/cities', cartController.fetchCities)
 router.post('/cart/shippingFee', cartController.getShippingFee)
+router.get('/profile', userController.getProfile)
 
 module.exports = router

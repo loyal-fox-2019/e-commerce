@@ -5,11 +5,14 @@ class TransactionController {
   static addTransaction(req, res, next) {
     const { name, address, city, shippingFee, totalPrice } = req.body
     let mycart = []
+    let userId = ''
+    let trx;
+    console.log(req.decoded._id, '###############')
     User.findById(req.decoded._id)
       .populate('cart.productId')
       .then(user => {
         mycart = user.cart
-        const userId = req.decoded._id
+        userId = req.decoded._id
         mycart.forEach(product => {
           if (product.productId.stock - product.amount < 0) {
             throw createError(400, `Sorry we cannot provide the amount of item you requested. We have ${product.productId.stock} amount of items left for ${product.productId.name}.`)
@@ -32,7 +35,7 @@ class TransactionController {
         })
       })
       .then(transaction => {
-        let trx = transaction
+        trx = transaction
         return User.findByIdAndUpdate(req.decoded._id, {
           $set: { cart: [] }
         })

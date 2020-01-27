@@ -76,7 +76,7 @@ export default {
           console.log(err, '<<<<<')
           Swal.fire({
             icon: 'error',
-            text: err.response.data.message
+            text: err
           })
         })
     }

@@ -44,6 +44,14 @@ class userController {
       .catch(next)
       
   }
+
+  static getProfile(req, res, next) {
+    User.findById(req.decoded._id)
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(next)
+  }
 }
 
 module.exports = userController;

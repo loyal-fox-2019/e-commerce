@@ -10,7 +10,7 @@
         <form 
           @submit.prevent="addToCart(product._id)"
           class="flex flex-col justify-between">
-          <div class="flex justify-between">
+          <div v-if="isLoggedIn" class="flex justify-between">
             <label class="text-sm">
               Quantity: 
             </label>
@@ -21,7 +21,7 @@
               min="1" 
               :max="product.stock">
             </div>
-            <div>
+            <div v-if="isLoggedIn">
               <button
                 type="submit"
                 class="w-full text-sm h-6 text-gray-700 px-2 border border-gray-800 rounded align-middle">
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'ActionBox',
   props: ['product'],
@@ -51,6 +52,9 @@ export default {
       }
       this.$store.dispatch('addToCart', payload)
     }
+  },
+  computed: {
+    ...mapState(['isLoggedIn'])
   }
 }
 </script>

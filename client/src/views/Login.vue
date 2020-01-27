@@ -3,8 +3,8 @@
     <div class="mx-auto my-24 w-full max-w-xs">
       <h4 class="text-center p-4 font-bold text-gray-700">Log in to your account</h4>
       <form
-        @submit.prevent="submitLogin"
-        @keyup.enter="submitLogin"
+        @submit.prevent="login"
+        @keyup.enter="login"
         class=" bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div class="mb-4">
           <label
@@ -32,7 +32,7 @@
         </div>
         <div class="flex-col items-center justify-between">
           <button
-            @click.prevent="submitLogin"
+            @click.prevent="login"
             class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
             type="submit">
             Log In
