@@ -1,6 +1,7 @@
 <template>
-  <div class="container mx-auto w-3/5 flex flex-col md:flex-row">
-    <div class="p-4 md:w-1/2">
+  <div class="container mx-auto flex flex-col md:flex-row">
+    <div class="relative mx-auto mt-20 w-3/5 flex flex-col md:flex-row">
+      <div class="p-4 md:w-1/2">
       <transition
         name="fade"
         v-for="product in cart" 
@@ -26,6 +27,7 @@
       <transition name="fade">
         <CustomerForm v-if="isCheckedOut"></CustomerForm>
       </transition>
+    </div>
     </div>
   </div>
 </template>

@@ -5,8 +5,6 @@ const axios = require('axios')
 class CartController {
   static addToCart(req, res, next) {
     let { productId, amount } = req.body
-    console.log(productId,'{{{{{{{{{{{{{{{')
-    console.log(amount, '}}}}}}}}}}}}}}}')
     amount = Number(amount)
     let cartItem = {
       productId,
@@ -120,6 +118,30 @@ class CartController {
       })
       .catch(next)
 
+  }
+
+  static updateAmount(req, res, next) {
+    let amount = Number(req.body.amount)
+    let productId = req.params.productId
+    User.findById(req.decoded._id)
+      .then(user => {
+        let hasProduct = user.cart.some(product => product['productId'] == productId)
+        if (!hasProduct) {
+          throw createError(404, 'Product is not in cart')
+        } else {
+          for (let product of user.cart) {
+            if (product.productId == productId) {
+              product.amount = amount
+              return user.save({ validateBeforeSave: false })
+            }
+          }
+        }
+      })
+      .then(user => {
+        console.log(user, '!!!!')
+        res.status(200).json({ message: 'Successfully updated' })
+      })
+      .catch(next)
   }
 }
 

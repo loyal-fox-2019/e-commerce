@@ -27,6 +27,7 @@ class ProductController {
   }
   
   static showProduct(req, res, next) {
+    console.log('{{{')
     Product.findById(req.params.productId)
       .then(product => {
         res.status(200).json(product)
@@ -35,6 +36,7 @@ class ProductController {
   }
 
   static editProduct(req, res, next) {
+    console.log('--------')
     const update = {};
     const productId = req.params.productId;
     console.log(productId, '*****')

@@ -12,7 +12,11 @@ module.exports = (err, req, res, next) => {
         status = 400;
       break;
       case 'NotFoundError':
-        status = 404
+        status = 404;
+      break;
+      case 'BadRequestError':
+        status = 400;
+      break
     }
   } else {
     status = err.code || 500;

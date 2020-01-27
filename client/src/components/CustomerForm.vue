@@ -38,7 +38,7 @@
       <hr>
       <div class="flex justify-between my-2">
         <span class="font-bold">Total </span>
-        <span class="bold">Rp. {{ totalPrice + shippingFee }}</span>
+        <span class="bold">Rp. {{ totalAllIn }}</span>
       </div>
       <button class="mt-2 border border-gray-600 w-full rounded py-1">Confirm Checkout</button>
     </form>
@@ -58,13 +58,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['submitCustomerForm']),
+    ...mapActions(['submitCustomerForm', 'getShippingFee']),
     submitForm() {
       let payload = {
         name: this.name,
         address: this.address,
         city: this.destination,
-        shippingFee: this.shippingFee
+        shippingFee: this.shippingFee,
+        totalPrice: this.totalPrice
       }
       console.log(payload, '++++++')
       this.submitCustomerForm(payload)
@@ -72,9 +73,10 @@ export default {
           this.$router.push('/transactions')
         })
         .catch(err => {
+          console.log(err, '<<<<<')
           Swal.fire({
             icon: 'error',
-            text: err
+            text: err.response.data.message
           })
         })
     }
@@ -88,6 +90,9 @@ export default {
           return city.city_id
         }
       }
+    },
+    totalAllIn () {
+      return this.totalPrice + this.shippingFee
     }
   },
   watch: {
@@ -96,7 +101,7 @@ export default {
         destinationId: this.destinationId,
         weight: this.totalWeight
       }
-      this.$store.dispatch('getShippingFee', payload)
+      this.getShippingFee(payload)
     }
   }
 }

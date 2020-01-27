@@ -13,10 +13,11 @@ const upload = multer({
 });
 
 product.get("/", productController.showProducts)
-product.get("/:productId", productController.showProduct)
 
 product.use(authentication)
+product.get("/:productId", productController.showProduct)
 product.post("/", productController.addProduct)
+console.log('++++')
 product.patch("/:productId", productController.editProduct);
 product.delete("/:productId", productController.deleteProduct);
 

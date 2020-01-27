@@ -29,6 +29,10 @@ const transactionSchema = new Schema({
     type: Number,
     required: [true, 'Shipping fee must be filled out']
   },
+  totalPrice: {
+    type: Number,
+    required: [true, 'Total price must be filled out']
+  },
   status: {
     type: String,
     enum: ['waiting', 'paid', 'delivered'],
