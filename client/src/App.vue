@@ -14,13 +14,13 @@
       <router-link to='/add-product' class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
         Add Product
       </router-link>
-      <router-link to="/cart" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+      <router-link v-if="isLogin" to="/cart" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
         Cart
       </router-link>
-      <router-link to="/transaction" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+      <router-link v-if="isLogin" to="/transaction" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
         Transaction
       </router-link>
-      <router-link to='/profile' class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+      <router-link v-if="isLogin" to='/profile' class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
         Profile
       </router-link>
     </div>

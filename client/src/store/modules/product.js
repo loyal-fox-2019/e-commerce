@@ -194,7 +194,6 @@ export default {
                 headers: { token: localStorage.getItem('token')}
             })
                 .then( ({data}) => {
-                    console.log(data.cart)
                     rootState.isLoading = false
                     commit('setCart',data.cart)
                 })
@@ -234,7 +233,6 @@ export default {
                 headers: {token: localStorage.getItem('token')}
             })
                 .then( ({data}) => {
-                    console.log(data)
                     rootState.isLoading = false
                     state.sellTransaction = data
                 })
@@ -300,9 +298,7 @@ export default {
                 headers: {token: localStorage.getItem('token')}
             })
                 .then( ({data}) => {
-                    console.log(data)
                     state.allTransactions = data
-                    console.log(state.allTransactions,"INI ALL DI STATE")
                 })
                 .catch( err => {
                     rootState.fail = true
