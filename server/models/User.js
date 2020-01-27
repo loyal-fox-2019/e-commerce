@@ -59,7 +59,11 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Product'
     },
-    amount: Number
+    amount: {
+      type: Number,
+      required: [true, 'amount must be filled out'],
+      min: [1, 'minimum amount of item is one']
+    }
   }]
 });
 

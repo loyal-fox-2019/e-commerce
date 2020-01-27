@@ -20,8 +20,8 @@ after(function(done) {
 })
 
 
-describe.only("User", function() {
-  describe("POST /user/signup", function() {
+describe("User", function() {
+  describe("POST /user/register", function() {
     
     describe("Successful", function() {
       it("should return status code 201 and access token", function(done) {
@@ -31,12 +31,12 @@ describe.only("User", function() {
           password: "pass123"
         }
         chai.request(server)
-        .post("/user/signup")
+        .post("/user/register")
         .send(user)
         .then(res => {
           expect(res).to.have.status(201)
           expect(res.body).to.be.an("object")
-          expect(res.body).to.have.all.keys("access_token", "email")
+          expect(res.body).to.have.keys("access_token", "email")
           done();
         })
         .catch(done)
@@ -51,7 +51,7 @@ describe.only("User", function() {
           password: "pass123"
         }
         chai.request(server)
-        .post("/user/signup")
+        .post("/user/register")
         .send(user)
         .then(res => {
           expect(res).to.have.status(400)
@@ -71,7 +71,7 @@ describe.only("User", function() {
           password: "pass123"
         }
         chai.request(server)
-        .post("/user/signup")
+        .post("/user/register")
         .send(user)
         .then(res => {
           expect(res).to.have.status(400)
@@ -91,7 +91,7 @@ describe.only("User", function() {
           password: "pass123"
         }
         chai.request(server)
-        .post("/user/signup")
+        .post("/user/register")
         .send(user)
         .then(res => {
             expect(res).to.have.status(400)
@@ -111,7 +111,7 @@ describe.only("User", function() {
           password: "short"
         }
         chai.request(server)
-        .post("/user/signup")
+        .post("/user/register")
           .send(user)
           .then(res => {
             expect(res).to.have.status(400)
@@ -130,7 +130,7 @@ describe.only("User", function() {
             password: "pass123"
           }
           chai.request(server)
-          .post("/user/signup")
+          .post("/user/register")
           .send(user)
           .then(res => {
             expect(res).to.have.status(400)
@@ -149,7 +149,7 @@ describe.only("User", function() {
             password: "pass123"
           }
           chai.request(server)
-          .post("/user/signup")
+          .post("/user/register")
           .send(user)
           .then(res => {
             expect(res).to.have.status(400)
@@ -168,7 +168,7 @@ describe.only("User", function() {
           email: "empty@mail.com"
         }
         chai.request(server)
-        .post("/user/signup")
+        .post("/user/register")
         .send(user)
         .then(res => {
           expect(res).to.have.status(400)
@@ -182,7 +182,7 @@ describe.only("User", function() {
     
   })
   
-  describe("POST /user/signin", function() {
+  describe("POST /user/login", function() {
     
     describe("Successful", function() {
       it("should return status code 200 and access token", function(done) {
@@ -191,7 +191,7 @@ describe.only("User", function() {
           password: "pass123"
         }
         chai.request(server)
-        .post("/user/signin")
+        .post("/user/login")
         .send(user)
         .then(function(res) {
           expect(res).to.have.status(200);
@@ -210,7 +210,7 @@ describe.only("User", function() {
           password: "pass123"
         }
         chai.request(server)
-        .post("/user/signin")
+        .post("/user/login")
         .send(user)
         .then(function(res) {
           expect(res).to.have.status(400);
@@ -228,7 +228,7 @@ describe.only("User", function() {
             password: "ada"
           }
           chai.request(server)
-          .post("/user/signin")
+          .post("/user/login")
           .send(user)
           .then(function(res) {
             expect(res).to.have.status(400);

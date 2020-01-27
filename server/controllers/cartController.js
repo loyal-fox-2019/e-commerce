@@ -5,6 +5,9 @@ const axios = require('axios')
 class CartController {
   static addToCart(req, res, next) {
     let { productId, amount } = req.body
+    if (amount < 1) {
+      throw createError(400, 'minimum amount of item is one')
+    }
     amount = Number(amount)
     let cartItem = {
       productId,
@@ -29,14 +32,7 @@ class CartController {
       })
       .then(user => {
         res.status(200).json(user)
-        // person = user
-        // return Product.findByIdAndUpdate(productId, {
-        //   $inc: { stock: -amount }
-        // }, { new: true })
       })
-      // .then(product => {
-      //   res.status(200).json(person)
-      // })
       .catch(next)  
   }
 
