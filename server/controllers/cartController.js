@@ -10,6 +10,7 @@ class CartController {
       qty: req.body.qty,
       total_price: req.body.total_price
     }
+    console.log(data)
 
     Item.findById(data.item_id)
       .then(result => {
@@ -97,7 +98,7 @@ class CartController {
 
   static allTransaction(req, res, next) {
     console.log('transaction controller')
-    Transaction.find()
+    Transaction.find().populate(['user_id', 'item_id'])
       .then(results => {
         res.status(200).json(results)
       })
