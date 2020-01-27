@@ -144,8 +144,13 @@ export default {
           }
         })
           .then(({ data }) => {})
+          // eslint-disable-next-line
           .catch((err) => {
-            console.log(err)
+            this.$swal({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!'
+            })
           })
       }
     },
