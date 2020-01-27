@@ -32,7 +32,7 @@ const routes = [
 
     beforeEnter (to, from, next) {
       // check vuex store //
-      if (localStorage.getItem('access_token')) {
+      if (localStorage.getItem('token')) {
         next()
       } else {
         Swal.fire({

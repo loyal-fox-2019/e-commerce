@@ -15,7 +15,6 @@ import router from '../router'
 export default {
   methods: {
     logout () {
-      console.log('logout')
       localStorage.clear()
       this.$store.commit('SET_ISLOGIN', false)
       router.push('/login')
