@@ -1,5 +1,4 @@
 function errorHandler(err, req, res, next) {
-  // console.log(err);
   switch (err.name) {
     case "ValidationError": {
       let message = [];

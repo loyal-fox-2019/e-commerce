@@ -9,13 +9,16 @@ function authenticate(req, res, next) {
     User.findById(req.user._id)
       .then(user => {
         if(!user){
-          next({status: 400, message: 'Authentication failed'})
-          // throw new Error({status: 400, message: 'Authentication failed'})
+          let err = new Error('AuthenticationFailed')
+          err.status = 400
+          err.message = 'Authentication failed'
+          throw err
         } else {
           req.user = user
           next()
         }
       })
+      .catch(next)
   } catch (error) {
     next(error)
   }
@@ -26,15 +29,22 @@ function authorize(req, res, next) {
     Product.findById(req.params.id)
       .then(product => {
         if(!product){
-          next({status: 404, message: 'id not found'})
+          let err = new Error('NotFound')
+          err.status = 404
+          err.message = 'id not found'
+          throw err
         } else if (product.user == req.user.id){
           next()
         } else {
-          next({status: 401, message: 'Authorization failed'})
+          let err = new Error('AuthorizationFailed')
+          err.status = 401
+          err.message = 'Authorization failed'
+          throw err
         }
       })
-  } catch (error) {
-    next(error)
+      .catch(next)
+  } catch (err) {
+    next(err)
   }
 }
 
@@ -43,13 +53,20 @@ function authorizeTransaction(req, res, next) {
     Transaction.findById(req.params.id)
       .then(transaction => {
         if(!transaction){
-          next({status: 404, message: 'id not found'})
+          let err = new Error('NotFound')
+          err.status = 404
+          err.message = 'id not found'
+          throw err
         } else if (transaction.user == req.user.id){
           next()
         } else {
-          next({status: 401, message: 'Authorization failed'})
+          let err = new Error('AuthorizationFailed')
+          err.status = 401
+          err.message = 'Authorization failed'
+          throw err
         }
       })
+      .catch(next)
   } catch (error) {
     next(error)
   }
