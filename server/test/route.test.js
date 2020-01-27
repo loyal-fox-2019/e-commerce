@@ -25,7 +25,7 @@ describe('CRUD Product', function(){
     })
 
     describe('Post /products', function(){
-        it.only('Should send status code of 201 along with an object', function(done){
+        it('Should send status code of 201 along with an object', function(done){
             chai
                 .request(app) // require from app.js later
                 .post('/products')
@@ -37,7 +37,7 @@ describe('CRUD Product', function(){
                     stock: 5,
                     category: 'electronics'
                 })
-                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY4ZWZjZGM5YTlkMGYxOTNmODM4MSIsImFkbWluIjpmYWxzZSwiaWF0IjoxNTc5NTg1Mjc2fQ.-ybfmGMvVbMK_vZU6WTvl2ijjdJrVm0cfiqlArrUbWk')
+                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmMzMzUyYTU3MzkwMjJmNDk0MDU5NSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJva2thQGxzaG9wLmNvbSIsImlhdCI6MTU4MDAyNTI3NH0.UsdtSSf7dM-jtKDssHDeJ_cM5NJcNuzza-4ElrIRCgU')
                 .then(function (res){
                     expect(res).to.have.status(201)
                     expect(res.body).to.be.an('object')
@@ -54,6 +54,9 @@ describe('CRUD Product', function(){
                     expect(res.body.stock).to.equal(5)
                     expect(res.body.category).to.equal('electronics')
                     done()
+                })
+                .catch(err=>{
+                    console.log(err)
                 })
         })
     })
@@ -91,12 +94,11 @@ describe('CRUD Product', function(){
         it('Should return status code of 200 along with an object', function(done){
             chai
                 .request(app)
-                .delete('/products/5e256312ddc671576a78b4be')
+                .delete('/products/5e256368e67f065795f407ba')
+                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmMzMzUyYTU3MzkwMjJmNDk0MDU5NSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJva2thQGxzaG9wLmNvbSIsImlhdCI6MTU4MDAyNTI3NH0.UsdtSSf7dM-jtKDssHDeJ_cM5NJcNuzza-4ElrIRCgU')
                 .then(function(res){
                     expect(res).to.have.status(200)
-                    expect(res.body).to.be.an('object')
-                    expect(res.body).to.have.property('deletedCount')
-                    expect(res.body.deletedCount).to.equal(1)
+                    expect(res.body).to.be.an('array')
                     done()
                 })
                 .catch(function(err){
@@ -118,6 +120,7 @@ describe('CRUD Product', function(){
                     stock: 5,
                     category: 'electronics'
                 })
+                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmMzMzUyYTU3MzkwMjJmNDk0MDU5NSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJva2thQGxzaG9wLmNvbSIsImlhdCI6MTU4MDAyNTI3NH0.UsdtSSf7dM-jtKDssHDeJ_cM5NJcNuzza-4ElrIRCgU')
                 .then(function(res){
                     expect(res).to.have.status(200)
                     expect(res.body).to.be.an('object')
@@ -143,6 +146,7 @@ describe('CRUD Product', function(){
             chai
                 .request(app)
                 .patch('/products/5e256368e67f065795f407ba')
+                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmMzMzUyYTU3MzkwMjJmNDk0MDU5NSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJva2thQGxzaG9wLmNvbSIsImlhdCI6MTU4MDAyNTI3NH0.UsdtSSf7dM-jtKDssHDeJ_cM5NJcNuzza-4ElrIRCgU')
                 .send({
                     stock: 2
                 })
@@ -180,8 +184,7 @@ describe('User Create, Login', function(){
                 name: 'Okka Linardi',
                 email: 'okka@mail.com',
                 password: 'okkalinardi',
-                address: 'Jl. ABC no.45, Jakarta Selatan',
-                admin: false
+                address: 'Jl. ABC no.45, Jakarta Selatan'
             })
             .then(function(res){
                 expect(res).to.have.status(201)
@@ -225,14 +228,18 @@ describe('Cart Route', function(){
             chai
                 .request(app)
                 .post('/cart')
-                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY4MDFlMDhiZjcwMGIwYjgwOWRlMyIsImFkbWluIjp0cnVlLCJpYXQiOjE1Nzk1ODE0NzB9.ksvXp_woPlvaQLyxznrMIQ_LcrbEeMW9INAg0hlDrCg')
+                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmUzZjJlNDEwZWY2NmU2MDcxMDhmZiIsImVtYWlsIjoib2trYUBtYWlsLmNvbSIsImlhdCI6MTU4MDA4OTEzNH0.7u_hc7SJ4CqxZ7lQgUqoIZPmG02phbdDxUU3RsHF4kM')
+                .send({
+                    productId: '5e25504f3d55d04faba1d931',
+                    qty: 3
+                })
                 .then(function(res){
                     // console.log('INI RES=====>',res)
                     expect(res).to.have.status(201)
                     expect(res.body).to.be.an('object')
                     expect(res.body).to.have.property('userId')
-                    expect(res.body).to.have.property('productList')
-                    expect(res.body.productList).to.be.an('array')
+                    expect(res.body).to.have.property('productId')
+                    expect(res.body.productId).to.be.a('string')
                     done()
                 })
                 .catch(function(err){
@@ -242,15 +249,15 @@ describe('Cart Route', function(){
     })
 
     describe('Delete /cart/:userId', function(){
-        it('Should return status code of 200 and the message: "Successfully deleted cart" ', function(done){
+        it('Should return status code of 200 and the message: "Successfully CheckedOut" ', function(done){
             chai
                 .request(app)
                 .delete('/cart')
-                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjY4MDFlMDhiZjcwMGIwYjgwOWRlMyIsImFkbWluIjp0cnVlLCJpYXQiOjE1Nzk1ODE0NzB9.ksvXp_woPlvaQLyxznrMIQ_LcrbEeMW9INAg0hlDrCg')
+                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmUzZjJlNDEwZWY2NmU2MDcxMDhmZiIsImVtYWlsIjoib2trYUBtYWlsLmNvbSIsImlhdCI6MTU4MDA4OTEzNH0.7u_hc7SJ4CqxZ7lQgUqoIZPmG02phbdDxUU3RsHF4kM')
                 .then(function(res){
                     expect(res).to.have.status(200)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('Successfully deleted cart')
+                    expect(res.body.message).to.equal('Successfully CheckedOut')
                     done()
                 })
                 .catch(function(err){

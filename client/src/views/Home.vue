@@ -3,8 +3,8 @@
     <SearchBar></SearchBar>
     <b-container class="mt-5">
         <b-row cols="3">
-            <b-col class="mt-2">
-                <ProductCards></ProductCards>
+            <b-col class="mt-2" v-for="(product, i) in products" :key="i">
+                <ProductCards :productDetails="product"></ProductCards>
             </b-col>
         </b-row>
     </b-container>
@@ -19,6 +19,11 @@ export default {
   components: {
     SearchBar,
     ProductCards
+  },
+  props: {
+    products: {
+      type: Array
+    }
   }
 }
 </script>

@@ -2,25 +2,30 @@ const user = require('../models/user')
 const jwt = require('jsonwebtoken')
 const compare = require('../helpers/bcryptCompare')
 
+
 class UserController {
     static register(req, res, next){
+        // req.logged = {email:'test@lshop.com'}
+        require('dotenv').config()
+        if(req.body.email.includes(process.env.COMPANY_EMAIL) && !req.logged.email.includes(process.env.COMPANY_EMAIL)){
+            next('You are not authorized to register this account')
+        }
         user.create({
             name : req.body.name,
             email : req.body.email,
             password : req.body.password,
-            address : req.body.address,
-            admin : req.body.admin
+            address : req.body.address
         })
         .then(newUser=>{
             let payload = {
                 id : newUser._id,
-                admin : newUser.admin
+                email : newUser.email
             }
             let token = jwt.sign(payload, process.env.NODE_ENV)
             res.status(201).json({token})
         })
         .catch(err=>{
-            console.log(err)
+            next()
         })
     }
 
@@ -30,24 +35,24 @@ class UserController {
         user.findOne({email: req.body.email})
         .then(userData=>{
             if(!userData){
-                console.log('invalid email or pass')
+                next('invalid email or pass')
             }else{
                 payload.id = userData._id
                 payload.name = userData.name
-                payload.admin = userData.admin
+                payload.email = userData.email
                 return compare(req.body.password, userData.password)
             }
         })
         .then(compareResult=>{ 
             if(!compareResult){
-                console.log('invalid email or pass')
+                next('invalid email or pass')
             }else{
                 token = jwt.sign(payload, process.env.NODE_ENV)
                 res.status(200).json({token})
             }
         })
         .catch(err=>{
-            console.log(err)
+            next()
         })
     }
 }

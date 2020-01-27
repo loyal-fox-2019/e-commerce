@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-    <NavBar :logStatus="isLogin" @loginPassed="loggedIn" @logoutPassed="loggedOut"></NavBar>
+    <NavBar :logStatus="isLogin" @loginPassed="loggedIn(event)" @logoutPassed="loggedOut"></NavBar>
     <div class="main">
-      <router-view/>
+      <router-view :products="allProducts" :logStatus="isLogin"/>
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from '../src/components/NavBar.vue'
-
+import axios from 'axios'
+import Swal from 'sweetalert2'
 export default {
   data () {
     return {
-      isLogin: false
+      isLogin: false,
+      allProducts: null
     }
   },
   components: {
@@ -23,6 +25,20 @@ export default {
     if (localStorage.getItem('token')) {
       this.isLogin = true
     }
+    axios({
+      method: 'get',
+      url: 'http://localhost:3000/products'
+    })
+      .then(({ data }) => {
+        this.allProducts = data
+      })
+      .catch(err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err
+        })
+      })
   },
   methods: {
     loggedIn () {

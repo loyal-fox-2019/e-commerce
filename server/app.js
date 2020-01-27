@@ -7,7 +7,7 @@ const cors = require('cors')
 
 app.use(cors())
 
-mongoose.connect('mongodb://localhost:27017/eCommerce'+process.env.NODE_ENV, {useNewUrlParser:true}, { useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/eCommerce'+process.env.NODE_ENV, {useNewUrlParser:true, useUnifiedTopology: true})
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))

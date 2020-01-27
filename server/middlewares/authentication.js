@@ -8,6 +8,8 @@ module.exports = function (req, res, next) {
         try {
             req.loggedUser = jwt.verify(req.headers.token , process.env.NODE_ENV)
 
+            // console.log(req.loggedUser)
+
             next()
 
         }

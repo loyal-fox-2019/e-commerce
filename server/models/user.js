@@ -7,7 +7,34 @@ const userSchema = new Schema({
         type: String
     },
     email : {
-        type: String
+        type: String,
+        validate: [
+            {
+            validator: function (email) {
+                let emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                return emailRegex.test(email)
+            },
+            message: `Please make sure your email is using the correct email format`
+        },
+    {
+        validator: function () {
+            return new Promise((res, rej)=>{
+                user.findOne({email:this.email})
+                .then(data=>{
+                    if(data){
+                        // console.log(data)
+                        res(false)
+                    }else{
+                        res(true)
+                    }
+                })
+                .catch(err=>{
+                    rej(false)
+                })
+            })
+        },
+        message: `Please make sure your email has never been registered yet`
+    }]
     },
     password : {
         type: String

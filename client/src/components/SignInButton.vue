@@ -136,12 +136,13 @@ export default {
           Swal.fire({
             icon: 'success',
             title: 'Login Successful',
-            text: 'Yaay'
+            text: 'You have logged in as ' + this.login.email
           })
           this.$bvModal.hide('modal-center')
           this.$emit('justLoggedIn', true)
         })
         .catch(err => {
+          console.log(err)
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -165,7 +166,7 @@ export default {
           Swal.fire({
             icon: 'success',
             title: 'Login Successful',
-            text: 'Yaay'
+            text: 'You have logged in as ' + this.register.email
           })
           this.$bvModal.hide('modal-center')
           this.$emit('justLoggedIn', true)

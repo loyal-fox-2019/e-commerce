@@ -1,8 +1,7 @@
 <template>
   <div id="homeBg">
-    <SearchBar></SearchBar>
     <b-container style="margin-top: 1%;width:50%;">
-      <h1>Categories</h1>
+      <h1 style="margin-bottom:4%;">Categories</h1>
       <Categories></Categories>
     </b-container>
   </div>
@@ -10,12 +9,15 @@
 
 <script>
 import Categories from '../components/Categories'
-import SearchBar from '../components/SearchBar'
 export default {
   name: 'categories',
   components: {
-    Categories,
-    SearchBar
+    Categories
+  },
+  props: {
+    products: {
+      type: Array
+    }
   }
 }
 </script>

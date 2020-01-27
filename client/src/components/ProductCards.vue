@@ -1,8 +1,7 @@
 <template>
     <div>
   <b-card
-    title="Product Cards"
-    img-src="https://picsum.photos/600/300/?image=25"
+    :img-src="productDetails.productImage"
     img-alt="Image"
     img-top
     tag="article"
@@ -10,17 +9,23 @@
     class="mb-2"
     bg-variant="secondary"
   >
+  <h3>{{productDetails.productName}}</h3>
     <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
+      {{productDetails.price}}
     </b-card-text>
 
-    <b-button href="#" variant="success">Add to Cart</b-button>
+    <router-link :to="{ name: 'ProductDetails', params: {productId: productDetails._id } }"><b-button variant="success">See Product</b-button></router-link>
   </b-card>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'ProductCards'
+  name: 'ProductCards',
+  props: {
+    productDetails: {
+      type: Object
+    }
+  }
 }
 </script>

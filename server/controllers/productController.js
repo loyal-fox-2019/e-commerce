@@ -12,6 +12,7 @@ class ProductController {
     }
 
     static createProduct(req, res, next) {
+        // console.log('ini Product Controller', req.body)
         product.create({
             productName: req.body.productName,
             productImage: req.body.productImage,
@@ -21,7 +22,10 @@ class ProductController {
             category: req.body.category
         })
             .then(productData => {
-                res.status(201).json(productData)
+                return product.find()
+            })
+            .then(products => {
+                res.status(201).json(products)
             })
             .catch(err => {
                 console.log(err);
@@ -34,21 +38,25 @@ class ProductController {
                 res.status(200).json(productData)
             })
             .catch(err => {
-                console.log(err)
+                next()
             })
     }
 
     static deleteProduct(req, res, next) {
         product.deleteOne({ _id: req.params.productId })
             .then(deleteResult => {
-                res.status(200).json(deleteResult)
+                return product.find()
+            })
+            .then(products => {
+                res.status(200).json(products)
             })
             .catch(err => {
-                console.log(err)
+                next()
             })
     }
 
     static updateProduct(req, res, next){
+        // console.log(req.body)
         product.updateOne({ _id:req.params.productId },{
             productName: req.body.productName,
             productImage: req.body.productImage,
@@ -59,14 +67,13 @@ class ProductController {
         })
         .then(success=>{
             // console.log(updatedProduct)
-            return product.findOne({_id:req.params.productId})
-            
+            return product.find()
         })
-        .then(updatedProduct=>{
-            res.status(200).json(updatedProduct)
+        .then(allProducts=>{
+            res.status(200).json(allProducts)
         })
         .catch(err=>{
-            console.log(err)
+            next()
         })
     }
 
@@ -76,13 +83,13 @@ class ProductController {
         })
         .then(updatedProduct=>{
             // console.log(updatedProduct)
-            return product.findOne({_id:req.params.productId})
+            return product.find()
         })
-        .then(updatedProduct=>{
-            res.status(200).json(updatedProduct)
+        .then(allProducts=>{
+            res.status(200).json(allProducts)
         })
         .catch(err=>{
-            console.log(err)
+            next()
         })
     }
 }
