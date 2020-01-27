@@ -1,6 +1,6 @@
 <template>
   <v-col class="shrink">
-    <v-card shaped hover max-width="344" class="mx-auto">
+    <v-card shaped hover max-width="344" class="mx-auto card-pointer">
       <v-list-item>
         <v-list-item-avatar color="grey">
           <!-- <v-avatar> -->
@@ -155,6 +155,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+/* .shrink:hover {
+  cursor:default;
+} */
+.card-pointer:hover {
+  cursor: default !important;
+}
 </style>
