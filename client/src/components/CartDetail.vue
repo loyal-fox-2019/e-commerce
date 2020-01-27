@@ -35,6 +35,12 @@
           </div>
         </div>
       </div>
+      <b-button
+        type="button"
+        variant="success"
+        @click.prevent="checkoutAll(cart)"
+        >Checkout All</b-button
+      >
     </b-modal>
   </div>
 </template>
@@ -97,6 +103,31 @@ export default {
             text: err.response.message
           })
         })
+    },
+    checkoutAll(cart) {
+      cart.forEach(el => {
+        let id = el._id
+        let data = {
+          item_id: el.item_id,
+          qty: el.qty
+        }
+        axios
+          .post(`${this.$store.state.baseUrl}/cart/transaction/${id}`, data, {
+            headers: { token: localStorage.getItem('token') }
+          })
+          .then(response => {
+            Swal.fire('Success!', 'Your Transaction Success', 'success')
+            this.$store.dispatch('FETCH_CART')
+          })
+          .catch(err => {
+            console.log(err.response)
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...' + err.response.status,
+              text: err.response.message
+            })
+          })
+      })
     }
   },
   computed: {

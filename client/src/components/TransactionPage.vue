@@ -10,11 +10,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(data) in allData" :key="data.id">
-          <th scope="row">{{data._id}}</th>
-          <td>{{data.user_id}}</td>
-          <td>{{data.item_id}}</td>
-          <td>{{data.date}}</td>
+        <tr v-for="data in allData.data" :key="data.id">
+          <th scope="row">{{ data._id }}</th>
+          <td>{{ data.user_id.name }}</td>
+          <td>{{ data.item_id.name }}</td>
+          <td>{{ data.date }}</td>
         </tr>
       </tbody>
     </table>

@@ -72,6 +72,7 @@ export default {
         .post(`${this.$store.state.baseUrl}/user/register`, data)
         .then(result => {
           localStorage.setItem('token', result.data.token)
+          localStorage.setItem('id', result.data.id)
           this.$store.commit('CHANGE_STATUS')
           this.$router.push('/')
           Swal.fire('Registration Success', 'Enjoy!', 'success')

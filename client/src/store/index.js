@@ -120,15 +120,15 @@ export default new Vuex.Store({
         .catch(err => {
           Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: err.response
+            title: 'Oops...' + err.response.status,
+            text: err.response.data.message
           })
         })
     },
     FETCH_TRANSACTION(context) {
       console.log('masuk fetch')
       axios
-        .get(`${this.state.baseUrl}/cart/transaction`, {
+        .get(`${this.state.baseUrl}/cart/transaction/detail`, {
           headers: { token: localStorage.getItem('token') }
         })
         .then(results => {
