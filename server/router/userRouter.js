@@ -17,6 +17,7 @@ router.post('/login', UserController.login)
 
 
 router.use(authentication)
+router.get('/', UserController.getUserDetail)
 router.use('/:userId', authorizationModel('User'))
 router.patch('/:userId', gcsUpload.single('file'), UserController.patchUpdate)
 

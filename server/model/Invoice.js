@@ -56,6 +56,10 @@ const invoiceSchema = new Schema({
     }
 })
 
+invoiceSchema.pre('findOneAndUpdate', function(next){
+    this.getUpdate().updatedAt = new Date()
+    next()
+})
 
 
 const Invoice = mongoose.model('Invoice', invoiceSchema)

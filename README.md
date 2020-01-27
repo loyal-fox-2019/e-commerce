@@ -1,15 +1,17 @@
 # e-commerce
 
 additional feature:
-* find duplicate when creating transactions
+* merge duplicate when creating transactions
 
-* aggregate grouping by seller id
+* aggregate find result grouped by seller id
 
 * when customer checkout :
     - bulk item stock checking
-        - kalo ada 1 nya yang itemnya kurang, maka langsung cancel semua
-    - item stock update
+        kalo ada 1 nya yang itemnya kurang, maka langsung cancel semua
+    - bulk item stock update
         pake model.bulkwrite([{}])
+    - bulk transaction status udpate jadi paid semua
+        pake updateMany
     - cart created
     
 
@@ -23,3 +25,5 @@ additional feature:
               if(!req.redirectStatus)
                 res.status(200).json(result)
           })
+
+

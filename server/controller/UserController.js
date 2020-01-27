@@ -11,13 +11,18 @@ class UserController{
 
     static register(req,res,next)
       {
-          const { username, firstName, lastName, email, password, role } = req.body
+          const { username, firstName, lastName, email, password } = req.body
           
           User.create({
-              username, firstName, lastName, email, password, role
+              username, firstName, lastName, email, password
           })
           .then(result=>{
-              res.status(201).json(result)
+              res.status(201).json({
+                  username : result.username,
+                  firstName : result.firstName,
+                  email : result.email,
+                  token : generateToken({ _id : result._id })
+              })
           })
           .catch(err=>{
               next(err)
@@ -50,7 +55,16 @@ class UserController{
           })
       }
 
+
+    static getUserDetail(req,res,next)
+      {
+          const { username, fullName, email } = req.decodedUser
+          res.status(200).json({
+              username, fullName, email
+          })
+      }
     
+      
     static patchUpdate(req,res,next)
       {
           const validKey = ['firstName', 'lastName', 'email', 'address']

@@ -15,16 +15,18 @@ router.get('/aggregate', ItemController.aggregateGroup) //test case aggregate gr
 
 // no authentication && no authorization
 router.get('/all/:sellerId', ItemController.findAllItemBySellerId )
-router.get('/all', ItemController.findAllItem) //bisa find all atau bulk find
+router.get('/all/?', ItemController.findAllItem) //paginated  //bisa find all atau bulk find
+router.get('/countAllItem', ItemController.countAllItem)
 router.post('/filter', ItemController.findFilterItem)
 router.get('/:itemId', ItemController.findOneItem)    
+
 
 
 
 router.use(authentication)
 router.post('/', gcsUpload.single('file'), ItemController.createItem)
 // router.patch('/buyItem/:itemId', stockChecking, ItemController.patchBuyItem)
-
+router.post('/devSeed', ItemController.seedingItem)
 
 router.use('/:itemId', authorizationModel('Item'))
 router.patch('/:itemId', gcsUpload.single('file'), ItemController.patchEditItem)
