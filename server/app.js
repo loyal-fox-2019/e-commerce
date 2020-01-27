@@ -12,14 +12,18 @@ const {
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const MONGO_URI =
+  process.env.NODE_ENV === 'test'
+    ? `mongodb://localhost:27017/e-commerce-${process.env.NODE_ENV}`
+    : process.env.DB_URI;
 
-mongoose.connect(
-  `mongodb://localhost:27017/e-commerce-${process.env.NODE_ENV}`,
-  {
+mongoose
+  .connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  }
-);
+  })
+  .then(() => console.log(`MONGODB connected successfully!`))
+  .catch(err => console.log(err));
 
 app.use(cors());
 app.use(express.json());

@@ -50,8 +50,10 @@
               <b-dropdown-item>Profile</b-dropdown-item>
               <b-dropdown-item @click="userSignOut">Sign Out</b-dropdown-item>
 
-              <b-dropdown-item v-if="userProfile.role === 'admin'"
-                >Admin Page</b-dropdown-item
+              <b-dropdown-item
+                to="/add-new-item"
+                v-if="userProfile.role === 'admin'"
+                >Add New Item</b-dropdown-item
               >
             </b-nav-item-dropdown>
 
@@ -60,7 +62,7 @@
                 User
               </template>
               <b-dropdown-item to="/user/signin">Sign In</b-dropdown-item>
-              <b-dropdown-item href="#">Register</b-dropdown-item>
+              <b-dropdown-item to="/user/register">Register</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>

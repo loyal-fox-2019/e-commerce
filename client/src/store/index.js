@@ -7,7 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userProfile: null,
-    itemsInCart: []
+    itemsInCart: [],
+    listOfProducts: []
   },
   getters: {
     getUserProfile(state) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    updateProductList(state, newProductList) {
+      state.listOfProducts = newProductList;
+    },
     setUserProfile(state, newUserProfile) {
       state.userProfile = newUserProfile;
     },
@@ -30,6 +34,31 @@ export default new Vuex.Store({
     // removeItemInCart(state, item) {}
   },
   actions: {
+    createProduct({ commit }, newItem) {
+      const formData = new FormData();
+      formData.append('title', newItem.title);
+      formData.append('description', newItem.description);
+      formData.append('price', newItem.price);
+      formData.append('stock', newItem.stock);
+      formData.append('image', newItem.image);
+      axios
+        .post('http://localhost:3000/products', formData, {
+          headers: { token: localStorage.getItem('token') }
+        })
+        .then(() => axios.get('http://localhost:3000/products'))
+        .then(({ data }) => {
+          commit('updateProductList', data.data);
+        })
+        .catch(err => console.error(err));
+    },
+    getProductList({ commit }) {
+      axios
+        .get('http://localhost:3000/products')
+        .then(({ data }) => {
+          commit('updateProductList', data.data);
+        })
+        .catch(err => console.error(err));
+    },
     createCart({ commit }, newItem) {
       axios
         .post(
@@ -40,7 +69,7 @@ export default new Vuex.Store({
             totalPrice: newItem.total * newItem.product.price
           },
           {
-            token: localStorage.getItem('token')
+            headers: { token: localStorage.getItem('token') }
           }
         )
         .then(() => {
@@ -48,6 +77,9 @@ export default new Vuex.Store({
         })
         .catch(err => console.error(err));
     }
+    // updateCart({ commit }, updatedList) {
+    //   axios.post();
+    // }
   },
   modules: {}
 });
