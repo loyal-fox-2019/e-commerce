@@ -125,7 +125,7 @@ export default {
     addToBag(productId) {
       axios({
         method: 'post',
-        url: this.$baseUrl + '/bag/add',
+        url: 'http://54.179.183.251:3000/bag/add',
         headers: {
           token: localStorage.getItem('token')
         },

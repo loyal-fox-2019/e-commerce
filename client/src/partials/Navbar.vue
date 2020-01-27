@@ -76,6 +76,11 @@ export default {
       username: localStorage.getItem('username')
     }
   },
+  watch: {
+    username(o, n) {
+      this.username = n
+    }
+  },
   computed: {
     loggedIn() {
       const isLoggedIn = this.$store.state.isLoggedIn
@@ -97,6 +102,7 @@ export default {
       }
       localStorage.removeItem('token')
       localStorage.removeItem('platform')
+      localStorage.removeItem('username')
       this.$router.push('/')
       this.$store.state.isLoggedIn = false
     }

@@ -12,7 +12,7 @@ class ControllerUser {
       platform: 'normal'
     }
     User.create(newUser)
-      .then(user => {
+      .then((user) => {
         const token = generateToken({
           id: user._id,
           firstname: user.firstname,
@@ -22,11 +22,11 @@ class ControllerUser {
           email: user.email
         })
         res.status(201).json({
-          token : token,
+          token: token,
           username: user.username
         })
       })
-      .catch(err => {
+      .catch((err) => {
         next(err)
       })
   }
@@ -45,7 +45,7 @@ class ControllerUser {
         }
       ]
     })
-      .then(userData => {
+      .then((userData) => {
         user = userData
         if (!userData) {
           res.send(400).json('Username atau email belum terdaftar')
@@ -54,7 +54,7 @@ class ControllerUser {
           return bcrypt.compare(req.body.password, userData.password)
         }
       })
-      .then(result => {
+      .then((result) => {
         if (!result) {
           res.status(400).json('Username / email atau password anda salah')
         } else {
@@ -72,7 +72,7 @@ class ControllerUser {
           })
         }
       })
-      .catch(err => {
+      .catch((err) => {
         next(err)
       })
   }
@@ -86,18 +86,18 @@ class ControllerUser {
         idToken: req.body.idToken,
         audience: process.env.G_CLIENT_ID
       })
-      .then(ticket => {
+      .then((ticket) => {
         payload = ticket.getPayload()
         return User.findOne({
           email: payload.email,
           platform: 'google'
         })
       })
-      .then(user => {
+      .then((user) => {
         if (user) {
           return user
         } else {
-          const randomizedUser = require('../helpers/randomizedUser');
+          const randomizedUser = require('../helpers/randomizedUser')
           let newUsername = randomizedUser(payload.name)
           let newUser = {
             username: newUsername,
@@ -111,7 +111,8 @@ class ControllerUser {
           return User.create(newUser)
         }
       })
-      .then(newUser => {
+      .then((newUser) => {
+        console.log(newUser)
         const token = generateToken({
           id: newUser._id,
           firstname: newUser.firstname,
@@ -123,10 +124,10 @@ class ControllerUser {
         res.status(201).json({
           token: token,
           platform: newUser.platform,
-          username: user.username
+          username: newUser.username
         })
       })
-      .catch(err => {
+      .catch((err) => {
         // console.log(err);
         next(err)
       })

@@ -86,7 +86,7 @@ export default {
     login() {
       axios({
         method: 'post',
-        url: this.$baseUrl + '/users/login',
+        url: 'http://54.179.183.251:3000/users/login',
         data: {
           target: this.target,
           password: this.password
@@ -113,7 +113,7 @@ export default {
         idToken: idToken
       }
       axios
-        .post(this.$baseUrl + '/users/g-sign-in', token)
+        .post('http://54.179.183.251:3000/users/g-sign-in', token)
         .then(({ data }) => {
           localStorage.setItem('token', data.token)
           localStorage.setItem('platform', data.platform)

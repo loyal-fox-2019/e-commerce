@@ -134,7 +134,7 @@ export default {
         if (result.value) {
           axios({
             method: 'post',
-            url: this.$baseUrl + '/inventori/add',
+            url: 'http://54.179.183.251:3000/inventori/add',
             headers: {
               token: localStorage.getItem('token')
             },

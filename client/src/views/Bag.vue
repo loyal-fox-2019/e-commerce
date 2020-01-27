@@ -135,7 +135,7 @@ export default {
         this.disableBtn = false
         axios({
           method: 'put',
-          url: this.$baseUrl + '/bag/patch-jumlah/' + bagId,
+          url: 'http://54.179.183.251:3000/bag/patch-jumlah/' + bagId,
           headers: {
             token: localStorage.getItem('token')
           },
@@ -168,7 +168,7 @@ export default {
         if (result.value) {
           axios({
             method: 'delete',
-            url: this.$baseUrl + '/bag/delete/' + bagId,
+            url: 'http://54.179.183.251:3000/bag/delete/' + bagId,
             headers: {
               token: localStorage.getItem('token')
             }

@@ -36,12 +36,12 @@ export default new Vuex.Store({
       if (!localStorage.getItem('token')) {
         config = {
           method: 'get',
-          url: this.$baseUrl + '/inventori/'
+          url: 'http://54.179.183.251:3000/inventori/'
         }
       } else {
         config = {
           method: 'get',
-          url: this.$baseUrl + '/inventori/',
+          url: 'http://54.179.183.251:3000/inventori/',
           headers: {
             token: localStorage.getItem('token')
           }
@@ -64,7 +64,7 @@ export default new Vuex.Store({
     getMyInv({ commit }) {
       axios({
         method: 'get',
-        url: this.$baseUrl + '/inventori/own',
+        url: 'http://54.179.183.251:3000/inventori/own',
         headers: {
           token: localStorage.getItem('token')
         }
@@ -79,7 +79,11 @@ export default new Vuex.Store({
     getInv({ commit }, item) {
       axios({
         method: 'get',
-        url: this.$baseUrl + '/inventori/' + item.userId + '/' + item.idBarang,
+        url:
+          'http://54.179.183.251:3000/inventori/' +
+          item.userId +
+          '/' +
+          item.idBarang,
         headers: {
           token: localStorage.getItem('token')
         }
@@ -95,7 +99,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: this.$baseUrl + '/bag/',
+          url: 'http://54.179.183.251:3000/bag/',
           headers: {
             token: localStorage.getItem('token')
           }
@@ -129,7 +133,9 @@ export default new Vuex.Store({
         let stok = item.productId.stok - item.jumlah
         axios({
           method: 'put',
-          url: this.$baseUrl + '/inventori/update-stok/' + item.productId._id,
+          url:
+            'http://54.179.183.251:3000/inventori/update-stok/' +
+            item.productId._id,
           headers: {
             token: localStorage.getItem('token')
           },
@@ -148,7 +154,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios({
           method: 'post',
-          url: this.$baseUrl + '/recaps/add',
+          url: 'http://54.179.183.251:3000/recaps/add',
           headers: {
             token: localStorage.getItem('token')
           },
@@ -159,7 +165,7 @@ export default new Vuex.Store({
           .then(({ data }) => {
             return axios({
               method: 'put',
-              url: this.$baseUrl + '/bag/checkout',
+              url: 'http://54.179.183.251:3000/bag/checkout',
               headers: {
                 token: localStorage.getItem('token')
               }
@@ -177,7 +183,7 @@ export default new Vuex.Store({
     getRecapList({ commit }) {
       axios({
         method: 'get',
-        url: this.$baseUrl + '/recaps/',
+        url: 'http://54.179.183.251:3000/recaps/',
         headers: {
           token: localStorage.getItem('token')
         }

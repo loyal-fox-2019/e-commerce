@@ -17,7 +17,7 @@ Vue.use(IconsPlugin)
 Vue.use(VueSweetalert2)
 Vue.config.productionTip = false
 
-Vue.prototype.$baseUrl = 'http://54.179.183.251:3000'
+// Vue.prototype.$baseUrl = 'http://54.179.183.251:3000'
 
 new Vue({
   router,

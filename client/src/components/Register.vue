@@ -150,34 +150,36 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sure'
-      }).then((result) => {
-        if (result.value) {
-          axios({
-            method: 'post',
-            url: this.$baseUrl + '/users/register',
-            data: {
-              firstname: this.firstname,
-              lastname: this.lastname,
-              username: this.username,
-              email: this.email,
-              contact: this.contact,
-              password: this.password
-            }
-          })
-            .then(({ data }) => {
-              // eslint-disable-next-line
-              console.log(data)
-              localStorage.setItem('token', data.token)
-              this.$store.state.isLoggedIn = true
-              this.$router.replace('/')
-            })
-            .catch((err) => {
-              // eslint-disable-next-line
-              console.log(err)
-            })
-          return this.$swal('Success', 'Successfully registered', 'success')
-        }
       })
+        // eslint-disable-next-line
+        .then((result) => {
+          if (result.value) {
+            return axios({
+              method: 'post',
+              url: 'http://54.179.183.251:3000/users/register',
+              data: {
+                firstname: this.firstname,
+                lastname: this.lastname,
+                username: this.username,
+                email: this.email,
+                contact: this.contact,
+                password: this.password
+              }
+            })
+          }
+        })
+        .then(({ data }) => {
+          // eslint-disable-next-line
+          console.log(data)
+          localStorage.setItem('token', data.token)
+          this.$store.state.isLoggedIn = true
+          this.$router.replace('/')
+          this.$swal('Success', 'Successfully registered', 'success')
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          console.log(err)
+        })
     }
   }
 }
