@@ -17,3 +17,5 @@ app.use('/', routes)
 app.use(errorHandler)
 
 app.listen(PORT, _=> console.log('Server running on port, ', PORT))
+
+module.exports = app

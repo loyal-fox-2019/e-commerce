@@ -33,19 +33,27 @@ const userSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'Product'
       },
-      amount: Number
+      quantity: Number
     }
   ],
   role:{
     type: String,
     enum: ['admin', 'customer'],
     default: 'customer'
+  },
+  hookEnabled: {
+    type: Boolean, 
+    default: true
   }
 })
 
 userSchema.pre('save', function(next){
-  this.password = hash(this.password)
-  next()
+  if (this.hookEnabled) {
+    this.password = hash(this.password)
+    next()
+  } else {
+    next()
+  }
 })
 
 const User = model('User', userSchema)

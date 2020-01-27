@@ -4,7 +4,7 @@ const {authenticate} = require('../middlewares/auth')
 
 router.use(authenticate)
 router.get('/', CartController.getCart)
-router.post('/', CartController.add)
+router.patch('/', CartController.add)
 router.post('/checkout', CartController.checkout)
 
 module.exports = router

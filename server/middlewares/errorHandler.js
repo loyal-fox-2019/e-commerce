@@ -17,6 +17,8 @@ function errorHandler (err, req, res, next) {
       status = 401
       if (err.message == 'jwt must be provided') {
         message = 'You must login to do that!'
+      } else if (err.message == 'jwt malformed') {
+        message = 'You are not authorized'
       } else {
         message = err.message
       }

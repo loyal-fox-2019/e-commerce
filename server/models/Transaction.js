@@ -27,15 +27,16 @@ const transactionSchema = new Schema ({
   },
   deliverTo: {
     type: String,
-    required: [true, 'Delivery address cannot be empty']
+    // required: [true, 'Delivery address cannot be empty']
   },
   deliverPrice: {
     type: Number,
-    required: [true, 'Delivery price cannot be empty!']
+    // required: [true, 'Delivery price cannot be empty!']
   },
   status: { 
     type: String,
-    required: [true, 'Status cannot be empty']
+    default: 'onDelivery'
+    // required: [true, 'Status cannot be empty']
   }
 },
 {

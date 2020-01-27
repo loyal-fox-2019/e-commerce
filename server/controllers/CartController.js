@@ -15,25 +15,25 @@ class CartController {
 
   static async add(req, res, next) {
     try {
+      await User.findByIdAndUpdate(req.decodedId, {hookEnabled: false})
 
-      let { productId, amount } = req.body
+      let { productId, quantity } = req.body
       let result
-      amount = Number(amount)
-
+      quantity = Number(quantity)
       let user = await User.findById(req.decodedId)
       if (user.cart.length == 0) {
-        await user.cart.push({productId, amount})
+        await user.cart.push({productId, quantity})
         result = await user.save({ validateBeforeSave: false })
       } else {
         for (let product of user.cart) {
           if (product.productId == productId) {
-            product.amount += amount
+            product.quantity += quantity
             result = await user.save({ validateBeforeSave: false })
             break;
           }
         }
         if (!result) {
-          await user.cart.push({productId, amount})
+          await user.cart.push({productId, quantity})
           result = await user.save({ validateBeforeSave: false })
         }
       }

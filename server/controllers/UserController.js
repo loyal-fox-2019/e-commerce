@@ -21,11 +21,15 @@ class UserController {
       let { email, password } = req.body
       if (email) { email = email.toLowerCase() }
       let user = await User.findOne({ email })
-      if (!user || !compare(password, user.password)) {
-        next({ status: 404, message: 'Invalid Email or Password' })
+      if (user) {
+        if (compare(password, user.password)) {
+          let token = generateToken({ id: user._id })
+          res.status(200).json({name:user.name, token})
+        } else {
+          next({ status: 400, message: 'Invalid Email or Password' })
+        }
       } else {
-        let token = generateToken({ id: user._id })
-        res.status(200).json({name:user.name, token})
+        next({ status: 400, message: 'Invalid Email or Password' })
       }
     } catch (error) {
       next(error)
