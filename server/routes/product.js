@@ -9,8 +9,10 @@ router.get('/', ProductController.showProducts)
 router.get('/myItem', authenticate, ProductController.getUserProducts)
 router.get('/othersItem', authenticate, ProductController.getOtherUserProducts)
 router.get('/:productId', ProductController.showProduct)
+
 router.use(authenticate)
 router.post('/', upload.single('image'), ProductController.postProduct)
+
 router.use('/:productId', authorizeProductOwner)
 router.patch('/:productId', upload.single('image'), ProductController.editProduct)
 router.delete('/:productId', ProductController.deleteProduct)
