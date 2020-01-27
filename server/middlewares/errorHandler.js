@@ -3,7 +3,7 @@
 module.exports = {
     errorHandler: function (error, req, res, next) {
         // console.log(JSON.stringify(error, null, 2));
-        console.log(error,' ini ditangkap di error handler');
+        // console.log(error,' ini ditangkap di error handler');
 
         let statusCode;
         let messageError = [];
