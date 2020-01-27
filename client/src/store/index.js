@@ -19,6 +19,9 @@ export default new Vuex.Store({
     HIDE_LOGIN(state) {
       state.showRegisterLoginPage = false
     },
+    SHOW_LOGIN(state) {
+      state.showRegisterLoginPage = true
+    },
     SET_ALLITEM(state, payload) {
       state.allitem = payload
     },

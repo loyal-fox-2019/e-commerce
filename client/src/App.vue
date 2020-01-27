@@ -48,10 +48,18 @@
               v-show="!showRegisterLoginPage"
             />
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" style="cursor:pointer" @click="userCart"
+              <a
+                class="dropdown-item"
+                style="cursor:pointer"
+                @click.prevent="userCart"
                 >Profile</a
               >
-              <a class="dropdown-item" href="#">Sign Out</a>
+              <a
+                class="dropdown-item"
+                style="cursor:pointer"
+                @click.prevent="logOut"
+                >Sign Out</a
+              >
             </div>
           </div>
         </form>
@@ -65,7 +73,7 @@
 
 <script>
 import RegisterLogin from './views/RegisterLogin'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   name: 'App',
   data() {
@@ -77,6 +85,7 @@ export default {
     RegisterLogin
   },
   methods: {
+    ...mapMutations(['HIDE_LOGIN', 'SHOW_LOGIN']),
     ...mapActions(['getUserLogin', 'getAllItem', 'getUserCart']),
     showAdditemPage() {
       this.$router.push({
@@ -92,6 +101,10 @@ export default {
       this.$router.push({
         path: '/'
       })
+    },
+    logOut() {
+      localStorage.removeItem('token')
+      this.SHOW_LOGIN()
     }
   },
   computed: {
@@ -119,6 +132,11 @@ export default {
   },
   created() {
     this.getAllItem()
+    if (localStorage.token) {
+      this.HIDE_LOGIN()
+      this.getUserLogin()
+      this.getUserCart()
+    }
   }
 }
 </script>
