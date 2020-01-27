@@ -11,6 +11,7 @@
         fab
         id="upload-btn"
         @click="toUpload"
+        v-if="$store.state.isLogin"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>

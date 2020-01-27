@@ -6,6 +6,9 @@
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <v-card class="elevation-12">
+                <v-alert type="error" v-for="(error, i) in errors" :key="i">
+                  {{error}}
+                </v-alert>
                 <v-toolbar color="primary" dark flat>
                   <v-toolbar-title>Upload Makanan</v-toolbar-title>
                   <v-spacer></v-spacer>
@@ -46,6 +49,7 @@
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
+                  <v-btn color="primary" @click="back">Back</v-btn>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" @click="upload">Upload</v-btn>
                 </v-card-actions>
@@ -75,6 +79,9 @@ export default {
     }
   },
   methods: {
+    back () {
+      this.$router.push('/')
+    },
     upload () {
       this.errors = []
       const formData = new FormData()
@@ -110,7 +117,7 @@ export default {
           this.$router.push('/')
         })
         .catch(err => {
-          this.errors.push(err.response.data.message)
+          this.errors = err.response.data.message
         })
     }
   },
