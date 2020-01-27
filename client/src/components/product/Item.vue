@@ -46,7 +46,7 @@
     <div id="for-modal">
       <b-modal :id="item._id" size="xl" hide-footer title="Add Product">
         <div id="inside">
-          <form @submit.prevent="jualBarang">
+          <form @submit.prevent="editProduct">
             <b>gambar barang:</b>
             <b-form-file
               v-model="image"

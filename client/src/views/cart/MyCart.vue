@@ -52,7 +52,7 @@ export default {
         data: this.myCarts
       })
       .then(({data}) => {
-        this.$swal.fire(data + ' Barang terbeli dan akan segera dikirim')
+        this.$swal.fire(Object.keys(data).length + ' Barang terbeli dan akan segera dikirim')
         this.$router.push('/cart/mypaid')
       }).catch((err) => {
         console.log(err.response)

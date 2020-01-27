@@ -13,7 +13,7 @@ describe('Products test => /products', async function () {
 
     after(async function () {
         // console.log('delete');
-        return await deleteUser()
+        await deleteUser()
     })
 
     let dataProduct = {
@@ -34,18 +34,21 @@ describe('Products test => /products', async function () {
     let token, user;
     before(async function () {
         user = await createUser(fake)
-        token = genToken({ user })
+        console.log({id : user._id});
+        token = genToken( {id : user._id})
     })
 
     describe.only('POST /products', async function () {
 
         it('should create new product', function (done) {
-            // console.log(dataProduct)
+            console.log(token)
             let dataku = dataProduct
             chai.request(app).post('/products')
                 .send(dataku)
                 .set('token', token)
                 .end(function (err, res) {
+                    // console.log(err, 'ini err')
+                    // console.log(res, 'ini res');
                     // console.log(res.body, 'ini dari res body di testingproduct');
                     expect(err).to.be.equal(null)
                     expect(res).to.have.status(201)

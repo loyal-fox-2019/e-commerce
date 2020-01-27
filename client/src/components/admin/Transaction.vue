@@ -48,6 +48,7 @@ export default {
           url: 'carts/all'
       })
       .then(({data}) => {
+        console.log(data);
           this.items = data
       }).catch((err) => {
           this.$swal.fire('Something went wrong...')

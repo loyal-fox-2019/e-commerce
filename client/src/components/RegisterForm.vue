@@ -101,12 +101,12 @@ export default {
       this.showing = val;
     },
     login() {
-      console.log('masuk login');
-      if(this.email == 'admin@admin.admin' && this.password == 'adminadmin'){
-        localStorage.setItem('token', 'admin')
-        this.$router.push('/admin')
-      }else{
-        this.axios
+      console.log("masuk login");
+      // if(this.email == 'admin@admin.admin' && this.password == 'adminadmin'){
+      //   localStorage.setItem('token', 'admin')
+      //   this.$router.push('/admin')
+      // }else{
+      this.axios
         .post("users/login", {
           email: this.email,
           password: this.password
@@ -114,15 +114,15 @@ export default {
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
           console.log(data.name);
-          this.$router.push('/')
+          this.$router.push("/");
         })
         .catch(err => {
           console.log(err.response.data);
         });
-      }
+      // }
     },
     register() {
-      console.log('masuk register');
+      console.log("masuk register");
       this.axios
         .post("users/register", {
           email: this.email,
@@ -134,7 +134,7 @@ export default {
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
           console.log(data.name);
-          this.$router.push('/')
+          this.$router.push("/");
         })
         .catch(err => {
           console.log(err.response);

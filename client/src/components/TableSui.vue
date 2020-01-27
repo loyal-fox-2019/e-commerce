@@ -47,10 +47,11 @@ export default {
   data() {
     return {};
   },
+  created() {
+  },
   computed: {},
   methods: {
     pembelian(val) {
-      console.log(this.dataList);
       return new Date(val).toLocaleString();
     },
     deleteThis(id) {
@@ -59,7 +60,6 @@ export default {
         url: "carts/" + id
       })
         .then(({ data }) => {
-          console.log(data);
           this.$swal.fire(data.product.name, " sukses di hapus dari cart");
           this.$store.dispatch("fetchMyCarts");
           this.$router.push("/cart/myproduct");
@@ -75,7 +75,6 @@ export default {
         url: "carts/paid/" + id
       })
         .then(({ data }) => {
-          console.log(data);
           this.$swal.fire(data.product.name, "terima kasih atas pembeliannya");
           this.$store.dispatch("fetchMyPaid");
           this.$router.push("/cart/myitem");

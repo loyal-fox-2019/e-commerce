@@ -53,6 +53,7 @@ class Controller {
             .populate('seller', 'name phone email')
             .populate('product')
             .then((result) => {
+                // console.log(result, 'ini hasil update');
                 res.status(200).json(result)
             }).catch(next);
     }
@@ -62,8 +63,9 @@ class Controller {
         Cart.find({ $or: [{ seller: req.decoded.id }, { buyer: req.decoded.id }], status: 'delivered' })
             .populate('buyer', 'name phone email')
             .populate('seller', 'name phone email')
-            .populate('product')
+            .populate({path: 'product', model: 'Product'})
             .then((result) => {
+                // console.log(result, 'ini hasil read');
                 res.status(200).json(result)
             }).catch(next);
 
