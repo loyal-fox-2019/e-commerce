@@ -22,12 +22,12 @@
           />
           <button type="submit" @click.prevent="login">Sign in</button>
           <sui-button
-              social="google"
-              content="Google"
-              icon="google"
-              color="teal"
-              @click.prevent="onSignIn"
-            />
+            social="google"
+            content="Google"
+            icon="google"
+            color="teal"
+            @click.prevent="onSignIn"
+          />
           <p style="user-select:none">
             Doesn't have account?
             <span @click.prevent="show(false)">Sign Up here</span>
@@ -108,7 +108,7 @@ export default {
       this.showing = val;
     },
     login() {
-      console.log("masuk login");
+      // console.log("masuk login");
       // if(this.email == 'admin@admin.admin' && this.password == 'adminadmin'){
       //   localStorage.setItem('token', 'admin')
       //   this.$router.push('/admin')
@@ -120,17 +120,18 @@ export default {
         })
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
-          this.$store.state.isLogin = true
+          this.$store.state.isLogin = true;
           console.log(data.name);
           this.$router.push("/");
         })
         .catch(err => {
+          this.$swal.fire(err.response.data.message);
           console.log(err.response.data);
         });
       // }
     },
     register() {
-      console.log("masuk register");
+      // console.log("masuk register");
       this.axios
         .post("users/register", {
           email: this.email,
@@ -141,11 +142,12 @@ export default {
         })
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
-          this.$store.state.isLogin = true
-          console.log(data.name);
+          this.$store.state.isLogin = true;
+          // console.log(data.name);
           this.$router.push("/");
         })
         .catch(err => {
+          this.$swal.fire(err.response.data.message);
           console.log(err.response);
         });
     },
@@ -163,14 +165,14 @@ export default {
         })
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
-          this.$store.state.isLogin = true
-          this.$router.push('/home')
+          this.$store.state.isLogin = true;
+          this.$router.push("/home");
         })
         .catch(error => {
           console.log("Google OAuth Failed");
           console.log(error);
           console.log(error);
-          this.$swal.fire('Google OAuth Failed')
+          this.$swal.fire("Google OAuth Failed");
         });
     }
   }

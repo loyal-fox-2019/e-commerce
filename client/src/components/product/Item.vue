@@ -191,6 +191,7 @@ export default {
         })
         .catch(err => {
           console.log(err.response);
+          this.$swal.fire(err.response.data.message)
         });
     },
     hafus() {

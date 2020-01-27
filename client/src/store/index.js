@@ -39,6 +39,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('fillProducts', data)
         }).catch((err) => {
+          this.$swal.fire(err.response.data.message)
           console.log(err.response)
         });
     },
@@ -47,6 +48,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('fillMyProducts', data)
         }).catch((err) => {
+          this.$swal.fire(err.response.data.message)
           console.log(err.response)
         });
     },
@@ -55,6 +57,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('fillMyCart', data)
         }).catch((err) => {
+          this.$swal.fire(err.response.data.message)
           console.log(err.response.data)
         });
     },
@@ -63,6 +66,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('fillMyPaid', data)
         }).catch((err) => {
+          this.$swal.fire(err.response.data.message)
           console.log(err.response.data)
         });
     },
@@ -71,6 +75,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('fillMyItem', data)
         }).catch((err) => {
+          this.$swal.fire(err.response.data.message)
           console.log(err.response.data)
         });
     }

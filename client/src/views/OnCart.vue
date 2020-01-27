@@ -135,6 +135,7 @@ export default {
           this.$router.push("/cart/myproduct");
         })
         .catch(err => {
+          this.$swal.fire(err.response.data.message)
           console.log(err.response);
         });
     }
