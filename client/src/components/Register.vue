@@ -150,11 +150,11 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sure'
-      }).then(result => {
+      }).then((result) => {
         if (result.value) {
           axios({
             method: 'post',
-            url: 'http://localhost:3000/users/register',
+            url: this.$baseUrl + '/users/register',
             data: {
               firstname: this.firstname,
               lastname: this.lastname,
@@ -171,7 +171,7 @@ export default {
               this.$store.state.isLoggedIn = true
               this.$router.replace('/')
             })
-            .catch(err => {
+            .catch((err) => {
               // eslint-disable-next-line
               console.log(err)
             })

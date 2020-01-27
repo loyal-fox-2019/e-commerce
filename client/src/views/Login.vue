@@ -86,22 +86,20 @@ export default {
     login() {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/users/login',
+        url: this.$baseUrl + '/users/login',
         data: {
           target: this.target,
           password: this.password
         }
       })
         .then(({ data }) => {
-          console.log(data)
           localStorage.setItem('token', data.token)
           localStorage.setItem('username', data.username)
           this.$store.state.isLoggedIn = true
           this.$router.replace('/')
         })
+        // eslint-disable-next-line
         .catch((err) => {
-          // eslint-disable-next-line
-          console.log(err)
           this.$swal({
             icon: 'error',
             title: 'Error',
@@ -115,22 +113,30 @@ export default {
         idToken: idToken
       }
       axios
-        .post('http://localhost:3000/users/g-sign-in', token)
+        .post(this.$baseUrl + '/users/g-sign-in', token)
         .then(({ data }) => {
-          console.log(data)
           localStorage.setItem('token', data.token)
           localStorage.setItem('platform', data.platform)
-          console.log(data.username)
           localStorage.setItem('username', data.username)
           this.$store.state.isLoggedIn = true
           this.$router.replace('/')
         })
+        // eslint-disable-next-line
         .catch(function(error) {
-          console.log(error)
+          this.$swal({
+            icon: 'error',
+            title: 'Error',
+            text: 'Username atau password salah!'
+          })
         })
     },
+    // eslint-disable-next-line
     onSignInError(error) {
-      console.log('OH NOES', error)
+      this.$swal({
+        icon: 'error',
+        title: 'Error',
+        text: 'Username atau password salah!'
+      })
     }
   }
 }

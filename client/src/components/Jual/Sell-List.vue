@@ -305,7 +305,7 @@ export default {
         if (result.value) {
           axios({
             method: 'delete',
-            url: 'http://localhost:3000/inventori/delete/' + id,
+            url: this.$baseUrl + '/inventori/delete/' + id,
             headers: {
               token: localStorage.getItem('token')
             }

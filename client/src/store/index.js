@@ -36,12 +36,12 @@ export default new Vuex.Store({
       if (!localStorage.getItem('token')) {
         config = {
           method: 'get',
-          url: 'http://localhost:3000/inventori/'
+          url: this.$baseUrl + '/inventori/'
         }
       } else {
         config = {
           method: 'get',
-          url: 'http://localhost:3000/inventori/',
+          url: this.$baseUrl + '/inventori/',
           headers: {
             token: localStorage.getItem('token')
           }
@@ -64,7 +64,7 @@ export default new Vuex.Store({
     getMyInv({ commit }) {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/inventori/own',
+        url: this.$baseUrl + '/inventori/own',
         headers: {
           token: localStorage.getItem('token')
         }
@@ -79,11 +79,7 @@ export default new Vuex.Store({
     getInv({ commit }, item) {
       axios({
         method: 'get',
-        url:
-          'http://localhost:3000/inventori/' +
-          item.userId +
-          '/' +
-          item.idBarang,
+        url: this.$baseUrl + '/inventori/' + item.userId + '/' + item.idBarang,
         headers: {
           token: localStorage.getItem('token')
         }
@@ -99,7 +95,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: 'http://localhost:3000/bag/',
+          url: this.$baseUrl + '/bag/',
           headers: {
             token: localStorage.getItem('token')
           }
@@ -133,8 +129,7 @@ export default new Vuex.Store({
         let stok = item.productId.stok - item.jumlah
         axios({
           method: 'put',
-          url:
-            'http://localhost:3000/inventori/update-stok/' + item.productId._id,
+          url: this.$baseUrl + '/inventori/update-stok/' + item.productId._id,
           headers: {
             token: localStorage.getItem('token')
           },
@@ -153,7 +148,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios({
           method: 'post',
-          url: 'http://localhost:3000/recaps/add',
+          url: this.$baseUrl + '/recaps/add',
           headers: {
             token: localStorage.getItem('token')
           },
@@ -164,7 +159,7 @@ export default new Vuex.Store({
           .then(({ data }) => {
             return axios({
               method: 'put',
-              url: 'http://localhost:3000/bag/checkout',
+              url: this.$baseUrl + '/bag/checkout',
               headers: {
                 token: localStorage.getItem('token')
               }
@@ -182,7 +177,7 @@ export default new Vuex.Store({
     getRecapList({ commit }) {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/recaps/',
+        url: this.$baseUrl + '/recaps/',
         headers: {
           token: localStorage.getItem('token')
         }

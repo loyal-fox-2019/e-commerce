@@ -129,7 +129,7 @@ export default {
         if (result.value) {
           axios({
             method: 'put',
-            url: 'http://localhost:3000/inventori/update/' + id,
+            url: this.$baseUrl + '/inventori/update/' + id,
             headers: {
               token: localStorage.getItem('token')
             },
