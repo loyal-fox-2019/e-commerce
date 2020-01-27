@@ -77,10 +77,10 @@ module.exports = class UserController {
   }
 
   static edit(req, res, next) {
-    const { name, phone } = req.body;
+    const { name } = req.body;
     User.findByIdAndUpdate(
       req.decoded.id,
-      { name, phone, image: req.file.cloudStoragePublicUrl },
+      { name, image: req.file.cloudStoragePublicUrl },
       { new: true, runValidators: true, omitUndefined: true }
     )
       .then(user => {

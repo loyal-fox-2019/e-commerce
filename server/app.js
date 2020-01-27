@@ -9,7 +9,8 @@ const cors = require('cors')
 const errorHandler = require('./middlewares/errorHandler')
 const dbURL = {
   development: 'mongodb://localhost:27017/ecomm',
-  test: 'mongodb://localhost:27017/ecommtest'
+  test: 'mongodb://localhost:27017/ecommtest',
+  production: 'mongodb+srv://alvina:L4gimakandisushiT31!?@cluster0-zogd9.gcp.mongodb.net/test?retryWrites=true&w=majority'
 }
 
 app.use(express.json())
