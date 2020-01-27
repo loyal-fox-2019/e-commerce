@@ -4,10 +4,12 @@ const express = require('express')
 const router = express.Router()
 const { Product } = require('../controllers')
 const Unggah = require('unggah')
+const gcs = require('unggah/storages/gcs')
 const Authorization = require('../middlewares/authorization')
+const Authentication = require('../middlewares/authentication')
 
 
-const storage = Unggah.gcs({
+const storage = gcs({
   keyFilename: 'keyfile.json',
   bucketName: process.env.GOOGLE_CLOUD_BUCKET,
   rename: (req, file) => {
@@ -19,12 +21,12 @@ const upload = new Unggah({
   storage: storage
 })
 
-router.post('/', Authorization, upload.single('image'), Product.addProduct)
+router.post('/', Authentication, Authorization, upload.single('image'), Product.addProduct)
 router.get('/', Product.findAll)
 router.get('/bars', Product.findEmasBatang)
 router.get('/series', Product.findSeriesBatik)
 router.get('/:id', Product.readOne)
-router.put('/:id', Authorization, Product.update)
-router.delete('/:id', Authorization, Product.delete)
+router.put('/:id', Authentication, Authorization, Product.update)
+router.delete('/:id', Authentication, Authorization, Product.delete)
 
 module.exports = router

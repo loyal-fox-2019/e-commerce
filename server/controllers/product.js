@@ -2,8 +2,9 @@
 
 const { Product } = require('../models')
 const Unggah = require('unggah')
+const gcs = require('unggah/storages/gcs')
 
-const storage = Unggah.gcs({
+const storage = gcs({
   keyFilename: 'keyfile.json',
   bucketName: process.env.GOOGLE_CLOUD_BUCKET,
 })
