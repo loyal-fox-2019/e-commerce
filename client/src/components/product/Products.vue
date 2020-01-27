@@ -1,12 +1,26 @@
 <template>
   <div id="container-products">
-    <Item
-      v-for="product in products"
-      :key="product._id"
-      :item="product"
-      style="width: 230px"
-      class="dukduk"
-    />
+    <div v-if="dicari.length > 0" style="display:flex; flex-direction: row;">
+      <Item
+        v-for="product in dicari"
+        :key="product._id"
+        :item="product"
+        style="width: 230px;"
+        class="dukduk"
+      />
+    </div>
+    <div v-else-if="products.length && !dicari.length" style="display:flex; flex-direction: row;">
+      <Item
+        v-for="product in products"
+        :key="product._id"
+        :item="product"
+        style="width: 230px;"
+        class="dukduk"
+      />
+    </div>
+    <div v-else>
+      <h2>Item kosong nih :(</h2>
+    </div>
   </div>
 </template>
 
@@ -27,6 +41,9 @@ export default {
       } else {
         return this.$store.state.myProducts;
       }
+    },
+    dicari() {
+      return this.$store.getters.filtered;
     }
   },
   created() {

@@ -3,19 +3,19 @@
     <nav>
       <sui-button-group id="navi" :widths="10">
         <b-link to="/cart/myproduct">
-          <sui-button>My Product</sui-button>
+          <sui-button>My Product  <i class="product hunt icon"></i></sui-button>
         </b-link>
         <b-link to="/cart/mycart">
-          <sui-button>My Cart</sui-button>
+          <sui-button>My Cart  <i class="shopping cart icon"></i></sui-button>
         </b-link>
         <b-link to="/cart/mypaid">
-          <sui-button>My Paid</sui-button>
+          <sui-button>My Paid  <i class="money bill alternate icon"></i></sui-button>
         </b-link>
         <b-link to="/cart/myitem">
-          <sui-button>My Delivered</sui-button>
+          <sui-button>My Delivered  <i class="opencart icon"></i></sui-button>
         </b-link>
         <div>
-          <sui-button v-b-modal.create-modal variant="primary">Add New Product</sui-button>
+          <sui-button v-b-modal.create-modal variant="primary">Add New Product <i class="plus circle icon"></i></sui-button>
         </div>
       </sui-button-group>
     </nav>

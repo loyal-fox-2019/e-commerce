@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sui-card>
+    <sui-card style="padding: 5px">
       <sui-image :src="item.image" height="150" alt="Gambar tidak tersedia" />
       <sui-card-content>
         <sui-card-header>{{item.name}}</sui-card-header>

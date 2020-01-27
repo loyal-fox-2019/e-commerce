@@ -1,10 +1,7 @@
 <template>
-  <b-navbar type="light" variant="light" v-if="locally">
-    <b-navbar-brand to="/home">CulCommerce</b-navbar-brand>
-    <b-nav-form class="ml-auto mr-auto" @submit.prevent="cari">
-      <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-      <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-    </b-nav-form>
+  <b-navbar type="light" variant="light" v-if="$store.state.isLogin">
+    <b-navbar-brand to="/home"><i class="home icon"></i> CulCommerce</b-navbar-brand>
+      <sui-input placeholder="Search..." icon="search" class="ml-auto mr-auto" v-model="cariIni" />
     <b-navbar-nav>
       <b-breadcrumb-item to="/cart/myproduct">
         My Menu
@@ -23,22 +20,34 @@ export default {
   name: "NavBar",
   data() {
     return {
-      cariIni: ""
+      cariIni: "",
     };
+  },
+  watch:{
+    cariIni:function(val){
+      if(this.$route.path != '/'){
+        this.$router.push('/')
+      }
+      this.$store.commit('fillFilter', val)
+    }
   },
   methods: {
     deleteLocal() {
       localStorage.removeItem("token");
+      this.$store.state.isLogin = false;
+      this.signOut
+    },
+    signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function() {
+        console.log("User signed out.");
+      });
     },
     cari() {
       console.log(this.cariIni);
     }
   },
-  computed:{
-    locally(){
-      return localStorage.getItem('token')
-    }
-  }
+  computed: {},
 };
 </script>
 

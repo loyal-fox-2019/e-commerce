@@ -21,6 +21,13 @@
             required
           />
           <button type="submit" @click.prevent="login">Sign in</button>
+          <sui-button
+              social="google"
+              content="Google"
+              icon="google"
+              color="teal"
+              @click.prevent="onSignIn"
+            />
           <p style="user-select:none">
             Doesn't have account?
             <span @click.prevent="show(false)">Sign Up here</span>
@@ -113,6 +120,7 @@ export default {
         })
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
+          this.$store.state.isLogin = true
           console.log(data.name);
           this.$router.push("/");
         })
@@ -133,11 +141,36 @@ export default {
         })
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
+          this.$store.state.isLogin = true
           console.log(data.name);
           this.$router.push("/");
         })
         .catch(err => {
           console.log(err.response);
+        });
+    },
+    onSignIn() {
+      this.$gAuth
+        .signIn()
+        .then(GoogleUser => {
+          return this.axios({
+            method: "post",
+            url: "/users/google",
+            data: { token: GoogleUser.getAuthResponse().id_token }
+          });
+          console.log(this.$gAuth.isAuthorized);
+          // this.$root.nowLogin = this.$gAuth.isAuthorized;
+        })
+        .then(({ data }) => {
+          localStorage.setItem("token", data.token);
+          this.$store.state.isLogin = true
+          this.$router.push('/home')
+        })
+        .catch(error => {
+          console.log("Google OAuth Failed");
+          console.log(error);
+          console.log(error);
+          this.$swal.fire('Google OAuth Failed')
         });
     }
   }

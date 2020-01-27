@@ -9,23 +9,28 @@ export default new Vuex.Store({
     myProducts: [],
     myCarts: [],
     myPaids: [],
-    myItems: []
+    myItems: [],
+    isLogin: false,
+    filter: []
   },
   mutations: {
     fillProducts(state, payload) {
       state.products = payload
     },
-    fillMyProducts(state, payload){
+    fillMyProducts(state, payload) {
       state.myProducts = payload
     },
-    fillMyCart(state, payload){
+    fillMyCart(state, payload) {
       state.myCarts = payload
     },
-    fillMyPaid(state,payload){
+    fillMyPaid(state, payload) {
       state.myPaids = payload
     },
-    fillMyItem(state,payload){
+    fillMyItem(state, payload) {
       state.myItems = payload
+    },
+    fillFilter(state, payload) {
+      state.filter = state.products.filter(data => data.name.includes(payload))
     }
   },
   actions: {
@@ -45,31 +50,36 @@ export default new Vuex.Store({
           console.log(err.response)
         });
     },
-    fetchMyCart(context){
+    fetchMyCart(context) {
       axios.get('carts/pending')
-      .then(({data}) => {
-        context.commit('fillMyCart', data)
-      }).catch((err) => {
-        console.log(err.response.data)
-      });
+        .then(({ data }) => {
+          context.commit('fillMyCart', data)
+        }).catch((err) => {
+          console.log(err.response.data)
+        });
     },
-    fetchMyPaid(context){
+    fetchMyPaid(context) {
       axios.get('carts/paid')
-      .then(({data}) => {
-        context.commit('fillMyPaid', data)
-      }).catch((err) => {
-        console.log(err.response.data)
-      });
+        .then(({ data }) => {
+          context.commit('fillMyPaid', data)
+        }).catch((err) => {
+          console.log(err.response.data)
+        });
     },
-    fetchMyItem(context){
+    fetchMyItem(context) {
       axios.get('carts/deliver')
-      .then(({data}) => {
-        context.commit('fillMyItem', data)
-      }).catch((err) => {
-        console.log(err.response.data)
-      });
+        .then(({ data }) => {
+          context.commit('fillMyItem', data)
+        }).catch((err) => {
+          console.log(err.response.data)
+        });
     }
   },
   modules: {
+  },
+  getters: {
+    filtered: state => {
+      return state.filter
+    }
   }
 })

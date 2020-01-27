@@ -1,6 +1,9 @@
 const User = require('../models/user')
 const { genToken } = require('../helpers/jwt')
 const { dehash } = require('../helpers/bcrypt')
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.G_CLIENT);
+
 
 class Controller {
 
@@ -50,13 +53,46 @@ class Controller {
         }
     }
 
-    static hapus(req,res,next){
+    static hapus(req, res, next) {
         User.findByIdAndRemove(req.params.id)
-        .then((result) => {
-            res.status(200).json(result)
-        }).catch(next);
+            .then((result) => {
+                res.status(200).json(result)
+            }).catch(next);
     }
 
+    static async googleSignIn(req, res, next) {
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: req.body.token,
+                audience: process.env.GOOGLE_CLIENT_ID
+            })
+
+            User.findOne({ email: ticket.getPayload().email })
+                .then((user) => {
+                    if (!user) {
+                        User.create({
+                            email: ticket.getPayload().email,
+                            name: ticket.getPayload().name,
+                            password: ticket.getPayload().email,
+                            phone: '00000000000',
+                            city: 'Jakarta'
+                        })
+                            .then((result) => {
+                                let tokenData = { id: result._id, name: result.name }
+                                let token = genToken(tokenData)
+                                res.status(201).json({ token, name: result.name, invitation: result.invitation })
+                            }).catch(next);
+                    } else {
+                        let tokenData = { id: user._id, name: user.name }
+                        let token = genToken(tokenData)
+                        res.status(200).json({ token, name: user.name, invitation: user.invitation })
+                    }
+                })
+                .catch(next);
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = Controller

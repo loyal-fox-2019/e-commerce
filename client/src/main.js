@@ -16,6 +16,14 @@ Vue.use(SuiVue);
 Vue.use(VueAxios, axios)
 Vue.use(VueSweetalert2)
 
+import GAuth from 'vue-google-oauth2'
+const gauthOption = {
+  clientId: 'CLIENT_ID.apps.googleusercontent.com',
+  scope: 'profile email',
+  prompt: 'select_account'
+}
+Vue.use(GAuth, gauthOption)
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'semantic-ui-css/semantic.min.css'
