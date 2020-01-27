@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <pre>{{ recapList }}</pre>
+    <!-- <pre>{{ recapList }}</pre> -->
   </div>
 </template>
 

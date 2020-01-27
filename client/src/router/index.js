@@ -54,7 +54,15 @@ const routes = [
   {
     path: '/inv/:userId/:idBarang',
     component: DetailBarang,
-    props: true
+    props: true,
+    beforeEnter: (to, from, next) => {
+      const token = localStorage.getItem('token')
+      if (token) {
+        next()
+      } else {
+        next('/')
+      }
+    }
   },
   {
     path: '/bag',

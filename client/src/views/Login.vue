@@ -102,6 +102,11 @@ export default {
         .catch((err) => {
           // eslint-disable-next-line
           console.log(err)
+          this.$swal({
+            icon: 'error',
+            title: 'Error',
+            text: 'Username atau password salah!'
+          })
         })
     },
     onSignInSuccess(googleUser) {

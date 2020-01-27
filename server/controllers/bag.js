@@ -41,7 +41,7 @@ class ControllerBag {
         jumlah: req.body.jumlah
       }
     )
-      .then(() => {
+      .then((result) => {
         // console.log(result)
         res.status(200).json('jumlah berhasil diubah')
       })
@@ -79,6 +79,7 @@ class ControllerBag {
       _id: ObjectId(req.params.id)
     })
       .then((result) => {
+        console.log(result)
         res.status(200).json(result)
       })
       .catch((err) => {

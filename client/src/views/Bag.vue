@@ -14,7 +14,7 @@
     </div>
 
     <div class="container flex flex-col justify-center my-5" v-else>
-      <pre>{{ bagList }}</pre>
+      <!-- <pre>{{ bagList }}</pre> -->
       <table class="table">
         <thead class="border-bottom rounded bg-gray-400 border-bottom py-4">
           <th colspan="3"></th>
