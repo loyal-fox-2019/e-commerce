@@ -19,6 +19,9 @@ export default new Vuex.Store({
     SET_CART (state, payload) {
       state.cart = payload
     },
+    SET_TRANSACTION (state, payload) {
+      state.transaction = payload
+    },
     SET_ISLOGIN (state, payload) {
       state.isLogin = payload
       state.cart = []
@@ -47,6 +50,37 @@ export default new Vuex.Store({
           }
         })
         commit('SET_CART', cart.data.cart)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async FETCH_TRANSACTION ({ commit }, payload) {
+      try {
+        let result = await server({
+          url: '/transaction',
+          method: 'GET',
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+        commit('SET_TRANSACTION', result.data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async CONFIRM_DELIVERY ({ commit }, payload) {
+      try {
+        await server({
+          url: `transaction/${payload}`,
+          method: 'PUT',
+          data: {
+            status: 'delivered'
+          },
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+        this.dispatch('FETCH_TRANSACTION')
       } catch (error) {
         Swal.fire(error.response.data.message)
       }

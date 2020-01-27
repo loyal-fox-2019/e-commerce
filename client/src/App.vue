@@ -28,6 +28,8 @@ export default {
       this.$store.dispatch('FETCH_PRODUCTS')
       if (localStorage.getItem('token')) {
         this.$store.dispatch('FETCH_CART')
+        this.$store.dispatch('FETCH_TRANSACTION')
+        this.$store.commit('SET_ISLOGIN', true)
       }
     }
   },
@@ -52,6 +54,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /* background-color: #3e3e3e; */
 }
 
 #nav a {

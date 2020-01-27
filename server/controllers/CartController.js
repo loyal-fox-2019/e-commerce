@@ -47,9 +47,15 @@ class CartController {
     try {
       const userId = req.decodedId
       const {cart, totalPrice, deliverTo, deliverPrice, status} = req.body
-      let transaction = await Transaction.create({
-        userId, cart, totalPrice, deliverTo, deliverPrice, status
-      })
+      let transaction = await Transaction
+        .create({
+          userId, 
+          cart: cart, 
+          totalPrice, 
+          deliverTo, 
+          deliverPrice, 
+          status
+        })
 
       let user = await User
         .findByIdAndUpdate(

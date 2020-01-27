@@ -11,6 +11,7 @@
         <div v-if="cart.length > 0" class="total-wrapper">
           <div>
             <h2>Total</h2>
+            <hr />
             <h3>{{totalPrice}}</h3>
           </div>
           <b-button @click="checkoutCart" variant="dark">Checkout</b-button>
@@ -34,23 +35,37 @@ export default {
   },
   methods: {
     checkoutCart () {
-      server({
-        url: '/cart/checkout',
-        method: 'POST',
-        data: {
-          checkout: this.checkout,
-          totalPrice: this.totalPrice
-        },
-        headers: {
-          token: localStorage.getItem('token')
-        }
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to checkout!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
       })
-        .then(result => {
-          this.$store.dispatch('FETCH_CART')
-          Swal.fire('Added to checkout')
-        })
-        .catch(err => {
-          Swal.fire(err.response.data.message)
+        .then((result) => {
+          if (result.value) {
+            server({
+              url: '/cart/checkout',
+              method: 'POST',
+              data: {
+                cart: this.checkout,
+                totalPrice: this.totalPrice
+              },
+              headers: {
+                token: localStorage.getItem('token')
+              }
+            })
+              .then(result => {
+                this.$store.dispatch('FETCH_CART')
+                this.$store.dispatch('FETCH_TRANSACTION')
+                Swal.fire('Added to checkout')
+              })
+              .catch(err => {
+                Swal.fire(err.response.data.message)
+              })
+          }
         })
     }
   },
