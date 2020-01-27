@@ -35,6 +35,23 @@ class TransactionController{
         let promises = []
         userCart.forEach((e) => {
           promises.push(Product
+            .findById(e.productId)
+            .then((product) => {
+              if (e.quantity > product.stock){
+                throw {errorStatus: 400, errorMessage: `Not enough stock left`}
+              }
+            })
+            .catch((err) => {
+              throw err
+            })
+          )
+        })
+        return Promise.all(promises).then(() => {return userCart})
+      })
+      .then((userCart) => {
+        let promises = []
+        userCart.forEach((e) => {
+          promises.push(Product
             .findByIdAndUpdate(e.productId, {$inc: {stock: (e.quantity * -1)}}, {new: true})
           )
         })
