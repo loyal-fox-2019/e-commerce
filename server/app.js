@@ -9,7 +9,8 @@ const cors = require('cors')
 
 const mongoUrl = {
   test: 'mongodb://localhost:27017/e-commerce-test',
-  development:
+  development: 'mongodb://localhost:27017/e-commerce-test',
+  production:
     'mongodb+srv://muhafa:muhafa@cluster0-9y81a.gcp.mongodb.net/test?retryWrites=true&w=majority'
 }
 
