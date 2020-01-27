@@ -16,6 +16,9 @@ class Inventory{
             res.status(201).json(data)
         })
         .catch((err)=>{
+            if(err.errors.price.message){
+                next({errorCode: 400})
+            }
             next()
         })
     }
@@ -39,6 +42,9 @@ class Inventory{
         .then((Data)=>{
             res.status(200).json(Data)
         })
+        .catch((err)=>{
+            next(err)
+        })
     }
 
     static delete(req,res,next){
@@ -47,6 +53,9 @@ class Inventory{
         })
         .then((data)=>{
             res.status(200).json({message: 'success delete a inventory'})
+        })
+        .catch((err)=>{
+            next(err)
         })
     }
 
@@ -60,6 +69,9 @@ class Inventory{
         })
         .then((data)=>{
             res.status(200).json(data)
+        })
+        .catch((err)=>{
+            next(err)
         })
     }
 
@@ -77,6 +89,9 @@ class Inventory{
         })
         .then((data)=>{
             res.status(200).json(data)
+        })
+        .catch((err)=>{
+            next()
         })
     }
 }

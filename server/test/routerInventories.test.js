@@ -21,8 +21,18 @@ describe('testing CRUD on router /inventories', function() {
         expect(res.body).to.have.property('price')
         done()
       })
-      .catch(function(err){
-        // console.log(err)
+    });
+  });
+
+  describe('method POST Error', function() {
+    it.only('should return status 400', function(done) {
+      chai.request(app)
+      .post('/inventories')
+      .send({name:'sepatu', stock: 10, category: 'Fashion'})
+      .set('token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZTI3MmQzNzJjNjIzNDI1NWFhNWZhNDAiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTgwMDEwNzYzfQ._hyNtDvjIIOPsqsKQkCU0p9RhU0zTMpkh4acyTdH0Tg')
+      .then(function(res){
+        expect(res).to.have.status(400)
+        done()
       })
     });
   });
@@ -53,6 +63,18 @@ describe('testing CRUD on router /inventories', function() {
     });
   });
 
+  describe('method DELETE error', function(){
+    it.only('should return status 400', function(done) {
+      chai.request(app)
+      .delete('/inventories/5e254f52f5d5f333ed34f4be')
+      .set('token','eyJhbGciOieyJ1c2VyaWQiOiI1ZTI3MmQzNzJjNjIzNDI1NWFhNWZhNDAiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTgwMDEwNzYzfQ._hyNtDvjIIOPsqsKQkCU0p9RhU0zTMpkh4acyTdH0Tg')
+      .then(function(res){
+        expect(res).to.have.status(400);
+        done()
+      })
+    });
+  });
+
   describe('method PUT', function(){
     it('should return status 200 and {data updated}', function(done) {
       chai.request(app)
@@ -70,5 +92,17 @@ describe('testing CRUD on router /inventories', function() {
         done()
       })
     });
-  });
+  })
+  describe('method PUT error', function(){
+    it.only('should return status 400', function(done) {
+      chai.request(app)
+      .put('/inventories/5e2c344d230aa966f212dd56')
+      .send({name:'sepatu', stock: 5, category: 'Fashion', description: 'ini merupakan sepatu untuk kegiatan olahraga', image: 'sdsdsdsd'})
+      .set('token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZTI3MmQzNzJjNjIzNDI1NWFhNWZhNDAiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTgwMDEwNzYzfQ._hyNtDv')
+      .then(function(res){
+        expect(res).to.have.status(400);
+        done()
+      })
+    });
+  })
 });

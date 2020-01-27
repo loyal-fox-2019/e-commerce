@@ -46,7 +46,7 @@ describe('testing signup and signin  on router /cart/', function() {
     })
 
     describe('testing checkout cart', function() {
-        it.only('should return status 200 and', function(done) {
+        it('should return status 200 and', function(done) {
             chai.request(app)
             .delete('/carts/5e2d21efb33e59340955052c')
             .set('token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZTI3MmQzNzJjNjIzNDI1NWFhNWZhNDAiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTgwMDEwNzYzfQ._hyNtDvjIIOPsqsKQkCU0p9RhU0zTMpkh4acyTdH0Tg')

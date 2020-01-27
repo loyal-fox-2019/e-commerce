@@ -22,7 +22,7 @@ class User{
             res.status(201).json({token})
         })
         .catch((err)=>{
-            next()
+            next({errorCode: 400, message: 'Email already Use'})
         })
     }
 
@@ -45,7 +45,7 @@ class User{
             res.status(201).json({token})
         })
         .catch((err)=>{
-            next()
+            next({errorCode: 400})
         })
     }
 
@@ -67,8 +67,11 @@ class User{
                 let token = jwt.sign(payload, process.env.SECRET)
                 res.status(200).json({token})
             } else {
-                next()
+                next({errorCode: 400})
             }
+        })
+        .catch((err)=>{
+            next(err)
         })
     }
 
@@ -91,11 +94,14 @@ class User{
                     let token = jwt.sign(payload, process.env.SECRET)
                     res.status(200).json({token})
                 } else {
-                    next()
+                    next({errorCode: 400})
                 }
             } else {
-                next()
+                next({errorCode: 400})
             }
+        })
+        .catch((err)=>{
+            next({errorCode: 400})
         })
     }
 }

@@ -19,6 +19,18 @@ describe('testing signup and signin  on router /users/', function() {
         });
     })
 
+    describe('testing signup user', function() {
+        it.only('should return status 400', function(done) {
+            chai.request(app)
+            .post('/users/signup')
+            .send({first_name:'Riko', last_name: 'Orlando', email: 'rikoorlandsso123@gmail.com', password: 'rikoorlando', address: 'bogor'})
+            .then(function(res){
+              expect(res).to.have.status(400)
+              done()
+            })
+        });
+    })
+
     describe('testing signin user', function() {
         it('should return status 200 and {token}', function(done) {
             chai.request(app)
@@ -32,5 +44,18 @@ describe('testing signup and signin  on router /users/', function() {
             })
         });
     })
+
+    describe('testing signin user', function() {
+        it.only('should return status 400', function(done) {
+            chai.request(app)
+            .post('/users/signin')
+            .send({email: 'rikoorlando@gmail.com', password: 'rikando'})
+            .then(function(res){
+              expect(res).to.have.status(400)
+              done()
+            })
+        });
+    })
+
 
 })

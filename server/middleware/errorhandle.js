@@ -1,6 +1,8 @@
 class Err {
-    static errors(err, req, res){
-        req.status(400).json({message: 'email already taken'})
+    static errors(err, req, res, next){
+        let errorCode = err.errorCode || 500
+        let message = err.message || 'Internal server error'
+        res.status(errorCode).json(message)
     }
 }
 

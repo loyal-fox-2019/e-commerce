@@ -21,7 +21,7 @@ class Verification{
                 next({message: 'admin only'})
             }
         }catch(err){
-            next({message: 'bad token'})
+            next({errorCode: 400})
         }
     }
 
