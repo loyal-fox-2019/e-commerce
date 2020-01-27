@@ -29,7 +29,7 @@
         <v-btn icon>
           <v-icon>mdi-heart</v-icon>
         </v-btn>
-        <v-btn icon v-if="product.user.username != $store.state.username" @click="addToCart">
+        <v-btn icon v-if="product.user.username != $store.state.username && $store.state.isLogin" @click="addToCart">
         <!-- <v-btn icon @click="addToCart"> -->
           <v-icon>shopping_cart</v-icon>
         </v-btn>
