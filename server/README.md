@@ -61,13 +61,25 @@ $ npm install
 
 ## Middlewares
 
-This app uses  {number of middlewares}  middlewares: **Authentication** and **ErrorHandler**
+This app uses  {number of middlewares}  middlewares: **Authentication**, **Authorization**, **Google Cloud Services** and **ErrorHandler**
 
 
 
 ### Authentication
 
 ​		Decrypts token and makes sure user is logged in
+
+
+
+### Authorization
+
+​		Checks if logged user is admin or not
+
+
+
+### Google Cloud Services
+
+​		Uploads images to Google Storage
 
 
 
