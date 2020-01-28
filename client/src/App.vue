@@ -1,0 +1,51 @@
+<template>
+  <div id="app">
+    <NavBar @search="tampungHasilSearch"></NavBar>
+    <router-view :searchResult="hasilSearch" @kosonginSearch="emptySearch" />
+  </div>
+</template>
+
+<style scoped>
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
+
+<script>
+import NavBar from "./components/Navbar";
+export default {
+  components: {
+    NavBar
+  },
+  methods: {
+    tampungHasilSearch(e) {
+      this.hasilSearch = e;
+    },
+    emptySearch() {
+      this.hasilSearch = [];
+    }
+  },
+  data() {
+    return {
+      hasilSearch: []
+    };
+  }
+};
+</script>
