@@ -29,6 +29,19 @@
             data: Object
         },
         methods: {
+            price(value) {
+                let segment = [];
+                let n = [];
+                let priceReverse = "0" + value.toString().split("").reverse().join("");
+                for (let i = 1; i <= priceReverse.length + 1; i++) {
+                    n.unshift(priceReverse[i])
+                    if (i % 3 === 0) {
+                        segment.unshift(n.join(""));
+                        n = [];
+                    }
+                }
+                return segment.join(".");
+            },
             removeFromCart() {
                 this.$emit('remove', this.data._id)
             },
@@ -38,12 +51,14 @@
         },
         computed: {
             totalPrice() {
-                this.$store.dispatch('currencyFormat', this.data.totalPrice);
-                return this.$store.getters.currency
+                // this.$store.dispatch('currencyFormat', this.data.totalPrice);
+                // return this.$store.getters.currency
+                return this.price(this.data.totalPrice)
             },
             itemPrice() {
-                this.$store.dispatch('currencyFormat', this.data.item.price);
-                return this.$store.getters.currency
+                // this.$store.dispatch('currencyFormat', this.data.item.price);
+                // return this.$store.getters.currency
+                return this.price(this.data.item.price)
             },
         },
     }
