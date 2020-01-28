@@ -17,7 +17,7 @@ describe("Items", () => {
                 .post('/api/items/register')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTI2NGMwMDZlZmZmNTMwNGU0N2MxOWUiLCJpYXQiOjE1Nzk5NzQxNDB9.b0lieR5e7UPcad5Hqa7YHpS9JA81sQbHBV_hF1PZy4I')
                 .send({
-                    name: "Android IPhone 11 PRO MAX 512GB X 256GB X 64GB Original ALL Variant - Green Gray Silver Gold Oks",
+                    name: "Android not IPhone 11 PRO MAX 512GB X 256GB X 64GB Original ALL Variant - Green Gray Silver Gold Oks",
                     stock: "8",
                     price: "21790000",
                     image: "https://s1.bukalapak.com/img/67377632361/w-1000/Apple_iPhone_11_PRO_MAX_512GB_x_256GB_x_64GB_Original_ALL_Va.png.webp",

@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 chai.should();
 
 // checking item
-describe("Items", () => {
+describe("Users", () => {
 
     describe("POST /register", () => {
         // Test to create items record
@@ -17,8 +17,8 @@ describe("Items", () => {
             chai.request(app)
                 .post('/api/users/register')
                 .send({
-                    name: 'tes oke',
-                    email: "tes@gmail.com",
+                    name: 'testes',
+                    email: "testes@gmail.com",
                     password: "Qwertyuiop1!",
                     cart: []
                 })

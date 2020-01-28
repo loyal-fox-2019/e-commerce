@@ -1,24 +1,36 @@
 <template>
     <div id="app">
-        <sui-button icon="user" id="dropdown-menu">
-            <sui-dropdown :text="name"
-                          id="suiButtonUser">
-                <sui-dropdown-menu>
-                    <sui-dropdown-item @click.native="toggle">
-                        <sui-icon name="edit"/>
-                        Add Item
-                    </sui-dropdown-item>
-                    <sui-dropdown-item @click.native="transactions">
-                        <sui-icon name="list"/>
-                        Transactions
-                    </sui-dropdown-item>
-                    <sui-dropdown-item @click="logout">
-                        <sui-icon name="logout"/>
-                        Logout
-                    </sui-dropdown-item>
-                </sui-dropdown-menu>
-            </sui-dropdown>
-        </sui-button>
+        <sui-dropdown
+                class="labeled icon"
+                icon="user"
+                button
+                :text="name"
+                id="dropdown-menu">
+            <sui-dropdown-menu>
+                <sui-dropdown-item @click.native="toggle">New Item</sui-dropdown-item>
+                <sui-dropdown-item @click.native="transactions">Transactions</sui-dropdown-item>
+                <sui-dropdown-item @click="logout">Logout</sui-dropdown-item>
+            </sui-dropdown-menu>
+        </sui-dropdown>
+
+        <!--        <sui-button icon="user" id="dropdown-menu">-->
+        <!--            <sui-dropdown :text="name" id="suiButtonUser">-->
+        <!--                <sui-dropdown-menu>-->
+        <!--                    <sui-dropdown-item @click.native="toggle">-->
+        <!--                        <sui-icon name="edit"/>-->
+        <!--                        Add Item-->
+        <!--                    </sui-dropdown-item>-->
+        <!--                    <sui-dropdown-item @click.native="transactions">-->
+        <!--                        <sui-icon name="list"/>-->
+        <!--                        Transactions-->
+        <!--                    </sui-dropdown-item>-->
+        <!--                    <sui-dropdown-item @click="logout">-->
+        <!--                        <sui-icon name="logout"/>-->
+        <!--                        Logout-->
+        <!--                    </sui-dropdown-item>-->
+        <!--                </sui-dropdown-menu>-->
+        <!--            </sui-dropdown>-->
+        <!--        </sui-button>-->
 
         <sui-modal v-model="open">
             <sui-modal-header>
