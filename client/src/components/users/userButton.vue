@@ -62,6 +62,7 @@
                     .confirm('Log out from application ?')
                     .then(dialog => {
                         localStorage.clear();
+                        router.push("/");
                         location.reload();
                         this.$toast.success({
                             title: 'Success',
