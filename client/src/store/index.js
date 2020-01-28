@@ -1,0 +1,105 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+import server from '@/helpers/server'
+import Swal from 'sweetalert2'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    isLogin: false,
+    products: [],
+    cart: [],
+    transaction: []
+  },
+  mutations: {
+    SET_PRODUCTS (state, payload) {
+      state.products = payload
+    },
+    SET_CART (state, payload) {
+      state.cart = payload
+    },
+    SET_TRANSACTION (state, payload) {
+      state.transaction = payload
+    },
+    SET_ISLOGIN (state, payload) {
+      state.isLogin = payload
+      state.cart = []
+      state.transaction = []
+    }
+  },
+  actions: {
+    async FETCH_PRODUCTS ({ commit }, payload) {
+      try {
+        let products = await server({
+          url: '/products',
+          method: 'GET'
+        })
+        commit('SET_PRODUCTS', products.data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async FETCH_CART ({ commit }, payload) {
+      try {
+        let cart = await server({
+          url: '/cart',
+          method: 'GET',
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+        commit('SET_CART', cart.data.cart)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async FETCH_TRANSACTION ({ commit }, payload) {
+      try {
+        let result = await server({
+          url: '/transaction',
+          method: 'GET',
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+        commit('SET_TRANSACTION', result.data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async CONFIRM_DELIVERY ({ commit }, payload) {
+      try {
+        await server({
+          url: `transaction/${payload}`,
+          method: 'PUT',
+          data: {
+            status: 'delivered'
+          },
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+        this.dispatch('FETCH_TRANSACTION')
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    }
+  },
+  getters: {
+    products: state => {
+      return state.products
+    },
+    cart: state => {
+      return state.cart
+    },
+    transaction: state => {
+      return state.transaction
+    },
+    isLogin: state => {
+      return state.isLogin
+    }
+  },
+  modules: {
+  }
+})
