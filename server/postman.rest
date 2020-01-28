@@ -1,0 +1,27 @@
+@baseUrl = http://localhost:3000
+
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "email": "admin@email.com",
+  "password": "12345",
+  "role": "admin"
+}
+
+###
+GET {{baseUrl}}/users/get-curr-user-profile
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTJjM2JhNTQ5MjM4OTM3OGZiMjMzZGUiLCJ1c2VyUm9sZSI6ImFkbWluIiwiaWF0IjoxNTc5OTU3MTU3fQ.AT8vO6J02-iIXpubSx8IukR1lK89B3THbfqXTuec42M
+
+### 
+POST {{baseUrl}}/carts
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTJiOTBlYzQzYjUzOTcxZDc4ZjE2ZTAiLCJpYXQiOjE1Nzk5MTM0NTJ9.pagYg3uNgE6tpbGTjhlaYHSI3RtRuXj-LCLGwk9Y6mA
+Content-Type: application/json
+
+{
+  "itemList": "[
+    \"{\"itemId\": \"1\", \"totalItem\": \"10\"}\",
+    \"{\"itemId\": \"1\", \"totalItem\": \"10\"}\"
+  ]",
+  "totalPrice": "10"
+}
