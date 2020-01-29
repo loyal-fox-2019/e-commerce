@@ -62,8 +62,6 @@ class ItemController {
             });
     }
     static delete(req, res, next) {
-        console.log('masuk ga');
-        console.log(req.params.id);
         Item.findOneAndDelete({
             _id: req.params.id
         }, {
