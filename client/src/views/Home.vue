@@ -12,9 +12,7 @@
           </div>
         </div>
         <div class="col-10">
-          <div class="row">
-            <card v-for="(product,i) in products" :key="i" :product="product" :where="'home'" @productDeleted="allProducts" class='m-3'></card>
-          </div>
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -34,7 +32,6 @@ import axios from "axios"
 export default {
   name: 'home',
   components: {
-    card,
     carousell,
     circularbutton,
   },
@@ -44,34 +41,15 @@ export default {
     }
   },
   methods : {
-    fetchData(){
-      axios({
-        baseURL : "http://localhost:3000",
-        url : '/product',
-        method : 'get',
-        headers : {
-          token : localStorage.token
-        }
-      })
-      .then(({data})=>{
-        console.log('berhasil get porducts')
-        data.forEach(el => {
-          this.products.push(el)
-        });
-      })
-    },
     myProducts(){
-      this.products = this.products.filter(product => {
-        return product.seller === localStorage.user
-      })
-    },
+      this.$router.push('/myproducts')
+      },
     allProducts(){
-      this.products = []
-      this.fetchData()
+      this.$router.push('/')
     },
   },
   created(){
-    this.fetchData()
+    // this.fetchData()
   }
 }
 </script>

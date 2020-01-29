@@ -1,7 +1,6 @@
 <template>
   <div class="button-group">
     <button @click="seeCart" type="button" class="btn btn-dark btn-circle btn-xl"><i class="ml-2 fa fa-shopping-cart"></i>
-        <span class="badge badge-dark">{{cartNum}}</span>
     </button>
   </div>
 </template>
@@ -11,7 +10,6 @@ import axios from 'axios'
 export default {
   data(){
     return{
-      cartNum : 1
     }
   },
   methods : {

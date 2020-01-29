@@ -106,16 +106,7 @@ export default {
         headers : {
           token : localStorage.token
         },
-        data : {
-          // formData
-          name : this.name,
-          price : this.price,
-          imgUrl : this.imgUrl,
-          description : this.description,
-          quantity : this.quantity,
-          seller : this.seller,
-          condition : this.condition
-        }
+        data : formData
       })
       .then(({data})=>{
         console.log("berhasil add product")

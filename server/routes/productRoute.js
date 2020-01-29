@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const productCon = require('../controllers/productController');
+
 const gcsUpload = require('gcs-upload');
 
 const upload = gcsUpload({

@@ -30,7 +30,8 @@
             </div>
         </div>
         <div class="card-footer">
-            <small>Last updated 3 mins ago</small>
+            <small>Bought at : {{product.bought_at}}</small>
+            <button class="btn btn-dark float-right">Delete</button>
         </div>
     </div>
 </div>
