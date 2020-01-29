@@ -1,5 +1,11 @@
 # e-commerce
 
+link deploy 
+http://ecommerce.japhendywijaya.xyz/
+
+link dokumentasi
+https://documenter.getpostman.com/view/9584254/SWTBcwxD?version=latest#3b079ae7-e469-4aa9-80f0-33b157ddabd6
+
 additional feature:
 * merge duplicate when creating transactions
 
@@ -26,4 +32,5 @@ additional feature:
                 res.status(200).json(result)
           })
 
+* incorporating buyer and seller flow of information
 
