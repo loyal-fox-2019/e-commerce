@@ -18,9 +18,16 @@ class ItemController {
         })
             .populate('owner', 'name ')
             .then(response => {
-                res.status(200).json({
-                    data: response
-                })
+                if (response.length > 0) {
+                    res.status(200).json({
+                        data: response
+                    })
+                } else {
+                    throw ({
+                        code: 404,
+                        errMsg: 'data'
+                    })
+                }
             })
             .catch(next)
     }
@@ -35,7 +42,8 @@ class ItemController {
             description: req.body.description
         }).then(response => {
             res.status(201).json({
-                message: "Item successfully registered"
+                message: "Item successfully registered",
+                data: response
             })
         }).catch(next)
     }
@@ -48,7 +56,6 @@ class ItemController {
             stock: req.body.stock,
             price: req.body.price,
             image: req.body.image,
-            owner: req._id,
             description: req.body.description
         }).then(response => {
             res.status(200).json({

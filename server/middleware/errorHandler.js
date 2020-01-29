@@ -1,5 +1,5 @@
 const errHandler = (err, req, res, next) => {
-    // console.log(err);
+    // console.log({err});
 
     if (err.name === 'ValidationError') {
         let errItem = "";
@@ -32,8 +32,13 @@ const errHandler = (err, req, res, next) => {
             code: err.code,
             errMsg: err.errMsg
         })
-    } else if (err.code === 404) {
-        res.status(err.code).json({
+    } else if (err.code === 404 || err.name === 'CastError') {
+
+        if (err.name === 'CastError'){
+            err.errMsg = 'data'
+        }
+
+        res.status(404).json({
             code: err.code,
             errMsg: `${err.errMsg} not found`
         })
