@@ -101,7 +101,7 @@ export default {
       formData.append('seller', this.seller)
       formData.append('condition', this.condition)
       axios({
-        url : 'http://localhost:3000/product/',
+        url : 'http://54.179.171.81/product/',
         method : 'post',
         headers : {
           token : localStorage.token

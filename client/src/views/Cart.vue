@@ -38,7 +38,7 @@ export default {
         return
       }
       axios({
-        url : 'http://localhost:3000/transaction',
+        url : 'http://54.179.171.81/transaction',
         method : 'post',
         headers : {
           token : localStorage.token
@@ -50,7 +50,7 @@ export default {
       })
       .then(({data}) => {
         console.log(data)
-        axios.put(`http://localhost:3000/user/emptycart/${localStorage.user}`)
+        axios.put(`http://54.179.171.81/user/emptycart/${localStorage.user}`)
         .then(({data})=>{
           swal.fire('Thankyou for shopping with us =)')
           this.getUserData()
@@ -61,7 +61,7 @@ export default {
       })
     },
     getUserData(){
-      axios.post('http://localhost:3000/user/one', {user  : localStorage.user})
+      axios.post('http://54.179.171.81/user/one', {user  : localStorage.user})
       .then(({data})=>{
         this.products = data.cart
       })

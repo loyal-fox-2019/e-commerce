@@ -20,7 +20,7 @@ export default {
     methods : {
         fetchData(){
             axios({
-                baseURL : "http://localhost:3000",
+                baseURL : "http://54.179.171.81",
                 url : '/product',
                 method : 'get',
                 headers : {

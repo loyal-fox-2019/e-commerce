@@ -24,7 +24,7 @@ export default {
     },
     created(){
         axios({
-            url : 'http://localhost:3000/transaction',
+            url : 'http://54.179.171.81/transaction',
             method : 'get',
             headers : {
                 token : localStorage.token

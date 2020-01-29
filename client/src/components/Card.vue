@@ -44,7 +44,7 @@ export default {
         seller : product.seller,
       }
       axios({
-        url : `http://localhost:3000/user/addtocart/${localStorage.user}`,
+        url : `http://54.179.171.81/user/addtocart/${localStorage.user}`,
         method : 'post',
         headers : {
           token : localStorage.token
@@ -62,7 +62,7 @@ export default {
       console.log('masuk delete cart')
       let productName = product.name
       axios({
-        url : `http://localhost:3000/user/deletecart/${localStorage.user}`,
+        url : `http://54.179.171.81/user/deletecart/${localStorage.user}`,
         method : 'post',
         headers : {
           token : localStorage.token
@@ -83,7 +83,7 @@ export default {
     },
     deleteProduct(product){
       axios({
-        url : `http://localhost:3000/product/${product._id}`,
+        url : `http://54.179.171.81/product/${product._id}`,
         method : 'delete',
         headers : {
           token : localStorage.token

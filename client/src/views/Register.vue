@@ -97,7 +97,7 @@ export default {
                 password : this.password
             }
 
-            axios.post('http://localhost:3000/user/register', userData)
+            axios.post('http://54.179.171.81/user/register', userData)
             .then(({data})=>{
                 console.log(data)
                 swal.fire('Welcome!  ^^')

@@ -8,8 +8,8 @@ module.exports = (req,res,next) => {
         console.log('user logged in : '+userLoggedIn)
         req.userLoggedIn = userLoggedIn
         next()
-    } catch {
-        next(401)
+    } catch(err) {
+        next(err)
     }
 
 };
