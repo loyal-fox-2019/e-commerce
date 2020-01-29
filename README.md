@@ -7,7 +7,11 @@ Dokumentai RESTFUL API  E-makcomerace
 ### environment variabeles
 
 ```PORT = 3000
-
+PORT = 
+JWT_SECRET = 
+KEY_FILENAME = 
+BUCKET_NAME = 
+MONGO_URI = 
 ```
 
 ## USAGE
@@ -35,11 +39,12 @@ Access client port: 1234
 
 ## CUSTOMERS ROUTES
 
-| Routing                 | HTTP | Header(s) | Body                                                         | Response                                                  | Description           |
-| ----------------------- | ---- | --------- | ------------------------------------------------------------ | --------------------------------------------------------- | --------------------- |
-| /customers              | POST | none      | username : String (***required***), email : String (***required***), password : String (***required***), phone: Number (***required***) | Error: Internal server error Success: add new customer    | Create new customers  |
-| /customers/login        | POST | none      | email : String (***required***), password : String (***required***) | Error: Internal server error Success: login customer      | normal customer login |
-| /users/customers/google | POST | none      | email : String (***required***), password : String (***required***) | Error: Internal server error Success: login google member | google customer login |
+| Routing      | HTTP   | Header(s) | Body                                                         | Response                                               | Description           |
+| ------------ | ------ | --------- | ------------------------------------------------------------ | ------------------------------------------------------ | --------------------- |
+| /users       | POST   | none      | username : String (***required***), email : String (***required***), password : String (***required***), phone: Number (***required***) | Error: Internal server error Success: add new customer | Create new customers  |
+| /users/login | POST   | none      | email : String (***required***), password : String (***required***) | Error: Internal server error Success: login customer   | normal customer login |
+| /users/carts | DELETE | token     | itemId: String(***required***)                               | Error: Internal server error Success: delete carts     | delete carts          |
+| /users/carts | PATCH  | token     | itemId: String(***required***), quantity : Number (***required***) | Error: Internal server error Success: update carts     | create new carts      |
 
 
 
