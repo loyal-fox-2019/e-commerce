@@ -37,7 +37,10 @@ class ItemController{
           })
           .populate('SellerId', ' -role -password')
           .then(result=>{
-              res.status(200).json(result)
+              if(!result)
+                throw({ status: 404, message:'Item not Found'})
+              else
+                res.status(200).json(result)
           })
           .catch(err=>{
               next(err)

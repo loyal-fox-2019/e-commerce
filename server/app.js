@@ -1,4 +1,10 @@
 switch (process.env.NODE_ENV) {
+    
+    case 'testing':
+        require('dotenv').config()
+        require('./config/mongo-test')
+        break;
+
     case 'development':
         require('dotenv').config()
         require('./config/mongo-dev')

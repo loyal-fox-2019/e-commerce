@@ -16,10 +16,14 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^7.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=testing mocha --exit",
+    "testWindows": "set NODE_ENV=testing&& mocha --exit",
     "dev": "NODE_ENV=development nodemon bin/server",
     "devWindows": "set NODE_ENV=development&& nodemon bin/server",
     "preDeploydWindows": "set NODE_ENV=preDeploy&& nodemon bin/server"

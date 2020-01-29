@@ -37,6 +37,8 @@ class UserController{
     static login(req,res,next)
       {
           const { email, password } = req.body
+          if( !email || !password)
+            throw({ status: 403, message:'Requirement not fulfilled'})
 
           User.findOne({
               email
@@ -58,9 +60,11 @@ class UserController{
                             address: result.address,
                             token : generateToken({ _id : result._id })
                         })
+                      else
+                        throw({ status: 403, message: 'email & password combination wrong or user not found'})
                 }
               else
-                throw({status: 404, message: 'User not found'})
+                throw({status: 403, message: 'email & password combination wrong or user not found'})
           })
           .catch(err=>{
               next(err)
