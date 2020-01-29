@@ -49,9 +49,9 @@ headers: {
 
   ```
   data: {
-   username: string,
-   email: email@format.com,
-   password: string,
+   username: 123,
+   email: 123@format.com,
+   password: 123,
   }
   ```
 
@@ -60,10 +60,12 @@ headers: {
 * **Success Response**
 
     ```
-    {
-    "token":            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI0NmFkYzk4MGY4ODI5NzIwMmZlZjUiLCJ1c2VybmFtZSI6ImlvIiwiZW1haWwiOiJpb0BtYWlsLmNvbSIsImlhdCI6MTU3OTQ0NDk1Nn0.MqJZJvZ4ZfzjkAgQP35gwghodLVgI-4OX2VsN92dCUc",
-    "username": "io",
-    "email": "io@mail.com"
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTMxN2IxOGUwNjIxZTBhOTM1M2RkYzAiLCJlbWFpbCI6IjEyM0BtYWlsLmNvbSIsImlhdCI6MTU4MDMwMTA4MX0.z2w5CX7EhxexTdP-I4Kn26TL91bumZ0Lg0rCroyhwN8",
+    "payload": {
+        "_id": "5e317b18e0621e0a9353ddc0",
+        "email": "123@mail.com"
+    }
 }
     ```
 
@@ -97,8 +99,8 @@ headers: {
 
   ```
   data: {
-   email: email@format.com,
-   password: string,
+   email: 123@format.com,
+   password: 123,
   }
   ```
 
@@ -116,11 +118,13 @@ headers: {
     Content:  
 
     ```
-    {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTIyZThhZjY2MzhlMjIxNDFjNmY2NTYiLCJ1c2VybmFtZSI6InNlcmEiLCJlbWFpbCI6InNlcmFAbWFpbC5jb20iLCJpYXQiOjE1Nzk0MzExNDF9.qGuqTtpi15tuH0gyM3gtAmd4QURBP5WTcqwe8RHyWxQ",
-    "username": "sera",
-    "email": "sera@mail.com"
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTMxN2IxOGUwNjIxZTBhOTM1M2RkYzAiLCJlbWFpbCI6IjEyM0BtYWlsLmNvbSIsImlhdCI6MTU4MDMwMTE0NX0.Fh9Oe9HTPr80nKgrMU45fl6kA6pKC2rdDq3uGoX-I7s",
+    "payload": {
+        "_id": "5e317b18e0621e0a9353ddc0",
+        "email": "123@mail.com"
     }
+}
     ```
 
 * **Error Response**
@@ -166,11 +170,13 @@ headers: {
     Content:  
 
     ```
-    {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTIyZThhZjY2MzhlMjIxNDFjNmY2NTYiLCJ1c2VybmFtZSI6InNlcmEiLCJlbWFpbCI6InNlcmFAbWFpbC5jb20iLCJpYXQiOjE1Nzk0MzExNDF9.qGuqTtpi15tuH0gyM3gtAmd4QURBP5WTcqwe8RHyWxQ",
-    "username": "sera",
-    "email": "sera@mail.com"
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTMxN2IxOGUwNjIxZTBhOTM1M2RkYzAiLCJlbWFpbCI6IjEyM0BtYWlsLmNvbSIsImlhdCI6MTU4MDMwMTE0NX0.Fh9Oe9HTPr80nKgrMU45fl6kA6pKC2rdDq3uGoX-I7s",
+    "payload": {
+        "_id": "5e317b18e0621e0a9353ddc0",
+        "email": "123@mail.com"
     }
+}
     ```
 
 * **Error Response**
@@ -197,17 +203,17 @@ headers: {
 
   `POST`
 
-* **Data params**
+* **Body**
 
 
   ```
-  data: {
-   name: 'How to create API Doc',
-   description: 'I have to learn how to make proper api documentation',
-   picture: 'img.jpg',
-   "price": 15000,
-   stock: 20,
-   seller: userId
+    {
+        name: pisang,
+        description: enak,
+        picture: 'img.jpg',
+        price : 15000,
+        stock: 20,
+        seller: userId
   }
   ```
 
@@ -229,9 +235,9 @@ headers: {
     ```
     {
     "_id": "5e2435303d78a61f669eaf7b",
-    "name": "hello ",
-    "description": "server",
-    "stock": "2020-01-19T10:53:36.659Z",
+    "name": pisang,
+    "description": "enak",
+    "stock": 20,
     "price": 15000,
     "picture": "https://storage.googleapis.com/mini-wp-upload/1579431215663-irene-5.jpeg",
     "seller": "5e22e8af6638e22141c6f656"
@@ -248,7 +254,7 @@ headers: {
     }
     ```
 
-### <u>Get product</u>
+### <u>Get all products</u>
 
 *return  products list*
 
@@ -284,9 +290,9 @@ headers: {
         {
             
             "_id": "5e22e9116638e22141c6f658",
-            "name": "red",
-            "description": "velvet",
-            "stock": null,
+            "name": "pisang",
+            "description": "enak",
+            "stock": 20,
             "price": 15000,
             "picture": "https://storage.googleapis.com/mini-wp-upload/1579431598317-irene-3.jpg",
             "UserId": {
@@ -309,6 +315,68 @@ headers: {
         ]
     }
     
+### <u>Get one product</u>
+
+*return  products list*
+
+* **URL**
+
+  /product/:productId
+
+* **Method**
+
+  `GET`
+
+* **Data params**
+
+  none
+
+* **Data headers**
+
+  ```
+  {
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGZvcm1hdC5jb20iLCJfaWQiOiI1ZTE1NTZiYzI2ZDM0MzVmMzA2ZGE2OGEiLCJpYXQiOjE1Nzg0NTgzNzB9.k3UOwIDqkhek-52tcUfNgNGO2Osz3V8qYpfGRDgBDhw"
+  }
+  ```
+
+  
+
+* **Success Response**
+
+  * Code: 202
+    Content:  
+
+    ```
+    
+        {
+            
+            "_id": "5e22e9116638e22141c6f658",
+            "name": "pisang",
+            "description": "enak",
+            "stock": 20,
+            "price": 15000,
+            "picture": "https://storage.googleapis.com/mini-wp-upload/1579431598317-irene-3.jpg",
+            "UserId": {
+                "_id": "5e22e8af6638e22141c6f656",
+                "username": "sera",
+                "email": "sera@mail.com"
+                "__v": 0
+            },
+            "__v": 0
+        }
+    
+    ```
+
+* **Error Response**
+
+    ```
+    {
+        "errors": [
+            <Validation error>
+        ]
+    }
+    
+
 
 ### <u>Delete product</u>
 
@@ -345,9 +413,9 @@ headers: {
     {
         
     "_id": "5e22e8bf6638e22141c6f657",
-    "name": "new updated",
-    "description": "red velvet",
-    "stock": "2020-01-18T12:00:11.000Z",
+    "name": "pisang",
+    "description": "enak",
+    "stock": "20",
     "price": 15000,
     "picture": "https://storage.googleapis.com/mini-wp-upload/1579348811875-irene-3.jpg",
     "UserId": {
@@ -390,7 +458,7 @@ headers: {
     description: 'new description',
     picture: 'img.jpg',
     stock: new stock,
-    "price": 15000,
+    price: 15000,
   }
   ```
 
@@ -418,7 +486,7 @@ headers: {
         "price": 15000,
         "__v": 0
     }
-    }
+    
     ```
 
 * **Error Response**
@@ -436,18 +504,17 @@ headers: {
 
 * **URL**
 
-  /cart
+  /cart/:productId
 
 * **Method**
 
   `POST`
-
-* **Data params**
+* **Params***
+* **Data body**
 
 
   ```
   data: {
-   productId: 123,
    userId: 456,
    Quantity: 2,
    isCheckOut: false
@@ -489,9 +556,9 @@ headers: {
     }
     ```
 
-### <u>Get product</u>
+### <u>Get cart</u>
 
-*return  products list*
+*return  cart list*
 
 * **URL**
 
@@ -648,4 +715,113 @@ headers: {
         ]
     }
     ```
+### <u>Update cart</u>
+
+*return product information*
+
+* **URL**
+
+  /cart
+
+* **Method**
+
+  `PATCH`
+
+* **Data params**
+
+
+  ```
+  data: {
+    "_id": "5e2435303d78a61f669eaf7b",
+   "productId": 123,
+   "userId": 456,
+   "Quantity": 2,
+   "isCheckOut": false
+    }
+  ```
+
+* **Data headers**
+
+  ```
+  {
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGZvcm1hdC5jb20iLCJfaWQiOiI1ZTE1NTZiYzI2ZDM0MzVmMzA2ZGE2OGEiLCJpYXQiOjE1Nzg0NTgzNzB9.k3UOwIDqkhek-52tcUfNgNGO2Osz3V8qYpfGRDgBDhw"
+  }
+  ```
+
   
+
+* **Success Response**
+
+    ```
+    {
+    "_id": "5e2435303d78a61f669eaf7b",
+   "productId": 123,
+   "userId": 456,
+   "Quantity": 2,
+   "isCheckOut": false
+    }
+    ```
+
+* **Error Response**
+    ```
+    {
+        "errors": [
+            <Validation error>
+        ]
+    }
+    ```
+### <u>Update cart</u>
+
+*return product information*
+
+* **URL**
+
+  /cart
+
+* **Method**
+
+  `PATCH`
+
+* **Data params**
+
+
+  ```
+  data: {
+    "_id": "5e2435303d78a61f669eaf7b",
+   "productId": 123,
+   "userId": 456,
+   "Quantity": 2,
+   "isCheckOut": false
+    }
+  ```
+
+* **Data headers**
+
+  ```
+  {
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGZvcm1hdC5jb20iLCJfaWQiOiI1ZTE1NTZiYzI2ZDM0MzVmMzA2ZGE2OGEiLCJpYXQiOjE1Nzg0NTgzNzB9.k3UOwIDqkhek-52tcUfNgNGO2Osz3V8qYpfGRDgBDhw"
+  }
+  ```
+
+  
+
+* **Success Response**
+
+    ```
+    {
+    "_id": "5e2435303d78a61f669eaf7b",
+   "productId": 123,
+   "userId": 456,
+   "Quantity": 2,
+   "isCheckOut": false
+    }
+    ```
+
+* **Error Response**
+    ```
+    {
+        "errors": [
+            <Validation error>
+        ]
+    }
+    ```
