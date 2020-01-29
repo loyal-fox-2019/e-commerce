@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <br />
     <center>
       <h1>Data Items</h1>
@@ -7,7 +7,7 @@
     <br />
     <center>
       <h5>
-        <a>Add Item</a>
+        <button @click="gotoAdd">Add Item</button>
       </h5>
     </center>
     <br />
@@ -17,21 +17,25 @@
           <th scope="col">ID</th>
           <th scope="col">image</th>
           <th scope="col">Item Name</th>
+          <th scope="col">Description</th>
           <th scope="col">Price</th>
-          <th scope="col">qty</th>
+          <th scope="col">stock</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-for="(item, i) in items" :key="i">
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{item._id}}</td>
           <td>
-            <a href="/">edit</a> |
-            <a href="/">delete</a>
+            <img :src="item.image" style="max-width=20px" />
+          </td>
+          <td>{{item.name}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.stock}}</td>
+          <td>
+            <a href="/" @click.prevent="update(item)">edit</a> |
+            <a href="/" @click.prevent="deleteItem(item._id)">delete</a>
           </td>
         </tr>
       </tbody>
@@ -40,11 +44,75 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import Swal from "sweetalert2";
+export default {
+  data() {
+    return {
+      items: []
+    };
+  },
+  methods: {
+    getItem() {
+      axios({
+        url: `http://localhost:3000/items`,
+        method: "GET"
+      })
+        .then(({ data }) => {
+          this.items = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    gotoAdd() {
+      this.$emit("gotoAdd");
+    },
+    deleteItem(id) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      })
+        .then(result => {
+          if (result.value) {
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            return axios({
+              url: `http://localhost:3000/items/${id}`,
+              method: "DELETE",
+              headers: {
+                token: localStorage.getItem("token")
+              }
+            });
+          }
+        })
+        .then(() => {
+          this.getItem();
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.message
+          });
+        });
+    },
+    update(payload) {
+      this.$emit("updateItem", payload);
+    }
+  },
+  created() {
+    this.getItem();
+  }
+};
 </script>
 
 <style scoped>
-.linkUser:hover {
-  color: rgba(255, 255, 255, 0.75) !important;
+img {
+  max-width: 60px;
 }
 </style>

@@ -24,8 +24,8 @@ class ItemController {
             name: req.body.name,
             description: req.body.description,
             image: req.body.image,
-            price: req.body.price,
-            stock: req.body.stock
+            price: Number(req.body.price),
+            stock: Number(req.body.stock)
         })
             .then((item) => {
                 res.status(201).json(item)
@@ -40,8 +40,8 @@ class ItemController {
             name: req.body.name,
             description: req.body.description,
             image: req.body.image,
-            price: req.body.price,
-            stock: req.body.stock
+            price: Number(req.body.price),
+            stock: Number(req.body.stock)
         })
             .then((item) => {
                 if (item.nModified !== 0) {
@@ -62,6 +62,8 @@ class ItemController {
             });
     }
     static delete(req, res, next) {
+        console.log('masuk ga');
+        console.log(req.params.id);
         Item.findOneAndDelete({
             _id: req.params.id
         }, {

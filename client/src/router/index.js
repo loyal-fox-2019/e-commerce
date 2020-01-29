@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Account from '../views/Account.vue';
 import Cart from '../views/Cart.vue';
-import Admin from '../views/Admin.vue';
 
 Vue.use(VueRouter);
 
@@ -22,11 +21,10 @@ const routes = [
     path: '/cart',
     name: 'cart',
     component: Cart,
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: Admin,
+    beforeEach: (to, from, next) => {
+      if (!isAuthenticated) next('/account')
+      else next()
+    }
   },
 ];
 
@@ -35,5 +33,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+
 
 export default router;

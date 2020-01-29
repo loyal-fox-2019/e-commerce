@@ -17,7 +17,7 @@
           <label for="password"></label>
         </div>
         <router-link to="/">
-          <input @click="login" type="submit" value="LOGIN" />
+          <input @click.prevent="login" type="submit" value="LOGIN" />
         </router-link>
       </div>
       <div class="register">
@@ -103,10 +103,16 @@ export default {
       })
         .then(({ data }) => {
           localStorage.token = data.token;
-          localStorage._id = data.user._id;
-          localStorage.email = data.user.email;
-          localStorage.username = data.user.username;
-          localStorage.phone = data.user.phone;
+          localStorage.setItem("role", data.user.role);
+          if (localStorage.role === "admin") {
+            this.$router.push("/");
+          } else if (localStorage.role === "customer") {
+            this.$router.push("/");
+          }
+          // localStorage._id = data.user._id;
+          // localStorage.email = data.user.email;
+          // localStorage.username = data.user.username;
+          // localStorage.phone = data.user.phone;
           this.$emit("checkLogin");
           this.resetAll();
         })
