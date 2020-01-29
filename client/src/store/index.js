@@ -175,6 +175,25 @@ export default new Vuex.Store({
         data: payload,
       });
     },
+    createGold(_, payload) {
+      return axios({
+        method: 'POST',
+        url: 'products',
+        data: payload,
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      });
+    },
+    deleteGold(_, payload) {
+      return axios({
+        method: 'DELETE',
+        url: `products/${payload}`,
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      });
+    },
     GSign(_, payload) {
       return axios({
         method: 'POST',

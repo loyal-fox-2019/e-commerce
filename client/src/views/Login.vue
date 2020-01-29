@@ -85,28 +85,37 @@ export default {
         email: this.email,
         password: this.password,
       };
-      this.$store.dispatch('login', value)
-        .then(({ data }) => {
-          swal.fire({
-            icon: 'success',
-            title: 'Login Successful, Welcome',
-            showConfirmButton: false,
-            timer: 1500,
+
+      if(this.email !== 'admin@mail.com') {
+        this.$store.dispatch('login', value)
+          .then(({ data }) => {
+            swal.fire({
+              icon: 'success',
+              title: 'Login Successful, Welcome',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.email = '';
+            this.password = '';
+            localStorage.setItem('token', data.token);
+            this.$store.commit('SET_LOGIN', true);
+            this.$store.dispatch('fetchCart');
+            this.$router.push('/');
+          })
+          .catch((err) => {
+            swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.response.data.message,
+            });
           });
-          this.email = '';
-          this.password = '';
-          localStorage.setItem('token', data.token);
-          this.$store.commit('SET_LOGIN', true);
-          this.$store.dispatch('fetchCart');
-          this.$router.push('/');
-        })
-        .catch((err) => {
-          swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.response.data.message,
-          });
+      } else {
+        swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Your email is not registered',
         });
+      }
     },
   },
   created() {
