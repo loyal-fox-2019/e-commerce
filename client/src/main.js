@@ -33,10 +33,11 @@ Vue.use(VuejsDialog, {
   loader: true,
   html: true
 });
+
 Vue.use(SuiVue);
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

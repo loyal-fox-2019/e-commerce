@@ -2,11 +2,13 @@
     <div class="suiCard">
         <sui-card>
             <sui-dimmer-dimmable @mouseenter.native="cardOneActive = true" @mouseleave.native="cardOneActive = false">
-                <sui-image :src="data.image" class="suiCardImage"></sui-image>
+                <sui-image :src="data.image" class="suiCardImage"/>
                 <sui-dimmer blurring :active="cardOneActive">
                     <sui-button inverted @click.prevent="toggle">
                         Details
                     </sui-button>
+                    <sui-button v-if="isUserMatch" color="green" inverted @click.prevent="editToggle" icon="edit"/>
+                    <sui-button v-if="isUserMatch" color="red" inverted @click.prevent="deleteItem" icon="delete"/>
                 </sui-dimmer>
             </sui-dimmer-dimmable>
             <sui-card-content>
@@ -22,26 +24,45 @@
             </sui-card-content>
         </sui-card>
         <item-detail-modal :open="open" @toggle="toggle" :data="data"/>
+        <sui-modal v-model="editOpen">
+            <sui-modal-header>
+                Edit Item
+                <sui-icon name="close" id="close" color="red" @click="editOpen = false"/>
+            </sui-modal-header>
+            <sui-modal-content scrolling>
+                <edit-item :data="data"/>
+            </sui-modal-content>
+        </sui-modal>
     </div>
 </template>
 
 <script>
     import itemDetailModal from "./itemDetailModal";
+    import editItem from "./users/editItem";
 
     export default {
         name: "card",
         data() {
             return {
                 cardOneActive: false,
-                open: false
+                open: false,
+                editOpen: false
             };
         },
         props: {
-            data: Object
+            data: Object,
+            userId: String
         },
         methods: {
             toggle() {
                 this.open = !this.open;
+            },
+            editToggle() {
+                this.editOpen = !this.editOpen;
+            },
+            deleteItem() {
+                this.$store.dispatch("deleteItem", this.data._id);
+                this.$store.dispatch('getListItems');
             }
         },
         computed: {
@@ -57,10 +78,14 @@
                     }
                 }
                 return segment.join(".");
+            },
+            isUserMatch() {
+                return this.data.owner._id === this.userId
             }
         },
         components: {
-            itemDetailModal
+            itemDetailModal,
+            editItem
         }
     }
 </script>
@@ -74,5 +99,10 @@
     .suiCardImage {
         height: 200px !important;
         width: 250px !important;
+    }
+
+    #close {
+        float: right;
+        cursor: pointer;
     }
 </style>

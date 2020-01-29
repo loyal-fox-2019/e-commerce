@@ -9,9 +9,7 @@ class ItemController {
                     data: response
                 })
             })
-            .catch(err => {
-                next(err)
-            })
+            .catch(next)
     }
 
     static findItem(req, res, next) {
@@ -24,9 +22,7 @@ class ItemController {
                     data: response
                 })
             })
-            .catch(err => {
-                next(err)
-            })
+            .catch(next)
     }
 
     static register(req, res, next) {
@@ -41,9 +37,34 @@ class ItemController {
             res.status(201).json({
                 message: "Item successfully registered"
             })
-        }).catch(err => {
-            next(err)
-        })
+        }).catch(next)
+    }
+
+    static update(req, res, next) {
+        Item.updateOne({
+            _id: req.params.id
+        }, {
+            name: req.body.name,
+            stock: req.body.stock,
+            price: req.body.price,
+            image: req.body.image,
+            owner: req._id,
+            description: req.body.description
+        }).then(response => {
+            res.status(200).json({
+                message: "Item successfully updated"
+            })
+        }).catch(next)
+    }
+
+    static delete(req, res, next) {
+        Item.deleteOne({
+            _id: req.params.id
+        }).then(response => {
+            res.status(200).json({
+                message: "Item successfully deleted"
+            })
+        }).catch(next)
     }
 }
 

@@ -1,28 +1,28 @@
 const router = require('express').Router();
 const transactionController = require('../controller/transaction');
 const checkToken = require('../middleware/checkToken');
-const authentication = require('../middleware/authentication');
+const {authorizationTransaction} = require('../middleware/authorization');
 
 router.use(checkToken);
 
 router.post(
     '/checkout',
-    authentication,
+    authorizationTransaction,
     transactionController.checkoutCart
 );
 router.patch(
     '/:status/:id',
-    authentication,
+    authorizationTransaction,
     transactionController.updateStatus
 );
 router.get(
     '/purchased',
-    authentication,
+    authorizationTransaction,
     transactionController.getTransactionsPurchase
 );
 router.get(
     '/sells',
-    authentication,
+    authorizationTransaction,
     transactionController.getTransactionsSelling
 );
 

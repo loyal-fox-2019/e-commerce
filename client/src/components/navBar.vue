@@ -29,7 +29,7 @@
     import search from "./search";
     import signinButton from "./users/signinButton";
     import formLogo from "./formLogo";
-    import cartButton from "./cartButton";
+    import cartButton from "./cart/cartButton";
     import userButton from "./users/userButton";
     import router from "../router";
 

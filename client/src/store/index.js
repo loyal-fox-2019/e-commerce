@@ -17,7 +17,9 @@ export default new Vuex.Store({
         tempCart: {},
         currency: '',
         listItem: [],
-        isLoading: 'loading'
+        isLoading: 'loading',
+        message: {},
+        userId: ""
     },
     mutations: {
         addItemToCart(state, payload) {
@@ -45,8 +47,14 @@ export default new Vuex.Store({
         getListItems(state, payload) {
             state.listItem = payload
         },
-        setLoading(state, payload){
+        setLoading(state, payload) {
             state.isLoading = payload
+        },
+        setMessage(state, payload) {
+            state.message = payload
+        },
+        setUserId(state, payload) {
+            state.userId = payload
         }
     },
     actions: {
@@ -80,6 +88,90 @@ export default new Vuex.Store({
             }).catch(err => {
                 console.log(err.response);
             })
+        },
+        deleteItem(context, payload) {
+            Vue.dialog
+                .confirm("Delete this Item ?")
+                .then(dialog => {
+                    base({
+                        method: 'delete',
+                        url: '/api/items/' + payload,
+                        headers: {token: localStorage.getItem('token')}
+                    }).then(response => {
+                        // console.log(response.data);
+                        context.commit('setMessage', {
+                            message: response.data.message,
+                            type: 'success'
+                        })
+                    }).catch(err => {
+                        // console.log(err.response.data.errMsg);
+                        context.commit('setMessage', {
+                            message: err.response.data.errMsg,
+                            type: 'error'
+                        })
+                    });
+                    dialog.close()
+                })
+                .catch(err => {
+                    console.log({err})
+                    context.commit('setMessage', {
+                        message: "delete item canceled",
+                        type: 'info'
+                    })
+                })
+        },
+        viewUser(context, payload) {
+            if (!localStorage.getItem('token')) {
+                return
+            }
+            base({
+                method: 'get',
+                url: '/api/users/',
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            }).then(response => {
+                context.commit('setUserId', response.data.data._id)
+            }).catch(err => {
+                console.log(err.response)
+            })
+        },
+        editUser(context, payload) {
+            Vue.dialog
+                .confirm('Update data ?')
+                .then(dialog => {
+                    base({
+                        method: 'put',
+                        url: '/api/items/' + payload.id,
+                        data: {
+                            name: payload.name,
+                            stock: payload.stock,
+                            price: payload.price,
+                            image: payload.image,
+                            description: payload.description
+                        },
+                        headers: {token: localStorage.getItem('token')}
+                    }).then(response => {
+                        // console.log(response.data);
+                        context.commit('setMessage', {
+                            message: response.data.message,
+                            type: 'success'
+                        })
+                    }).catch(err => {
+                        console.log(err.response);
+                        context.commit('setMessage', {
+                            message: err.response.data.errMsg,
+                            type: 'error'
+                        })
+                    })
+                    dialog.close()
+                })
+                .catch(err => {
+                    context.commit('setMessage', {
+                        message: "update item canceled",
+                        type: 'info'
+                    })
+                })
         }
     },
     modules: {},
@@ -98,6 +190,12 @@ export default new Vuex.Store({
         },
         loadingIs: state => {
             return state.isLoading
+        },
+        message: state => {
+            return state.message
+        },
+        userId: state => {
+            return state.userId
         }
     }
 })

@@ -109,7 +109,6 @@
                             console.log(err.response);
                             this.$toast.error({
                                 title: 'Error',
-                                // message: 'Item failed add to cart'
                                 message: err.response.data.errMsg
                             });
                             dialog.close();

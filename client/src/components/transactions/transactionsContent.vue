@@ -4,8 +4,8 @@
             <sui-grid-column>
                 <h1>Transactions Lists</h1>
                 <sui-button-group>
-                    <sui-button @click="goToPurchasing" color="red" content="Purchasing" :class="purchasedSelect"/>
-                    <sui-button @click="goToSells" color="green" content="Sells" :class="sellsSelect"/>
+                    <sui-button @click="goToPurchasing" color="red" content="Purchasing" inverted/>
+                    <sui-button @click="goToSells" color="green" content="Sells" inverted/>
                 </sui-button-group>
                 <router-view/>
             </sui-grid-column>
@@ -17,20 +17,13 @@
     export default {
         name: "transactionsContent",
         data() {
-            return {
-                purchasedSelect:'',
-                sellsSelect:'',
-            }
+            return {}
         },
         methods: {
             goToPurchasing() {
-                this.purchasedSelect='';
-                this.sellsSelect='basic';
                 this.$router.push("/transactions/purchasing")
             },
             goToSells() {
-                this.purchasedSelect='basic';
-                this.sellsSelect='';
                 this.$router.push("/transactions/sells")
             }
         },
