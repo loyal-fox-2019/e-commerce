@@ -161,4 +161,18 @@ describe('/transaction', function() {
          expect(updateTransactionDeliveryStatusResp.body.results.nModified).to.equal(1)
       })
    })
+
+   describe('Get all transactions for one user: GET /transaction/user_transactions', function() {
+      it('Should return an array of transactions of current user - status 200', async function() {
+         const response = await chai.request(app)
+            .get('/transaction/user_transactions')
+            .set({
+               token: userToken
+            })
+         
+         console.log(response.body.transactions)
+         expect(response).to.have.status(200)
+         expect(response.body.transactions[0].purchasedItems[0].item).to.equal(allItems[1]._id)
+      })
+   })
 })

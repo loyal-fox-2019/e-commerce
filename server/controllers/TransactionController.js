@@ -64,6 +64,8 @@ class TransactionController {
     static async read(req, res, next) {
         try {
             const transactions = await Transaction.find()
+                .populate('user')
+                .populate('purchasedItems.item')
             res.status(200).json({transactions})
         }
         catch (error) {
@@ -86,7 +88,7 @@ class TransactionController {
         try {
             const {status} = req.body
             const results = await Transaction.updateOne(
-                {user: req.userId},
+                {_id: req.params.id},
                 {
                     $set: {
                         status
@@ -95,6 +97,17 @@ class TransactionController {
             )
 
             res.status(200).json({results})
+        }
+        catch (error) {
+            next(error)
+        }
+    }
+
+    static async readUserTransaction(req, res, next) {
+        try {
+            const transactions = await Transaction.find({user: req.userId})
+                .populate('purchasedItems.item')
+            res.status(200).json({transactions})
         }
         catch (error) {
             next(error)

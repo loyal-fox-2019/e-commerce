@@ -3,13 +3,12 @@ const User = require('../models/User')
 
 function userAuthentication(req, res, next) {
    try {
-      if(!req.headers || !req.headers.token) throw {
+      if(!req.headers || !req.headers.token || req.headers.token == 'undefined') throw {
          errorCode: 400,
          message: 'Need authentication token'
       }
 
       const decoded = jwt.verify(req.headers.token, process.env.JWT_SECRET)
-      // if(req.url.path == '/user/add_to_cart') console.log('')
       
       req.userId = decoded.userId
       next()
@@ -28,7 +27,7 @@ function userAuthentication(req, res, next) {
 
       const user = await User.findOne({_id: req.userId})
 
-      if(!user && user.userType != 'admin') throw {
+      if(!user) throw {
          errorCode: 400,
          message: 'Invalid user id'
       }

@@ -4,8 +4,8 @@ const Item = require('../models/Item')
 class ItemController {
    static async create(req, res, next) {
       try {
-         const {name, image, price, stock} = req.body
-         const item = await Item.create({name, image, price, stock})
+         const {name, image, price, stock, description} = req.body
+         const item = await Item.create({name, image, price, stock, description})
 
          res.status(201).json({item})
       }
@@ -43,12 +43,13 @@ class ItemController {
    static async updateOne(req, res, next) {
       try {
          const inputs = {}
-         const {name, image, price, stock} = req.body
+         const {name, image, price, stock, description} = req.body
          
          if(name) inputs.name = name
          if(image) inputs.image = image
          if(price) inputs.price = price
          if(stock) inputs.stock = stock
+         if(description) inputs.description = description
 
          await Item.updateOne(
             {_id: req.params.id},

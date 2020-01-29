@@ -17,6 +17,10 @@ const itemSchema = new Schema({
       type: Number,
       default: 800000
    },
+
+   description: {
+      type: String
+   },
    
    stock: {
       type: Number,

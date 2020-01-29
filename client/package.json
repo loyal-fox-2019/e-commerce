@@ -8,7 +8,9 @@
     "tailwind-build": "npx tailwind build ./src/assets/css/prebuild-tailwind.css -o ./src/assets/css/tailwind.css"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.4.4",
+    "sweetalert2": "^9.7.0",
     "tailwindcss": "^1.1.4",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",

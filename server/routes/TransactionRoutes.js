@@ -6,6 +6,7 @@ const {userAuthentication, userAuthorization, adminAuthorization} = require('../
 routes.use(userAuthentication)
 routes.post('/', userAuthorization, TransactionController.create)
 routes.get('/', adminAuthorization, TransactionController.read)
+routes.get('/user_transactions', TransactionController.readUserTransaction)
 routes.get('/:id', userAuthorization, TransactionController.readOne)
 routes.patch('/:id', userAuthorization, TransactionController.updateDeliverySent)
 

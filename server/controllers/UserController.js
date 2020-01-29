@@ -26,7 +26,7 @@ class UserController {
          const user = await User.create({email, password})
          const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET)
 
-         res.status(201).json({token, userId: user._id})
+         res.status(201).json({token, userId: user._id, username: email.split('@')[0], userType: user.userType})
       }
       catch (error) {
          next(error)
@@ -44,7 +44,7 @@ class UserController {
          }
 
          const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET)
-         res.status(200).json({token, userId: user._id})
+         res.status(200).json({token, userId: user._id, username: email.split('@')[0], userType: user.userType})
       }
       catch (error) {
          next(error)
@@ -54,7 +54,7 @@ class UserController {
    static async addToCart(req, res, next) {
       try {
          const {itemId, quantity} = req.body
-
+         console.log(itemId, quantity)
          let user = await User.findOne({_id: req.userId})
          
          let itemIdExist = false
@@ -130,6 +130,18 @@ class UserController {
             .select('cart')
 
          res.status(200).json({results, user})
+      }
+      catch (error) {
+         next(error)
+      }
+   }
+
+   static async readOne(req, res, next) {
+      try {
+         const user = await User.findOne({_id: req.userId})
+            .populate('cart.item')
+         
+         res.status(200).json({user})
       }
       catch (error) {
          next(error)
