@@ -1,0 +1,39 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "set NODE_ENV=test& mocha --exit",
+    "start": "nodemon ./bin/www",
+    "dev": "set NODE_ENV=development& npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samara98/e-commerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samara98/e-commerce/issues"
+  },
+  "homepage": "https://github.com/samara98/e-commerce#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^7.0.0"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.9",
+    "morgan": "~1.9.1"
+  }
+}
