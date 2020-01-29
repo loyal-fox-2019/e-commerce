@@ -2,6 +2,7 @@
   <div class='japSmallCardDiv'>
 <!-- <p> {{ loggedInUserDetail._id }}</p> -->
 <!-- <p> {{ itemDetail.SellerId._id }} </p> -->
+<!-- {{itemDetail}} -->
 
       <div class="div-hover">
         <b-card 

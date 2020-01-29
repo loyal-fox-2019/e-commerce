@@ -1,9 +1,9 @@
 <template>
     <div class="p-3 fade-in">
-        <div class="alert alert-primary" role="alert" v-if="">
-           showing 10 result
+        <div class="alert alert-primary" role="alert" v-if="searchItemArray.length>0">
+           showing {{ searchItemArray.length }} result
          </div>
-        <div class="alert alert-danger mx-4 my-2" role="alert" v-if="filterResult.length === 0">
+        <div class="alert alert-danger mx-4 my-2" role="alert" v-if="searchItemArray.length === 0">
            no result
          </div>
 
@@ -11,8 +11,8 @@
             <div id="divSmallCardContainer" class="p-3">
                 <div id="divSmallCardContent" class="row row-cols-1 row-cols-md-5" >
 
-                    <div v-for="x in 20" :key="x">
-                        <smallCard />
+                    <div v-for="(itemDetail, index) in searchItemArray" :key="index">
+                        <smallCard :itemDetail="itemDetail"/>
                     </div>
 
                 </div>
@@ -29,6 +29,7 @@
 <script>
 import swal from 'sweetalert2'
 import axios from '../../config/axios'
+import { mapGetters } from 'vuex'
 
 import smallCard from '../components/smallCard'
 
@@ -37,40 +38,10 @@ export default {
     components:{
         smallCard
     },
-    data(){
-        return{
-            filterResult:{}
-        }
-    },
-    methods:{
-        setFilterResult(data){
-            this.filterResult = data
-        },
-        findFilteredResult(){
-            axios({
-                method: 'post',
-                url: '/articles/filter',
-                headers:{
-                    token: localStorage.getItem('token')
-                },
-                data: this.searchPayload
-            })
-            .then( ({data})=>{
-                // console.log(' \n======================\n DATA at fileter', data)
-                this.setFilterResult(data)
-            })
-            .catch( ({response})=>{
-                console.log(`error @findFilteredResult - findResultPage.vue \n=========================================\n`, response.data.message)
-                swal.fire(
-                    "Error",
-                    response.data.message,
-                    'error'
-                )
-            })
-        }
-    },
-    created(){
-        // this.findFilteredResult()
+    computed:{
+        ...mapGetters([
+            'searchItemArray'
+        ])
     }
 
 }

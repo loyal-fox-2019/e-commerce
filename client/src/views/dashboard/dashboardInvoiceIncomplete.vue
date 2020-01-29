@@ -1,6 +1,6 @@
 <template>
   <div class="fade-in">
-      <!-- <h4>dashboard Incomplete Invoices</h4> -->
+      <h4 style="color:green; margin-top:1%">Incomplete Invoice</h4>
         <!-- {{ myConditionedInvoices.length }} -->
       <div style="margin-top:1%">
       <table id="japTableInvoice">
@@ -32,7 +32,7 @@
                   <td>{{ invoice.resiNumber || '' }}</td>
                   <td>{{ invoice.deliveryConfirmation || '' }}</td>
                   <td>{{ invoice.invoiceStatus }}</td>
-                  <td style="border:none">
+                  <td style="border:none;">
                       <!-- <b-button v-if="x%2 === 0" variant="outline-primary">update</b-button> -->
                       <!-- <b-button v-b-modal.modalEditInvoice
                       @click.prevent="setInvoiceId(x)">
@@ -47,7 +47,7 @@
 
       </table>
         <modalEditInvoice :modalInvoice="modalInvoice"/>
-        <modalReadInvoice :invoiceDetail="invoiceDetail"/>
+        <modalReadInvoice :invoiceDetail="invoiceDetail" :user="'buyer'"/>
 
 
     </div>

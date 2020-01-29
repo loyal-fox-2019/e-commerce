@@ -1,6 +1,6 @@
 <template>
   <div class="fade-in">
-      <!-- <h4>dashboard PO Ongoing</h4> -->
+      <h4 style="color:green; margin-top:1%">Ongoing Purchase Order</h4>
         <!-- {{ myConditionedInvoices.length }} -->
       <div style="margin-top:1%">
       <table id="japTableInvoice">
@@ -42,7 +42,7 @@
 
       </table>
         <modalEditInvoice :modalInvoice="modalInvoice"/>
-        <modalReadInvoice :invoiceDetail="invoiceDetail"/>
+        <modalReadInvoice :invoiceDetail="invoiceDetail" :user="'seller'"/>
 
 
     </div>

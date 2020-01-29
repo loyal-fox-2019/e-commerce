@@ -15,6 +15,11 @@
                     <img v-if="itemDetail.image" 
                         :src="itemDetail.image" 
                         class="itemPicture">
+                    <img v-if="!itemDetail.image"
+                    src="../assets/blankItemPicture/no-image-icon-13.png" 
+                    alt="" 
+                    class="itemPicture">
+
                 </div>
                     
                 <div v-if="!itemDetail">
@@ -197,7 +202,7 @@ export default {
                             data:fd
                       })
                       .then( ({data}) =>{
-                            console.log(`TCL: createItem -> data`, data)
+                            // console.log(`TCL: createItem -> data`, data)
                             swal.fire(
                                 'Item successfully added to your shop'
                             )
@@ -248,7 +253,7 @@ export default {
                     data: fd
                 })
                 .then( ({data}) =>{
-                    console.log(`TCL: patchUpdateItem -> data`, data)
+                    // console.log(`TCL: patchUpdateItem -> data`, data)
                     
                     swal.fire(
                         'Item successfully edited'
@@ -288,7 +293,7 @@ export default {
                     }
                 })
                 .then( ({data}) =>{
-                    console.log(`TCL: addToCart -> data`, data)
+                    // console.log(`TCL: addToCart -> data`, data)
                     swal.fire(
                         'Item has been added to cart'
                     )
@@ -302,27 +307,8 @@ export default {
                         response.data.message
                     )
                 })
-
             }
-
-
-
         }
-
-
-    },
-    created(){
-        // if page mode = edit , maka store data ke this.edititem
-        // if(this.$route.params.mode === 'edit')
-        //   {
-        //       console.log(' \n======================\n INI JALAN')
-              
-        //       this.name = this.itemDetail.name
-        //       this.description = this.itemDetail.description
-        //       this.price = this.itemDetail.price
-        //       this.stock = this.itemDetail.stock
-        //   }
-            
     },
     computed:{
         setPageMode(){

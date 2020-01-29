@@ -1,6 +1,6 @@
 <template>
   <div class="fade-in">
-      <!-- <h4>dashboard invoice complete</h4> -->
+      <h4 style="color:green; margin-top:1%">Transaction History</h4>
         <!-- {{ myConditionedInvoices.length }} -->
       <div style="margin-top:1%">
       <table id="japTableInvoice">
@@ -38,7 +38,7 @@
 
 
       </table>
-        <modalReadInvoice :invoiceId="invoiceId"/>
+        <modalReadInvoice :invoiceDetail="invoiceDetail" :user="'buyer'"/>
 
 
     </div>

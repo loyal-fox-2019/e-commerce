@@ -63,9 +63,8 @@ export default {
     ],
     data(){
         return{
-            selected: '',
+            selected: 'confirm',
             options: [
-                { value: '', text: '' },
                 { value: 'confirm', text: 'confirm' },
             ],
             resiNumber : '',

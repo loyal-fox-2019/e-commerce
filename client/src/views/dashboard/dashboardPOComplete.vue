@@ -1,6 +1,6 @@
 <template>
   <div class="fade-in">
-      <!-- <h4>dashboard PO complete</h4> -->
+      <h4 style="color:green; margin-top:1%">Complete Purchase Order</h4>
         <!-- {{ myConditionedInvoices.length }} -->
       <div style="margin-top:1%">
       <table id="japTableInvoice">
@@ -8,7 +8,7 @@
               <th>Cart Id</th>
               <th>Created Date</th>
               <th>Updated Date</th>
-              <th>Seller</th>
+              <th>Buyer</th>
               <th>Total Billed</th>
               <th>Payment Status</th>
               <th>Payment Confirmation</th>
@@ -25,7 +25,7 @@
                   </td>
                   <td>{{ invoice.createdAt.split('.')[0].replace('T', '; ')}}</td>
                   <td>{{ invoice.updatedAt.split('.')[0].replace('T', '; ')}}</td>
-                  <td>{{ invoice.SellerId.username}}</td>
+                  <td>{{ invoice.BuyerId.username}}</td>
                   <td>Rp. {{ invoice.totalBilled.toLocaleString('id') }}</td>
                   <td>paid</td>
                   <td>{{ invoice.paymentConfirmation || ''}}</td>
@@ -38,7 +38,7 @@
 
 
       </table>
-        <modalReadInvoice :invoiceDetail="invoiceDetail"/>
+        <modalReadInvoice :invoiceDetail="invoiceDetail" :user="'seller'"/>
 
 
     </div>

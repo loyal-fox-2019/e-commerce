@@ -11,9 +11,27 @@ export default new Vuex.Store({
     isLogin: false,
     loggedInUserDetail: {},
     myCarts:[],
-    myConditionedInvoices: []
+    myConditionedInvoices: [],
+    searchItemArray:[]
 
 
+  },
+  getters:{
+    isLogin: state=>{
+      return state.isLogin
+    },
+    loggedInUserDetail: state=>{
+      return state.loggedInUserDetail
+    },
+    myCarts: state=>{
+      return state.myCarts
+    },
+    myConditionedInvoices: state=>{
+      return state.myConditionedInvoices
+    },
+    searchItemArray: state=>{
+      return state.searchItemArray
+    }
   },
   mutations: {
     SET_IS_LOGIN(state,payload){
@@ -28,6 +46,9 @@ export default new Vuex.Store({
     SET_MY_CONDITIONED_INVOICES(state,payload){
       state.myConditionedInvoices = payload
     },
+    SET_SEARCH_ITEM_ARRAY(state,payload){
+      state.searchItemArray = payload
+    }
     
     
 
@@ -130,19 +151,5 @@ export default new Vuex.Store({
     
 
 
-  },
-  getters:{
-    isLogin: state=>{
-      return state.isLogin
-    },
-    loggedInUserDetail: state=>{
-      return state.loggedInUserDetail
-    },
-    myCarts: state=>{
-      return state.myCarts
-    },
-    myConditionedInvoices: state=>{
-      return state.myConditionedInvoices
-    }
   }
 })

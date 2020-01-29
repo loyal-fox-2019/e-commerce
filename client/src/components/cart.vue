@@ -71,10 +71,10 @@ export default {
     },
     methods:{
         checkoutThisCart(){
-            console.log(`TCL: checkoutThisCart -> this.cart`, this.cart)
+            // console.log(`TCL: checkoutThisCart -> this.cart`, this.cart)
             swal.fire({
                 title: "Checkout This Cart",
-                text: "Your Payment will be done when you checkout",
+                text: "Your Payment will be committed when you checkout",
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: 'Checkout'
@@ -85,7 +85,7 @@ export default {
                     this.cart.data.forEach(element => {
                         txArray.push(element._id)
                     });
-                    console.log(`TCL: checkoutThisCart -> txArray`, txArray)
+                    // console.log(`TCL: checkoutThisCart -> txArray`, txArray)
 
                     axios({
                         method: 'post',
@@ -100,14 +100,17 @@ export default {
                         }
                     })
                     .then( ({data}) =>{
-                        console.log(`TCL: checkoutThisCart -> data`, data)
-                        swal.fire('Cart Has Been Created')
+                        // console.log(`TCL: checkoutThisCart -> data`, data)
+                        swal.fire({
+                            title: 'Your payment was concluded',
+                            text: 'Thank you for purchasing with us. Invoice has been issued'
+                        })
                         this.$store.dispatch('fetchMyCarts')
                     })
                     .catch( ({response}) =>{
                         console.log(' error @checkoutThisCart-cart.vue \n======================\n', response.data)
                         swal.fire(
-                            'Error With Login',
+                            'Error With Cart Checking Out',
                             response.data.message
                         )
                     })
@@ -153,7 +156,7 @@ export default {
         }
     },
     created(){
-        console.log(`TCL: created -> this.cart`, this.cart)
+        // console.log(`TCL: created -> this.cart`, this.cart)
     },
     computed:{
         setBuyCount(){

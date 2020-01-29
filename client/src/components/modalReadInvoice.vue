@@ -13,7 +13,8 @@
             <div id="divModalContainer" >
                 <b-card align="left">
                     <template v-slot:header>
-                    <h4 class="mb-0 ">Buyer : {{ invoiceDetail.BuyerId.username }}</h4>
+                    <h4 class="mb-0 " v-if="user === 'seller'">Buyer : {{ invoiceDetail.BuyerId.username }}</h4>
+                    <h4 class="mb-0 "  v-if="user === 'buyer'">Seller : {{ invoiceDetail.SellerId.username }}</h4>
                     </template>
 <!-- {{invoiceDetail}} -->
                     <b-card-body>
@@ -59,7 +60,8 @@
 <script>
 export default {
     props:[
-        'invoiceDetail'
+        'invoiceDetail',
+        'user'
     ],
     data(){
         return{

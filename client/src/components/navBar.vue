@@ -30,12 +30,15 @@
                         
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0 japNavBar3" >
-                    <input class="form-control " type="search" placeholder="Search Item" aria-label="Search" style="width:85%" v-model="searchByNameString">
+                <form class="form-inline my-2 my-lg-0 japNavBar3" @submit.prevent="goToSearchResultPage" >
+                    <input class="form-control " 
+                        type="search" placeholder="Search Item" 
+                        aria-label="Search" style="width:85%" 
+                        v-model="searchByNameString" required>
                     <button
                         class="btn btn-outline-success my-2 my-sm-0" 
                         type="submit"
-                         @click.prevent="goToSearchResultPage">Search
+                        >Search
                     </button>
                 </form>
                 <!-- <div style="margin-left:8px">
@@ -103,6 +106,7 @@ export default {
             this.$router.push('/myCarts')  
         },
         goToSearchResultPage(){
+            this.searchByName()
             this.$router.push('/searchResult')  
         },
         goToRegistrationPage(){
@@ -124,6 +128,27 @@ export default {
             this.$store.dispatch('logOut')
         },
         searchByName(){
+            if(this.searchByNameString){
+                axios({
+                    method: 'post',
+                    url: `/items/filter`,
+                    data:{
+                        name : this.searchByNameString
+                    }
+                })
+                .then( ({data}) =>{
+                    console.log(`TCL: searchByName -> data`, data)
+                    this.searchByNameString = ''
+                    this.$store.commit('SET_SEARCH_ITEM_ARRAY', data)
+                })
+                .catch( ({response}) =>{
+                console.log(' error @registration-RegistrationLoginPage \n======================\n', response.data)
+                swal.fire(
+                    'Error With Searching Item',
+                    response.data.message
+                )
+            })
+            }
 
         }
     },

@@ -7,7 +7,7 @@ module.exports = (req,res,next)=>{
     `);
     
     const { amount } = req.body
-    if(amount == 0)
+    if(amount <= 0)
         next({status:400, message : 'Mininum buying amount is 1'})
         
     
