@@ -39,13 +39,25 @@ const routes = [
         path: '/transactions',
         name: 'transactions',
         component: () => import(/* webpackChunkName: "cart" */ '../views/Transactions.vue'),
+        children: [
+            {
+                path:'purchasing',
+                name: 'purchasing',
+                component: () => import(/* webpackChunkName: "purchasing" */ '../views/Purchasing'),
+            },
+            {
+                path:'sells',
+                name: 'sells',
+                component: () => import(/* webpackChunkName: "sells" */ '../views/Sells'),
+            }
+        ],
         beforeEnter: (to, from, next) => {
             if (!localStorage.getItem('token')) {
                 next('/login')
             } else {
                 next()
             }
-        }
+        },
     }
 
 ];
