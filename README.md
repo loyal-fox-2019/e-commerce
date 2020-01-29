@@ -219,6 +219,57 @@ List of available endpoints:
     }
     ```
     
+#### PUT api/items/:id
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Request Params:
+  - `id: <item._id>`
+- Request Body:
+  - `name: {
+             type: String,
+             required: true,
+             unique: true,
+             minlength: 3,
+             maxlength: 100
+         }`
+  - `stock: {
+             type: Number,
+             default: 0
+         }`
+  - `price: {
+             type: Number,
+             required: true
+         }`
+  - `image: {
+             type: String
+         }`
+  - `description: {
+             type: String,
+             required: true,
+             minlength: 15,
+             maxlength: 500,
+         }`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "message": "Item successfully updated"
+    }
+    ```
+    
+#### DELETE api/items/:id
+- Request Header(s):
+  - `token`: `<jwt token>`
+- Request Params:
+  - `id: <item._id>`
+- Response:
+  - `status`: `200`
+  - ```json
+    {
+        "message": "Item successfully deleted"
+    }
+    ```
+    
 #### POST api/transactions/checkout
 - Request Header(s):
   - `token`: `<jwt token>`1
