@@ -35,7 +35,10 @@ export default {
       navBar
   },
   created(){
-    
+    if(localStorage.getItem('token'))
+      this.$store.dispatch('fetchUserDetail')
+    else
+      this.$store.dispatch('setDefaultState')
   }
     
 

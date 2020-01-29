@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const invoiceSchema = new Schema({
     TransactionId:[{
         type: Schema.Types.ObjectId,
-        ref: 'Item',
+        ref: 'Transaction',
         required: [true, 'TransactionId must be provided']
     }],
     BuyerId:{
@@ -48,11 +48,9 @@ const invoiceSchema = new Schema({
     },
     createdAt:{
         type: Date,
-        default: new Date()
     },
     updatedAt:{
         type: Date,
-        default: new Date()
     }
 })
 

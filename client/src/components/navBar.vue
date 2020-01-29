@@ -11,15 +11,15 @@
                     @click.prevent="goToHomePage"
                     style="font-family: Varela Round', sans-serif;">HACKCOMMERCE-8</a>
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
+                    <li class="nav-item active" v-if="isLogin">
                         <button 
                             class="btn btn-light" 
-                            @click.prevent="goToMyShopPage">
+                            @click.prevent="goToUserShopPage">
                             <font-awesome-icon icon="store" style="color:grey"/>
                             <span style="color:grey">my Shop</span>
                         </button>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isLogin">
                         <b-button 
                             class="btn btn-light"
                             v-b-tooltip.hover title="view my carts"
@@ -31,7 +31,7 @@
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0 japNavBar3" >
-                    <input class="form-control " type="search" placeholder="Search Item" aria-label="Search" style="width:85%" v-model="titleSearch">
+                    <input class="form-control " type="search" placeholder="Search Item" aria-label="Search" style="width:85%" v-model="searchByNameString">
                     <button
                         class="btn btn-outline-success my-2 my-sm-0" 
                         type="submit"
@@ -44,21 +44,21 @@
                 <!-- start of 'user dropdown' -->
                 <div class="japNavBar4">
                     <ul class="navbar-nav mr-auto" style="margin-right:10%">
-                    <li class="japNavBar5">
+                    <li v-if="!isLogin" class="japNavBar5">
                         <button 
                             type="button" 
                             class="btn btn-outline-success"
                             @click.prevent='goToLoginPage'>Login
                         </button>
                     </li>
-                    <li class="japNavBar5">
+                    <li v-if="!isLogin" class="japNavBar5">
                         <button 
                             type="button" 
                             class="btn btn-success"
                             @click.prevent="goToRegistrationPage">Register
                         </button>
                     </li>
-                    <li class="nav-item dropdown japNavBar5">
+                    <li v-if="isLogin" class="nav-item dropdown japNavBar5">
                         <div>
                             <b-dropdown id="dropdown-right" right :text="loggedInUserDetail.username" variant="secondary" >
                                 <div style="text-align:right">
@@ -87,12 +87,17 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: 'comp-NavBar',
+    data(){
+        return {
+            searchByNameString:''
+        }
+    },
     methods:{
         goToHomePage(){
             this.$router.push('/')  
         },
-        goToMyShopPage(){
-            this.$router.push('/myShop')  
+        goToUserShopPage(){
+            this.$router.push(`/userShop/${this.loggedInUserDetail._id}`)  
         },
         goToMyCartsPage(){
             this.$router.push('/myCarts')  
@@ -110,7 +115,7 @@ export default {
             this.$router.push('/userprofile')
         },
         goToDashboardPage(){
-            this.$router.push('/dashboard/incompleteInvoice')
+            this.$router.push('/dashboard/invoiceIncomplete')
         },
         goToProductPage(){
             this.$router.push('/product/create')
@@ -118,9 +123,13 @@ export default {
         logOut(){
             this.$store.dispatch('logOut')
         },
+        searchByName(){
+
+        }
     },
     computed:{
         ...mapGetters([
+            'isLogin',
             'loggedInUserDetail',
         ])
     }

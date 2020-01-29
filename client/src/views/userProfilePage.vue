@@ -1,15 +1,15 @@
 <template>
     <div class="fade-in">
         <!-- <h4>user profile page</h4> -->
-
+<!-- {{loggedInUserDetail}} -->
         <div id="divUserProfileEdit" class="row">
           <div id="divUserProfilePictureContainer" class="col-3">
 
-                <!-- <img v-if="loggedInUserDetail.profilePicture" 
+                <img v-if="loggedInUserDetail.profilePicture" 
                     :src=" loggedInUserDetail.profilePicture " 
-                    class="userProfilePicture"> -->
+                    class="userProfilePicture">
                     
-                <img 
+                <img v-else
                     src="../assets/blankProfilePicture/default-profile.png" 
                     alt="" 
                     class="userProfilePicture">
@@ -21,7 +21,7 @@
                 action="/upload-single" method="post" enctype="multipart/form-data"
                 @submit.prevent="updateUserProfile">
                 <div class="form-row">
-                    <h1>Username</h1>
+                    <h1>{{ loggedInUserDetail.username }}</h1>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -83,8 +83,105 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
+import axios from '../../config/axios'
+
+import { mapGetters } from 'vuex'
+
 export default {
-    name: 'userProfilePage'
+    name: 'userProfilePage',
+    data(){
+        return {
+            firstName:'',
+            lastName:'',
+            email:'',
+            description:'',
+            profilePicture:'',
+            pictureTempUrl:''
+        }
+    },
+    methods:{
+        fetchUserProfile(){
+            this.firstName = this.loggedInUserDetail.firstName
+            this.lastName = this.loggedInUserDetail.lastName
+            this.email = this.loggedInUserDetail.email
+            this.description = this.loggedInUserDetail.description
+            this.profilePicture = this.loggedInUserDetail.profilePicture
+        },
+        setPictureTempUrl(e){
+            const file = e.target.files[0]
+            this.pictureTempUrl = URL.createObjectURL(file)
+        },
+        cancelPicture(){
+            this.pictureTempUrl = ''
+        },
+        updateUserProfile(){
+            let fd = new FormData()
+            if(this.profilePicture)
+                fd.append('file', this.profilePicture)
+            fd.append('firstName', this.firstName)
+            fd.append('lastName', this.lastName)
+
+            const validKey = ['email', 'description']
+            validKey.forEach(element => {
+                if(this[element] != this.loggedInUserDetail[element])
+                        fd.append(element, this[element])
+            });
+
+            for(let pair of fd.entries()) {
+                  console.log(pair[0]+ ', '+ pair[1]); 
+            }
+
+
+            swal.fire({
+                title:'Update your Profile',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'save'
+            })
+            .then(result=>{
+                if(result.value)
+                    {
+                        axios({
+                            method: 'patch',
+                            url: `/users/${this.loggedInUserDetail._id}`,
+                            headers:{
+                                token : localStorage.getItem('token')
+                            },
+                            data: fd
+                        })
+                        .then( ({data}) =>{
+                            console.log(' \n======================\n', data)
+                            swal.fire(
+                                'Success updating user profile'
+                            )
+                            .then( result=>{
+                                this.$router.push('/')
+                            })
+                        })
+                        .catch( ({response}) =>{
+                            console.log(' error @updateUserProfile-userProfilePage \n======================\n', response.data)
+                            swal.fire(
+                                'Error With Updating User Profile',
+                                response.data.message
+                            )
+                        })
+                    }
+            })
+            
+
+        }
+
+    },
+    created(){
+        this.fetchUserProfile()
+        
+    },
+    computed:{
+        ...mapGetters([
+            'loggedInUserDetail'
+        ])
+    }
 
 }
 </script>

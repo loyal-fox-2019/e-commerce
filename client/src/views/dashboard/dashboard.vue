@@ -7,18 +7,35 @@
             <b-list-group horizontal>
                 <b-list-group-item 
                     button class="d-flex justify-content-between align-items-center col-md-2"
-                    @click.prevent="goToDashboardIncompleteInvoice">
+                    @click.prevent="goToDashboardTab( 'invoiceIncomplete' )">
                     incomplete Invoice
-                    <b-badge variant="primary" pill>140</b-badge>
+                    <b-badge variant="primary" pill></b-badge>
                 </b-list-group-item>
 
 
                 <b-list-group-item 
                     button class="d-flex justify-content-between align-items-center col-md-2"
-                    @click.prevent="goToDashboardTransactionHistory">
+                    @click.prevent="goToDashboardTab( 'invoiceComplete' )">
                     Transaction History
-                    <b-badge variant="primary" pill>1</b-badge>
+                    <b-badge variant="primary" pill></b-badge>
                 </b-list-group-item>
+
+
+                <b-list-group-item 
+                    button class="d-flex justify-content-between align-items-center col-md-2"
+                    @click.prevent="goToDashboardTab( 'POOngoing' )">
+                    Ongoing PO
+                    <b-badge variant="primary" pill></b-badge>
+                </b-list-group-item>
+
+
+                <b-list-group-item 
+                    button class="d-flex justify-content-between align-items-center col-md-2"
+                    @click.prevent="goToDashboardTab( 'POComplete' )">
+                    Complete PO
+                    <b-badge variant="primary" pill></b-badge>
+                </b-list-group-item>
+
             </b-list-group>
         </div>
         
@@ -32,15 +49,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
     name: 'dashboard',
     methods:{
-        goToDashboardIncompleteInvoice(){
-            this.$router.push('/dashboard/incompleteInvoice')
-        },
-        goToDashboardTransactionHistory(){
-            this.$router.push('/dashboard/transactionHistory')
+        goToDashboardTab( tab ){
+            this.$router.push(`/dashboard/${tab}`)
         }
+    },
+    created(){
+    },
+    computed:{
+        ...mapGetters([
+        ])        
     }
 
 }

@@ -17,7 +17,9 @@ class ItemController{
 
           Item.create({
               name, image, description, price, stock,
-              SellerId: req.decodedUser._id
+              SellerId: req.decodedUser._id,
+              createdAt: new Date(),
+              updatedAt: new Date()
           })
           .then(result=>{
               res.status(200).json(result)
@@ -56,14 +58,16 @@ class ItemController{
 
           Item.find( 
               findQuery,
-              null,
-              { 
-                  skip: (parseInt(page)-1) * parseInt(view),
-                  limit: parseInt(view)
-              },
+            //   null,
+            //   { 
+            //       skip: (parseInt(page)-1) * parseInt(view),
+            //       limit: parseInt(view)
+            //   },
           )
           .populate('SellerId', ' -password')
-          .sort({ 'createdAt' : 'ascending' } )
+          .sort({ 'createdAt' : -1 } )
+          .skip( (parseInt(page)-1) * parseInt(view) )
+          .limit( parseInt(view) )
           .then(result=>{
               res.status(200).json(result)
           })
@@ -107,7 +111,7 @@ class ItemController{
 
     static patchEditItem(req,res,next) 
       {
-          const validKey = ['name', 'desciption', 'stock', 'price']
+          const validKey = ['name', 'description', 'stock', 'price']
           const keys = Object.keys(req.body)
 
           const patchQueryKey = keys.filter(key => validKey.indexOf(key) >= 0 )
@@ -116,6 +120,7 @@ class ItemController{
           patchQueryKey.forEach(element => {
               patchObj[element] = req.body[element]
           });
+          patchObj.updatedAt = new Date()
 
           if(req.body.file)
             patchObj.image = req.body.file
@@ -180,7 +185,7 @@ class ItemController{
     static seedingItem(req,res,next)
       {
           let seeding = Item.collection.initializeOrderedBulkOp()
-          for(let x = 0; x < 50; x++)
+          for(let x = 0; x < 5; x++)
             {
                 seeding.insert({
                     name: `Seeded Item - ${x}`,
@@ -188,7 +193,9 @@ class ItemController{
                     description: `Seeded Description - ${x}`,
                     price: 100000,
                     stock: 100,
-                    SellerId: req.decodedUser._id
+                    SellerId: req.decodedUser._id,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
                 })
             }
             console.log(`TCL: seeding`, seeding)

@@ -8,64 +8,50 @@
             @show="resetModal"
             @hidden="resetModal"
             @ok="handleOk"
-            
+            size="lg"
             >
-            <div id="divModalContainer">
-                <div>
-                    <h3>Cart Id</h3>
-                    <p>123123123</p>
-                </div>
+            <div id="divModalContainer" >
+                <b-card align="left">
+                    <template v-slot:header>
+                    <h4 class="mb-0 ">Buyer : {{ invoiceDetail.BuyerId.username }}</h4>
+                    </template>
+<!-- {{invoiceDetail}} -->
+                    <b-card-body>
+                    <b-card-title>Total Transaction</b-card-title>
+                    <b-card-text style="color:red">
+                        Rp {{invoiceDetail.totalBilled.toLocaleString('id')}}
+                    </b-card-text>
 
-                <div>
-                <h5>Transaction List</h5>
-                
-                <table id="japTableInvoice">
-                    <thead>
-                        <th>Tx Id</th>
-                        <th>Item</th>
-                        <th>Price</th>
-                        <th>Amount</th>
-                        <th>Total</th>
-                        <th>Seller</th>
-                    </thead>
+                    </b-card-body>
 
-                    <tbody>
+                    <table class="table ">
+                        <thead class="japThead">
                         <tr>
-                            <td>Tx123</td>
-                            <td>penggaris</td>
-                            <td>3000</td>
-                            <td>4</td>
-                            <td>12000</td>
-                            <td>jap</td>
+                            <th class="japThead">Trx Id</th>
+                            <th class="japThead">Item</th>
+                            <th class="japThead">Price</th>
+                            <th class="japThead">Quantity</th>
+                            <th class="japThead">Total</th>
                         </tr>
-                        <tr>
-                            <td>Tx123</td>
-                            <td>penggaris</td>
-                            <td>3000</td>
-                            <td>4</td>
-                            <td>12000</td>
-                            <td>jap</td>
+                        </thead>
+                        <tbody>
+                        <tr class="div-hover" v-for="(tx, index) in invoiceDetail.TransactionId" :key="index">
+                            <td>{{ tx._id }}</td>
+                            <td>{{ tx.ItemId.name }}</td>
+                            <td>Rp {{ tx.price.toLocaleString('id') }}</td>
+                            <td>{{ tx.amount }}</td>
+                            <td>Rp {{ tx.total.toLocaleString('id') }}</td>
                         </tr>
-                        <tr>
-                            <td>Tx123</td>
-                            <td>penggaris</td>
-                            <td>3000</td>
-                            <td>4</td>
-                            <td>12000</td>
-                            <td>jap</td>
-                        </tr>
-                    </tbody>
+                        
+                        </tbody>
+                    </table>
 
-                </table>
-                <div style="margin-top:5%; float:right">
-                    <h5>Grand Total</h5>
-                    <h4>15000000</h4>
-                </div>
+                    <!-- <b-card-footer>
+                        <button class="btn btn-primary japButton" @click.prevent="checkoutThisCart" >Checkout This Cart</button>
+                    </b-card-footer> -->
+                </b-card>
+
             </div>
-
-        </div>
-
-
         </b-modal>
   </div>
 </template>
@@ -73,7 +59,7 @@
 <script>
 export default {
     props:[
-        'invoiceId'
+        'invoiceDetail'
     ],
     data(){
         return{
@@ -119,31 +105,13 @@ export default {
 
 <style scoped>
 
-#japTableInvoice{
-    /* border: solid 2px red; */
-    /* margin: auto; */
-    font-family: 'Mukta', sans-serif;
-}
-
-table, th, td{
-    padding: 10px;
-    border: 1px solid black; 
-    border-collapse: collapse;
-    border-radius: 2px;
-    /* background-color: #e5e5e5; */
+.japThead{
+    color:green;
     text-align: center;
 }
-table{
-    border-right: 0;
-    /* border-bottom: 0 */
-}
 
-th{
-    color: white;
-    font-weight: 100;
-    font-family: 'Mukta', sans-serif;
-    background-color: rgb(97, 100, 96);
-
+td{
+    text-align: center
 }
 
 </style>

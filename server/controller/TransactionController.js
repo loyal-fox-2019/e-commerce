@@ -30,6 +30,8 @@ class TransactionController{
                             BuyerId: req.decodedUser._id,
                             amount: req.body.amount,
                             price: req.itemBought.price,
+                            createdAt : new Date(),
+                            updatedAt : new Date()
                         })
           })
           .then(result=>{
@@ -94,7 +96,8 @@ class TransactionController{
           Tx.findOneAndUpdate(
               { _id : req.params.txId},
               { amount : req.body.amount,
-                total
+                total,
+                updatedAt : new Date()
               },
               { runValidators: true }
           )
@@ -179,7 +182,13 @@ class TransactionController{
                 from : 'items',
                 localField : 'data.ItemId',
                 foreignField : '_id',
-                as : 'Item List'
+                as : 'itemList'
+            }},
+            { $lookup: {
+                from : 'users',
+                localField : 'data.SellerId',
+                foreignField : '_id',
+                as : 'Seller'
             }},
           ])
           .then(result=>{

@@ -18,9 +18,12 @@ class UserController{
           })
           .then(result=>{
               res.status(201).json({
-                  username : result.username,
-                  firstName : result.firstName,
-                  email : result.email,
+                  _id: result._id,
+                  username: result.username,
+                  firstName: result.firstName,
+                  lastName: result.lastName,
+                  fullName: result.fullName,
+                  email: result.email,
                   token : generateToken({ _id : result._id })
               })
           })
@@ -43,7 +46,16 @@ class UserController{
                 {
                     if(verifyHash(password, result.password))
                         res.status(200).json({
-                            username : result.username,
+                            
+                            _id: result._id,
+                            username: result.username,
+                            firstName: result.firstName,
+                            lastName: result.lastName,
+                            fullName: result.fullName,
+                            description: result.description,
+                            email: result.email,
+                            profilePicture: result.profilePicture,
+                            address: result.address,
                             token : generateToken({ _id : result._id })
                         })
                 }
@@ -58,16 +70,30 @@ class UserController{
 
     static getUserDetail(req,res,next)
       {
-          const { username, fullName, email } = req.decodedUser
+          const { _id, username, firstName, lastName, fullName, description, address, profilePicture, email } = req.decodedUser
           res.status(200).json({
-              username, fullName, email
+            _id, username, firstName, lastName, fullName, description, address, profilePicture, email
           })
       }
     
+
+    static getOtherUserDetail(req,res,next)
+      {
+          User.findOne({
+              _id : req.params.userId
+          })
+          .then(result=>{
+              const { _id, username, fullName, email, profilePicture, description } = result
+              res.status(200).json({ _id, username, fullName, email, profilePicture, description })
+          })
+          .catch(err=>{
+              next(err)
+          })
+      }
       
     static patchUpdate(req,res,next)
       {
-          const validKey = ['firstName', 'lastName', 'email', 'address']
+          const validKey = ['firstName', 'lastName', 'email', 'address', 'description']
           const reqBodyKey = Object.keys(req.body)
 
           const queryPatchKey = reqBodyKey.filter( key => validKey.indexOf(key) >=0 )

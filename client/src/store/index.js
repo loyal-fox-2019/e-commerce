@@ -9,7 +9,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLogin: false,
-    loggedInUserDetail:{ username:'jap'}
+    loggedInUserDetail: {},
+    myCarts:[],
+    myConditionedInvoices: []
 
 
   },
@@ -20,6 +22,13 @@ export default new Vuex.Store({
     SET_LOGGED_IN_USER_DETAIL(state,payload){
       state.loggedInUserDetail = payload
     },
+    SET_MY_CARTS(state,payload){
+      state.myCarts = payload
+    },
+    SET_MY_CONDITIONED_INVOICES(state,payload){
+      state.myConditionedInvoices = payload
+    },
+    
     
 
 
@@ -39,16 +48,56 @@ export default new Vuex.Store({
           }
       })
       .then( ({data})=>{
+          console.log(`TCL: fetchUserDetail -> data`, data)
           commit('SET_IS_LOGIN', true)
           commit('SET_LOGGED_IN_USER_DETAIL', data)
       })
       .catch( ({response})=>{
-          console.log('error @fetchUserDetail-index.js \n======================\n', response.data.message)
+          console.log('error @fetchUserDetail-store.index \n======================\n', response.data.message)
           dispatch.setDefaultState()
       })
   },
-  fetchAllArticlePaginated(){
-
+  fetchMyCarts({commit}){
+        axios({
+          method: 'get',
+          url: '/transactions/aggregate',
+          headers:{
+              token : localStorage.getItem('token')
+          }
+        })
+        .then( ({data}) =>{
+            console.log(`TCL: fetchMyCarts -> data`, data)
+            commit('SET_MY_CARTS', data)
+        })
+        .catch( ({response}) =>{
+            console.log(' error @fetchMyCarts-store.index \n======================\n', response.data)
+            swal.fire(
+                'Error With Fetching my carts',
+                response.data.message
+            )
+        })
+  },
+  fetchMyConditionedInvoices({commit}, payload){
+      console.log(`TCL: fetchMyConditionedInvoices -> payload`, payload)
+      axios({
+          method: 'post',
+          url: '/invoices/allConditioned',
+          headers:{
+              token : localStorage.getItem('token')
+          },
+          data:payload
+      })
+      .then( ({data}) =>{
+          console.log(`TCL: fetchMyConditionedInvoices -> data`, data)
+          commit('SET_MY_CONDITIONED_INVOICES', data)
+      })
+      .catch( ({response}) =>{
+          console.log(' error @fetchMyConditionedInvoices-store.index \n======================\n', response.data)
+          swal.fire(
+              'Error With Fetching My Invoices',
+              response.data.message
+        )
+      })
   },
   logOut({state, dispatch}, payload){
     swal.fire({
@@ -68,10 +117,8 @@ export default new Vuex.Store({
                     `See you again ${tempUsername}`,
                     'success'
                 )
-                
             }
     })
-
   },
 
 
@@ -85,8 +132,17 @@ export default new Vuex.Store({
 
   },
   getters:{
+    isLogin: state=>{
+      return state.isLogin
+    },
     loggedInUserDetail: state=>{
       return state.loggedInUserDetail
+    },
+    myCarts: state=>{
+      return state.myCarts
+    },
+    myConditionedInvoices: state=>{
+      return state.myConditionedInvoices
     }
   }
 })

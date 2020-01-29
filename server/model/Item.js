@@ -30,11 +30,9 @@ const itemSchema = new Schema({
     },
     createdAt:{
         type: Date,
-        default: new Date()
     },
     updatedAt:{
         type: Date,
-        default: new Date()
     }
 })
 

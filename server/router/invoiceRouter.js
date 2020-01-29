@@ -19,7 +19,8 @@ router.post('/', bulkStockChecking, bulkPatchItemStock, bulkPatchTransactionStat
 // router.post('/', InvoiceController.createInvoice)
 
 
-router.get('/all', InvoiceController.findAllInvoiceByOptions) //bisa by BuyerId || SellerId ||&& Invoice Status
+// router.get('/all', InvoiceController.findAllInvoiceByOptions) //bisa by BuyerId || SellerId ||&& Invoice Status
+router.post('/allConditioned', InvoiceController.findAllConditionedInvoices)
 router.get('/:invoiceId', authorizationModel('Invoice', 'Either'), InvoiceController.findOneInvoice) // search one by Buyer Id || SellerId
 
 router.use('/:invoiceId/seller', authorizationModel('Invoice', 'Seller'))

@@ -1,12 +1,13 @@
 <template>
   <div class="fade-in">
-      <!-- <h4>dashboard incomplete invoice</h4> -->
-
+      <!-- <h4>dashboard PO complete</h4> -->
+        <!-- {{ myConditionedInvoices.length }} -->
       <div style="margin-top:1%">
       <table id="japTableInvoice">
           <thead>
               <th>Cart Id</th>
               <th>Created Date</th>
+              <th>Updated Date</th>
               <th>Seller</th>
               <th>Total Billed</th>
               <th>Payment Status</th>
@@ -17,32 +18,27 @@
 
           </thead>
 
-          <tbody v-for="x in 20" :key="x">
+          <tbody v-for="invoice in myConditionedInvoices" :key="invoice._id">
               <tr>
                   <td><a href="#" v-b-modal.modalReadInvoice 
-                          @click.prevent="setInvoiceId(x)"> 1313132132</a>
+                          @click.prevent="setInvoiceDetail(invoice)">{{ invoice._id }}</a>
                   </td>
-                  <td>01-01-2020</td>
-                  <td>Jap</td>
-                  <td>1500000</td>
+                  <td>{{ invoice.createdAt.split('.')[0].replace('T', '; ')}}</td>
+                  <td>{{ invoice.updatedAt.split('.')[0].replace('T', '; ')}}</td>
+                  <td>{{ invoice.SellerId.username}}</td>
+                  <td>Rp. {{ invoice.totalBilled.toLocaleString('id') }}</td>
                   <td>paid</td>
-                  <td>confirm</td>
-                  <td>123412421</td>
-                  <td>confirm</td>
-                  <td>complete</td>
-                  <td style="border:none">
-                      <!-- <b-button v-if="x%2 === 0" variant="outline-primary">update</b-button> -->
-                      <b-button v-b-modal.modalEditInvoice
-                      @click.prevent="setInvoiceId(x)">Update</b-button>
-                  </td>
+                  <td>{{ invoice.paymentConfirmation || ''}}</td>
+                  <td>{{ invoice.resiNumber || '' }}</td>
+                  <td>{{ invoice.deliveryConfirmation || '' }}</td>
+                  <td>{{ invoice.invoiceStatus }}</td>
               </tr>
 
           </tbody>
 
 
       </table>
-        <modalEditInvoice :invoiceId="invoiceId"/>
-        <modalReadInvoice :invoiceId="invoiceId"/>
+        <modalReadInvoice :invoiceDetail="invoiceDetail"/>
 
 
     </div>
@@ -50,29 +46,34 @@
 </template>
 
 <script>
-import modalEditInvoice from '../../components/modalEditInvoice'
 import modalReadInvoice from '../../components/modalReadInvoice'
+import { mapGetters } from 'vuex'
 
 export default {
     components:{
-        modalEditInvoice,
-        modalReadInvoice
+        modalReadInvoice,
     },
     data() {
       return {
-        selected: null,
-        options:[
-            {value:'', text:''},
-            {value:'confirm', text:'confirm'}
-        ],
-        invoiceId:''
+        invoiceDetail:''
       }
     },
     methods:{
-        setInvoiceId(payload){
-            this.invoiceId = payload
+        setInvoiceDetail(payload){
+            console.log(`TCL: setInvoiceDetail -> payload`, payload)
+            this.invoiceDetail = payload
         }
-
+    },
+    created(){
+        this.$store.dispatch('fetchMyConditionedInvoices', {
+            SellerId : true,
+            invoiceStatus : 'Complete'
+        })
+    },
+    computed:{
+        ...mapGetters([
+            'myConditionedInvoices',
+        ])
     }
 }
 </script>

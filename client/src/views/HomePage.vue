@@ -1,7 +1,8 @@
 <template >
     <div class="templateDiv fade-in">
       <!-- <h4>homePage.vue</h4> -->
-
+        <!-- <h1>{{ currentPage }}</h1> -->
+        <!-- {{getEstimatedItemCount}} -->
       <div class="japPaginationDiv">
           <div class="overflow-auto">
               <div class="mt-3">
@@ -12,7 +13,7 @@
                   align="right"
                   size="sm"
                   last-number
-                  @change="fetchData"/>
+                  @change="fetchDataPaginated"/>
               </div>
           </div>  
       </div>
@@ -20,8 +21,9 @@
       <div class="japContentCardDiv1">
           <!-- start of Div Card Group -->
           <div class="row row-cols-1 row-cols-md-5 p-2 japContentCardDiv2" >
-              <div v-for="item in perPage" :key="item" >
-                <smallCard/>
+              <div v-for="item in itemContent" :key="item._id" >
+                <smallCard 
+                :itemDetail="item"/>
               </div>
             
         </div>
@@ -37,6 +39,8 @@
 
 
 <script>
+import axios from '../../config/axios'
+import swal from 'sweetalert2'
 import smallCard from '../components/smallCard'
 
 export default {
@@ -46,15 +50,64 @@ export default {
     },
     data(){
         return{
-            rows: 200,
+            rows: this.getEstimatedItemCount,
             perPage: 20,
-            currentPage: 2
+            currentPage: 1,
+            itemContent:[]
         }
     },
     methods:{
-        fetchData(){
-            console.log(' \n======================\n ketrgirer')
-        },
+
+        fetchDataPaginated(){
+            axios({
+                method: 'get',
+                url: `/items/all/?page=${parseInt(this.currentPage)}&view=${this.perPage}`
+            })
+            .then( ({data}) =>{
+                console.log(' data @fetchDataPaginated - homePage\n======================\n', data)
+                this.itemContent = data
+            })
+            .catch( ({response}) =>{
+                console.log(' error @fetchDataPaginated - homePage\n======================\n', response.data)
+                swal.fire(
+                    'Error With Getting Item Data',
+                    response.data.message
+                )
+            })
+        }
+        
+    },
+    created(){
+            axios({
+                method: 'get',
+                url: '/items/countAllItem'
+            })
+            .then( ({data}) =>{
+                this.rows = data
+                console.log(`TCL: getEstimatedItemCount -> data`, data)
+
+                return this.fetchDataPaginated()
+            })
+            .catch( ({response}) =>{
+                console.log(' error @getEstimatedItemCount -homePage\n======================\n', response.data.message)
+            })
+    },
+    computed:{
+        getEstimatedItemCount(){
+            axios({
+                method: 'get',
+                url: '/items/countAllItem'
+            })
+            .then( ({data}) =>{
+                this.rows = data
+                console.log(`TCL: getEstimatedItemCount -> data`, data)
+                // return data
+                return this.fetchDataPaginated()
+            })
+            .catch( ({response}) =>{
+                console.log(' error @getEstimatedItemCount -homePage\n======================\n', response.data.message)
+            })
+        }
     }
 
 

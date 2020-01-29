@@ -15,9 +15,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "userRegistrationLogin" */ '../views/RegistrationLoginPage.vue')
   },
   {
-    path: '/myShop',
-    name: 'myShopPage',
-    component: () => import(/* webpackChunkName: "myShopPage" */ '../views/myShopPage.vue')
+    path: '/userShop/:sellerId',
+    name: 'userShopPage',
+    component: () => import(/* webpackChunkName: "userShopPage" */ '../views/userShopPage.vue')
   },
   {
     path: '/myCarts',
@@ -35,6 +35,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "createEditItemPage" */ '../views/createEditItemPage.vue')
   },
   {
+    path: '/product/:mode/:itemId',
+    name: 'purchasePage',
+    component: () => import(/* webpackChunkName: "purchasePage" */ '../views/productViewerPage.vue')
+  },
+  {
     path: '/userprofile',
     name: 'userProfilePage',
     component: () => import(/* webpackChunkName: "userProfilePage" */ '../views/userProfilePage.vue')
@@ -45,14 +50,24 @@ const routes = [
     component: () => import(/* webpackChunkName: "dashboardPage" */ '../views/dashboard/dashboard.vue'),
     children:[
       {
-        path: '/dashboard/incompleteInvoice',
-        name: 'incompleteInvoice',
-        component: () => import(/* webpackChunkName: "incompleteInvoice" */ '../views/dashboard/dashboardIncompleteInvoice.vue')
+        path: '/dashboard/invoiceIncomplete',
+        name: 'invoiceIncomplete',
+        component: () => import(/* webpackChunkName: "invoiceIncomplete" */ '../views/dashboard/dashboardInvoiceIncomplete.vue')
       },
       {
-        path: '/dashboard/transactionHistory',
-        name: 'transactionHistory',
-        component: () => import(/* webpackChunkName: "incompleteInvoice" */ '../views/dashboard/dashboardTxHistory.vue')
+        path: '/dashboard/invoiceComplete',
+        name: 'invoiceComplete',
+        component: () => import(/* webpackChunkName: "invoiceComplete" */ '../views/dashboard/dashboardInvoiceComplete.vue')
+      },
+      {
+        path: '/dashboard/POOngoing',
+        name: 'POOngoing',
+        component: () => import(/* webpackChunkName: "POOngoing" */ '../views/dashboard/dashboardPOOngoing.vue')
+      },
+      {
+        path: '/dashboard/POComplete',
+        name: 'POComplete',
+        component: () => import(/* webpackChunkName: "POOngoing" */ '../views/dashboard/dashboardPOComplete.vue')
       }
     ]
   }

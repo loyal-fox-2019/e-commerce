@@ -10,12 +10,17 @@ class InvoiceController{
     static createInvoice(req,res,next)
       {
           const { TransactionId, totalBilled, SellerId } = req.body
+          console.log('=========================================\n')
+          console.log(`TCL: InvoiceController -> req.body`, req.body)
           
           Invoice.create({
               TransactionId, totalBilled, SellerId,
-              BuyerId : req.decodedUser._id
+              BuyerId : req.decodedUser._id,
+              createdAt : new Date(),
+              updatedAt : new Date()
           })
           .then(result =>{
+              console.log(`TCL: InvoiceController -> result`, result)
               res.status(200).json(result)
           })
           .catch(err =>{
@@ -30,31 +35,72 @@ class InvoiceController{
       }
 
     
-    static findAllInvoiceByOptions(req,res,next)
-      {
-          let findQuery = {
-              $or: [
-                { BuyerId : req.decodedUser._id },
-                { SellerId : req.decodedUser._id }
-                ]
-          }
-          const keys = Object.keys(req.body)
+    // static findAllCompleteInvoices(req,res,next)
+    //   {
+    //       // let findQuery = {
+    //       //     $or: [
+    //       //       { BuyerId : req.decodedUser._id },
+    //       //       { SellerId : req.decodedUser._id }
+    //       //       ]
+    //       // }
+    //       let findQuery = { invoiceStatus : 'Complete'}
 
-          if(keys.length > 0){
-              keys.forEach(element => {
-                  findQuery[element] = req.body[element]
-              });
-          }
+    //       const keys = ['BuyerId', 'SellerId']
+    //       keys.forEach(element => {
+    //           if(req.body[element])
+    //             findQuery[element] = req.body[element]
+    //       });
+    //       console.log(`TCL: InvoiceController -> findQuery`, findQuery)
+
+    //       Invoice.find(findQuery)
+    //       .populate('SellerId', 'username')
+    //       .populate('BuyerId', 'username')
+    //       .then(result=>{
+    //           res.status(200).json(result)
+    //       })
+    //       .catch(err=>{
+    //           next(err)
+    //       })
+    //   }
+
+    static findAllConditionedInvoices(req,res,next)
+      {
+          // let findQuery = { 
+          //   invoiceStatus : { $ne: 'Complete'},
+          // }
+          console.log(`TCL: InvoiceController -> req.body`, req.body)
+
+          let findQuery = {}
+          if(req.body.invoiceStatus === 'Complete')
+            findQuery.invoiceStatus = 'Complete'
+          else
+            findQuery.invoiceStatus = { $ne: 'Complete'}
+
+
+          const keys = ['BuyerId', 'SellerId']
+          keys.forEach(element => {
+              if(req.body[element])
+                findQuery[element] = req.decodedUser._id
+          });
           console.log(`TCL: InvoiceController -> findQuery`, findQuery)
 
-              
 
           Invoice.find(findQuery)
+          .populate('SellerId', 'username')
+          .populate('BuyerId', 'username')
+          .populate(
+              { path: 'TransactionId', 
+                select: 'amount price total',
+                populate : { 
+                              path : 'ItemId',
+                              select : 'name'
+                           }
+              })
           .then(result=>{
-              res.status(200).json(result)
+                res.status(200).json(result)
           })
           .catch(err=>{
-              next(err)
+                next(err)
           })
       }
 

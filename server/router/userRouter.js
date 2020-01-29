@@ -14,6 +14,7 @@ router.use('/dev/deleteAll', devTools('User', 'remove') )
 
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
+router.get('/:userId', UserController.getOtherUserDetail)
 
 
 router.use(authentication)

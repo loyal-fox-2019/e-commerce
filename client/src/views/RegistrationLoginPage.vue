@@ -54,23 +54,23 @@
                         <form id="registrationForm" @submit.prevent="register">
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" id="usernameRegistration" aria-describedby="" v-model="registrationUsername" placeholder="Username is permanent" required>
+                                <input type="text" class="form-control" id="usernameRegistration" aria-describedby="" v-model="username" placeholder="Username is permanent" required>
                             </div>
                             <div class="form-group">
                                 <label for="firstName">First Name</label>
-                                <input type="text" class="form-control" id="firstNameRegistration" aria-describedby="" v-model="registrationFirstName" required>
+                                <input type="text" class="form-control" id="firstNameRegistration" aria-describedby="" v-model="firstName" required>
                             </div>
                             <div class="form-group">
                                 <label for="lastName">Last Name</label>
-                                <input type="text" class="form-control" id="lastNameRegistration" aria-describedby="" v-model="registrationLastName" required>
+                                <input type="text" class="form-control" id="lastNameRegistration" aria-describedby="" v-model="lastName" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email address</label>
-                                <input type="email" class="form-control" id="emailRegistration" aria-describedby="emailHelp" v-model="registrationEmail" required>
+                                <input type="email" class="form-control" id="emailRegistration" aria-describedby="emailHelp" v-model="email" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="passwordRegistration" v-model="registrationPassword" required>
+                                <input type="password" class="form-control" id="passwordRegistration" v-model="password" required>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">register</button>
@@ -94,6 +94,9 @@
 
 
 <script>
+import axios from '../../config/axios'
+import swal from 'sweetalert2'
+
 export default {
     name: 'registrationLoginPage',
     data(){
@@ -116,6 +119,70 @@ export default {
         changeForm(form){
             this.setAllToDefault()
             this.$router.push(`/user/${form}`)
+        },
+        login(){
+            axios({
+                method: 'post',
+                url: '/users/login',
+                data:{
+                    email: this.email,
+                    password: this.password
+                }
+            })
+            .then( ({data}) =>{
+                const { _id, username, firstName, lastName, fullName, email, description, profilePicture, token } = data
+                console.log(`TCL: login -> data`, data)
+                
+                localStorage.setItem('token', token)
+                swal.fire(
+                    'Login Successfull',
+                    `Welcome back ${data.username}`
+                )
+                this.$store.commit('SET_IS_LOGIN', true)
+                this.$store.commit('SET_LOGGED_IN_USER_DETAIL', { _id, username, firstName, lastName, fullName, email, description, profilePicture })
+                this.$router.push('/')
+            })
+            .catch( ({response}) =>{
+                console.log(' error @login-RegistrationLoginPage \n======================\n', response.data)
+                swal.fire(
+                    'Error With Login',
+                    response.data.message
+                )
+            })
+        },
+        register(){
+            axios({
+                method: 'post',
+                url: '/users/register',
+                data:{
+                    username: this.username,
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    email: this.email,
+                    password: this.password
+                }
+            })
+            .then( ({data}) =>{
+                const { _id, username, firstName, lastName, fullName, email, token } = data
+
+                swal.fire(
+                    'Registration Successfull',
+                    `Thank you for joining us ${username}`
+                )
+                
+                localStorage.setItem('token', token)
+                this.$store.commit('SET_IS_LOGIN', true)
+                this.$store.commit('SET_LOGGED_IN_USER_DETAIL', { _id, username, firstName, lastName, fullName, email })
+                this.$router.push('/')
+            })
+             .catch( ({response}) =>{
+                console.log(' error @registration-RegistrationLoginPage \n======================\n', response.data)
+                swal.fire(
+                    'Error With Registration',
+                    response.data.message
+                )
+            })
+
         }
     },
     computed:{
