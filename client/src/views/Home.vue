@@ -3,14 +3,14 @@
     <div class="container">
       <div class="row mt-5">
         <div v-for="item in items" :key="item._id" class="col-3 pt-4">
-          <div class="card">
-            <img src="https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg" class="card-img-top" alt="...">
+          <router-link :to="`/carts/${ item._id }`" class="card">
+            <img :src="item.image" class="card-img-top" alt="...">
             <div class="card-body">
               <h3 class="product-name">{{ item.name }}</h3>
-              <p class="price">Rp. {{ item.price }}</p>
+              <p class="price">Rp. {{ (item.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }}</p>
               <p class="stock">Stock: {{ item.stock }}</p>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -41,6 +41,9 @@ export default {
 </script>
 
 <style scoped>
+.card:hover {
+  text-decoration: none;
+}
 .card .product-name {
   font-size: 14px;
   font-weight: 700;

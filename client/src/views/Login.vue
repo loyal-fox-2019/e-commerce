@@ -47,6 +47,7 @@ export default {
       })
         .then(({ data }) => {
           console.log(data);
+          localStorage.setItem('email', data.user);
           this.$router.push('/');
         })
         .catch((err) => {

@@ -60,6 +60,7 @@ export default {
           console.log(data);
           this.success = true;
           this.message = data.message;
+          this.$router.push('/');
         })
         .catch((err) => {
           console.log(err);
