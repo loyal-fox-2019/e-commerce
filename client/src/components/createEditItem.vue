@@ -110,6 +110,7 @@
 
                 <div class="form-group col-md-8" style="margin-top:3%">
                     <button v-if="setPageMode !== 'purchase'" type="submit" class="btn btn-primary">Save</button>
+                    <button v-if="setPageMode === 'edit'" type="button" class="btn btn-danger m-4" @click.prevent="deleteItem">Delete</button>
                     <button v-if="setPageMode === 'purchase'" type="submit" class="btn btn-primary">Add to Cart</button>
                     
                 </div>
@@ -308,6 +309,41 @@ export default {
                     )
                 })
             }
+        },
+        deleteItem(){
+            swal.fire({
+                title: "Delete Item",
+                text: "Confirm to continue deleting this item",
+                showCancelButton: true,
+                confirmButtonText: 'Delete It'
+            })
+            .then(result=>{
+                if(result.value)
+                  {
+                      axios({
+                          method: 'delete',
+                          url: `/items/${this.itemDetail._id}`,
+                          headers:{
+                              token : localStorage.getItem('token')
+                          }
+                      })
+                      .then( ({data}) =>{
+                        console.log(`TCL: deleteItem -> data`, data)
+                        swal.fire(`Item has Been Deleted`)
+                        this.$router.push(`/userShop/${this.$store.state.loggedInUserDetail._id}`)
+
+                      })
+                      .catch( ({response}) =>{
+                            console.log(' error @registration-RegistrationLoginPage \n======================\n', response.data)
+                            swal.fire(
+                                'Error With Registration',
+                                response.data.message
+                            )
+                      })
+
+                  }
+                    
+            })
         }
     },
     computed:{
