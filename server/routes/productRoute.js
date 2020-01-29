@@ -7,7 +7,7 @@ const upload = gcsUpload({
     fileSize: 1e6 // in bytes
   },
   gcsConfig: {
-    keyFilename: '/home/jpetra/Documents/Phase\ 3/jovipetra-bd211966abec.json',
+    keyFilename: '/home/jpetra/Documents/Phase\ 2/jovipetra-bd211966abec.json',
     bucketName: 'miniwp-images-jovi'
   }
 })

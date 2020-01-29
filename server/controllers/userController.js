@@ -130,6 +130,21 @@ class UserController{
         })
     }
 
+    static emptyCart(req,res,next){
+        User.findOneAndUpdate({
+            email : req.params.email
+        },
+        {
+            cart : []
+        })
+        .then(response => {
+            res.status(200).json(response)
+        })
+        .catch(err => {
+            res.status(500).json(err)
+            console.log(err)
+        })
+    }
 }
 
 module.exports = UserController

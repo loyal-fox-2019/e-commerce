@@ -5,6 +5,7 @@ import Sellpage from '../views/Sellpage.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Cart from '../views/Cart.vue'
+import AdminDashboard from '../views/AdminDashboard.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +23,7 @@ const routes = [
   {
     path : '/login',
     name : 'login',
-    component : Login
+    component : Login,
   },
   {
     path : '/register',
@@ -33,6 +34,11 @@ const routes = [
     path : '/cart',
     name : 'cart',
     component : Cart
+  },
+  {
+    path : '/admin',
+    name : 'admin',
+    component : AdminDashboard
   }
   
 ]

@@ -110,7 +110,7 @@ export default {
           // formData
           name : this.name,
           price : this.price,
-          // imgUrl : this.imgUrl,
+          imgUrl : this.imgUrl,
           description : this.description,
           quantity : this.quantity,
           seller : this.seller,

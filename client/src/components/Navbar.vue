@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#"><i class="fa fa-dice-four"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,6 +12,9 @@
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#/sell">Sell <span class="sr-only">(current)</span></a>
+            </li>
+            <li v-if="user==='admin@hacktivshop.com'" class="nav-item active ml-4">
+                <a @click.prevent="adminDashboard" class="nav-link text-white btn btn-dark">Admin Dashboard <span class="sr-only">(current)</span></a>
             </li>
         </ul>
         <form class="form-inline    my-2 my-lg-0">
@@ -32,11 +35,19 @@
 
 <script>
 export default {
+    data(){
+        return {
+            user : localStorage.user 
+        }
+    },
     methods : {
         logout(){
             localStorage.clear()
             this.$emit('logout')
             window.location.href = "http://localhost:8080/#/login"
+        },
+        adminDashboard(){
+            this.$router.push('/admin')
         }
     }
 }

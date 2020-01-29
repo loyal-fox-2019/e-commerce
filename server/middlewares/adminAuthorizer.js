@@ -4,6 +4,6 @@ module.exports = (req,res,next) => {
         next()
     }
     else{
-        next(401)
+        next('not-admin')
     }
 };
