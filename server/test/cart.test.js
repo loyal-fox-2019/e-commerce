@@ -11,7 +11,8 @@ const expect = chai.expect;
 describe('Create and Delete for Cart', function() {
     describe('Test endpoint for add to cart', function() {
         it('Should be send a respond status of 201 and the cart data', function(done) {
-            chai.request(app).post('/cart').send({productId: '5e25b0daf7566b302b681b14', amount: 2, userId: '5e2575785974dc20dad0324c'})
+            chai.request(app).post('/cart').send({productId: '5e3304befa16ff7852febb04', amount: 2})
+            .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmQxYzI3NzRlN2I2MDZjOTkxNDQ3NSIsImlhdCI6MTU4MDM5ODg4OH0.ZWyt4xbPxJDaXxrluWnqb8AlFWlekKL-6WIPXfb7dsw')
             .then(res => {
                 expect(res).to.have.status(201);
                 expect(res.body.data).to.be.an('object');
@@ -30,7 +31,8 @@ describe('Create and Delete for Cart', function() {
     });
     describe('Test endpoind for remove from cart', function() {
         it('Should be send a respond status of 200 and deletedCount has a value of 1', function(done) {
-            chai.request(app).delete('/cart/5e2698a6cac2113cac58cf9d')
+            chai.request(app).delete('/cart/5e330b761ec8d97b49ed55ed')
+            .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmQxYzI3NzRlN2I2MDZjOTkxNDQ3NSIsImlhdCI6MTU4MDM5ODg4OH0.ZWyt4xbPxJDaXxrluWnqb8AlFWlekKL-6WIPXfb7dsw')
             .then(res => {
                 expect(res).to.have.status(200);
                 expect(res.body.data).to.be.an('object');
