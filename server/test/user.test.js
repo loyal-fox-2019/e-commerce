@@ -1,6 +1,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const User = require('../models/user')
+const Product = require('../models/product')
 
 const app = require('../app')
 
@@ -8,49 +9,98 @@ chai.use(chaiHttp)
 
 const expect = chai.expect
 
-// before(function(){
-//     User.deleteMany({})
-//     .then(function(){
-//         console.log('Users collection cleared')
-//     })
-//     .catch(function(err){
-//         console.log(err);
-//     })
-// })
-
-// after(function(){
-//     User.deleteMany({})
-//     .then(function(){
-//         console.log('Users collection cleared')
-//     })
-//     .catch(function(err){
-//         console.log(err);
-//     })
-// })
-
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTJkNWViNzVkNzIyYjFjMGM5OWQyMzEiLCJuYW1lIjoidGVzIiwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE1ODAwMzE5NTd9.d6Ry9EJCgynNq3n1HHXOZFjkfynkriuAVVm2aMk9VE8'
-let userId = '5e2d5eb75d722b1c0c99d231'
-let productId = '5e2d6194a906fc1da66e6727'
 
 describe('USERS ROUTE TESTING', function(){
+    let productId
+    let token
+    let cart
+    let cartToDelete
+    let userId
+    let toDelete
+    let fakeProductId = '5e2d67b009995621367daf4a'
+    before(function(done){
+        let userData
+        User.deleteMany({})
+        .then(done=>{
+            console.log("User cleared");
+            return Product.deleteMany({})
+        })
+        .then(deleted=>{
+            console.log("Product cleared");
+            return User.create({
+                name: 'dummy',
+                email: 'dummy@mail.com',
+                password: 'dummypassword'
+            })
+        })
+        .then(dummyUser=>{
+            userData = dummyUser
+            return Product.create({
+                name: "Mizuno",
+                description: "glove",
+                price: 300000,
+                picture: "mizuno.jpg",
+                stock: 200,
+                userOwner: dummyUser._id
+            })
+        })
+        .then(createdProduct=>{
+            objProduct = createdProduct
+            productId = createdProduct._id
+            return Product.create({
+                name: 'toDelete',
+                description: 'delete',
+                price: 10000,
+                picture: 'delete.jpg',
+                stock: 100,
+                userOwner: userData._id
+            })
+        })
+        .then(toDeleteProduct=>{
+            toDelete = toDeleteProduct
+            done()
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    })
+
+    after(function(done){
+        User.deleteMany({})
+        .then(done=>{
+            console.log("User cleared");
+            return Product.deleteMany({})
+        })
+        .then(deleted=>{
+            console.log("Product cleared");
+            done()
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    })
+
     describe('POST /users/register', function(){
-        it('should return token with status code 201', function(done){
+        it('should return object with token, userId, username with status code 201', function(done){
+            const registerData = {
+                name: 'test',
+                email: 'test@mail.com',
+                password: 'testpassword'
+            }
             chai.request(app)
             .post('/users/register')
-            .send({
-                name: "tes",
-                email: "tes@mail.com",
-                password: "secret",
-            })
+            .send(registerData)
             .then(function(res){
-    
+                
                 expect(res).to.have.status(201)
                 expect(res.body).to.be.an('object')
                 expect(res.body).to.have.property('token')
                 expect(res.body).to.have.property('userId')
                 expect(res.body).to.have.property('username')
-                expect(res.body.username).to.equal('tes')
+                expect(res.body.username).to.equal('test')
 
+                userId = res.body.userId
+                token = res.body.token
                 done()
             })
             .catch(err=>{
@@ -60,21 +110,23 @@ describe('USERS ROUTE TESTING', function(){
     })
 
     describe('POST /users/login', function(){
-        it('should return token with status code 200', function(done){
+        it('should return object with token, userId, username with status code 200', function(done){
+            const loginData = {
+                email: 'test@mail.com',
+                password: 'testpassword'
+            }
             chai.request(app)
             .post('/users/login')
-            .send({
-                email: "tes@mail.com",
-                password: "secret"
-            })
+            .send(loginData)
             .then(function(res){
-                
+
+                token = res.body.token
                 expect(res).to.have.status(200)
                 expect(res.body).to.be.an('object')
                 expect(res.body).to.have.property('token')
                 expect(res.body).to.have.property('userId')
                 expect(res.body).to.have.property('username')
-                expect(res.body.username).to.equal('tes')
+                expect(res.body.username).to.equal('test')
                 
                 done()
             })
@@ -100,6 +152,8 @@ describe('USERS ROUTE TESTING', function(){
                 expect(res.body).to.have.property('cart')
                 expect(res.body).to.not.have.property('password')
                 expect(res.body.cart).to.be.an('array')
+                expect(res.body.name).to.equal('test')
+                expect(res.body.email).to.equal('test@mail.com')
 
                 done()
             })
@@ -138,6 +192,69 @@ describe('USERS ROUTE TESTING', function(){
     })
 
     describe('PATCH /users/addCart', function(){
+        it('should return message: Minimum purchase quantity is 1 and status 400', function(done){
+            chai.request(app)
+            .patch('/users/addCart')
+            .set('token', token)
+            .send({
+                item: productId,
+                quantity: 0
+            })
+            .then(function(res){
+
+                expect(res).to.have.status(400)
+                expect(res.body).to.be.an('object')
+                expect(res.body).to.have.property('message')
+                expect(res.body.message).to.equal('Minimum purchase quantity is 1')
+
+                done()
+            })
+            .catch(err=>{
+                console.log(err);      
+            })
+        })
+        it('should return message: Product stock not enough for your purchase quantity and status 400', function(done){
+            chai.request(app)
+            .patch('/users/addCart')
+            .set('token', token)
+            .send({
+                item: productId,
+                quantity: 1000
+            })
+            .then(function(res){
+
+                expect(res).to.have.status(400)
+                expect(res.body).to.be.an('object')
+                expect(res.body).to.have.property('message')
+                expect(res.body.message).to.equal('Product stock not enough for your purchase quantity')
+
+                done()
+            })
+            .catch(err=>{
+                console.log(err);      
+            })
+        })
+        it('should return message: Product not found and status 404', function(done){
+            chai.request(app)
+            .patch('/users/addCart')
+            .set('token', token)
+            .send({
+                item: fakeProductId,
+                quantity: 1
+            })
+            .then(function(res){
+
+                expect(res).to.have.status(404)
+                expect(res.body).to.be.an('object')
+                expect(res.body).to.have.property('message')
+                expect(res.body.message).to.equal('Product not found')
+
+                done()
+            })
+            .catch(err=>{
+                console.log(err);      
+            })
+        })
         it('should return message: "Item added to cart successfully" and status 200', function(done){
             chai.request(app)
             .patch('/users/addCart')
@@ -159,31 +276,47 @@ describe('USERS ROUTE TESTING', function(){
                 console.log(err);      
             })
         })
+        it(`should return message: 5 of the products already exist in cart and adding 200 more exceeds product's stock and status 400`, function(done){
+            chai.request(app)
+            .patch('/users/addCart')
+            .set('token', token)
+            .send({
+                item: productId,
+                quantity: 200
+            })
+            .then(function(res){
+
+                expect(res).to.have.status(400)
+                expect(res.body).to.be.an('object')
+                expect(res.body).to.have.property('message')
+                expect(res.body.message).to.equal(`5 of the products already exist in cart and adding 200 more exceeds product's stock`)
+
+                done()
+            })
+            .catch(err=>{
+                console.log(err);      
+            })
+        })
     })
 
     describe('PATCH /users/edit-cart', function(){
+        before(function(done){
+            User.findById(userId).populate('cart.item')
+            .then(user=>{
+                cart = user.cart[0]
+                done()
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        })
         it('should return message: "Cart item quantity updated" and status 200', function(done){
             chai.request(app)
             .patch('/users/edit-cart')
             .set('token', token)
             .send({
                 newQuantity: 10,
-                cartData: {
-                    _id: '5e2d6b9b8d7b99239a267162',
-                    item: {
-                      _id: '5e2d6194a906fc1da66e6727',
-                      name: 'Mizuno',
-                      description: 'glove',
-                      price: 300000,
-                      picture: 'mizuno.jpg',
-                      stock: 200,
-                      userOwner: '5e2d5eb75d722b1c0c99d231',
-                      created_at: '2020-01-26T09:53:24.086Z',
-                      updatedAt: '2020-01-26T09:53:24.086Z',
-                      __v: 0
-                    },
-                    quantity: 5
-                }
+                cartData: cart
             })
             .then(function(res){
 
@@ -201,34 +334,38 @@ describe('USERS ROUTE TESTING', function(){
     })
 
     describe('PATCH /users/remove-item', function(){
+        before(function(done){
+            chai.request(app)
+            .patch('/users/addCart')
+            .set('token', token)
+            .send({
+                item: toDelete._id,
+                quantity: 10
+            })
+            .then(function(res){
+                return User.findById(userId).populate('cart.item')
+            })
+            .then(user=>{
+                cartToDelete = user.cart[1]
+                done()
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        })
         it('should return message: "[item.name]" removed from cart', function(done){
             chai.request(app)
             .patch('/users/remove-item')
             .set('token', token)
             .send({
-                cartData: {
-                    _id: '5e2d6b9b8d7b99239a267162',
-                    item: {
-                      _id: '5e2d6194a906fc1da66e6727',
-                      name: 'Mizuno',
-                      description: 'glove',
-                      price: 300000,
-                      picture: 'mizuno.jpg',
-                      stock: 200,
-                      userOwner: '5e2d5eb75d722b1c0c99d231',
-                      created_at: '2020-01-26T09:53:24.086Z',
-                      updatedAt: '2020-01-26T09:53:24.086Z',
-                      __v: 0
-                    },
-                    quantity: 5
-                }
+                cartData: cartToDelete
             })
             .then(function(res){
 
                 expect(res).to.have.status(200)
                 expect(res.body).to.be.an('object')
                 expect(res.body).to.have.property('message')
-                expect(res.body.message).to.equal('Mizuno removed from cart')
+                expect(res.body.message).to.equal('toDelete removed from cart')
 
                 done()
             })
@@ -239,29 +376,12 @@ describe('USERS ROUTE TESTING', function(){
     })
 
     describe('PATCH /users/checkout', function(){
-        it.only('should return message: Checkout success', function(done){
+        it('should return message: Checkout success', function(done){
             chai.request(app)
             .patch('/users/checkout')
             .set('token', token)
             .send({
-                cart: [
-                    {
-                      _id: '5e2d6d5e0b53d3252d2ba802',
-                      item: {
-                        _id: '5e2d6194a906fc1da66e6727',
-                        name: 'Mizuno',
-                        description: 'glove',
-                        price: 300000,
-                        picture: 'mizuno.jpg',
-                        stock: 200,
-                        userOwner: '5e2d5eb75d722b1c0c99d231',
-                        created_at: '2020-01-26T09:53:24.086Z',
-                        updatedAt: '2020-01-26T09:53:24.086Z',
-                        __v: 0
-                      },
-                      quantity: 10
-                    }
-                ]
+                cart: [cart]
             })
             .then(function(res){
 

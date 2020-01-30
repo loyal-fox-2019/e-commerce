@@ -5,6 +5,7 @@ import LoginRegister from '../views/LoginRegister.vue'
 import MyProducts from '../views/MyProducts.vue'
 import UserDetail from '../views/UserDetail.vue'
 import Cart from '../views/Cart.vue'
+import Profpic from '../components/Profpic.vue'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,12 @@ const routes = [
   {
     path: '/user',
     name: 'user',
-    component: UserDetail
+    component: UserDetail,
+    children: [{
+      name: "profpic",
+      path: "profpic",
+      component: Profpic
+    }]
   },
   {
     path: '/cart',

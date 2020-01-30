@@ -12,8 +12,11 @@
             <b-row class="pt-5 pb-1" align-h="center">
                 <img :src="userData.profpic" id="profpic" class="rounded-circle">
             </b-row>
-            <b-row class="pb-3" align-h="center">
-                <b-button v-b-modal.modal-add-picture size="sm" variant="success">Change picture</b-button>
+            <b-row class="pb-1" align-h="center">
+                <router-link :to="{name: 'profpic'}"><b-button size="sm" variant="success">Change picture</b-button></router-link>
+            </b-row>
+            <b-row class="pb-2" align-h="center">
+                <router-view></router-view>
             </b-row>
             <b-row class="" align-h="center">
                 <h5>Name: {{userData.name}}</h5>
@@ -22,19 +25,6 @@
                 <h5>Email: {{userData.email}}</h5>
             </b-row>
         </b-container>
-        <b-modal id="modal-add-picture" title="Change picture" hide-footer>
-            <b-form-file
-                id="inputFile"
-                v-model="newPicture"
-                placeholder="Choose a file or drop it here..."
-                drop-placeholder="Drop file here..."
-            >
-            </b-form-file>
-            <div class="pt-3">
-                <b-button variant="light" v-on:click.prevent="clear" @click="$bvModal.hide('modal-add-picture')">Cancel</b-button>
-                <b-button class="ml-4" variant="primary" v-on:click.prevent="updatePic" @click="$bvModal.hide('modal-add-picture')">Submit</b-button>
-            </div>
-        </b-modal>
     </div>
 </template>
 
@@ -68,31 +58,6 @@ export default {
             })
             .then(({data})=>{
                 this.userData = data
-            })
-            .catch(()=>{
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error'
-                })
-            })
-        },
-        updatePic: function(){
-            let formData = new FormData()
-            formData.append('profpic', this.newPicture)
-            axios({
-                method: "patch",
-                url: "http://ecommerce-server.kennys.my.id:3000/users/profpic",
-                data: formData,
-                headers: {
-                    token: localStorage.getItem('token')
-                }
-            })
-            .then(()=>{
-                this.getUserData()
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Profile picture changed!'
-                })
             })
             .catch(()=>{
                 Swal.fire({
