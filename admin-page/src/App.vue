@@ -160,29 +160,34 @@ export default {
       }
     },
     async loginAttempt() {
-      try {
-        const payload = {
-          email: this.email,
-          password: this.password,
-        };
-        const response = await axios({
-          method: 'POST',
-          url: `${BASE_URL}/user`,
-          data: payload,
-        });
-        const { data } = response;
-        const { fullname, email, token } = data;
-        localStorage.setItem('fullname', fullname);
-        localStorage.setItem('email', email);
-        localStorage.setItem('token', token);
-        this.checkLogin();
-      } catch (err) {
+      if (this.email !== 'admin@csskins.com') {
         this.isError = true;
-        const { errors } = err.response.data;
-        this.message = errors.join(',');
-        setTimeout(() => {
-          this.isError = false;
-        }, 5000);
+        this.message = 'Only admin can use this page!';
+      } else {
+        try {
+          const payload = {
+            email: this.email,
+            password: this.password,
+          };
+          const response = await axios({
+            method: 'POST',
+            url: `${BASE_URL}/user`,
+            data: payload,
+          });
+          const { data } = response;
+          const { fullname, email, token } = data;
+          localStorage.setItem('fullname', fullname);
+          localStorage.setItem('email', email);
+          localStorage.setItem('token', token);
+          this.checkLogin();
+        } catch (err) {
+          this.isError = true;
+          const { errors } = err.response.data;
+          this.message = errors.join(',');
+          setTimeout(() => {
+            this.isError = false;
+          }, 5000);
+        }
       }
     },
     checkLogin() {
