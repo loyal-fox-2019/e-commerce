@@ -8,11 +8,13 @@ const ItemSchema = new Schema({
     },
     price: {
         type:Number,
-        required:[true,'you must enter your price']
+        required:[true,'you must enter your price'],
+        min:[1,'min stock 1 rp']
     },
     stock: {
         type:Number,
-        required:[true,'you must enter your stock']
+        required:[true,'you must enter your stock'],
+        min:[1,'min stock 1']
     },
     image:{
         type:String,

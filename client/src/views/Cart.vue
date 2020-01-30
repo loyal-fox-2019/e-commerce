@@ -18,6 +18,7 @@
                         </b-card-text>
                         <b-card-footer>
                             <a style="cursor: pointer;" @click.prevent="deleteCart(`${item._id}`)"> <i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                            <button @click.prevent="beli(item._id,item.quantity)"  class="js__continue-login-form unf-user-btn unf-user-btn--medium unf-user-btn--primary unf-user-btn--block">Beli</button>                
                         </b-card-footer>
                         </b-card-body>
                     </b-col>
@@ -27,21 +28,19 @@
                 </div>                
             </div>
             <div class="col-4">
-<div>
-  <b-card
-    title="Ringkasan Belanja"
-    tag="article"
-    style="max-width: 20rem;"
-    class="mb-2 text-dark text-left" 
-  >
-    <hr>
-    <b-card-text>
-      Total Harga <strong style="float:right;">Rp{{getTotal}}</strong>
-    </b-card-text>
-
-     <button  class="js__continue-login-form unf-user-btn unf-user-btn--medium unf-user-btn--primary unf-user-btn--block">Beli ({{getQyt}})</button>                
-  </b-card>
-</div>               
+                <div>
+                <b-card
+                    title="Ringkasan Belanja"
+                    tag="article"
+                    style="max-width: 20rem;"
+                    class="mb-2 text-dark text-left" 
+                >
+                    <hr>
+                    <b-card-text>
+                    Total Harga <strong style="float:right;">Rp{{getTotal}}</strong>
+                    </b-card-text>              
+                </b-card>
+                </div>               
             </div>
         </div>
     </div>
@@ -70,7 +69,7 @@ export default {
         this.allCart.forEach(element => {
             total = total + (element.item_id.price * element.quantity)
         });
-        return total
+        return total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
     getQyt(){
         let temp = 0
@@ -85,10 +84,27 @@ export default {
       fetchAction: 'cart/fetchAction'
     }),
     getAmount(price,count){
-        return price * count
+        let temp = price * count
+        return temp
     },
     img(str){
         return str
+    },
+    beli(id,qyt){
+               axios({
+            url:'http://localhost:3000/carts',
+            method: 'post',
+            headers:{
+                token: localStorage.getItem('token')
+            },
+            data:{
+                item_id: id,
+                quantity: qyt
+            }
+        })
+        .then(()=>{
+            this.fetchAction()
+        })
     },
     deleteCart(id){
         axios({

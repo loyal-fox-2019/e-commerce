@@ -41,7 +41,6 @@ class UserCon {
         })
         .then(user => {            
             if (user) { 
-                console.log(req.body.password )
                 if ( comparePassword(req.body.password, user.password)  ) {               
                     let token = generateToken(user)  
                     let {email,_id,name,role,cart} = user

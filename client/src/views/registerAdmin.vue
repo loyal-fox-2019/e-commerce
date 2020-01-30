@@ -1,28 +1,24 @@
 <template>
   <div class="container">
-      <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-5" v-if="!getUser">
           <div class="col-6 pt-5" style="padding-left:100px;padding-right:120px;">
-              <img src="https://ecs7.tokopedia.net/img/content/register_new.png" height="300">
-              <h2 class="user-accounts-logo__title">Jual Beli Mudah Hanya di Tokowijaya</h2>
-              <p>Gabung dan rasakan kemudahan bertransaksi di Tokowijaya</p>
+              <img src="https://ecs7.tokopedia.net/assets-frontend-merchant/master/images/toped-open-shop.png" height="300">
           </div>
-          <div class="col-6 pt-5" style="padding-left:100px;padding-right:120px;">
-              <div class="card-login shadow p-4">
-                    <h2 style="color:black;text-align:center;">Daftar Sekarang
-                    </h2>      
+          <div class="col-6" style="padding-left:100px;padding-right:120px;">
+              <div class="card-login shadow p-4">     
                     <p>        
-                        Sudah punya akun Tokowijaya?
-                        <router-link to="/login">
+                        Halo, ayo isi detail tokomu!
+                        <!-- <router-link to="/login">
                         <span style="font-size:20px;margin-top:15px;color:#42b983">Masuk</span>
-                        </router-link>
+                        </router-link> -->
                     </p>
                   <b-form @submit="onSubmit" class="text-left">
-                    <b-form-group id="input-group-2" label="Your name:" label-for="input-3">
+                    <b-form-group id="input-group-2" label="Shop name:" label-for="input-3">
                         <b-form-input
                         id="input-3"
                         v-model="form.name"
                         required
-                        placeholder="Enter name"
+                        placeholder="Enter shop name"
                         ></b-form-input>
                     </b-form-group>                       
                     <b-form-group
@@ -48,11 +44,16 @@
                         type="password"
                         ></b-form-input>
                     </b-form-group>    
-                    <button type="submit" class="js__continue-login-form unf-user-btn unf-user-btn--medium unf-user-btn--primary unf-user-btn--block">Selanjutnya</button>                
+                    <button type="submit" class="js__continue-login-form unf-user-btn unf-user-btn--medium unf-user-btn--primary unf-user-btn--block">Buka Toko Gratis</button>                
                   </b-form>     
                   <br>  
                   <p>Dengan mendaftar, saya menyetujui Syarat dan Ketentuan serta Kebijakan Privasi.</p>       
           </div>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-5" v-if="getUser">
+        <div v-for="transaction in all" :key="transaction.id">
+          <List :transaction="transaction"/>
         </div>
       </div>
   </div>
@@ -61,16 +62,32 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import List from '../components/listTransaction'
+import {mapGetters,mapActions} from 'vuex'
+
 export default {
+    name:'admin',
+    components:{
+        List
+    },
    data(){
         return{
             form: {
                     email: '',
                     name: '',
                     password: '',
-                    phoneNumber: '08961234567'
-             }
+                    phoneNumber: '08961234567',
+                    role: 'admin'
+             },
         }
+    },
+    computed:{
+        getUser(){
+        return this.$store.state.user
+        },
+        ...mapGetters({
+            all: 'transaction/gettransaction'
+        })
     },
     methods: {
         onSubmit(evt){
@@ -84,8 +101,8 @@ export default {
                 this.$store.commit('setUser', data.user.name)
                 this.$store.commit('setRole', data.user.role)
                 localStorage.setItem('token', data.token)
-                localStorage.setItem('user', data.user.name)          
-                localStorage.setItem('role', data.user.role)      
+                localStorage.setItem('user', data.user.name)      
+                localStorage.setItem('role', data.user.role)          
                 this.form.email = ''
                 this.form.password = ''
                 this.form.name = ''
@@ -100,8 +117,14 @@ export default {
                     footer: '<a href>Why do I have this issue?</a>'
                     })                
             })
-        }
-    }
+        },
+        ...mapActions({
+      fetchAction: 'transaction/fetchAction'
+    }),
+    },
+      created(){
+    this.fetchAction()
+  }
 }
 </script>
 

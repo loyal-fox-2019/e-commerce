@@ -3,7 +3,9 @@
     <ul>
       <li><a class="active" href="#home">PusatBantuan</a></li>
       <li><a href="#news">Promo</a></li>
+      <router-link to="/admin-register">
       <li><a href="#contact">MulaiBerjualan</a></li>
+      </router-link>
       <li><a href="#about">TentangTokowijaya</a></li>
     </ul>
     <div id="mainBar">  
@@ -26,15 +28,25 @@
           <b-button><i class="fa fa-search"></i></b-button>
         </b-input-group-append>
       </b-input-group>
-      <router-link to="/cart">
+      <router-link to="/cart" v-if="role !== 'admin'">
           <a style="cursor: pointer;"><i class="fa fa-shopping-cart" style="font-size:24px;margin-top:5px;"></i></a>
       </router-link>
-          <a style="cursor: pointer;"><i class="fa fa-bell" style="font-size:20px;margin-top:9px;margin-left:30px;"></i></a>
+      <router-link to="/admin" v-if="role === 'admin'">
+          <b-button pill variant="outline-secondary"><a style="cursor: pointer;"><i class="fa fa-upload" style="font-size:24px;margin-top:5px;"></i></a></b-button>
+      </router-link>   
+      <router-link to="/transaction-admin" v-if="role === 'admin'" style="margin-left:10px;">
+          <b-button pill variant="outline-secondary"><a style="cursor:pointer;"><i class="fa fa-tasks" style="font-size:24px;margin-top:5px;"></i></a></b-button>
+      </router-link>          
+      <router-link to="/user-transaction" v-if="role !== 'admin'">
+          <a style="cursor: pointer;" ><i class="fa fa-tasks" style="font-size:20px;margin-top:9px;margin-left:30px;"></i></a>
+      </router-link>
           <a style="margin-top:8px;margin-left:30px;"> | </a>
           <div v-if="getUser">
-            <b-img src="https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" rounded="circle" alt="Circle image" style="width:30px;height:30px;margin-top:5px;margin-left:20px;"></b-img>
-            <a style="margin-top:10px;margin-left:30px;color:black;">{{getUser}}</a>       
-            <a @click.prevent="logOut" style="margin-top:10px;margin-left:30px;color:black;cursor: pointer;"><span>LogOut</span></a>    
+            <b-img v-if="role !== 'admin'" src="https://ecs7.tokopedia.net/img/cache/300/default_picture_user/default_toped-17.jpg" rounded="circle" alt="Circle image" style="width:30px;height:30px;margin-top:5px;margin-left:20px;"></b-img>
+            <b-img v-if="role === 'admin'" src="https://ecs7.tokopedia.net/img/cache/100-square/default_v3-shopnophoto.png" rounded="circle" alt="Circle image" style="width:30px;height:30px;margin-top:5px;margin-left:20px;"></b-img>            
+            <a style="margin-top:40px;margin-left:5px;color:black;">{{getUser}}</a>       
+            <!-- <a @click.prevent="logOut" style="margin-top:10px;margin-left:30px;color:black;cursor: pointer;"><span>LogOut</span></a>     -->
+            <b-button pill style="margin-left:50px;" @click="logOut">Log Out</b-button>
           </div>
           <div class="loginRegister ml-4" v-if="!getUser">
             <router-link class="btn btn-login" to="/login">Masuk</router-link>
@@ -50,17 +62,21 @@ export default {
   name: 'app',
   data:function(){
     return {
-
+      imgUser: ''
     }
   },
   computed:{
     getUser(){
       return this.$store.state.user
+    },
+    role(){
+      return this.$store.state.role
     }
   },
   created(){
     if(localStorage.getItem('user')){
       this.$store.commit('setUser', localStorage.getItem('user'))
+      this.$store.commit('setRole', localStorage.getItem('role'))
     }else{
       this.$store.commit('setUser', false)
     }
@@ -69,6 +85,7 @@ export default {
     logOut(){
       localStorage.clear()
       this.$store.commit('setUser', false)
+
     }
   }
 }

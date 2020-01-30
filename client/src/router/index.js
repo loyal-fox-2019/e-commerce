@@ -35,7 +35,23 @@ const routes = [
     path: '/cart',
     name: 'cart',
     component: Cart
-  }
+  },
+  {
+    path: '/admin-register',
+    name: 'admin-register',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "admin-register" */ '../views/registerAdmin.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "admin" */ '../components/adminForm.vue')
+  },
 ]
 
 const router = new VueRouter({

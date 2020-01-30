@@ -66,8 +66,10 @@ export default {
             })
             .then(({data}) => {
                 this.$store.commit('setUser', data.user.name)
+                this.$store.commit('setRole', data.user.role)
                 localStorage.setItem('token', data.token)
                 localStorage.setItem('user', data.user.name)
+                localStorage.setItem('role', data.user.role)
                 this.form.email = ''
                 this.form.password = ''
                 this.$router.push('/')
