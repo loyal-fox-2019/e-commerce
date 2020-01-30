@@ -6,7 +6,8 @@ import router from '../router';
 import axios from '../config/server';
 
 const wentWrong = 'Opps... Something when wrong';
-const BASE_URL = 'http://34.69.229.146';
+// const BASE_URL = 'http://34.69.229.146';
+const BASE_URL = 'http://localhost:3000';
 
 Vue.use(Vuex);
 
@@ -204,7 +205,7 @@ export default new Vuex.Store({
       if (!state.myCart) {
         return 0;
       }
-      let price = 0;
+      let price = 0;••••••••
       state.myCart.items.forEach((item) => {
         price += item.price;
       });
