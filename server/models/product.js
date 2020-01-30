@@ -23,15 +23,11 @@ const ProductSchema = new Schema ({
         type: Number,
         default: 0
     },
-    sale_price: {
-        type: Number,
-        default: 0
-    },
     stock: {
         type: Number,
         default: 0
     },
-    picture: {
+    file: {
         type: String
     }
 })

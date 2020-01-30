@@ -127,7 +127,6 @@
         "category": "Computer",
         "description": "Mouse wire with 2 button and 1 scroll button.",
         "price": 35000,
-        "sale_price": 50000,
         "stock": 100,
         "picture": ""
     }
@@ -174,7 +173,6 @@
                 "category": "Computer",
                 "description": "Mouse wire with 2 button and 1 scroll button.",
                 "price": 35000,
-                "sale_price": 50000,
                 "stock": 100
             },
             {
@@ -185,7 +183,6 @@
                 "category": "Computer",
                 "description": "Keyboard wire with backlight.",
                 "price": 45000,
-                "sale_price": 60000,
                 "stock": 150
             }
         ]
@@ -230,7 +227,6 @@
         "category": "Computer",
         "description": "Keyboard wire with backlight.",
         "price": 45000,
-        "sale_price": 60000,
         "stock": 150
     }`
  
@@ -274,7 +270,6 @@
         "category": "Computer",
         "description": "Keyboard wire with backlight.",
         "price": 45000,
-        "sale_price": 60000,
         "stock": 150
     }
     }`
@@ -375,7 +370,7 @@
 
 * **URL**
 
-  /cart/:id
+  /cart
 
 * **Method:**
 
@@ -385,7 +380,7 @@
 
    **Required:**
  
-   id: [String]
+   None
 
 * **Data Params**
 

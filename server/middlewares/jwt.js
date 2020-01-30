@@ -1,6 +1,6 @@
 'use strict';
 
-const jwt = reuqire('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     generateToken(payload) {
@@ -8,6 +8,6 @@ module.exports = {
     },
 
     verifyToken(token) {
-        return jwt.verify(token, process.env.JWT_TOKEN);
+        return jwt.verify(token, process.env.JWT_SECRET);
     }
 }

@@ -11,6 +11,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/cart', function(req, res, next) {
+    const { ProductId,
+        UserId,
+        date_cart,
+        quantity,
+        sale_price,
+        discount,
+        sub_total } = req.body;
+
     Cart
     .create({
         ProductId,
@@ -22,7 +30,7 @@ app.post('/cart', function(req, res, next) {
         sub_total
     })
     .then(function(cart) {
-        res.status(200).json(cart);
+        res.status(201).json(cart);
     })
     .catch(next);
 })

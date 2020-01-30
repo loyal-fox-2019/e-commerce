@@ -3,7 +3,7 @@
 const Cart = require('../models/cart');
 
 module.exports = function() {
-    if(process.env.NODE_ENV === 'test') {
+    // if(process.env.NODE_ENV === 'test') {
         Cart
         .deleteMany({})
         .then(function() {
@@ -12,5 +12,5 @@ module.exports = function() {
         .catch(function(err) {
             console.log('Error Delete Many Cart: ', err);
         })
-    }
+    // }
 }

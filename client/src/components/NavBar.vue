@@ -1,28 +1,22 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="../assets/logo_small.png" alt="">
-            </a>
+            <h5 class="text-white">e-Store /KITA</h5>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav text-uppercase mx-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Home</a>
+                <li class="nav-item" >
+                  <a href="" class="nav-link active" v-on:click.prevent="goToHome">Home</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Category</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Designer</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
+                <li class="nav-item" v-bind:class="{ active: isActive }">
+                  <a href="" class="nav-link active" v-on:click.prevent="goToAbout">About</a>
                 </li>
               </ul>
-              <a href="" class="nav-link text-white"><i class="fas fa-shopping-cart"></i>My Cart (<span>12</span>)</a>
+              <a href="" class="nav-link text-white" v-on:click.prevent="addProduct">(<span>Add Product</span>)</a>
+              <button class="btn btn-info" v-on:click.prevent="logout">logout</button>
+              <p class="text-white ml-3 mt-3">{{ user }}</p>
             </div>
         </div>
     </nav>
@@ -30,7 +24,30 @@
 
 <script>
 export default {
-
+  name: 'NavBar',
+  data() {
+    return {
+      user: localStorage.getItem('user'),
+      isActive: false,
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('id');
+      this.$router.push('/login');
+    },
+    addProduct() {
+      this.$router.push('/products');
+    },
+    goToHome() {
+      this.$router.push('/');
+    },
+    goToAbout() {
+      this.$router.push('/about');
+    }
+  }
 }
 </script>
 
