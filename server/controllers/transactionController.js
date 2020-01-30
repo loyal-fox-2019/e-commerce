@@ -20,6 +20,8 @@ module.exports = class {
 
   static getAllTransaction(req, res, next) {
     Transaction.find()
+      .populate('user')
+      .populate('product')
       .then(results => {
         res.status(200).json(results)
       })
@@ -62,11 +64,29 @@ module.exports = class {
     let id = req.params.transactionId
 
     let newTransaction = {
-      isCheckout: true
+      isCheckout: true,
+      status: 'checkout'
     }
     Transaction.findByIdAndUpdate(id, newTransaction, { new: true })
       .then(result => {
         res.status(200).json(result)
+      })
+      .catch(err => {
+        next(err)
+      })
+  }
+
+  static delete(req, res, next) {
+    let id = req.params.transactionId
+    Transaction.findByIdAndDelete(id)
+      .then(result => {
+        if (result) {
+          res.status(200).json({
+            message: 'Delete Success'
+          })
+        } else {
+          throw new Error('Item id not found')
+        }
       })
       .catch(err => {
         next(err)

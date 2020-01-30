@@ -28,6 +28,10 @@ const routes = [
       {
         path: 'productshow',
         component: () => import('../components/ProductShow.vue')
+      },
+      {
+        path: 'productupdate',
+        component: () => import('../components/Update.vue')
       }
     ]
   },
@@ -40,6 +44,11 @@ const routes = [
     path: '/usercart',
     name: 'userCart',
     component: () => import('../views/UserCart.vue')
+  },
+  {
+    path: '/transaction',
+    name: 'transaction',
+    component: () => import('../views/Transaction.vue')
   }
 ]
 

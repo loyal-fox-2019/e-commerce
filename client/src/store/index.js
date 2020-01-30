@@ -10,7 +10,8 @@ export default new Vuex.Store({
     user: null,
     allitem: null,
     productShow: null,
-    userCart: null
+    userCart: null,
+    allTransaction: null
   },
   mutations: {
     SET_USERS(state, payload) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     SET_USERCART(state, payload) {
       state.userCart = payload
+    },
+    SET_ALLTRANSACTION(state, payload) {
+      state.allTransaction = payload
     }
   },
   actions: {
@@ -42,8 +46,24 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           commit('SET_USERS', data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getAllTransaction({ commit }) {
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/transactions',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          // console.log(data)
+          commit('SET_ALLTRANSACTION', data)
         })
         .catch(err => {
           console.log(err)
@@ -66,7 +86,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log('data hasbeen created ', data)
+          // console.log('data hasbeen created ', data)
           dispatch('getAllItem')
         })
         .catch(err => {
@@ -79,7 +99,7 @@ export default new Vuex.Store({
         url: 'http://localhost:3000/products'
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           commit('SET_ALLITEM', data)
         })
         .catch(err => {
@@ -102,7 +122,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           dispatch('getUserCart')
-          console.log('cart hasbeen added ', data)
+          // console.log('cart hasbeen added ', data)
         })
         .catch(err => {
           console.log(err)
@@ -117,7 +137,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           commit('SET_USERCART', data)
         })
         .catch(err => {
@@ -125,6 +145,7 @@ export default new Vuex.Store({
         })
     },
     cartCheckout({ commit, dispatch }, transactionId) {
+      let count = null
       axios({
         method: 'post',
         url: `http://localhost:3000/transactions/checkout/${transactionId}`,
@@ -136,7 +157,26 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          count = data.count
+          console.log(count, data)
+
+          dispatch('getUserCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    deleteTransactions({ dispatch }, transactionId) {
+      axios({
+        method: 'delete',
+        url: `http://localhost:3000/transactions/${transactionId}`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log('success delete')
+
           dispatch('getUserCart')
         })
         .catch(err => {

@@ -61,12 +61,11 @@ module.exports = class {
     let id = req.params.productId
     let newProduct = {
       name: req.body.name,
-      image: req.body.file,
       price: req.body.price,
       stock: req.body.stock,
-      category: req.body.category,
       description: req.body.description
     }
+
     Product.findByIdAndUpdate(id, newProduct, { new: true })
       .then(result => {
         res.status(200).json(result)

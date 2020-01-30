@@ -10,7 +10,16 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h3 class="card-title borderBottomNya">{{ cart.product.name }}</h3>
+          <span>
+            <p
+              class="py-1 px-3"
+              style="background:#A9A9A9; color:white; width:fit-content; border-radius:30px;"
+            >
+              {{ cart.status }}
+            </p>
+            <h3 class="card-title borderBottomNya">{{ cart.product.name }}</h3>
+          </span>
+          <span> </span>
           <h2 class="hargaNya">Rp. {{ price }}</h2>
           <h5 class="my-5">PRODUCT DESCRIPTION:</h5>
           <p>
@@ -22,6 +31,14 @@
             <small class="text-muted">Last updated 3 mins ago</small>
           </p> -->
           <button
+            @click.prevent="deleteCart"
+            class=" btn btn-danger mb-2 ml-3"
+            style="float:right"
+          >
+            Delete
+          </button>
+          <button
+            v-show="checkoutButton"
             @click.prevent="checkout"
             class=" btn btn-info mb-2"
             style="float:right"
@@ -39,18 +56,30 @@ import { mapActions } from 'vuex'
 export default {
   name: 'ShoppingCart',
   data() {
-    return {}
+    return {
+      checkoutButton: true
+    }
   },
   methods: {
-    ...mapActions(['cartCheckout']),
+    ...mapActions(['cartCheckout', 'deleteTransactions']),
     checkout() {
       this.cartCheckout(this.cart._id)
+    },
+    deleteCart() {
+      this.deleteTransactions(this.cart._id)
     }
   },
   props: ['cart'],
   computed: {
     price() {
       return this.cart.product.price * this.cart.count
+    }
+  },
+  watch: {
+    cart: function(newValue, oldValue) {
+      if (newValue.status !== 'cart') {
+        this.checkoutButton = false
+      }
     }
   }
 }

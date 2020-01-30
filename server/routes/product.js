@@ -18,11 +18,5 @@ router.delete(
   auth.adminOnly,
   Product.delete
 )
-router.patch(
-  '/:productId',
-  auth.authentication,
-  auth.adminOnly,
-  gcs.single('file'),
-  Product.update
-)
+router.patch('/:productId', auth.authentication, auth.adminOnly, Product.update)
 module.exports = router

@@ -10,7 +10,7 @@ router.post(
   auth.authentication,
   Transaction.checkout
 )
-
+router.delete('/:transactionId', auth.authentication, Transaction.delete)
 router.get(
   '/',
   auth.authentication,

@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div v-if="userCart === null">Loading user cart..</div>
-    <div v-if="userCart.length === 0">No items in cart!</div>
     <ShoppingCart
-      v-else
       v-for="(cart, key) in userCart"
       :key="key"
       :cart="cart"
@@ -18,12 +15,9 @@ export default {
   components: { ShoppingCart },
   computed: {
     userCart() {
-      if (!this.$store.state.userCart) {
-        this.$store.dispatch('getUserCart')
-        return null
-      } else {
-        return this.$store.state.userCart
-      }
+      console.log(this.$store.state.allTransaction)
+
+      return this.$store.state.allTransaction
     }
   }
 }

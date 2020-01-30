@@ -6,6 +6,8 @@ module.exports = {
     try {
       const user = jwt.verifyToken(req.headers.token, process.env.JWT_KEY)
       User.findOne({ email: user.email }).then(result => {
+        console.log('di auth middleware', result)
+
         if (result) {
           req.body.user = result
           req.params.user = result

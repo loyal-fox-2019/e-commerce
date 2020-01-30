@@ -14,6 +14,17 @@
         class="collapse navbar-collapse justify-content-end"
         id="navbarTogglerDemo02"
       >
+        <span class="spanduk h1 mb-2" v-if="addItem">
+          <b-icon
+            @click.prevent="trasactionPage"
+            class="mt-3 mr-3"
+            icon="document-text"
+            variant="secondary"
+            v-b-tooltip.hover
+            title="All Transaction List"
+            style="cursor:pointer;"
+          ></b-icon>
+        </span>
         <button
           v-show="addItem"
           @click="showAdditemPage"
@@ -86,7 +97,12 @@ export default {
   },
   methods: {
     ...mapMutations(['HIDE_LOGIN', 'SHOW_LOGIN']),
-    ...mapActions(['getUserLogin', 'getAllItem', 'getUserCart']),
+    ...mapActions([
+      'getUserLogin',
+      'getAllItem',
+      'getUserCart',
+      'getAllTransaction'
+    ]),
     showAdditemPage() {
       this.$router.push({
         path: '/additem'
@@ -105,6 +121,11 @@ export default {
     logOut() {
       localStorage.removeItem('token')
       this.SHOW_LOGIN()
+    },
+    trasactionPage() {
+      this.$router.push({
+        path: '/transaction'
+      })
     }
   },
   computed: {
@@ -118,6 +139,7 @@ export default {
   watch: {
     showRegisterLoginPage: function(newValue, oldValue) {
       if (!newValue) {
+        this.getAllTransaction()
         this.getUserLogin()
         this.getUserCart()
       }
@@ -132,6 +154,7 @@ export default {
   },
   created() {
     this.getAllItem()
+    this.getAllTransaction()
     if (localStorage.token) {
       this.HIDE_LOGIN()
       this.getUserLogin()
