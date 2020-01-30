@@ -11,7 +11,10 @@ function authorizeAdmin(req, res, next) {
             })
         }
     } catch (err) {
-        next(err)
+        next({
+            status: 401,
+            message: "you not authorize"
+        })
     }
 }
 

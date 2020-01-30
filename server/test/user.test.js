@@ -4,9 +4,11 @@ const app = require('../app')
 const expect = require('chai').expect
 const userModel = require('../models/User')
 
+const wrongToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmQzNjg5ODU3YmQ0NzExYTBmNDQ0MiIsImlhdCI6MTU4MDM1MDg0MH0.tRPpkTqfQmQ3BHa3MtVw5zKdcwmUiqrmAKu0VvjH8z"
+const custToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmQzNjg5ODU3YmQ0NzExYTBmNDQ0MiIsImlhdCI6MTU4MDM1MzI1Mn0.ycUyigDgdlDoNBD052zVBy96QxC2fNefxVhRROBmXQ0"
 chai.use(chaiHttp)
 
-describe.only('Test user register router', function () {
+describe('Test user register router', function () {
     before(function () {
         userModel.deleteMany({ username: 'azp' }, function (err, data) {
             if (err) {
@@ -219,7 +221,7 @@ describe.only('Test user register router', function () {
 })
 
 
-describe.only('Test user login router', function () {
+describe('Test user login router', function () {
     describe('Test /users/login route', function () {
         it('should return user, token and status code 200', function (done) {
             chai.request(app)
@@ -249,6 +251,244 @@ describe.only('Test user login router', function () {
                     expect(res).to.have.status(400)
                     expect(res.body).to.have.property('message')
                     expect(res.body.message).to.equal('email/password wrong')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+})
+
+describe('Test item router', function () {
+    describe('Test /items route', function () {
+        it('should return items and status code 200', function (done) {
+            chai.request(app)
+                .get('/items')
+                .then(function (res) {
+                    expect(res).to.have.status(200)
+                    expect(res.body).to.be.an('array')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /items/:id route', function () {
+        it('should return item and status code 200', function (done) {
+            chai.request(app)
+                .get('/items')
+                .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmQzNjg5ODU3YmQ0NzExYTBmNDQ0MiIsImlhdCI6MTU4MDM1MDg0MH0.tRPpkTqfQmQ3BHa3MtVw5zKdcwmUiqrmAKu0VvjH8zw")
+                .then(function (res) {
+                    expect(res).to.have.status(200)
+                    expect(res.body.item)
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /items/:id route', function () {
+        it('should send an error with 403 status code because token undefined', function (done) {
+            chai.request(app)
+                .get('/items/5e27d24d70294124842fb25a')
+                .then(function (res) {
+                    expect(res).to.have.status(403)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('You are not login')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /items/:id route', function () {
+        it('should send an error with 400 status code because invalid token', function (done) {
+            chai.request(app)
+                .get('/items/5e27d24d70294124842fb25a')
+                .set('token', wrongToken)
+                .then(function (res) {
+                    expect(res).to.have.status(400)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('Not found token')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+})
+
+describe('Test /users/carts router', function () {
+    describe('Test /users/carts route', function () {
+        it('should send an error with 403 status code because token undefined', function (done) {
+            chai.request(app)
+                .get('/users/carts')
+                .then(function (res) {
+                    expect(res).to.have.status(403)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('You are not login')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /users/carts route', function () {
+        it('should send an error with 400 status code because invalid token', function (done) {
+            chai.request(app)
+                .get('/users/carts')
+                .set('token', wrongToken)
+                .then(function (res) {
+                    expect(res).to.have.status(400)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('Not found token')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /users/carts route', function () {
+        it('should send an error with 403 status code because token undefined', function (done) {
+            chai.request(app)
+                .patch('/users/carts')
+                .then(function (res) {
+                    expect(res).to.have.status(403)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('You are not login')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /users/carts route', function () {
+        it('should send an error with 400 status code because invalid token', function (done) {
+            chai.request(app)
+                .patch('/users/carts')
+                .set('token', wrongToken)
+                .then(function (res) {
+                    expect(res).to.have.status(400)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('Not found token')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /users/carts route', function () {
+        it('should send an error with 403 status code because token undefined', function (done) {
+            chai.request(app)
+                .delete('/users/carts')
+                .then(function (res) {
+                    expect(res).to.have.status(403)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('You are not login')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /users/carts route', function () {
+        it('should send an error with 400 status code because invalid token', function (done) {
+            chai.request(app)
+                .delete('/users/carts')
+                .set('token', wrongToken)
+                .then(function (res) {
+                    expect(res).to.have.status(400)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('Not found token')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+})
+
+describe('Test /items router', function () {
+    describe('Test /items route', function () {
+        it('should send an error with 403 status code because token undefined', function (done) {
+            chai.request(app)
+                .post('/items')
+                .then(function (res) {
+                    expect(res).to.have.status(403)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('You are not login')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /items route', function () {
+        it('should send an error with 400 status code because invalid token', function (done) {
+            chai.request(app)
+                .post('/items')
+                .set('token', wrongToken)
+                .then(function (res) {
+                    expect(res).to.have.status(400)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('Not found token')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    // describe.only('Test /items route', function () {
+    //     it('should send an error with 401 status code because not admin', function (done) {
+    //         chai.request(app)
+    //             .post('/items')
+    //             .set('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmQzNjg5ODU3YmQ0NzExYTBmNDQ0MiIsImlhdCI6MTU4MDM1NDE5MH0.qfstK5WBtJcmGqiWV4ma8smI_-yrM_nn4Wmys7VIqPM")
+    //             .then(function (res) {
+    //                 expect(res).to.have.status(401)
+    //                 expect(res.body).to.have.property('message')
+    //                 expect(res.body.message).to.equal('you not authorize')
+    //                 done()
+    //             })
+    //             .catch(done)
+    //     })
+    // })
+    describe('Test /items/:id route', function () {
+        it('should send an error with 403 status code because token undefined', function (done) {
+            chai.request(app)
+                .patch('/items/5e27d24d70294124842fb25a')
+                .then(function (res) {
+                    expect(res).to.have.status(403)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('You are not login')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /items/:id route', function () {
+        it('should send an error with 400 status code because invalid token', function (done) {
+            chai.request(app)
+                .patch('/items/5e27d24d70294124842fb25a')
+                .set('token', wrongToken)
+                .then(function (res) {
+                    expect(res).to.have.status(400)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('Not found token')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+
+    describe('Test /items/:id route', function () {
+        it('should send an error with 403 status code because token undefined', function (done) {
+            chai.request(app)
+                .delete('/items/5e27d24d70294124842fb25a')
+                .then(function (res) {
+                    expect(res).to.have.status(403)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('You are not login')
+                    done()
+                })
+                .catch(done)
+        })
+    })
+    describe('Test /items/:id route', function () {
+        it('should send an error with 400 status code because invalid token', function (done) {
+            chai.request(app)
+                .delete('/items/5e27d24d70294124842fb25a')
+                .set('token', wrongToken)
+                .then(function (res) {
+                    expect(res).to.have.status(400)
+                    expect(res.body).to.have.property('message')
+                    expect(res.body.message).to.equal('Not found token')
                     done()
                 })
                 .catch(done)

@@ -18,11 +18,13 @@ const itemSchema = new Schema({
   },
   price: {
     type: Number,
-    required: [true, "please fill price"]
+    required: [true, "please fill price"],
+    min: [1, "minimal stock 1"]
   },
   stock: {
     type: Number,
-    required: [true, "please fill stock"]
+    required: [true, "please fill stock"],
+    min: [1, "minimal stock 1"]
   }
 }, {
   timestamps: true

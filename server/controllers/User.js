@@ -24,15 +24,14 @@ class UserController {
     static login(req, res, next) {
         User.findOne({ email: req.body.email })
             .then((user) => {
-                const { _id, email, username, phone, password, role, cartList } = user
                 if (user === null) {
                     next({
                         status: 400,
                         message: "email/password wrong"
                     })
                 } else {
+                    const { _id, email, username, phone, password, role, cartList } = user
                     const check = checkPassword(req.body.password, user.password)
-                    console.log(check);
                     if (!check) {
                         next({
                             status: 400,
@@ -40,7 +39,6 @@ class UserController {
                         })
                     } else {
                         const token = createToken(user)
-                        console.log({ user, token });
                         res.status(200).json({
                             user: {
                                 _id,
