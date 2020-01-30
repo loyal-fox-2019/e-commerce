@@ -13,7 +13,12 @@ class UserController {
             password
         })
         .then(user => {
-            res.status(201).json(user);
+            const token = generateToken({ user });
+            res.status(200).json({
+                _id: user._id,
+                email: user.email,
+                token: token
+            });
         })
         .catch(next);
     }
