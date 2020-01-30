@@ -191,7 +191,7 @@ export default {
     },
     patch: function () {
       axios({
-        url: 'http://localhost:3000/inventories/all',
+        url: 'http://localhost:3000/inventories/admin',
         method: 'GET',
         headers: {
           token: localStorage.getItem('token')

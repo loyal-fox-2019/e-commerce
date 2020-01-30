@@ -23,6 +23,16 @@ class Inventory{
         })
     }
 
+    static findadmin(req,res,next){
+        Inventory_model.find().populate('admin')
+        .then((data)=>{
+            res.status(200).json(data)
+        })
+        .catch((err)=>{
+            next()
+        })
+    }
+
     static find(req,res,next){
         if(req.params.id == 'all'){
             Inventory_model.find().populate('admin')

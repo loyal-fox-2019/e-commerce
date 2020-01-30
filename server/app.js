@@ -12,8 +12,9 @@ app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({extended:true}))
 
-
-mongoose.connect('mongodb://localhost:27017/ecommerce-test',{
+/* mongodb://localhost:27017/ecommerce-test */
+/*  process.env.DATABASE*/
+mongoose.connect(process.env.DATABASE,{
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology:true

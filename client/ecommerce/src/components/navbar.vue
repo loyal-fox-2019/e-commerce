@@ -313,7 +313,7 @@ export default {
   position: absolute;
   font-size: 25px;
   float: right;
-  right: 320px;
+  right: 300px;
   top: 15px
 }
 #carts:hover{

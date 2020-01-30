@@ -5,6 +5,7 @@ const verification = require('../middleware/verification')
 const upload = require('../middleware/upload')
 const errorhandle = require('../middleware/errorhandle')
 
+router.get('/admin', verification.authenAdmin, inventory_controller.findadmin)
 router.get('/:id', inventory_controller.find)
 router.get('/one/:id', inventory_controller.findone)
 router.post('/', verification.authenAdmin,upload.single('image'),inventory_controller.create)
