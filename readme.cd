@@ -1,0 +1,55 @@
+#  Ecommerce with Express and TDD
+
+This is a simple application for trade 
+
+## Installation
+
+Use the package.json 
+
+```bash
+npm i axios bcrypt cors dotenv express jsonwebtoken mongoose
+```
+
+## Routes
+User
+
+| Route       | HTTP | Header(s) | Body                                                       | Description              |
+| ----------- | ---- | --------- | ---------------------------------------------------------- | ------------------------ | 
+| /users/signup  | POST  | null      | {email, password}                                                       |Login & get token |
+| /user/signin | POST | null      | {first_name, last_name,email,password,role}              | Create Account
+
+Goods
+
+| Route       | HTTP | Header(s) | Body                                                       | Description              |
+| ----------- | ---- | --------- | ---------------------------------------------------------- | ------------------------ | 
+| /inventories/:id  | GET | {token}      | Null                     | Get all goods   
+| /inventories  | POST | {token admin}      | {name, stock, description, category, image file}                     | Create new goods   
+| /inventories/:id  | DELETE | {token admin}      | Null                     | Delete a goods               |
+| /iventories/:id  | PUT | {token admin}      | {name,stock,description, category, image}                     | Update a goods               |
+| /inventories/one/:id  | GET | null      | null                     |  get one inventories               |
+Cart
+
+| Route       | HTTP | Header(s) | Body                                                       | Description              |
+| ----------- | ---- | --------- | ---------------------------------------------------------- | ------------------------ | 
+| /carts  | GET | {token}      | Null                     | Get all cart   
+| /carts  | POST | {token}      | {goodid, stock}                     | Create new cart   
+| /carts/:id  | DELETE | {token}      | null                     | delete a cart               |
+| /carts/checkout  | POST | {token}      | [array cart id]                     |  checkout               |
+
+## Deployment
+
+```bash
+npm run dev (on folder server)
+npm run dev (on folder client) => open on your browser "http://localhost:1234"
+```
+
+## Required
+you need make file env and fill with:
+
+
+SECRET = 
+
+
+
+## License
+Riko Orlando
