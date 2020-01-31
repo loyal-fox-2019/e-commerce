@@ -56,6 +56,17 @@ import { mapGetters } from 'vuex'
 import updateButton from '../../components/updateButton'
 
 export default {
+    sockets: {
+        connect: function () {
+            console.log('socket connected @dashboard po ongoing')
+        },
+        reFetchInvoice: function () {
+            console.log('ADA UPDATE NIH @dashboard PO Ongoing')
+            this.$store.dispatch('fetchMyConditionedInvoices', this.payloadConditioned)
+        }
+        
+    },
+    name: 'dashboardPOONgoing',
     components:{
         modalEditInvoice,
         modalReadInvoice,
@@ -64,7 +75,11 @@ export default {
     data() {
       return {
         modalInvoice:'',
-        invoiceDetail:''
+        invoiceDetail:'',
+        payloadConditioned:{
+            SellerId : true,
+            invoiceStatus : 'inComplete'
+        }
       }
     },
     methods:{

@@ -61,6 +61,17 @@ import { mapGetters } from 'vuex'
 import updateButton from '../../components/updateButton'
 
 export default {
+    sockets: {
+        connect: function () {
+            console.log('socket connected @dashboard invoice incomplete')
+        },
+        reFetchInvoice: function () {
+            console.log('ADA UPDATE NIH @ DAHBOARD INVOICE INCOMPLETE')
+            this.$store.dispatch('fetchMyConditionedInvoices', this.payloadConditioned)
+        }
+        
+    },
+    name: 'dashboardInvoiceIncomplete',
     components:{
         modalEditInvoice,
         modalReadInvoice,
@@ -69,7 +80,11 @@ export default {
     data() {
       return {
         modalInvoice:'',
-        invoiceDetail: ''
+        invoiceDetail: '',
+        payloadConditioned:{
+            BuyerId : true,
+            invoiceStatus : 'inComplete'
+        }
       }
     },
     methods:{

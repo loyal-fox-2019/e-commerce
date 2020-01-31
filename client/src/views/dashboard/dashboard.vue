@@ -52,6 +52,12 @@
 import { mapGetters } from 'vuex'
 
 export default {
+    sockets: {
+        reFetchInvoice: function () {
+            console.log('ADA UPDATE NIH message dari DASHBOARD')
+        }
+        
+    },
     name: 'dashboard',
     methods:{
         goToDashboardTab( tab ){

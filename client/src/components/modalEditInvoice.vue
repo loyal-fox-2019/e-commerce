@@ -58,6 +58,14 @@
 import axios from "../../config/axios"
 import swal from "sweetalert2"
 export default {
+    sockets: {
+        connect: function () {
+            console.log('socket connected')
+        },
+        reFetchInvoice: function (data) {
+            console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+        }
+    },
     props:[
         'modalInvoice'
     ],
@@ -141,6 +149,8 @@ export default {
                         swal.fire('Invoice Has Been Updated')
                         this.$store.dispatch('fetchMyConditionedInvoices', payload)
                         this.$bvModal.hide('modalEditInvoice')
+                        this.$socket.emit('updatingInvoice')
+                        // this.$socket.emit('emit_method', data)
                     })
                     .catch( ({response}) =>{
                         this.$bvModal.hide('modalEditInvoice')

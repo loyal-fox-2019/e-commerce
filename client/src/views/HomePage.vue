@@ -44,6 +44,16 @@ import swal from 'sweetalert2'
 import smallCard from '../components/smallCard'
 
 export default {
+    sockets: {
+        connect: function () {
+            console.log('socket connected @jap custom message')
+        },
+        reFetchInvoice: function(){
+            console.log(' \n======================\n ADA UPDATE MESSAGE DARI HOMEPAGE')
+            
+        }
+        
+    },
     name: 'homePage',
     components: {
         smallCard
