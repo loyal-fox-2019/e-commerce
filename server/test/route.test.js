@@ -1,5 +1,6 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
+const productModel = require('../models/product')
 
 const app = require('../app')
 
@@ -92,9 +93,18 @@ describe('CRUD Product', function(){
 
     describe('Delete /products/:productId', function(){
         it('Should return status code of 200 along with an object', function(done){
-            chai
+            productModel.create({
+                productName: 'Samsung galaxy S8 Plus',
+                productImage: 'image_url',
+                description: 'This is a handphone with the model of Samsung Galaxy S8 Plus',
+                price: 3500000,
+                stock: 5,
+                category: 'electronics'
+            })
+            .then(createdProduct => {
+                chai
                 .request(app)
-                .delete('/products/5e256368e67f065795f407ba')
+                .delete('/products/' + createdProduct._id)
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmMzMzUyYTU3MzkwMjJmNDk0MDU5NSIsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJva2thQGxzaG9wLmNvbSIsImlhdCI6MTU4MDAyNTI3NH0.UsdtSSf7dM-jtKDssHDeJ_cM5NJcNuzza-4ElrIRCgU')
                 .then(function(res){
                     expect(res).to.have.status(200)
@@ -104,11 +114,14 @@ describe('CRUD Product', function(){
                 .catch(function(err){
                     console.log(err)
                 })
+            })
+            
         })
     })
 
     describe('Put /products/:productId', function(){
         it('Should return status code of 200 along with an object', function(done){
+
             chai
                 .request(app)
                 .put('/products/5e256368e67f065795f407ba')
@@ -182,7 +195,7 @@ describe('User Create, Login', function(){
             .post('/users')
             .send({
                 name: 'Okka Linardi',
-                email: 'okka@mail.com',
+                email: 'okka.linardi@mail.com',
                 password: 'okkalinardi',
                 address: 'Jl. ABC no.45, Jakarta Selatan'
             })

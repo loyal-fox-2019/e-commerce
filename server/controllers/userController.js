@@ -47,6 +47,10 @@ class UserController {
             if(!compareResult){
                 next('invalid email or pass')
             }else{
+                if(payload.email.includes('lshop')){
+                    token = jwt.sign(payload, process.env.NODE_ENV)
+                    res.status(200).json({token, email: payload.email})
+                }
                 token = jwt.sign(payload, process.env.NODE_ENV)
                 res.status(200).json({token})
             }

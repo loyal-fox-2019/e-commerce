@@ -1,35 +1,31 @@
 <template>
-<div id="homePage">
-    <SearchBar></SearchBar>
-    <b-container class="mt-5">
-        <b-row cols="3">
-            <b-col class="mt-2" v-for="(product, i) in products" :key="i">
-                <ProductCards :productDetails="product"></ProductCards>
-            </b-col>
-        </b-row>
-    </b-container>
-</div>
+  <div class="home">
+    <b-row align-h="center" class="my-2">
+    <CategoryCard v-for="(category, i) in $store.state.categories" :key="i" :categoryData="category"></CategoryCard>
+    </b-row>
+    <b-row align-h="center" class="my-5">
+      <b-col>
+       <h1>Our Newest Products</h1>
+      </b-col>
+    </b-row>
+    <b-row class="my-5 mx-5 d-flex" align-h="center">
+      <Carousel></Carousel>
+  </b-row>
+  </div>
 </template>
 
 <script>
-import SearchBar from '../components/SearchBar'
-import ProductCards from '../components/ProductCards'
+import CategoryCard from '../components/CategoryCard'
+import Carousel from '../components/Carousel'
 export default {
-  name: 'Home',
+  name: 'home',
   components: {
-    SearchBar,
-    ProductCards
-  },
-  props: {
-    products: {
-      type: Array
-    }
+    CategoryCard,
+    Carousel
   }
 }
 </script>
 
 <style scoped>
-    #homePage {
-        height: 94vh;
-    }
+
 </style>

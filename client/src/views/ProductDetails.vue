@@ -1,102 +1,49 @@
 <template>
- <b-container id="productDetails" class="mt-3">
-     <b-row align-h="center">
-         <h1>{{detailProduct[0].category}}</h1>
-     </b-row>
-     <b-row class="mt-4">
-         <b-col>
-         <b-row id="prodImg">
-             <img class="productImage" src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/5360/5360401_sd.jpg" alt="">
-         </b-row>
-         <b-row align-h="center">
-            <router-view/>
-         </b-row>
-         </b-col>
-         <b-col id="productSlot">
-             <b-row class="productRow" align-h="center">
-                 <b-col>
-                 <b-row class="detailHead">
-                     Product Name:
-                 </b-row>
-                 <b-row align-v="center" align-h="center" class="detailValue">
-                     {{detailProduct[0].productName}}
-                 </b-row>
-                 </b-col>
-             </b-row>
-             <b-row class="productRow">
-                 <b-col>
-                 <b-row class="detailHead">
-                     Price:
-                 </b-row>
-                 <b-row align-v="center" align-h="center" class="detailValue">
-                     {{detailProduct[0].price}}
-                 </b-row>
-                 </b-col>
-             </b-row>
-             <b-row class="productRow">
-                 <b-col>
-                 <b-row class="detailHead">
-                     Stock: {{detailProduct[0].stock}}
-                 </b-row>
-                 <b-row align-v="center" class="detailValue">
-                    <p style="float:left;margin-right:3%;">QTY to buy :</p>
+  <div>
+      <b-row align-h="center">
+          <b-col cols="4"><img :src="$store.state.chosenDetail.productImage" class="detailedImg"></b-col>
+          <b-col cols="4" align-h="center">
+              <b-row style="float:right;"><h3 @click="goBack" style="cursor:pointer;"><i class="far fa-times-circle"></i></h3></b-row>
+              <b-row class="mb-3">{{$store.state.chosenDetail.productName}}</b-row>
+              <b-row class="my-3">Price: {{$store.state.chosenDetail.price}}</b-row>
+              <b-row class="my-3">Stock: {{$store.state.chosenDetail.stock}}</b-row>
+              <b-row class="my-3">Description:</b-row>
+              <b-row class="my-3" style="text-align:justify;">{{$store.state.chosenDetail.description}}</b-row>
+              <b-row align-v="center" class="detailValue">
+                    <p style="float:left;margin-right:3%;">Quantity :</p>
                     <b-button pill variant="outline-warning" @click="minAmount"><i class="fas fa-minus"></i></b-button>
                     <p class="mx-2" style="margin-bottom:0px;">{{qty}}</p>
                     <b-button pill variant="outline-warning" @click="maxAmount"><i class="fas fa-plus"></i></b-button>
                  </b-row>
-                 </b-col>
-             </b-row>
-             <b-row id="prodDesc">
-                 <b-col>
-                 <b-row class="detailHead">
-                     Product Description:
-                 </b-row>
-                 <b-row align-v="center" class="detailValue">
-                     {{detailProduct[0].description}}
-                 </b-row>
-                 </b-col>
-             </b-row>
-             <b-row id="addToCartButton" v-if="logStatus">
-                <router-link :to="{ name: 'MiniCart', params: {productId: detailProduct[0]._id,totalAmount: totalPrice  } }"><b-button @click="addCart" block variant="warning">Add To Cart</b-button></router-link>
-             </b-row>
-         </b-col>
-     </b-row>
- </b-container>
+              <b-row class="my-3" v-if="$store.state.isAdmin"><EditProduct :editData="$store.state.chosenDetail"></EditProduct> <b-button @click="deleteProduct"><i class="fas fa-trash-alt"></i></b-button></b-row>
+              <b-row class="my-3"><b-button @click="addCart">add to cart</b-button></b-row>
+          </b-col>
+      </b-row>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-import Swal from 'sweetalert2'
+import EditProduct from '../components/EditProduct'
+
 export default {
   name: 'ProductDetails',
+  components: {
+    EditProduct
+  },
   data () {
     return {
-      amount: 1,
-      total: 0
-    }
-  },
-  props: {
-    products: {
-      type: Array
-    },
-    logStatus: {
-      type: Boolean
+      amount: 1
     }
   },
   computed: {
-    detailProduct () {
-      return this.products.filter(element =>
-        element._id === this.$route.params.productId
-      )
-    },
-    totalPrice () {
-      return this.amount * this.detailProduct[0].price
-    },
     qty () {
       return this.amount
     }
   },
   methods: {
+    goBack () {
+      this.$router.go(-1)
+    },
     minAmount () {
       if (this.amount <= 1) {
         this.amount = 1
@@ -105,69 +52,24 @@ export default {
       }
     },
     maxAmount () {
-      if (this.amount >= this.detailProduct[0].stock) {
-        this.amount = this.detailProduct[0].stock
+      if (this.amount >= this.$store.state.chosenDetail.stock) {
+        this.amount = this.$store.state.chosenDetail.stock
       } else {
         this.amount += 1
       }
     },
     addCart () {
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/cart',
-        headers: {
-          token: localStorage.getItem('token')
-        },
-        data: {
-          productId: this.detailProduct[0]._id,
-          qty: this.amount
-        }
-      })
-        .then(sucess => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Item successfully added to cart',
-            text: 'Cart updated'
-          })
-        })
+      this.$store.dispatch('addCart', { productId: this.$store.state.chosenDetail._id, qty: this.amount })
+    },
+    deleteProduct () {
+      this.$store.dispatch('deleteProduct', this.$store.state.chosenDetail._id)
     }
   }
 }
 </script>
 
-<style scoped>
-#productDetails {
-    height: 94vh;
-    color: white;
-}
-#productSlot {
-    box-shadow: 0px 1px 10px 0px rgba(255, 255, 255, 0.75);
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
-    padding-top: 1%;
-}
-#prodImg {
-    height: 50vh;
-    object-fit: contain;
-    padding: 0;
-}
-.productImage {
-    width: 75% ;
-    height: 100% ;
-}
-.productRow {
-    height: 15vh;
-}
-#addToCartButton {
-    height: 5vh;
-}
-#prodDesc {
-    height: 25vh;
-}
-.detailValue {
-    height: 75%;
-}
-.detailHead {
-    border-bottom: rgba(251, 200, 60, 0.719) solid 2px;
+<style>
+.detailedImg {
+    height: 45vh;
 }
 </style>

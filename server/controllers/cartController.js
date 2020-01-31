@@ -5,12 +5,23 @@ class CartController {
 
     static generateCart(req, res, next){
         // console.log('INI LOGGEDUSER', req.loggedUser);
-        
-        cart.create({
-            userId : req.loggedUser.id,
-            productId: req.body.productId,
-            qty: req.body.qty
+        cart.findOne({userId: req.loggedUser.id, productId: req.body.productId}).populate('productId', 'stock')
+        .then(cartData => {
+            if(!cartData) {
+                return cart.create({
+                    userId : req.loggedUser.id,
+                    productId: req.body.productId,
+                    qty: req.body.qty
+                })
+            } else {
+                let newQty = cartData.qty + req.body.qty
+                if(newQty > cartData.productId.stock){
+                    newQty = cartData.productId.stock
+                }
+                return cart.updateOne({userId: req.loggedUser.id, productId: req.body.productId}, {qty: newQty})
+            }
         })
+        
         .then(createdCart=>{
             res.status(201).json(createdCart)
         })
@@ -69,7 +80,7 @@ class CartController {
         })
     }
 
-    static getCart(req, res, next){        
+    static getCart(req, res, next){
         cart.find({userId: req.loggedUser.id}).populate('productId')
         .then(cartItems=>{
             // console.log(cartItems)

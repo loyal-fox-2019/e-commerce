@@ -1,9 +1,9 @@
 function errorHandler(err, req, res, next) {
     if(err){
-        // console.log('INI MIDDLEWARE',err)
-        res.status(500).json(err)
+        console.log('INI MIDDLEWARE Error:',err)
+        res.status(500).send(err)
     } else if(!err) {
-        res.status(400).json({ err: 'internal server error'})
+        res.status(400).send('internal server error')
     }
   }
   

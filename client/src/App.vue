@@ -1,52 +1,27 @@
 <template>
   <div id="app">
-    <NavBar :logStatus="isLogin" @loginPassed="loggedIn(event)" @logoutPassed="loggedOut"></NavBar>
-    <div class="main">
-      <router-view :products="allProducts" :logStatus="isLogin"/>
-    </div>
+    <NavBar></NavBar>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import NavBar from '../src/components/NavBar.vue'
-import axios from 'axios'
-import Swal from 'sweetalert2'
+import NavBar from './components/NavBar.vue'
 export default {
-  data () {
-    return {
-      isLogin: false,
-      allProducts: null
-    }
-  },
+  name: 'app',
   components: {
     NavBar
   },
   created () {
+    // console.log(localStorage.getItem('token'))
     if (localStorage.getItem('token')) {
-      this.isLogin = true
+      this.$store.commit('SET_LOGIN')
+      this.$store.dispatch('userCart')
     }
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/products'
-    })
-      .then(({ data }) => {
-        this.allProducts = data
-      })
-      .catch(err => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: err
-        })
-      })
-  },
-  methods: {
-    loggedIn () {
-      this.isLogin = true
-    },
-    loggedOut () {
-      this.isLogin = false
+    if (localStorage.getItem('email')) {
+      this.$store.commit('SET_ADMIN')
     }
+    this.$store.dispatch('getAllProducts')
   }
 }
 </script>
@@ -58,8 +33,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-image: url('./assets/homeBG.jpg');
-  overflow: scroll;
 }
 
 #nav {

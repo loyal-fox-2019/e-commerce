@@ -1,17 +1,9 @@
 <template>
   <div>
-    <b-button variant="secondary" text-variant="warning" v-b-modal.modal-center id="loginToggle">Login</b-button>
+      <b-button @click="$bvModal.show('bv-modal-example')">Login</b-button>
 
-    <b-modal
-      id="modal-center"
-      size="lg"
-      centered
-      header-bg-variant="warning"
-      body-bg-variant="dark"
-      body-text-variant="light"
-      hide-footer
-    >
-      <b-container fluid="sm">
+      <b-modal size="lg" id="bv-modal-example" hide-footer hide-header>
+    <b-container fluid="sm">
         <b-row class="justify-content-md-center">
           <b-col id="loginForm">
             <center>
@@ -91,31 +83,28 @@
                 ></b-form-input>
               </b-form-group>
               <b-form-group id="register-button" label-for="registerButton">
-                <b-button block variant="warning" @click="registration">Register</b-button>
+                <b-button block variant="warning" @click="webRegister">Register</b-button>
               </b-form-group>
             </b-form>
           </b-col>
         </b-row>
       </b-container>
-    </b-modal>
+  </b-modal>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import Swal from 'sweetalert2'
-
 export default {
   name: 'SignInButton',
   data () {
     return {
-      register: {
-        name: '',
-        address: '',
+      login: {
         email: '',
         password: ''
       },
-      login: {
+      register: {
+        name: '',
+        address: '',
         email: '',
         password: ''
       }
@@ -123,68 +112,15 @@ export default {
   },
   methods: {
     webLogin () {
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/users/login',
-        data: {
-          email: this.login.email,
-          password: this.login.password
-        }
-      })
-        .then(({ data }) => {
-          localStorage.setItem('token', data.token)
-          Swal.fire({
-            icon: 'success',
-            title: 'Login Successful',
-            text: 'You have logged in as ' + this.login.email
-          })
-          this.$bvModal.hide('modal-center')
-          this.$emit('justLoggedIn', true)
-        })
-        .catch(err => {
-          console.log(err)
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err
-          })
-        })
+      this.$store.dispatch('webLogin', { email: this.login.email, password: this.login.password })
     },
-    registration () {
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/users',
-        data: {
-          name: this.register.name,
-          address: this.register.address,
-          email: this.register.email,
-          password: this.register.password
-        }
-      })
-        .then(({ data }) => {
-          localStorage.setItem('token', data.token)
-          Swal.fire({
-            icon: 'success',
-            title: 'Login Successful',
-            text: 'You have logged in as ' + this.register.email
-          })
-          this.$bvModal.hide('modal-center')
-          this.$emit('justLoggedIn', true)
-        })
-        .catch(err => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err
-          })
-        })
+    webRegister () {
+      this.$store.dispatch('webRegister', { name: this.register.name, address: this.register.address, email: this.register.email, password: this.register.password })
     }
   }
 }
 </script>
 
-<style scoped>
- #loginForm {
-    border-right: 2px solid black;
-  }
+<style>
+
 </style>
