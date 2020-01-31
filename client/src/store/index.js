@@ -18,7 +18,7 @@ export default new Vuex.Store({
     isAdmin: false,
     chosenDetail: null,
     totalCart: 0,
-    cartItems: null
+    cartItems: []
   },
   mutations: {
     SET_LOGIN (state) {
@@ -49,7 +49,7 @@ export default new Vuex.Store({
     webLogin (state, payload) {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/users/login',
+        url: 'http://52.221.193.12:3000/users/login',
         data: payload
       })
         .then(({ data }) => {
@@ -60,7 +60,12 @@ export default new Vuex.Store({
             this.commit('SET_LOGIN')
             this.commit('SET_ADMIN')
           } else {
-            localStorage.setItem('token', data)
+            Swal.fire({
+              icon: 'success',
+              title: 'Welcome!',
+              text: 'You have successfully logged in'
+            })
+            localStorage.setItem('token', data.token)
             this.commit('SET_LOGIN')
           }
         })
@@ -76,10 +81,15 @@ export default new Vuex.Store({
     webRegister (state, payload) {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/users',
+        url: 'http://52.221.193.12:3000/users',
         data: payload
       })
         .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Welcome!',
+            text: 'You have successfully been registered'
+          })
           localStorage.setItem('token', data)
           this.commit('SET_LOGIN')
         })
@@ -95,7 +105,7 @@ export default new Vuex.Store({
     getAllProducts (state) {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/products'
+        url: 'http://52.221.193.12:3000/products'
       })
         .then(({ data }) => {
           this.commit('SET_ALLPRODUCTS', data)
@@ -111,7 +121,7 @@ export default new Vuex.Store({
     userCart (state) {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/cart',
+        url: 'http://52.221.193.12:3000/cart',
         headers: {
           token: localStorage.getItem('token')
         }
@@ -136,7 +146,7 @@ export default new Vuex.Store({
     addCart (state, payload) {
       axios({
         method: 'post',
-        url: 'http://localhost:3000/cart',
+        url: 'http://52.221.193.12:3000/cart',
         headers: {
           token: localStorage.getItem('token')
         },
@@ -164,7 +174,7 @@ export default new Vuex.Store({
         if (result.value) {
           return axios({
             method: 'delete',
-            url: 'http://localhost:3000/cart/' + payload,
+            url: 'http://52.221.193.12:3000/cart/' + payload,
             headers: {
               token: localStorage.getItem('token')
             }
@@ -190,7 +200,7 @@ export default new Vuex.Store({
     checkOut () {
       axios({
         method: 'delete',
-        url: 'http://localhost:3000/cart',
+        url: 'http://52.221.193.12:3000/cart',
         headers: {
           token: localStorage.getItem('token')
         }
@@ -222,7 +232,7 @@ export default new Vuex.Store({
       data.append('category', payload.productCategory)
       axios({
         method: 'post',
-        url: 'http://localhost:3000/products',
+        url: 'http://52.221.193.12:3000/products',
         data: data,
         headers: {
           token: localStorage.getItem('token')
@@ -245,7 +255,6 @@ export default new Vuex.Store({
         })
     },
     editProduct (state, payload) {
-      console.log(payload)
       let data = new FormData()
       data.append('productName', payload.productName)
       data.append('productImage', payload.file)
@@ -256,7 +265,7 @@ export default new Vuex.Store({
       // console.log(data)
       axios({
         method: 'put',
-        url: 'http://localhost:3000/products/' + payload.id,
+        url: 'http://52.221.193.12:3000/products/' + payload.id,
         data: data,
         headers: {
           token: localStorage.getItem('token')
@@ -272,7 +281,11 @@ export default new Vuex.Store({
           router.go(-1)
         })
         .catch(err => {
-          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err
+          })
         })
     },
     deleteProduct (state, payload) {
@@ -289,7 +302,7 @@ export default new Vuex.Store({
           if (result.value) {
             return axios({
               method: 'delete',
-              url: 'http://localhost:3000/products/' + payload,
+              url: 'http://52.221.193.12:3000/products/' + payload,
               headers: {
                 token: localStorage.getItem('token')
               }

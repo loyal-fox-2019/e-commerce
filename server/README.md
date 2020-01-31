@@ -1,5 +1,11 @@
 # E-Commerce | Okka_Linardi
 
+#### AWS Deploy Link
+
+```
+http://h8commerce.lieprojects.com.s3-website-ap-southeast-1.amazonaws.com/
+```
+
 
 
 #### Before doing anything else

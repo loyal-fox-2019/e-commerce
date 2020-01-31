@@ -4,10 +4,17 @@ const mongoose = require('mongoose')
 const routes = require('./routes/index')
 const port = 3000
 const cors = require('cors')
+require('dotenv').config()
 
 app.use(cors())
 
-mongoose.connect('mongodb://localhost:27017/eCommerce'+process.env.NODE_ENV, {useNewUrlParser:true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGO_ATLAS, {useNewUrlParser:true, useUnifiedTopology: true})
+.then(success => {
+    console.log('connected to h8ecommerce on Atlas')
+})
+.catch(err => {
+    console.log(err)
+})
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))

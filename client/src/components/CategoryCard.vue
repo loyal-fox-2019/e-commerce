@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .catCards {
     width: 25vw;
     height: 10vh;

@@ -2,7 +2,7 @@ const router = require('express').Router()
 const controller = require('../controllers/productController')
 const authorization = require('../middlewares/authorization')
 const authentication = require('../middlewares/authentication')
-const upload = require('../middlewares/gcsUpload')
+const upload = require('../middlewares/gcsupload')
 
 router.get('/', controller.findAllProducts)
 

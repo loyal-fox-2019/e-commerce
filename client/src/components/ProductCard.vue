@@ -23,7 +23,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .Pcard {
     min-width: 20vw;
     min-height: 40vh;
