@@ -7,8 +7,6 @@ class CartController{
         Cart.findOne({UserId: req.payload._id, productId: req.params.productId, isCheckOut: false}).populate('productId')
         .then(cart=>{
             if(cart){
-                // console.log(cart.Quantity,'_________',parseInt(req.body.Quantity))
-                // console.log(cart,'cart yang di update')
                 return Cart.findOneAndUpdate({
                     UserId: req.payload._id, 
                     productId: req.params.productId
@@ -57,7 +55,7 @@ class CartController{
             // console.log('cuman sekali')
             Cart.findOneAndUpdate(item, {$set: { isCheckOut: true }}).populate('productId')
             .then(result=>{
-                // console.log('harusnya kekirim 2 kali')
+                console.log('harusnya kekirim 1 kali', result)
                 return Product.findByIdAndUpdate({
                     _id: item.productId._id
                 },{

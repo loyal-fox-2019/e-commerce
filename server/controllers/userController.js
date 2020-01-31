@@ -64,7 +64,7 @@ class UserController{
         })
     }
     static register(req,res,next){
-        // console.log('masuk register')
+        // console.log('masuk register',req.body)
         const {username, email, password} = req.body
         let user = null
         User.create({
@@ -73,6 +73,7 @@ class UserController{
             password
         })
         .then(result=>{
+            // console.log(result,'register')
             user = result
             let payload={
                 _id: user._id,
@@ -85,6 +86,7 @@ class UserController{
             })
         })
         .catch(err=>{
+            console.log(err.message)
             res.status(400).json(err.message)
         })
     }

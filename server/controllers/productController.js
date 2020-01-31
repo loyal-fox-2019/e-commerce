@@ -2,7 +2,7 @@ const Product = require('../models/products')
 
 class ProductController{
     static findAll(req,res,next){
-      // console.log('masuk server')
+      console.log('masuk server',req.payload)
         Product.find().populate('UserId', '-password')
           .then(result=>{
             // console.log(result,'ini result findall prod')
@@ -35,7 +35,7 @@ class ProductController{
           })
           .then(result=>{
             // const {_id, name, description, price, picture,createdAt,stock, seller} = result
-            // console.log(result, 'ini result')
+            console.log(result, 'ini result post product')
             res.status(201).json(result)
           })
           .catch(err=>{
