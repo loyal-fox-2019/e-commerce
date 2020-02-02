@@ -1,5 +1,9 @@
 # e-commerce
 
+Login app
+Admin
+email: admin@gmail.com
+pw: dzakki
 
 ## usage app
 
